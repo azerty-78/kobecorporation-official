@@ -11,7 +11,6 @@ import {
   AcademicCapIcon,
   UserGroupIcon,
   BookOpenIcon,
-  NetworkIcon,
   PhoneIcon,
   EnvelopeIcon,
   MapPinIcon,
@@ -195,7 +194,7 @@ export const programmes = [
   },
   {
     id: 'networking',
-    icon: <NetworkIcon className="h-6 w-6 text-brand-500" />,
+    icon: <UserGroupIcon className="h-6 w-6 text-brand-500" />,
     title: 'Networking',
     titleEn: 'Networking',
     slogan: 'Plus on grandit, plus tu as d\'opportunités',
