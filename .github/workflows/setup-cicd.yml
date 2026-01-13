@@ -1,0 +1,271 @@
+name: 🚀 KOBE Corporation CI/CD
+
+# ==========================================
+# DÉCLENCHEMENT
+# ==========================================
+# Ce workflow se déclenche :
+# - Automatiquement sur push vers main ou master
+# - Automatiquement sur pull_request vers main ou master
+# - Manuellement depuis l'onglet Actions (workflow_dispatch)
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:  # Permet de déclencher manuellement depuis GitHub
+
+# ==========================================
+# VARIABLES GLOBALES
+# ==========================================
+env:
+  DOCKER_IMAGE: azerty78/kobecorporation-web
+  DOCKERFILE_PATH: setup-front/Dockerfile
+  DOCKER_CONTEXT: .
+
+# ==========================================
+# JOBS
+# ==========================================
+jobs:
+  # ==========================================
+  # JOB 1: Create Git Tags
+  # ==========================================
+  tags:
+    name: 🏷️ Create Git Tags
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 📋 Tag Info
+        run: |
+          echo "✅ Informations sur les tags Git"
+          echo "Ref: ${{ github.ref }}"
+          echo "SHA: ${{ github.sha }}"
+          echo "Branch: ${{ github.ref_name }}"
+          
+          # Afficher les tags existants
+          git tag -l | head -10 || echo "Aucun tag trouvé"
+          
+          # Si c'est un push sur main ou master, afficher les informations
+          if [ "${{ github.ref }}" == "refs/heads/master" ] || [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "📌 Push sur ${{ github.ref_name }} détecté"
+            echo "Commit: ${{ github.sha }}"
+            echo "Message: $(git log -1 --pretty=%B)"
+          fi
+  
+  # ==========================================
+  # JOB 2: Build Docker Image
+  # ==========================================
+  build:
+    needs: tags
+    name: 🔨 Build & Push Docker Image
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Étape 1: Checkout du code
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      # Étape 2: Nettoyer et recréer les contextes Docker correctement
+      - name: 🧹 Setup Docker Properly
+        run: |
+          # Supprimer buildx et contextes corrompus
+          rm -rf ~/.docker/buildx 2>/dev/null || true
+          rm -rf ~/.docker/contexts 2>/dev/null || true
+          
+          # Recréer la structure de contextes correctement
+          mkdir -p ~/.docker/contexts/meta
+          
+          # Créer le répertoire pour le contexte "." (hash de l'erreur)
+          CONTEXT_DIR=~/.docker/contexts/meta/cdb4ee2aea69cc6a83331bbe96dc2caa9a299d21329efb0336fc02a82e1839a8
+          mkdir -p "$CONTEXT_DIR"
+          
+          # Créer le fichier meta.json pour le contexte "."
+          cat > "$CONTEXT_DIR/meta.json" <<'EOF'
+          {
+            "Name": ".",
+            "Metadata": {
+              "Description": "Default context"
+            },
+            "Endpoints": {
+              "docker": {
+                "Host": "unix:///var/run/docker.sock",
+                "SkipTLSVerify": false
+              }
+            }
+          }
+          EOF
+          
+          # Vérifier que le fichier a été créé
+          if [ -f "$CONTEXT_DIR/meta.json" ]; then
+            echo "✅ Contexte Docker '.' créé avec succès"
+          else
+            echo "❌ Erreur: Impossible de créer le contexte"
+            exit 1
+          fi
+      
+      # Étape 3: Login à DockerHub (TOUJOURS nécessaire pour pull les images de base)
+      - name: 🔐 Login to DockerHub
+        run: |
+          # Utiliser docker login directement (le contexte "." existe maintenant)
+          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+          
+          # Vérifier le login en testant un pull d'image publique
+          echo "✅ Login DockerHub réussi"
+          
+          # Test: essayer de pull node:22.13.1-alpine pour vérifier l'authentification
+          echo "Test: Pull de node:22.13.1-alpine..."
+          docker pull node:22.13.1-alpine || {
+            echo "❌ Erreur: Impossible de pull node:22.13.1-alpine"
+            echo "Vérification du config.json..."
+            cat ~/.docker/config.json || echo "⚠️ Pas de config.json"
+            exit 1
+          }
+          echo "✅ Pull de node:22.13.1-alpine réussi"
+      
+      # Étape 4: Extract metadata (tags, labels)
+      - name: 📋 Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.DOCKER_IMAGE }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+      
+      # Étape 5: Build Docker Image (le contexte "." existe maintenant)
+      - name: 🔨 Build Docker Image
+        env:
+          DOCKER_BUILDKIT: 0
+        run: |
+          # Vérifier que le login fonctionne
+          echo "Vérification de l'authentification DockerHub..."
+          docker info | grep -i "username" || echo "⚠️ Pas de username dans docker info (peut être normal)"
+          
+          # Préparer les tags
+          TAGS="${{ steps.meta.outputs.tags }}"
+          if [ -z "$TAGS" ]; then
+            # Fallback si metadata-action ne fonctionne pas
+            TAGS="${{ env.DOCKER_IMAGE }}:latest ${{ env.DOCKER_IMAGE }}:${{ github.sha }}"
+          fi
+          
+          # Construire les arguments --tag
+          TAG_ARGS=""
+          for tag in $TAGS; do
+            TAG_ARGS="$TAG_ARGS --tag $tag"
+          done
+          
+          # Construire l'image (le contexte "." devrait maintenant exister)
+          # Utiliser --pull pour forcer le pull des images de base avec authentification
+          docker build \
+            --pull \
+            --file ${{ env.DOCKERFILE_PATH }} \
+            $TAG_ARGS \
+            --build-arg VITE_EMAILJS_PUBLIC_KEY="${{ secrets.VITE_EMAILJS_PUBLIC_KEY || '' }}" \
+            --build-arg VITE_EMAILJS_SERVICE_ID="${{ secrets.VITE_EMAILJS_SERVICE_ID || '' }}" \
+            --build-arg VITE_EMAILJS_CONTACT_TEMPLATE_ID="${{ secrets.VITE_EMAILJS_CONTACT_TEMPLATE_ID || '' }}" \
+            --build-arg VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID="${{ secrets.VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID || '' }}" \
+            --build-arg VITE_APP_NAME="KOBE Corporation" \
+            --build-arg VITE_APP_URL="https://kobecorporation.com" \
+            ${{ env.DOCKER_CONTEXT }}
+          
+          # Push l'image si ce n'est pas une PR
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            for tag in $TAGS; do
+              echo "Pushing $tag..."
+              docker push $tag
+            done
+          fi
+      
+      # Étape 6: Afficher les informations de l'image
+      - name: 📊 Image Info
+        if: success()
+        run: |
+          echo "✅ Image buildée avec succès!"
+          echo "📦 Image: ${{ env.DOCKER_IMAGE }}"
+          echo "🏷️  Tags: ${{ steps.meta.outputs.tags }}"
+          docker images | grep "${{ env.DOCKER_IMAGE }}"
+  
+  # ==========================================
+  # JOB 3: Test Docker Image (optionnel pour l'instant)
+  # ==========================================
+  test:
+    name: 🧪 Test Docker Image
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name != 'pull_request'  # Skip tests sur PR
+    
+    steps:
+      # Étape 1: Checkout
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      # Étape 2: Nettoyer et recréer les contextes Docker correctement
+      - name: 🧹 Setup Docker Properly
+        run: |
+          # Supprimer buildx et contextes corrompus
+          rm -rf ~/.docker/buildx 2>/dev/null || true
+          rm -rf ~/.docker/contexts 2>/dev/null || true
+          
+          # Recréer la structure de contextes correctement
+          mkdir -p ~/.docker/contexts/meta
+          
+          # Créer le répertoire pour le contexte "." (hash de l'erreur)
+          CONTEXT_DIR=~/.docker/contexts/meta/cdb4ee2aea69cc6a83331bbe96dc2caa9a299d21329efb0336fc02a82e1839a8
+          mkdir -p "$CONTEXT_DIR"
+          
+          # Créer le fichier meta.json pour le contexte "."
+          cat > "$CONTEXT_DIR/meta.json" <<'EOF'
+          {
+            "Name": ".",
+            "Metadata": {
+              "Description": "Default context"
+            },
+            "Endpoints": {
+              "docker": {
+                "Host": "unix:///var/run/docker.sock",
+                "SkipTLSVerify": false
+              }
+            }
+          }
+          EOF
+          
+          # Vérifier que le fichier a été créé
+          if [ -f "$CONTEXT_DIR/meta.json" ]; then
+            echo "✅ Contexte Docker '.' créé avec succès"
+          else
+            echo "❌ Erreur: Impossible de créer le contexte"
+            exit 1
+          fi
+      
+      # Étape 3: Login à DockerHub
+      - name: 🔐 Login to DockerHub
+        run: |
+          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+          echo "✅ Login DockerHub réussi"
+      
+      # Étape 4: Pull l'image buildée
+      - name: 🐳 Pull Docker Image
+        run: |
+          docker pull ${{ env.DOCKER_IMAGE }}:latest || echo "Image not found, will build locally"
+      
+      # Étape 5: Test basique (vérifier que le conteneur démarre)
+      - name: ✅ Test Container Start
+        run: |
+          docker run -d --name test-container -p 8080:80 ${{ env.DOCKER_IMAGE }}:latest || docker run -d --name test-container -p 8080:80 ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
+          sleep 5
+          curl -f http://localhost:8080 || exit 1
+          echo "✅ Container started successfully!"
+          docker stop test-container
+          docker rm test-container
