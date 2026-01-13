@@ -44,8 +44,8 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(ellipse at 10% 10%, rgba(167, 243, 208, 0.3) 0%, transparent 50%),
-              radial-gradient(ellipse at 90% 0%, rgba(167, 243, 208, 0.25) 0%, transparent 50%);
+  background: radial-gradient(ellipse at 10% 10%, rgba(191, 219, 254, 0.3) 0%, transparent 50%),
+              radial-gradient(ellipse at 90% 0%, rgba(191, 219, 254, 0.25) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
@@ -93,7 +93,7 @@ a,
 
 /* Focus visible amélioré */
 *:focus-visible {
-  outline: 2px solid rgba(34, 197, 94, 0.5);
+  outline: 2px solid rgba(59, 130, 246, 0.5);
   outline-offset: 2px;
   border-radius: 0.25rem;
 }

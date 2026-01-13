@@ -1,40 +1,105 @@
 services:
-  proxy:
+  # ==========================================
+  # NGINX REVERSE PROXY
+  # ==========================================
+  nginx:
+    # Build depuis le Dockerfile local
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: kobecorporation-proxy
+    image: ${DOCKERHUB_USERNAME:-kobecorp}/kobe-nginx:latest
+    container_name: kobecorp-nginx
     restart: unless-stopped
+
+    # Ports exposés sur l'hôte
     ports:
-      - "80:80"
-      - "443:443"
+      - "${NGINX_HTTP_PORT:-80}:80"      # HTTP
+      - "${NGINX_HTTPS_PORT:-443}:443"   # HTTPS
+
+    # Variables d'environnement
+    environment:
+      - MAIN_DOMAIN=${MAIN_DOMAIN:-kobecorporation.com}
+      - SUBDOMAIN=${SUBDOMAIN:-ben-djibril.kobecorporation.com}
+
+    # Volumes
     volumes:
-      # Montage des certificats SSL
-      # À adapter selon votre méthode de gestion des certificats
-      - ./ssl:/etc/nginx/ssl:ro
-      # Ou utiliser un volume nommé pour les certificats Let's Encrypt
-      # - certbot-data:/etc/letsencrypt:ro
-    depends_on:
-      - web
+      # Configurations (read-only)
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./conf.d:/etc/nginx/conf.d:ro
+
+      # Logs (lecture/écriture)
+      - kobe-nginx-logs:/var/log/nginx
+
+      # Certificats SSL (read-only, gérés par Certbot)
+      - kobe-certbot-certs:/etc/letsencrypt:ro
+
+      # Challenge Certbot (read-only)
+      - kobe-certbot-www:/var/www/certbot:ro
+
+    # Réseau
     networks:
-      - kobecorporation-network
+      - kobecorp-network
+
+    # Health check
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      test: ["CMD", "nginx", "-t"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      start_period: 10s
 
+    # Commande pour recharger Nginx toutes les 6h (pour renouvellement SSL)
+    command: >
+      /bin/sh -c "
+      while :; do 
+        sleep 6h & wait $${!}; 
+        nginx -s reload; 
+      done & 
+      nginx -g 'daemon off;'
+      "
+
+  # ==========================================
+  # CERTBOT (Gestion SSL automatique)
+  # ==========================================
+  certbot:
+    image: certbot/certbot:latest
+    container_name: kobecorp-certbot
+    restart: unless-stopped
+
+    # Variables d'environnement
+    environment:
+      - CERTBOT_EMAIL=${CERTBOT_EMAIL:-contact@kobecorporation.com}
+      - CERTBOT_MODE=${CERTBOT_MODE:-staging}
+
+    # Volumes partagés avec Nginx
+    volumes:
+      - kobe-certbot-certs:/etc/letsencrypt
+      - kobe-certbot-www:/var/www/certbot
+
+    # Renouvellement automatique toutes les 12h
+    entrypoint: >
+      /bin/sh -c "
+      trap exit TERM; 
+      while :; do 
+        certbot renew --quiet; 
+        sleep 12h & wait $${!}; 
+      done
+      "
+
+  # ==========================================
+  # APPLICATION WEB PRINCIPALE
+  # ==========================================
   web:
     build:
       context: ..
       dockerfile: setup-front/Dockerfile
+    image: kobecorporation-web:latest
     container_name: kobecorporation-web
     restart: unless-stopped
     environment:
       - NODE_ENV=production
     networks:
-      - kobecorporation-network
+      - kobecorp-network
     # Ne pas exposer les ports directement, seulement via le proxy
     expose:
       - "80"
@@ -45,10 +110,42 @@ services:
       retries: 3
       start_period: 40s
 
-networks:
-  kobecorporation-network:
-    driver: bridge
+  # ==========================================
+  # CONTAINER POUR BEN-DJIBRIL (sous-domaine)
+  # ==========================================
+  # Décommentez et configurez selon vos besoins
+  # ben-djibril:
+  #   image: votre-image:latest
+  #   container_name: ben-djibril-app
+  #   restart: unless-stopped
+  #   networks:
+  #     - kobecorp-network
+  #   expose:
+  #     - "80"
 
-# Volumes pour les certificats SSL (optionnel avec certbot)
-# volumes:
-#   certbot-data:
+# ==========================================
+# VOLUMES
+# ==========================================
+volumes:
+  # Logs Nginx
+  kobe-nginx-logs:
+    name: kobe-nginx-logs
+    driver: local
+
+  # Certificats SSL Let's Encrypt
+  kobe-certbot-certs:
+    name: kobe-certbot-certs
+    driver: local
+
+  # Fichiers de challenge Certbot
+  kobe-certbot-www:
+    name: kobe-certbot-www
+    driver: local
+
+# ==========================================
+# RÉSEAUX
+# ==========================================
+networks:
+  kobecorp-network:
+    name: kobecorp-network
+    driver: bridge

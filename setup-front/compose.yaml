@@ -3,6 +3,7 @@ services:
     build:
       context: ..
       dockerfile: setup-front/Dockerfile
+    image: kobecorporation-web:latest
     container_name: kobecorporation-web
     restart: unless-stopped
     ports:

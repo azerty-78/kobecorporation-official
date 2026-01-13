@@ -9,16 +9,16 @@ export default {
       },
       colors: {
         brand: {
-          50: '#f0fdf4',
-          100: '#dcfce7',
-          200: '#bbf7d0',
-          300: '#86efac',
-          400: '#4ade80',
-          500: '#22c55e', // Vert clair principal
-          600: '#16a34a',
-          700: '#15803d',
-          800: '#166534',
-          900: '#14532d',
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#3b82f6', // Bleu principal
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
         },
         // Couleurs grises pour le texte et les fonds
         ink: '#1f2937', // Gris foncé pour le texte
@@ -36,9 +36,9 @@ export default {
         },
         // Couleur accent pour les éléments spéciaux
         accent: {
-          light: '#a7f3d0', // Vert très clair pour les formes organiques
-          DEFAULT: '#22c55e',
-          dark: '#16a34a',
+          light: '#bfdbfe', // Bleu très clair pour les formes organiques
+          DEFAULT: '#3b82f6',
+          dark: '#2563eb',
         },
       },
       boxShadow: {
@@ -46,8 +46,8 @@ export default {
         card: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
       },
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(circle at 20% 20%, rgba(34,197,94,0.15), transparent 35%), radial-gradient(circle at 80% 0%, rgba(167,243,208,0.2), transparent 40%)',
-        'organic-shapes': 'radial-gradient(ellipse at top left, rgba(167,243,208,0.3) 0%, transparent 50%), radial-gradient(ellipse at top right, rgba(167,243,208,0.25) 0%, transparent 50%)',
+        'gradient-radial': 'radial-gradient(circle at 20% 20%, rgba(59,130,246,0.15), transparent 35%), radial-gradient(circle at 80% 0%, rgba(191,219,254,0.2), transparent 40%)',
+        'organic-shapes': 'radial-gradient(ellipse at top left, rgba(191,219,254,0.3) 0%, transparent 50%), radial-gradient(ellipse at top right, rgba(191,219,254,0.25) 0%, transparent 50%)',
       },
     },
   },

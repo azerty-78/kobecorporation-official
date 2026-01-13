@@ -1,15 +1,48 @@
-# syntax=docker/dockerfile:1
-
+# ==========================================
+# Image de base : Nginx Alpine (légère)
+# ==========================================
 FROM nginx:alpine
 
-# Copier la configuration nginx personnalisée
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Métadonnées
+LABEL maintainer="contact@kobecorporation.com"
+LABEL description="Nginx Reverse Proxy for KOBE Corporation"
+LABEL version="1.0"
 
-# Créer le répertoire pour les certificats SSL
-RUN mkdir -p /etc/nginx/ssl
+# ==========================================
+# Installer Certbot pour SSL
+# ==========================================
+RUN apk add --no-cache \
+    certbot \
+    certbot-nginx \
+    openssl \
+    curl \
+    wget
 
-# Exposer les ports HTTP et HTTPS
+# ==========================================
+# Copier les configurations
+# ==========================================
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY conf.d/ /etc/nginx/conf.d/
+
+# ==========================================
+# Créer les dossiers nécessaires
+# ==========================================
+RUN mkdir -p \
+    /var/www/certbot \
+    /var/log/nginx \
+    /etc/nginx/ssl
+
+# ==========================================
+# Permissions
+# ==========================================
+RUN chown -R nginx:nginx /var/www/certbot /var/log/nginx
+
+# ==========================================
+# Exposer les ports
+# ==========================================
 EXPOSE 80 443
 
-# Commande pour démarrer nginx
+# ==========================================
+# Commande de démarrage
+# ==========================================
 CMD ["nginx", "-g", "daemon off;"]
