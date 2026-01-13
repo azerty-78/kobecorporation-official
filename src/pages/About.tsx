@@ -16,10 +16,10 @@ function About() {
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
       {/* Introduction */}
       <div className="mb-16 space-y-4 text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600 dark:text-brand-400">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">
           {language === 'fr' ? 'À Propos' : 'About'}
         </p>
-        <h1 className="font-display text-4xl text-ink dark:text-white md:text-5xl">
+        <h1 className="font-display text-4xl text-ink md:text-5xl">
           {language === 'fr' ? 'Notre Histoire' : 'Our Story'}
         </h1>
       </div>
@@ -28,7 +28,7 @@ function About() {
       <section className="mb-24">
         <div className="glass-panel rounded-3xl p-8 md:p-12">
           <div className="mx-auto max-w-3xl space-y-6">
-            <p className="text-lg leading-relaxed text-slate-700 dark:text-slate-300">
+            <p className="text-lg leading-relaxed text-slate-700">
               {language === 'fr' ? (
                 <>
                   Fondée en {companyInfo.year} par {companyInfo.founder}, KOBE
@@ -57,15 +57,15 @@ function About() {
       <section className="mb-24">
         <div className="grid gap-12 lg:grid-cols-2">
           <div className="space-y-6">
-            <h2 className="font-display text-3xl text-ink dark:text-white">
+            <h2 className="font-display text-3xl text-ink">
               {language === 'fr' ? 'Notre Mission' : 'Our Mission'}
             </h2>
             <div className="space-y-4">
               <div>
-                <h3 className="mb-2 text-lg font-semibold text-brand-600 dark:text-brand-400">
+                <h3 className="mb-2 text-lg font-semibold text-brand-600">
                   {companyInfo.slogan}
                 </h3>
-                <p className="text-slate-600 dark:text-slate-400">
+                <p className="text-slate-600">
                   {language === 'fr' ? (
                     <>
                       Nous croyons que chaque individu, chaque entreprise mérite
@@ -84,7 +84,7 @@ function About() {
           </div>
 
           <div className="glass-panel rounded-3xl p-8">
-            <h3 className="mb-6 font-display text-2xl text-ink dark:text-white">
+            <h3 className="mb-6 font-display text-2xl text-ink">
               {language === 'fr' ? 'Nos Valeurs' : 'Our Values'}
             </h3>
             <div className="space-y-4">
@@ -92,10 +92,10 @@ function About() {
                 <div key={index} className="flex items-start gap-3">
                   <div className="mt-0.5">{valeur.icon}</div>
                   <div>
-                    <h4 className="font-semibold text-ink dark:text-white">
+                    <h4 className="font-semibold text-ink">
                       {language === 'fr' ? valeur.title : valeur.titleEn}
                     </h4>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">
+                    <p className="text-sm text-slate-600">
                       {language === 'fr' ? valeur.text : valeur.textEn}
                     </p>
                   </div>
@@ -109,10 +109,10 @@ function About() {
       {/* Leadership */}
       <section className="mb-24">
         <div className="text-center">
-          <h2 className="mb-4 font-display text-3xl text-ink dark:text-white">
+          <h2 className="mb-4 font-display text-3xl text-ink">
             {language === 'fr' ? 'Notre Équipe' : 'Our Team'}
           </h2>
-          <p className="mb-12 text-slate-600 dark:text-slate-400">
+          <p className="mb-12 text-slate-600">
             {language === 'fr'
               ? 'Rencontrez les personnes qui font de KOBE Corporation ce qu\'elle est'
               : 'Meet the people who make KOBE Corporation what it is'}
@@ -125,13 +125,13 @@ function About() {
                 {companyInfo.founder.charAt(0)}
               </span>
             </div>
-            <h3 className="mb-2 font-display text-2xl text-ink dark:text-white">
+            <h3 className="mb-2 font-display text-2xl text-ink">
               {companyInfo.founder}
             </h3>
-            <p className="mb-6 text-brand-600 dark:text-brand-400">
+            <p className="mb-6 text-brand-600">
               {language === 'fr' ? 'PDG & Fondateur' : 'CEO & Founder'}
             </p>
-            <p className="text-slate-600 dark:text-slate-400">
+            <p className="text-slate-600">
               {language === 'fr' ? (
                 <>
                   Passionné de technologie et entrepreneur visionnaire,{' '}
@@ -160,7 +160,7 @@ function About() {
       {/* Différenciateurs */}
       <section className="mb-24">
         <div className="text-center">
-          <h2 className="mb-4 font-display text-3xl text-ink dark:text-white">
+          <h2 className="mb-4 font-display text-3xl text-ink">
             {language === 'fr'
               ? 'Pourquoi Choisir KOBE ?'
               : 'Why Choose KOBE?'}
@@ -213,13 +213,13 @@ function About() {
               key={index}
               className="glass-panel rounded-2xl p-6 transition hover:-translate-y-1"
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 dark:bg-brand-900/20">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50">
                 {item.icon}
               </div>
-              <h3 className="mb-2 font-semibold text-ink dark:text-white">
+              <h3 className="mb-2 font-semibold text-ink">
                 {item.title}
               </h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
+              <p className="text-sm text-slate-600">
                 {item.text}
               </p>
             </div>
@@ -231,16 +231,16 @@ function About() {
       <section className="mb-24">
         <div className="glass-panel rounded-3xl p-8 md:p-12">
           <div className="text-center">
-            <h2 className="mb-8 font-display text-3xl text-ink dark:text-white">
+            <h2 className="mb-8 font-display text-3xl text-ink">
               {language === 'fr' ? 'Notre Impact' : 'Our Impact'}
             </h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {chiffres.map((chiffre, index) => (
                 <div key={index} className="text-center">
-                  <p className="mb-2 font-display text-4xl text-brand-600 dark:text-brand-400">
+                  <p className="mb-2 font-display text-4xl text-brand-600">
                     {chiffre.value}
                   </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">
+                  <p className="text-sm text-slate-600">
                     {language === 'fr' ? chiffre.label : chiffre.labelEn}
                   </p>
                 </div>
@@ -254,16 +254,16 @@ function About() {
       <section>
         <div className="glass-panel rounded-3xl p-8 md:p-12">
           <div className="mx-auto max-w-3xl text-center">
-            <h2 className="mb-6 font-display text-3xl text-ink dark:text-white">
+            <h2 className="mb-6 font-display text-3xl text-ink">
               {language === 'fr' ? 'Où Nous Trouver' : 'Find Us'}
             </h2>
             <div className="mb-6 flex items-center justify-center gap-3">
               <MapPinIcon className="h-6 w-6 text-brand-500" />
-              <p className="text-lg text-slate-700 dark:text-slate-300">
+              <p className="text-lg text-slate-700">
                 {companyInfo.address.full}
               </p>
             </div>
-            <div className="space-y-2 text-slate-600 dark:text-slate-400">
+            <div className="space-y-2 text-slate-600">
               <p>
                 <strong>
                   {language === 'fr' ? 'Zone de service :' : 'Service area:'}

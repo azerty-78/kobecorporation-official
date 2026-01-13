@@ -91,13 +91,13 @@ function Contact() {
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
       {/* Hero Section */}
       <div className="mb-16 space-y-4 text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600 dark:text-brand-400">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">
           {language === 'fr' ? 'Contact' : 'Contact'}
         </p>
-        <h1 className="font-display text-4xl text-ink dark:text-white md:text-5xl">
+        <h1 className="font-display text-4xl text-ink md:text-5xl">
           {language === 'fr' ? 'Contactez-Nous' : 'Contact Us'}
         </h1>
-        <p className="mx-auto max-w-3xl text-lg text-slate-600 dark:text-slate-400">
+        <p className="mx-auto max-w-3xl text-lg text-slate-600">
           {language === 'fr'
             ? 'Nous sommes disponibles 24/7 pour répondre à vos besoins'
             : 'We are available 24/7 to meet your needs'}
@@ -108,7 +108,7 @@ function Contact() {
         {/* Informations de Contact */}
         <div className="space-y-6">
           <div>
-            <h2 className="mb-6 font-display text-2xl text-ink dark:text-white">
+            <h2 className="mb-6 font-display text-2xl text-ink">
               {language === 'fr' ? 'Informations de Contact' : 'Contact Information'}
             </h2>
             <div className="space-y-4">
@@ -119,18 +119,18 @@ function Contact() {
                 >
                   <div className="mt-0.5">{info.icon}</div>
                   <div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                    <p className="text-xs text-slate-500">
                       {language === 'fr' ? info.label : info.labelEn}
                     </p>
                     {info.link ? (
                       <a
                         href={info.link}
-                        className="text-sm font-semibold text-ink transition hover:text-brand-600 dark:text-white dark:hover:text-brand-400"
+                        className="text-sm font-semibold text-ink transition hover:text-brand-600"
                       >
                         {info.value}
                       </a>
                     ) : (
-                      <p className="text-sm font-semibold text-ink dark:text-white">
+                      <p className="text-sm font-semibold text-ink">
                         {info.value}
                       </p>
                     )}
@@ -142,7 +142,7 @@ function Contact() {
 
           {/* Réseaux Sociaux */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold text-ink dark:text-white">
+            <h3 className="mb-4 text-sm font-semibold text-ink">
               {language === 'fr' ? 'Suivez-Nous' : 'Follow Us'}
             </h3>
             <div className="flex gap-3">
@@ -150,7 +150,7 @@ function Contact() {
                 href={companyInfo.social.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-brand-300 hover:text-brand-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:hover:border-brand-600 dark:hover:text-brand-400"
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-brand-300 hover:text-brand-600"
                 aria-label="WhatsApp"
               >
                 💬
@@ -159,7 +159,7 @@ function Contact() {
                 href={companyInfo.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-brand-300 hover:text-brand-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:hover:border-brand-600 dark:hover:text-brand-400"
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-brand-300 hover:text-brand-600"
                 aria-label="Facebook"
               >
                 👍
@@ -168,7 +168,7 @@ function Contact() {
                 href={companyInfo.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-brand-300 hover:text-brand-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:hover:border-brand-600 dark:hover:text-brand-400"
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-brand-300 hover:text-brand-600"
                 aria-label="LinkedIn"
               >
                 🔗
@@ -177,7 +177,7 @@ function Contact() {
                 href={companyInfo.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-brand-300 hover:text-brand-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:hover:border-brand-600 dark:hover:text-brand-400"
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-brand-300 hover:text-brand-600"
                 aria-label="Instagram"
               >
                 📸
@@ -187,10 +187,10 @@ function Contact() {
 
           {/* FAQ Rapide */}
           <div className="glass-panel rounded-2xl p-6">
-            <h3 className="mb-4 text-sm font-semibold text-ink dark:text-white">
+            <h3 className="mb-4 text-sm font-semibold text-ink">
               {language === 'fr' ? 'Questions Fréquentes' : 'Frequently Asked Questions'}
             </h3>
-            <div className="space-y-3 text-xs text-slate-600 dark:text-slate-400">
+            <div className="space-y-3 text-xs text-slate-600">
               <div>
                 <p className="font-semibold">
                   {language === 'fr'
@@ -222,12 +222,12 @@ function Contact() {
         {/* Formulaire de Contact */}
         <div className="lg:col-span-2">
           <div className="glass-panel rounded-3xl p-8">
-            <h2 className="mb-6 font-display text-2xl text-ink dark:text-white">
+            <h2 className="mb-6 font-display text-2xl text-ink">
               {language === 'fr' ? 'Envoyez-nous un message' : 'Send us a message'}
             </h2>
 
             {submitStatus === 'success' && (
-              <div className="mb-6 rounded-lg bg-green-50 p-4 text-sm text-green-800 dark:bg-green-900/20 dark:text-green-400">
+              <div className="mb-6 rounded-lg bg-green-50 p-4 text-sm text-green-800">
                 {language === 'fr'
                   ? 'Message envoyé avec succès ! Nous vous répondrons sous 24h.'
                   : 'Message sent successfully! We will respond within 24h.'}
@@ -239,7 +239,7 @@ function Contact() {
                 <div>
                   <label
                     htmlFor="name"
-                    className="mb-2 block text-sm font-medium text-ink dark:text-white"
+                    className="mb-2 block text-sm font-medium text-ink"
                   >
                     {language === 'fr' ? 'Nom complet' : 'Full name'} *
                   </label>
@@ -250,13 +250,13 @@ function Contact() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:border-brand-500"
+                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="email"
-                    className="mb-2 block text-sm font-medium text-ink dark:text-white"
+                    className="mb-2 block text-sm font-medium text-ink"
                   >
                     Email *
                   </label>
@@ -267,7 +267,7 @@ function Contact() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:border-brand-500"
+                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
                   />
                 </div>
               </div>
@@ -276,7 +276,7 @@ function Contact() {
                 <div>
                   <label
                     htmlFor="phone"
-                    className="mb-2 block text-sm font-medium text-ink dark:text-white"
+                    className="mb-2 block text-sm font-medium text-ink"
                   >
                     {language === 'fr' ? 'Téléphone' : 'Phone'}
                   </label>
@@ -286,13 +286,13 @@ function Contact() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:border-brand-500"
+                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="company"
-                    className="mb-2 block text-sm font-medium text-ink dark:text-white"
+                    className="mb-2 block text-sm font-medium text-ink"
                   >
                     {language === 'fr' ? 'Entreprise' : 'Company'}
                   </label>
@@ -302,7 +302,7 @@ function Contact() {
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:border-brand-500"
+                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
                   />
                 </div>
               </div>
@@ -311,7 +311,7 @@ function Contact() {
                 <div>
                   <label
                     htmlFor="projectType"
-                    className="mb-2 block text-sm font-medium text-ink dark:text-white"
+                    className="mb-2 block text-sm font-medium text-ink"
                   >
                     {language === 'fr' ? 'Type de projet' : 'Project type'}
                   </label>
@@ -320,7 +320,7 @@ function Contact() {
                     name="projectType"
                     value={formData.projectType}
                     onChange={handleChange}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:border-brand-500"
+                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
                   >
                     <option value="">
                       {language === 'fr' ? 'Sélectionner...' : 'Select...'}
@@ -335,7 +335,7 @@ function Contact() {
                 <div>
                   <label
                     htmlFor="budget"
-                    className="mb-2 block text-sm font-medium text-ink dark:text-white"
+                    className="mb-2 block text-sm font-medium text-ink"
                   >
                     {language === 'fr' ? 'Budget estimé' : 'Estimated budget'}
                   </label>
@@ -344,7 +344,7 @@ function Contact() {
                     name="budget"
                     value={formData.budget}
                     onChange={handleChange}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:border-brand-500"
+                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
                   >
                     <option value="">
                       {language === 'fr' ? 'Sélectionner...' : 'Select...'}
@@ -361,7 +361,7 @@ function Contact() {
               <div>
                 <label
                   htmlFor="message"
-                  className="mb-2 block text-sm font-medium text-ink dark:text-white"
+                  className="mb-2 block text-sm font-medium text-ink"
                 >
                   {language === 'fr' ? 'Message' : 'Message'} *
                 </label>
@@ -372,14 +372,14 @@ function Contact() {
                   rows={6}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:border-brand-500"
+                  className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="attachment"
-                  className="mb-2 flex items-center gap-2 text-sm font-medium text-ink dark:text-white"
+                  className="mb-2 flex items-center gap-2 text-sm font-medium text-ink"
                 >
                   <PaperClipIcon className="h-4 w-4" />
                   {language === 'fr'
@@ -391,7 +391,7 @@ function Contact() {
                   id="attachment"
                   name="attachment"
                   onChange={handleFileChange}
-                  className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:focus:border-brand-500"
+                  className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
                 />
               </div>
 
@@ -403,11 +403,11 @@ function Contact() {
                   required
                   checked={formData.consent}
                   onChange={handleChange}
-                  className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-500 focus:ring-brand-500 dark:border-slate-600"
+                  className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-500 focus:ring-brand-500"
                 />
                 <label
                   htmlFor="consent"
-                  className="text-sm text-slate-600 dark:text-slate-400"
+                  className="text-sm text-slate-600"
                 >
                   {language === 'fr' ? (
                     <>
@@ -424,7 +424,7 @@ function Contact() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-brand-600 disabled:opacity-50 dark:bg-brand-600 dark:hover:bg-brand-700"
+                className="w-full rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-brand-600 disabled:opacity-50"
               >
                 {isSubmitting
                   ? language === 'fr'

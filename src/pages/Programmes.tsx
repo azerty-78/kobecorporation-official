@@ -24,15 +24,15 @@ function Programmes() {
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
       {/* Introduction */}
       <div className="mb-16 space-y-4 text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600 dark:text-brand-400">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">
           {language === 'fr' ? 'Nos Programmes' : 'Our Programs'}
         </p>
-        <h1 className="font-display text-4xl text-ink dark:text-white md:text-5xl">
+        <h1 className="font-display text-4xl text-ink md:text-5xl">
           {language === 'fr'
             ? 'Nos Programmes de Développement'
             : 'Our Development Programs'}
         </h1>
-        <p className="mx-auto max-w-3xl text-lg text-slate-600 dark:text-slate-400">
+        <p className="mx-auto max-w-3xl text-lg text-slate-600">
           {language === 'fr'
             ? 'Opportunités pour freelances, étudiants et développeurs passionnés'
             : 'Opportunities for freelancers, students and passionate developers'}
@@ -49,19 +49,19 @@ function Programmes() {
           >
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
               <div className={`space-y-6 ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
-                <div className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-600 dark:bg-brand-900/20 dark:text-brand-400">
+                <div className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-600">
                   {programme.icon}
                   <span>
                     {language === 'fr' ? programme.title : programme.titleEn}
                   </span>
                 </div>
-                <h2 className="font-display text-3xl text-ink dark:text-white md:text-4xl">
+                <h2 className="font-display text-3xl text-ink md:text-4xl">
                   {language === 'fr' ? programme.title : programme.titleEn}
                 </h2>
-                <p className="text-lg font-semibold text-brand-600 dark:text-brand-400">
+                <p className="text-lg font-semibold text-brand-600">
                   {language === 'fr' ? programme.slogan : programme.sloganEn}
                 </p>
-                <p className="text-slate-600 dark:text-slate-400">
+                <p className="text-slate-600">
                   {language === 'fr'
                     ? programme.description
                     : programme.descriptionEn}
@@ -73,7 +73,7 @@ function Programmes() {
                     (feature, idx) => (
                       <div key={idx} className="flex items-start gap-3">
                         <CheckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-500" />
-                        <span className="text-slate-700 dark:text-slate-300">
+                        <span className="text-slate-700">
                           {feature}
                         </span>
                       </div>
@@ -86,7 +86,7 @@ function Programmes() {
                   {programme.id === 'freelances' && (
                     <NavLink
                       to="/contact"
-                      className="inline-flex items-center gap-2 rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-brand-600 dark:bg-brand-600 dark:hover:bg-brand-700"
+                      className="inline-flex items-center gap-2 rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-brand-600"
                     >
                       {language === 'fr'
                         ? 'Rejoindre le programme Freelance'
@@ -97,7 +97,7 @@ function Programmes() {
                   {programme.id === 'etudiants' && (
                     <NavLink
                       to="/contact"
-                      className="inline-flex items-center gap-2 rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-brand-600 dark:bg-brand-600 dark:hover:bg-brand-700"
+                      className="inline-flex items-center gap-2 rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-brand-600"
                     >
                       {language === 'fr'
                         ? 'Postuler pour un stage'
@@ -110,7 +110,7 @@ function Programmes() {
                       href="https://github.com/kobecorporation"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-brand-600 dark:bg-brand-600 dark:hover:bg-brand-700"
+                      className="inline-flex items-center gap-2 rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-brand-600"
                     >
                       {language === 'fr'
                         ? 'Voir nos projets GitHub'
@@ -121,7 +121,7 @@ function Programmes() {
                   {programme.id === 'networking' && (
                     <NavLink
                       to="/contact"
-                      className="inline-flex items-center gap-2 rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-brand-600 dark:bg-brand-600 dark:hover:bg-brand-700"
+                      className="inline-flex items-center gap-2 rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-brand-600"
                     >
                       {language === 'fr'
                         ? 'Rejoindre la communauté'
@@ -138,13 +138,13 @@ function Programmes() {
                   index % 2 === 1 ? 'lg:order-1' : ''
                 }`}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-brand-500/10 via-white to-brand-100/40 dark:from-brand-500/20 dark:via-slate-800 dark:to-brand-900/20" />
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-500/10 via-white to-brand-100/40" />
                 <div className="relative flex h-64 items-center justify-center md:h-80">
                   <div className="text-center">
                     <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-brand-500 text-white">
                       {programme.icon}
                     </div>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                    <p className="text-sm text-slate-500">
                       {language === 'fr'
                         ? 'Image à venir'
                         : 'Image coming soon'}
@@ -160,19 +160,19 @@ function Programmes() {
       {/* CTA Final */}
       <div className="mt-24 text-center">
         <div className="glass-panel mx-auto max-w-3xl rounded-3xl p-8 md:p-12">
-          <h2 className="mb-4 font-display text-3xl text-ink dark:text-white">
+          <h2 className="mb-4 font-display text-3xl text-ink">
             {language === 'fr'
               ? 'Prêt à Rejoindre Notre Communauté ?'
               : 'Ready to Join Our Community?'}
           </h2>
-          <p className="mb-8 text-slate-600 dark:text-slate-400">
+          <p className="mb-8 text-slate-600">
             {language === 'fr'
               ? 'Contactez-nous pour discuter de votre projet et découvrir comment nous pouvons vous accompagner.'
               : 'Contact us to discuss your project and discover how we can support you.'}
           </p>
           <NavLink
             to="/contact"
-            className="inline-flex items-center gap-2 rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-brand-600 dark:bg-brand-600 dark:hover:bg-brand-700"
+            className="inline-flex items-center gap-2 rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-brand-600"
           >
             {language === 'fr' ? 'Nous contacter' : 'Contact us'}
             <ArrowRightIcon className="h-4 w-4" />
