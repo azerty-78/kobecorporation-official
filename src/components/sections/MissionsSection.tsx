@@ -56,9 +56,9 @@ function MissionsSection() {
     <section
       id="missions"
       ref={elementRef}
-      className="glass-panel rounded-3xl p-8 shadow-soft"
+      className="glass-panel rounded-3xl p-8 shadow-soft md:p-10"
     >
-      <div className="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-center">
+      <div className="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-center lg:gap-12">
         <div
           className={`space-y-3 transition-all duration-1000 ${
             isVisible

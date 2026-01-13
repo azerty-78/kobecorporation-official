@@ -13,7 +13,7 @@ function ServicesGrid({ showIntro = true }: ServicesGridProps) {
   const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
 
   return (
-    <section id="services" ref={elementRef} className="space-y-8">
+    <section id="services" ref={elementRef} className="space-y-10 md:space-y-12">
       {showIntro && (
         <div
           className={`flex items-center justify-between gap-4 transition-all duration-1000 ${

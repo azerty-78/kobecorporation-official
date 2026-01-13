@@ -10,7 +10,7 @@ function CTASection() {
   return (
     <section
       ref={elementRef}
-      className="glass-panel relative overflow-hidden rounded-3xl p-8 md:p-12"
+      className="glass-panel relative overflow-hidden rounded-3xl p-10 md:p-16"
     >
       {/* Gradient animé en arrière-plan */}
       <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-white to-brand-100/30 animate-gradient-shift" />

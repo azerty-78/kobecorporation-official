@@ -46,7 +46,7 @@ function HeroHome() {
   return (
     <section
       ref={elementRef}
-      className="grid gap-12 md:grid-cols-[1.2fr_1fr] md:items-center"
+      className="grid gap-12 md:grid-cols-[1.2fr_1fr] md:items-center lg:gap-16"
     >
       <div
         className={`space-y-6 transition-all duration-1000 ${
