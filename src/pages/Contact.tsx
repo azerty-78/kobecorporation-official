@@ -2,9 +2,6 @@ import { useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { companyInfo, contactInfo } from '../data/siteContent'
 import {
-  MapPinIcon,
-  PhoneIcon,
-  EnvelopeIcon,
   PaperClipIcon,
 } from '@heroicons/react/24/outline'
 

@@ -4,7 +4,7 @@ import { useLanguage } from '../../contexts/LanguageContext'
 import { useScrollAnimation } from '../../hooks/useScrollAnimation'
 
 function CTASection() {
-  const { language, t } = useLanguage()
+  const { t } = useLanguage()
   const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.2 })
 
   return (

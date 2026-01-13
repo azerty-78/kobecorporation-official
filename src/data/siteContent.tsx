@@ -1,7 +1,5 @@
 import {
   BriefcaseIcon,
-  ShieldCheckIcon,
-  SparklesIcon,
   CheckBadgeIcon,
   BuildingOffice2Icon,
   GlobeAltIcon,

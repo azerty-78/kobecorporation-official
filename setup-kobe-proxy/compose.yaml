@@ -1,0 +1,54 @@
+services:
+  proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kobecorporation-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # Montage des certificats SSL
+      # À adapter selon votre méthode de gestion des certificats
+      - ./ssl:/etc/nginx/ssl:ro
+      # Ou utiliser un volume nommé pour les certificats Let's Encrypt
+      # - certbot-data:/etc/letsencrypt:ro
+    depends_on:
+      - web
+    networks:
+      - kobecorporation-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  web:
+    build:
+      context: ..
+      dockerfile: setup-front/Dockerfile
+    container_name: kobecorporation-web
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    networks:
+      - kobecorporation-network
+    # Ne pas exposer les ports directement, seulement via le proxy
+    expose:
+      - "80"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  kobecorporation-network:
+    driver: bridge
+
+# Volumes pour les certificats SSL (optionnel avec certbot)
+# volumes:
+#   certbot-data:
