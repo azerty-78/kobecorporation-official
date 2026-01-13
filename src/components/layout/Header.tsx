@@ -81,14 +81,6 @@ function Header() {
             {t('nav.programs')}
           </NavLink>
           <NavLink
-            to="/pricing"
-            className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? activeClass : inactiveClass}`
-            }
-          >
-            {t('nav.pricing')}
-          </NavLink>
-          <NavLink
             to="/about"
             className={({ isActive }) =>
               `${navLinkBase} ${isActive ? activeClass : inactiveClass}`
@@ -205,19 +197,6 @@ function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               {t('nav.programs')}
-            </NavLink>
-            <NavLink
-              to="/pricing"
-              className={({ isActive }) =>
-                `block rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/30 ${
-                  isActive
-                    ? 'bg-brand-100 text-slate-900 shadow-sm dark:bg-brand-900/50 dark:text-white dark:shadow-brand-900/20'
-                    : 'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'
-                }`
-              }
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {t('nav.pricing')}
             </NavLink>
             <NavLink
               to="/about"

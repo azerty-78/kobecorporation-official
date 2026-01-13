@@ -6,7 +6,6 @@ import Services from './pages/Services'
 import Programmes from './pages/Programmes'
 import About from './pages/About'
 import Portfolio from './pages/Portfolio'
-import Pricing from './pages/Pricing'
 import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
 
@@ -22,8 +21,6 @@ function App() {
           <Route path="/programmes" element={<Programmes />} />
           <Route path="/about" element={<About />} />
           <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/tarifs" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
