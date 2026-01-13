@@ -33,7 +33,7 @@ function Header() {
           className="flex min-w-0 flex-1 items-center gap-2 transition-transform duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg"
           onClick={() => setMobileMenuOpen(false)}
         >
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-transparent shadow-[0_4px_12px_rgba(255,255,255,0.15)] transition-all duration-200 hover:shadow-[0_6px_16px_rgba(255,255,255,0.25)] hover:scale-105 p-1 sm:h-10 sm:w-10">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-transparent transition-all duration-200 hover:scale-105 p-1 sm:h-10 sm:w-10">
             <img
               src={logoImage}
               alt={`${companyInfo.name} Logo`}
@@ -44,7 +44,7 @@ function Header() {
             <p className="truncate font-display text-sm font-semibold text-white sm:text-base lg:text-xl">
               {companyInfo.name}
             </p>
-            <p className="truncate text-[10px] text-[#00ff41] sm:text-xs">
+            <p className="truncate text-[10px] text-brand-400 sm:text-xs">
               {companyInfo.slogan}
             </p>
           </div>
@@ -107,10 +107,10 @@ function Header() {
           {/* Language Switcher */}
           <button
             onClick={toggleLanguage}
-            className="flex items-center gap-1.5 rounded-full border-2 border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-all duration-200 hover:border-white/40 hover:bg-white/20 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-white/30"
+            className="flex items-center gap-1.5 rounded-full border-2 border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-all duration-200 hover:border-white/40 hover:bg-white/20 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-white/30 group"
             aria-label={language === 'fr' ? 'Switch to English' : 'Passer en français'}
           >
-            <GlobeAltIcon className="h-4 w-4 text-white" />
+            <GlobeAltIcon className="h-4 w-4 text-white transition-colors duration-300 group-hover:text-brand-400" />
             <span className="uppercase text-white">{language}</span>
           </button>
 
@@ -129,22 +129,22 @@ function Header() {
           {/* Language Switcher Mobile */}
           <button
             onClick={toggleLanguage}
-            className="flex items-center justify-center rounded-full border-2 border-white/20 bg-white/10 p-2 text-white shadow-sm transition-all duration-200 hover:border-white/40 hover:bg-white/20 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-white/30"
+            className="flex items-center justify-center rounded-full border-2 border-white/20 bg-white/10 p-2 text-white shadow-sm transition-all duration-200 hover:border-white/40 hover:bg-white/20 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-white/30 group"
             aria-label={language === 'fr' ? 'Switch to English' : 'Passer en français'}
           >
-            <GlobeAltIcon className="h-4 w-4 text-white" />
+            <GlobeAltIcon className="h-5 w-5 text-white transition-colors duration-300 group-hover:text-brand-400" />
           </button>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="inline-flex items-center justify-center rounded-full border-2 border-white/20 bg-white/10 p-2 text-white shadow-sm transition-all duration-200 hover:border-white/40 hover:bg-white/20 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-white/30"
+            className="inline-flex items-center justify-center rounded-full border-2 border-white/20 bg-white/10 p-2 text-white shadow-sm transition-all duration-200 hover:border-white/40 hover:bg-white/20 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-white/30 group"
             aria-label="Menu"
           >
             {mobileMenuOpen ? (
-              <XMarkIcon className="h-5 w-5 text-white" />
+              <XMarkIcon className="h-5 w-5 text-white transition-colors duration-300 group-hover:text-brand-400" />
             ) : (
-              <Bars3Icon className="h-5 w-5 text-white" />
+              <Bars3Icon className="h-5 w-5 text-white transition-colors duration-300 group-hover:text-brand-400" />
             )}
           </button>
         </div>

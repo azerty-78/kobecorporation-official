@@ -17,7 +17,7 @@ function Footer() {
           {/* Colonne 1: À Propos */}
           <div className="lg:col-span-2">
             <NavLink to="/" className="mb-4 inline-flex items-center gap-2 transition-transform duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-transparent shadow-[0_4px_12px_rgba(255,255,255,0.15)] transition-all duration-200 hover:shadow-[0_6px_16px_rgba(255,255,255,0.25)] hover:scale-105 p-1.5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-transparent transition-all duration-200 hover:scale-105 p-1.5">
                 <img
                   src={logoImage}
                   alt={`${companyInfo.name} Logo`}
@@ -33,7 +33,7 @@ function Footer() {
             <p className="mb-2 text-sm font-semibold text-brand-400">
               {companyInfo.slogan}
             </p>
-            <p className="mb-4 text-sm leading-relaxed text-slate-300">
+            <p className="mb-4 text-sm leading-relaxed text-white">
               {language === 'fr'
                 ? 'KOBE Corporation - Votre partenaire technologique pour transformer vos idées en solutions logicielles innovantes.'
                 : 'KOBE Corporation - Your technology partner to transform ideas into innovative software solutions.'}
@@ -62,7 +62,7 @@ function Footer() {
                   `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
                     isActive
                       ? 'text-brand-400 font-semibold'
-                      : 'text-slate-300 hover:text-brand-400'
+                      : 'text-white hover:text-brand-400'
                   }`
                 }
               >
@@ -74,7 +74,7 @@ function Footer() {
                   `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
                     isActive
                       ? 'text-brand-400 font-semibold'
-                      : 'text-slate-300 hover:text-brand-400'
+                      : 'text-white hover:text-brand-400'
                   }`
                 }
               >
@@ -86,7 +86,7 @@ function Footer() {
                   `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
                     isActive
                       ? 'text-brand-400 font-semibold'
-                      : 'text-slate-300 hover:text-brand-400'
+                      : 'text-white hover:text-brand-400'
                   }`
                 }
               >
@@ -98,7 +98,7 @@ function Footer() {
                   `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
                     isActive
                       ? 'text-brand-400 font-semibold'
-                      : 'text-slate-300 hover:text-brand-400'
+                      : 'text-white hover:text-brand-400'
                   }`
                 }
               >
@@ -110,7 +110,7 @@ function Footer() {
                   `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
                     isActive
                       ? 'text-brand-400 font-semibold'
-                      : 'text-slate-300 hover:text-brand-400'
+                      : 'text-white hover:text-brand-400'
                   }`
                 }
               >
@@ -122,7 +122,7 @@ function Footer() {
                   `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
                     isActive
                       ? 'text-brand-400 font-semibold'
-                      : 'text-slate-300 hover:text-brand-400'
+                      : 'text-white hover:text-brand-400'
                   }`
                 }
               >
@@ -141,7 +141,7 @@ function Footer() {
                 <NavLink
                   key={programme.id}
                   to={`/programmes#${programme.id}`}
-                  className="block text-sm text-slate-300 transition-all duration-200 hover:text-brand-400 focus:outline-none focus:ring-2 focus:ring-white/20 rounded"
+                  className="block text-sm text-white transition-all duration-200 hover:text-brand-400 focus:outline-none focus:ring-2 focus:ring-white/20 rounded"
                 >
                   {language === 'fr' ? programme.title : programme.titleEn}
                 </NavLink>
@@ -161,18 +161,18 @@ function Footer() {
                   {info.link ? (
                     <a
                       href={info.link}
-                      className="text-sm text-slate-300 transition-colors duration-200 hover:text-brand-400 focus:outline-none focus:ring-2 focus:ring-white/20 rounded"
+                      className="text-sm text-white transition-colors duration-200 hover:text-brand-400 focus:outline-none focus:ring-2 focus:ring-white/20 rounded"
                     >
                       {info.value}
                     </a>
                   ) : (
-                    <p className="text-sm text-slate-300">
+                    <p className="text-sm text-white">
                       {info.value}
                     </p>
                   )}
                 </div>
               ))}
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-white">
                 {t('footer.available247')}
               </p>
             </div>
@@ -225,24 +225,24 @@ function Footer() {
                 </a>
               </div>
             </div>
-            <div className="text-sm text-slate-300">
+            <div className="text-sm text-white">
               <p className="mb-2 font-medium text-white">{t('footer.copyright')}</p>
               <div className="flex flex-wrap gap-4">
                 <a
                   href="#"
-                  className="transition-colors duration-200 hover:text-brand-400 focus:outline-none focus:ring-2 focus:ring-white/20 rounded"
+                  className="text-white transition-colors duration-200 hover:text-brand-400 focus:outline-none focus:ring-2 focus:ring-white/20 rounded"
                 >
                   {t('footer.legal.privacy')}
                 </a>
                 <a
                   href="#"
-                  className="transition-colors duration-200 hover:text-brand-400 focus:outline-none focus:ring-2 focus:ring-white/20 rounded"
+                  className="text-white transition-colors duration-200 hover:text-brand-400 focus:outline-none focus:ring-2 focus:ring-white/20 rounded"
                 >
                   {t('footer.legal.terms')}
                 </a>
                 <a
                   href="#"
-                  className="transition-colors duration-200 hover:text-brand-400 focus:outline-none focus:ring-2 focus:ring-white/20 rounded"
+                  className="text-white transition-colors duration-200 hover:text-brand-400 focus:outline-none focus:ring-2 focus:ring-white/20 rounded"
                 >
                   {t('footer.legal.cookies')}
                 </a>
