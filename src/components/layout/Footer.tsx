@@ -17,7 +17,7 @@ function Footer() {
   const { theme, toggleTheme } = useTheme()
 
   return (
-    <footer className="border-t border-slate-200 bg-white/90 py-12 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/90">
+    <footer className="border-t border-slate-200 bg-slate-50/80 py-12 backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/95">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
           {/* Colonne 1: À Propos */}
@@ -27,7 +27,7 @@ function Footer() {
                 <span className="font-display text-lg font-bold">K</span>
               </div>
               <div>
-                <p className="font-display text-lg font-semibold text-ink dark:text-white">
+                <p className="font-display text-lg font-semibold text-slate-900 dark:text-white">
                   {companyInfo.name}
                 </p>
               </div>
@@ -35,7 +35,7 @@ function Footer() {
             <p className="mb-2 text-sm font-semibold text-brand-600 dark:text-brand-400">
               {companyInfo.slogan}
             </p>
-            <p className="mb-4 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+            <p className="mb-4 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
               {language === 'fr'
                 ? 'KOBE Corporation - Votre partenaire technologique pour transformer vos idées en solutions logicielles innovantes.'
                 : 'KOBE Corporation - Your technology partner to transform ideas into innovative software solutions.'}
@@ -43,7 +43,7 @@ function Footer() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
-                className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition-all duration-200 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-brand-600 dark:hover:bg-brand-900/20 dark:hover:text-brand-400"
+                className="flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition-all duration-200 hover:border-brand-400 hover:bg-brand-50 hover:text-brand-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-brand-500 dark:hover:bg-brand-900/30 dark:hover:text-brand-300"
                 aria-label="Changer de langue"
               >
                 <GlobeAltIcon className="h-4 w-4" />
@@ -51,7 +51,7 @@ function Footer() {
               </button>
               <button
                 onClick={toggleTheme}
-                className="rounded-lg border border-slate-200 bg-white p-1.5 text-slate-700 shadow-sm transition-all duration-200 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-brand-600 dark:hover:bg-brand-900/20 dark:hover:text-brand-400"
+                className="rounded-lg border border-slate-300 bg-white p-1.5 text-slate-700 shadow-sm transition-all duration-200 hover:border-brand-400 hover:bg-brand-50 hover:text-brand-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-brand-500 dark:hover:bg-brand-900/30 dark:hover:text-brand-300"
                 aria-label="Changer de thème"
               >
                 {theme === 'light' ? (
@@ -65,43 +65,43 @@ function Footer() {
 
           {/* Colonne 2: Navigation Rapide */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-ink dark:text-white">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-900 dark:text-white">
               {t('footer.quickLinks')}
             </h3>
             <nav className="space-y-2">
               <NavLink
                 to="/"
-                className="block text-sm text-slate-600 transition-colors duration-200 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400"
+                className="block text-sm text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
               >
                 {t('nav.home')}
               </NavLink>
               <NavLink
                 to="/services"
-                className="block text-sm text-slate-600 transition-colors duration-200 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400"
+                className="block text-sm text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
               >
                 {t('nav.services')}
               </NavLink>
               <NavLink
                 to="/programmes"
-                className="block text-sm text-slate-600 transition-colors duration-200 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400"
+                className="block text-sm text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
               >
                 {t('nav.programs')}
               </NavLink>
               <NavLink
                 to="/about"
-                className="block text-sm text-slate-600 transition-colors duration-200 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400"
+                className="block text-sm text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
               >
                 {t('nav.about')}
               </NavLink>
               <NavLink
                 to="/portfolio"
-                className="block text-sm text-slate-600 transition-colors duration-200 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400"
+                className="block text-sm text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
               >
                 {t('nav.portfolio')}
               </NavLink>
               <NavLink
                 to="/contact"
-                className="block text-sm text-slate-600 transition-colors duration-200 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400"
+                className="block text-sm text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
               >
                 {t('nav.contact')}
               </NavLink>
@@ -110,7 +110,7 @@ function Footer() {
 
           {/* Colonne 3: Programmes */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-ink dark:text-white">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-900 dark:text-white">
               {t('footer.programs')}
             </h3>
             <nav className="space-y-2">
@@ -118,7 +118,7 @@ function Footer() {
                 <NavLink
                   key={programme.id}
                   to={`/programmes#${programme.id}`}
-                  className="block text-sm text-slate-600 transition-colors duration-200 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400"
+                  className="block text-sm text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
                 >
                   {language === 'fr' ? programme.title : programme.titleEn}
                 </NavLink>
@@ -128,28 +128,28 @@ function Footer() {
 
           {/* Colonne 4: Contact */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-ink dark:text-white">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-900 dark:text-white">
               {t('nav.contact')}
             </h3>
             <div className="space-y-3">
               {contactInfo.map((info, index) => (
                 <div key={index} className="flex items-start gap-2">
-                  <div className="mt-0.5 text-brand-500">{info.icon}</div>
+                  <div className="mt-0.5 text-brand-600 dark:text-brand-400">{info.icon}</div>
                   {info.link ? (
                     <a
                       href={info.link}
-                      className="text-sm text-slate-600 transition-colors duration-200 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400"
+                      className="text-sm text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
                     >
                       {info.value}
                     </a>
                   ) : (
-                    <p className="text-sm text-slate-600 dark:text-slate-400">
+                    <p className="text-sm text-slate-700 dark:text-slate-300">
                       {info.value}
                     </p>
                   )}
                 </div>
               ))}
-              <p className="text-xs text-slate-500 dark:text-slate-500">
+              <p className="text-xs text-slate-600 dark:text-slate-400">
                 {t('footer.available247')}
               </p>
             </div>
@@ -157,10 +157,10 @@ function Footer() {
         </div>
 
         {/* Section Réseaux Sociaux et Copyright */}
-        <div className="mt-8 border-t border-slate-200 pt-8 dark:border-slate-800">
+        <div className="mt-8 border-t border-slate-200 pt-8 dark:border-slate-700">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
-              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-ink dark:text-white">
+              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-900 dark:text-white">
                 {t('footer.followUs')}
               </h3>
               <div className="flex gap-3">
@@ -168,7 +168,7 @@ function Footer() {
                   href={companyInfo.social.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-[#25D366] transition-all duration-200 hover:scale-110 hover:border-[#25D366] hover:bg-[#25D366]/10 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-[#25D366]"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-300 bg-white text-[#25D366] transition-all duration-200 hover:scale-110 hover:border-[#25D366] hover:bg-[#25D366]/10 hover:shadow-md dark:border-slate-600 dark:bg-slate-800 dark:text-[#25D366] dark:hover:border-[#25D366] dark:hover:bg-[#25D366]/10"
                   aria-label="WhatsApp"
                 >
                   <WhatsAppIcon className="h-6 w-6" />
@@ -177,7 +177,7 @@ function Footer() {
                   href={companyInfo.social.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-[#1877F2] transition-all duration-200 hover:scale-110 hover:border-[#1877F2] hover:bg-[#1877F2]/10 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-[#1877F2]"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-300 bg-white text-[#1877F2] transition-all duration-200 hover:scale-110 hover:border-[#1877F2] hover:bg-[#1877F2]/10 hover:shadow-md dark:border-slate-600 dark:bg-slate-800 dark:text-[#1877F2] dark:hover:border-[#1877F2] dark:hover:bg-[#1877F2]/10"
                   aria-label="Facebook"
                 >
                   <FacebookIcon className="h-6 w-6" />
@@ -186,7 +186,7 @@ function Footer() {
                   href={companyInfo.social.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-[#0A66C2] transition-all duration-200 hover:scale-110 hover:border-[#0A66C2] hover:bg-[#0A66C2]/10 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-[#0A66C2]"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-300 bg-white text-[#0A66C2] transition-all duration-200 hover:scale-110 hover:border-[#0A66C2] hover:bg-[#0A66C2]/10 hover:shadow-md dark:border-slate-600 dark:bg-slate-800 dark:text-[#0A66C2] dark:hover:border-[#0A66C2] dark:hover:bg-[#0A66C2]/10"
                   aria-label="LinkedIn"
                 >
                   <LinkedInIcon className="h-6 w-6" />
@@ -195,15 +195,15 @@ function Footer() {
                   href={companyInfo.social.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-[#E4405F] transition-all duration-200 hover:scale-110 hover:border-[#E4405F] hover:bg-[#E4405F]/10 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-[#E4405F]"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-300 bg-white text-[#E4405F] transition-all duration-200 hover:scale-110 hover:border-[#E4405F] hover:bg-[#E4405F]/10 hover:shadow-md dark:border-slate-600 dark:bg-slate-800 dark:text-[#E4405F] dark:hover:border-[#E4405F] dark:hover:bg-[#E4405F]/10"
                   aria-label="Instagram"
                 >
                   <InstagramIcon className="h-6 w-6" />
                 </a>
               </div>
             </div>
-            <div className="text-sm text-slate-500 dark:text-slate-400">
-              <p className="mb-2">{t('footer.copyright')}</p>
+            <div className="text-sm text-slate-600 dark:text-slate-400">
+              <p className="mb-2 font-medium text-slate-700 dark:text-slate-300">{t('footer.copyright')}</p>
               <div className="flex flex-wrap gap-4">
                 <a
                   href="#"
