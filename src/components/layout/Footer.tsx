@@ -41,7 +41,7 @@ function Footer() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
-                className="flex items-center gap-1.5 rounded-lg border-2 border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-all duration-200 hover:border-white/40 hover:bg-white/20 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-white/30"
+                className="flex items-center gap-1.5 rounded-lg border-2 border-white/20 bg-transparent px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-all duration-200 hover:border-white/40 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-white/30"
                 aria-label="Changer de langue"
               >
                 <GlobeAltIcon className="h-4 w-4 text-white" />
@@ -191,7 +191,7 @@ function Footer() {
                   href={companyInfo.social.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-white/20 bg-white/10 text-[#25D366] transition-all duration-200 hover:scale-110 hover:border-[#25D366] hover:bg-[#25D366]/20 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#25D366]/30"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-white/20 bg-transparent text-[#25D366] transition-all duration-200 hover:scale-110 hover:border-[#25D366] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#25D366]/30"
                   aria-label="WhatsApp"
                 >
                   <WhatsAppIcon className="h-6 w-6" />
@@ -200,7 +200,7 @@ function Footer() {
                   href={companyInfo.social.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-white/20 bg-white/10 text-[#1877F2] transition-all duration-200 hover:scale-110 hover:border-[#1877F2] hover:bg-[#1877F2]/20 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#1877F2]/30"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-white/20 bg-transparent text-[#1877F2] transition-all duration-200 hover:scale-110 hover:border-[#1877F2] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#1877F2]/30"
                   aria-label="Facebook"
                 >
                   <FacebookIcon className="h-6 w-6" />
@@ -209,7 +209,7 @@ function Footer() {
                   href={companyInfo.social.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-white/20 bg-white/10 text-[#0A66C2] transition-all duration-200 hover:scale-110 hover:border-[#0A66C2] hover:bg-[#0A66C2]/20 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#0A66C2]/30"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-white/20 bg-transparent text-[#0A66C2] transition-all duration-200 hover:scale-110 hover:border-[#0A66C2] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#0A66C2]/30"
                   aria-label="LinkedIn"
                 >
                   <LinkedInIcon className="h-6 w-6" />
@@ -218,7 +218,7 @@ function Footer() {
                   href={companyInfo.social.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-white/20 bg-white/10 text-[#E4405F] transition-all duration-200 hover:scale-110 hover:border-[#E4405F] hover:bg-[#E4405F]/20 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#E4405F]/30"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-white/20 bg-transparent text-[#E4405F] transition-all duration-200 hover:scale-110 hover:border-[#E4405F] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#E4405F]/30"
                   aria-label="Instagram"
                 >
                   <InstagramIcon className="h-6 w-6" />
