@@ -22,8 +22,8 @@ function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
           {/* Colonne 1: À Propos */}
           <div className="lg:col-span-2">
-            <NavLink to="/" className="mb-4 inline-flex items-center gap-2 transition-transform duration-200 hover:scale-105">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-lg">
+            <NavLink to="/" className="mb-4 inline-flex items-center gap-2 transition-transform duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded-lg">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105">
                 <span className="font-display text-lg font-bold">K</span>
               </div>
               <div>
@@ -43,15 +43,15 @@ function Footer() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
-                className="flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition-all duration-200 hover:border-brand-400 hover:bg-brand-50 hover:text-brand-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-brand-500 dark:hover:bg-brand-900/30 dark:hover:text-brand-300"
+                className="flex items-center gap-1.5 rounded-lg border-2 border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:border-brand-500 hover:bg-brand-100 hover:text-brand-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-brand-400 dark:hover:bg-brand-900/50 dark:hover:text-brand-300"
                 aria-label="Changer de langue"
               >
                 <GlobeAltIcon className="h-4 w-4" />
-                <span className="uppercase font-semibold">{language}</span>
+                <span className="uppercase">{language}</span>
               </button>
               <button
                 onClick={toggleTheme}
-                className="rounded-lg border border-slate-300 bg-white p-1.5 text-slate-700 shadow-sm transition-all duration-200 hover:border-brand-400 hover:bg-brand-50 hover:text-brand-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-brand-500 dark:hover:bg-brand-900/30 dark:hover:text-brand-300"
+                className="rounded-lg border-2 border-slate-300 bg-white p-1.5 text-slate-700 shadow-sm transition-all duration-200 hover:border-brand-500 hover:bg-brand-100 hover:text-brand-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-brand-400 dark:hover:bg-brand-900/50 dark:hover:text-brand-300"
                 aria-label="Changer de thème"
               >
                 {theme === 'light' ? (
@@ -71,37 +71,73 @@ function Footer() {
             <nav className="space-y-2">
               <NavLink
                 to="/"
-                className="block text-sm text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
+                className={({ isActive }) =>
+                  `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded ${
+                    isActive
+                      ? 'text-brand-700 font-semibold dark:text-brand-400'
+                      : 'text-slate-700 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400'
+                  }`
+                }
               >
                 {t('nav.home')}
               </NavLink>
               <NavLink
                 to="/services"
-                className="block text-sm text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
+                className={({ isActive }) =>
+                  `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded ${
+                    isActive
+                      ? 'text-brand-700 font-semibold dark:text-brand-400'
+                      : 'text-slate-700 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400'
+                  }`
+                }
               >
                 {t('nav.services')}
               </NavLink>
               <NavLink
                 to="/programmes"
-                className="block text-sm text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
+                className={({ isActive }) =>
+                  `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded ${
+                    isActive
+                      ? 'text-brand-700 font-semibold dark:text-brand-400'
+                      : 'text-slate-700 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400'
+                  }`
+                }
               >
                 {t('nav.programs')}
               </NavLink>
               <NavLink
                 to="/about"
-                className="block text-sm text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
+                className={({ isActive }) =>
+                  `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded ${
+                    isActive
+                      ? 'text-brand-700 font-semibold dark:text-brand-400'
+                      : 'text-slate-700 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400'
+                  }`
+                }
               >
                 {t('nav.about')}
               </NavLink>
               <NavLink
                 to="/portfolio"
-                className="block text-sm text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
+                className={({ isActive }) =>
+                  `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded ${
+                    isActive
+                      ? 'text-brand-700 font-semibold dark:text-brand-400'
+                      : 'text-slate-700 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400'
+                  }`
+                }
               >
                 {t('nav.portfolio')}
               </NavLink>
               <NavLink
                 to="/contact"
-                className="block text-sm text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
+                className={({ isActive }) =>
+                  `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded ${
+                    isActive
+                      ? 'text-brand-700 font-semibold dark:text-brand-400'
+                      : 'text-slate-700 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400'
+                  }`
+                }
               >
                 {t('nav.contact')}
               </NavLink>
@@ -118,7 +154,7 @@ function Footer() {
                 <NavLink
                   key={programme.id}
                   to={`/programmes#${programme.id}`}
-                  className="block text-sm text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
+                  className="block text-sm text-slate-700 transition-all duration-200 hover:text-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded dark:text-slate-300 dark:hover:text-brand-400"
                 >
                   {language === 'fr' ? programme.title : programme.titleEn}
                 </NavLink>
@@ -138,7 +174,7 @@ function Footer() {
                   {info.link ? (
                     <a
                       href={info.link}
-                      className="text-sm text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
+                      className="text-sm text-slate-700 transition-colors duration-200 hover:text-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded dark:text-slate-300 dark:hover:text-brand-400"
                     >
                       {info.value}
                     </a>
@@ -168,7 +204,7 @@ function Footer() {
                   href={companyInfo.social.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-300 bg-white text-[#25D366] transition-all duration-200 hover:scale-110 hover:border-[#25D366] hover:bg-[#25D366]/10 hover:shadow-md dark:border-slate-600 dark:bg-slate-800 dark:text-[#25D366] dark:hover:border-[#25D366] dark:hover:bg-[#25D366]/10"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-slate-300 bg-white text-[#25D366] transition-all duration-200 hover:scale-110 hover:border-[#25D366] hover:bg-[#25D366]/15 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#25D366]/30 dark:border-slate-600 dark:bg-slate-800 dark:text-[#25D366] dark:hover:border-[#25D366] dark:hover:bg-[#25D366]/20"
                   aria-label="WhatsApp"
                 >
                   <WhatsAppIcon className="h-6 w-6" />
@@ -177,7 +213,7 @@ function Footer() {
                   href={companyInfo.social.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-300 bg-white text-[#1877F2] transition-all duration-200 hover:scale-110 hover:border-[#1877F2] hover:bg-[#1877F2]/10 hover:shadow-md dark:border-slate-600 dark:bg-slate-800 dark:text-[#1877F2] dark:hover:border-[#1877F2] dark:hover:bg-[#1877F2]/10"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-slate-300 bg-white text-[#1877F2] transition-all duration-200 hover:scale-110 hover:border-[#1877F2] hover:bg-[#1877F2]/15 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#1877F2]/30 dark:border-slate-600 dark:bg-slate-800 dark:text-[#1877F2] dark:hover:border-[#1877F2] dark:hover:bg-[#1877F2]/20"
                   aria-label="Facebook"
                 >
                   <FacebookIcon className="h-6 w-6" />
@@ -186,7 +222,7 @@ function Footer() {
                   href={companyInfo.social.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-300 bg-white text-[#0A66C2] transition-all duration-200 hover:scale-110 hover:border-[#0A66C2] hover:bg-[#0A66C2]/10 hover:shadow-md dark:border-slate-600 dark:bg-slate-800 dark:text-[#0A66C2] dark:hover:border-[#0A66C2] dark:hover:bg-[#0A66C2]/10"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-slate-300 bg-white text-[#0A66C2] transition-all duration-200 hover:scale-110 hover:border-[#0A66C2] hover:bg-[#0A66C2]/15 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#0A66C2]/30 dark:border-slate-600 dark:bg-slate-800 dark:text-[#0A66C2] dark:hover:border-[#0A66C2] dark:hover:bg-[#0A66C2]/20"
                   aria-label="LinkedIn"
                 >
                   <LinkedInIcon className="h-6 w-6" />
@@ -195,7 +231,7 @@ function Footer() {
                   href={companyInfo.social.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-300 bg-white text-[#E4405F] transition-all duration-200 hover:scale-110 hover:border-[#E4405F] hover:bg-[#E4405F]/10 hover:shadow-md dark:border-slate-600 dark:bg-slate-800 dark:text-[#E4405F] dark:hover:border-[#E4405F] dark:hover:bg-[#E4405F]/10"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-slate-300 bg-white text-[#E4405F] transition-all duration-200 hover:scale-110 hover:border-[#E4405F] hover:bg-[#E4405F]/15 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#E4405F]/30 dark:border-slate-600 dark:bg-slate-800 dark:text-[#E4405F] dark:hover:border-[#E4405F] dark:hover:bg-[#E4405F]/20"
                   aria-label="Instagram"
                 >
                   <InstagramIcon className="h-6 w-6" />
@@ -207,19 +243,19 @@ function Footer() {
               <div className="flex flex-wrap gap-4">
                 <a
                   href="#"
-                  className="transition-colors duration-200 hover:text-brand-600 dark:hover:text-brand-400"
+                  className="transition-colors duration-200 hover:text-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded dark:hover:text-brand-400"
                 >
                   {t('footer.legal.privacy')}
                 </a>
                 <a
                   href="#"
-                  className="transition-colors duration-200 hover:text-brand-600 dark:hover:text-brand-400"
+                  className="transition-colors duration-200 hover:text-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded dark:hover:text-brand-400"
                 >
                   {t('footer.legal.terms')}
                 </a>
                 <a
                   href="#"
-                  className="transition-colors duration-200 hover:text-brand-600 dark:hover:text-brand-400"
+                  className="transition-colors duration-200 hover:text-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded dark:hover:text-brand-400"
                 >
                   {t('footer.legal.cookies')}
                 </a>
