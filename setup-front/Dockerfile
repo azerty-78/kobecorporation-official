@@ -3,6 +3,12 @@
 # Stage 1: Build de l'application
 ARG NODE_VERSION=22.13.1
 
+# Variables d'environnement pour le build (Vite les nécessite au moment du build)
+ARG VITE_EMAILJS_PUBLIC_KEY
+ARG VITE_EMAILJS_SERVICE_ID
+ARG VITE_EMAILJS_CONTACT_TEMPLATE_ID
+ARG VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID
+
 FROM node:${NODE_VERSION}-alpine AS builder
 
 WORKDIR /app
@@ -15,6 +21,12 @@ RUN npm ci
 
 # Copier le code source
 COPY . .
+
+# Définir les variables d'environnement pour le build
+ENV VITE_EMAILJS_PUBLIC_KEY=${VITE_EMAILJS_PUBLIC_KEY}
+ENV VITE_EMAILJS_SERVICE_ID=${VITE_EMAILJS_SERVICE_ID}
+ENV VITE_EMAILJS_CONTACT_TEMPLATE_ID=${VITE_EMAILJS_CONTACT_TEMPLATE_ID}
+ENV VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID=${VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID}
 
 # Construire l'application pour la production
 RUN npm run build

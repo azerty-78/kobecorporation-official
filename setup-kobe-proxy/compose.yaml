@@ -110,19 +110,6 @@ services:
       retries: 3
       start_period: 40s
 
-  # ==========================================
-  # CONTAINER POUR BEN-DJIBRIL (sous-domaine)
-  # ==========================================
-  # Décommentez et configurez selon vos besoins
-  # ben-djibril:
-  #   image: votre-image:latest
-  #   container_name: ben-djibril-app
-  #   restart: unless-stopped
-  #   networks:
-  #     - kobecorp-network
-  #   expose:
-  #     - "80"
-
 # ==========================================
 # VOLUMES
 # ==========================================
@@ -149,3 +136,6 @@ networks:
   kobecorp-network:
     name: kobecorp-network
     driver: bridge
+    # Le réseau est partagé avec le projet ben-djibril
+    # Si le réseau existe déjà (créé par l'autre projet), utilisez external: true
+    # external: true  # Décommentez si le réseau est créé par l'autre projet
