@@ -13,6 +13,7 @@ export const translations = {
       portfolio: 'Portfolio',
       contact: 'Contact',
       startProject: 'Démarrer un Projet',
+      chatWithBen: 'Discuter avec Ben Djibril',
     },
     // Home Page
     home: {
@@ -96,6 +97,7 @@ export const translations = {
       portfolio: 'Portfolio',
       contact: 'Contact',
       startProject: 'Start a Project',
+      chatWithBen: 'Chat with Ben Djibril',
     },
     // Home Page
     home: {

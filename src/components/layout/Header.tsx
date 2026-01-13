@@ -11,10 +11,10 @@ import { companyInfo } from '../../data/siteContent'
 import logoImage from '../../assets/logo/kobe_corp_logo-nbgpng.png'
 
 const navLinkBase =
-  'rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/20'
+  'rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 bg-transparent focus:outline-none focus:ring-2 focus:ring-white/20'
 
-const activeClass = 'text-white bg-white/10 font-semibold shadow-sm'
-const inactiveClass = 'text-slate-300'
+const activeClass = 'text-brand-400 font-semibold'
+const inactiveClass = 'text-white hover:text-brand-400'
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -159,8 +159,8 @@ function Header() {
               className={({ isActive }) =>
                 `block rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/30 ${
                   isActive
-                    ? 'bg-white/10 text-white shadow-sm'
-                    : 'text-slate-300 hover:bg-white/5 hover:text-white'
+                    ? 'bg-transparent text-brand-400'
+                    : 'bg-transparent text-white hover:text-brand-400'
                 }`
               }
               onClick={() => setMobileMenuOpen(false)}
@@ -172,8 +172,8 @@ function Header() {
               className={({ isActive }) =>
                 `block rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/30 ${
                   isActive
-                    ? 'bg-white/10 text-white shadow-sm'
-                    : 'text-slate-300 hover:bg-white/5 hover:text-white'
+                    ? 'bg-transparent text-brand-400'
+                    : 'bg-transparent text-white hover:text-brand-400'
                 }`
               }
               onClick={() => setMobileMenuOpen(false)}
@@ -185,8 +185,8 @@ function Header() {
               className={({ isActive }) =>
                 `block rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/30 ${
                   isActive
-                    ? 'bg-white/10 text-white shadow-sm'
-                    : 'text-slate-300 hover:bg-white/5 hover:text-white'
+                    ? 'bg-transparent text-brand-400'
+                    : 'bg-transparent text-white hover:text-brand-400'
                 }`
               }
               onClick={() => setMobileMenuOpen(false)}
@@ -198,8 +198,8 @@ function Header() {
               className={({ isActive }) =>
                 `block rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/30 ${
                   isActive
-                    ? 'bg-white/10 text-white shadow-sm'
-                    : 'text-slate-300 hover:bg-white/5 hover:text-white'
+                    ? 'bg-transparent text-brand-400'
+                    : 'bg-transparent text-white hover:text-brand-400'
                 }`
               }
               onClick={() => setMobileMenuOpen(false)}
@@ -211,8 +211,8 @@ function Header() {
               className={({ isActive }) =>
                 `block rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/30 ${
                   isActive
-                    ? 'bg-white/10 text-white shadow-sm'
-                    : 'text-slate-300 hover:bg-white/5 hover:text-white'
+                    ? 'bg-transparent text-brand-400'
+                    : 'bg-transparent text-white hover:text-brand-400'
                 }`
               }
               onClick={() => setMobileMenuOpen(false)}
@@ -224,22 +224,24 @@ function Header() {
               className={({ isActive }) =>
                 `block rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/30 ${
                   isActive
-                    ? 'bg-white/10 text-white shadow-sm'
-                    : 'text-slate-300 hover:bg-white/5 hover:text-white'
+                    ? 'bg-transparent text-brand-400'
+                    : 'bg-transparent text-white hover:text-brand-400'
                 }`
               }
               onClick={() => setMobileMenuOpen(false)}
             >
               {t('nav.contact')}
             </NavLink>
-        <NavLink
-          to="/contact"
-              className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-brand-500 to-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:from-brand-600 hover:to-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500/50"
+            <a
+              href="https://www.ben-djibril.kobecorporation.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:bg-brand-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50"
               onClick={() => setMobileMenuOpen(false)}
-        >
-              {t('nav.startProject')}
+            >
+              {t('nav.chatWithBen')}
               <ArrowRightIcon className="h-4 w-4 text-white" />
-        </NavLink>
+            </a>
           </nav>
       </div>
       )}
