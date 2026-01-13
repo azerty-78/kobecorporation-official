@@ -23,7 +23,7 @@ RUN npm run build
 FROM nginx:alpine AS production
 
 # Copier la configuration nginx personnalisée
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY setup-front/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copier les fichiers buildés depuis le stage builder
 COPY --from=builder /app/dist /usr/share/nginx/html
