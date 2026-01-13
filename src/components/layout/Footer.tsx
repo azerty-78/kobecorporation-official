@@ -1,8 +1,5 @@
 import { NavLink } from 'react-router-dom'
 import {
-  MapPinIcon,
-  PhoneIcon,
-  EnvelopeIcon,
   GlobeAltIcon,
 } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
@@ -14,7 +11,7 @@ function Footer() {
   const { language, setLanguage, t } = useLanguage()
 
   return (
-    <footer className="border-t border-white/10 bg-[#000000]/80 py-12 backdrop-blur-md">
+    <footer className="border-t border-white/10 py-12 backdrop-blur-md" style={{ backgroundColor: '#000000' }}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
           {/* Colonne 1: À Propos */}

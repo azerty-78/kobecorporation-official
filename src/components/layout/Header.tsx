@@ -25,7 +25,7 @@ function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#000000]/80 backdrop-blur-md shadow-sm">
+    <header className="sticky top-0 z-50 border-b border-white/10 backdrop-blur-md shadow-sm" style={{ backgroundColor: '#000000' }}>
       <div className="mx-auto flex h-auto min-h-16 max-w-7xl items-center justify-between gap-2 px-3 py-2 sm:px-4 sm:py-2.5 lg:px-8 lg:py-0 lg:h-16">
         {/* Logo avec Nom et Slogan - Toujours visible même en mobile */}
         <NavLink
@@ -44,7 +44,7 @@ function Header() {
             <p className="truncate font-display text-sm font-semibold text-white sm:text-base lg:text-xl">
               {companyInfo.name}
             </p>
-            <p className="truncate text-[10px] text-slate-300 sm:text-xs">
+            <p className="truncate text-[10px] text-[#00ff41] sm:text-xs">
               {companyInfo.slogan}
             </p>
           </div>
@@ -152,7 +152,7 @@ function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="border-t border-white/10 bg-[#000000]/95 backdrop-blur-md lg:hidden">
+        <div className="border-t border-white/10 backdrop-blur-md lg:hidden" style={{ backgroundColor: '#000000' }}>
           <nav className="mx-auto max-w-7xl space-y-1 px-4 py-4">
             <NavLink
               to="/"
@@ -232,16 +232,16 @@ function Header() {
             >
               {t('nav.contact')}
             </NavLink>
-            <NavLink
-              to="/contact"
+        <NavLink
+          to="/contact"
               className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-brand-500 to-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:from-brand-600 hover:to-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500/50"
               onClick={() => setMobileMenuOpen(false)}
-            >
+        >
               {t('nav.startProject')}
               <ArrowRightIcon className="h-4 w-4 text-white" />
-            </NavLink>
+        </NavLink>
           </nav>
-        </div>
+      </div>
       )}
     </header>
   )

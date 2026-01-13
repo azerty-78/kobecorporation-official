@@ -60,8 +60,8 @@ function Portfolio() {
             onClick={() => setSelectedCategory(category.id)}
             className={`rounded-full px-4 py-2 text-sm font-medium transition ${
               selectedCategory === category.id
-                ? 'bg-brand-500 text-white shadow-soft
-                : 'border border-slate-200 bg-white text-slate-700 hover:border-brand-300 hover:text-brand-600
+                ? 'bg-brand-500 text-white shadow-soft'
+                : 'border border-slate-200 bg-white text-slate-700 hover:border-brand-300 hover:text-brand-600'
             }`}
           >
             {language === 'fr' ? category.label : category.labelEn}
