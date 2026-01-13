@@ -11,7 +11,7 @@ import NotFound from './pages/NotFound'
 
 function App() {
   return (
-    <div className="min-h-screen bg-organic-shapes bg-slate-50 dark:bg-slate-900">
+    <div className="min-h-screen bg-organic-shapes bg-slate-50">
       <Header />
       <main className="flex-1">
         <Routes>
