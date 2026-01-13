@@ -6,13 +6,13 @@ import Services from './pages/Services'
 import Programmes from './pages/Programmes'
 import About from './pages/About'
 import Portfolio from './pages/Portfolio'
+import Pricing from './pages/Pricing'
 import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
 
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-radial bg-slate-50 dark:bg-slate-900">
-      <div className="absolute inset-0 -z-10 opacity-40 blur-3xl" />
+    <div className="min-h-screen bg-organic-shapes bg-slate-50 dark:bg-slate-900">
       <Header />
       <main className="flex-1">
         <Routes>
@@ -22,6 +22,8 @@ function App() {
           <Route path="/programmes" element={<Programmes />} />
           <Route path="/about" element={<About />} />
           <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/tarifs" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

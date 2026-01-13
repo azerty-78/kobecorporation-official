@@ -111,6 +111,18 @@ function Footer() {
                 {t('nav.programs')}
               </NavLink>
               <NavLink
+                to="/pricing"
+                className={({ isActive }) =>
+                  `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded ${
+                    isActive
+                      ? 'text-brand-700 font-semibold dark:text-brand-400'
+                      : 'text-slate-700 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400'
+                  }`
+                }
+              >
+                {t('nav.pricing')}
+              </NavLink>
+              <NavLink
                 to="/about"
                 className={({ isActive }) =>
                   `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded ${
