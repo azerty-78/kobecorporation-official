@@ -115,13 +115,15 @@ function Header() {
           </button>
 
           {/* CTA Button */}
-          <NavLink
-            to="/contact"
-            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-500 to-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:from-brand-600 hover:to-brand-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50"
+          <a
+            href="https://www.ben-djibril.kobecorporation.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50"
           >
-            {t('nav.startProject')}
+            {t('nav.chatWithBen')}
             <ArrowRightIcon className="h-4 w-4 text-white" />
-          </NavLink>
+          </a>
         </div>
 
         {/* Mobile Actions - Toujours visible */}
