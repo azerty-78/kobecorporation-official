@@ -1,4 +1,6 @@
-export type Language = 'fr' | 'en'
+type Language = 'fr' | 'en'
+
+export type { Language }
 
 export const translations = {
   fr: {
