@@ -1,38 +1,35 @@
 # syntax=docker/dockerfile:1
 
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Dockerfile reference guide at
-# https://docs.docker.com/go/dockerfile-reference/
-
-# Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
-
+# Stage 1: Build de l'application
 ARG NODE_VERSION=22.13.1
 
-FROM node:${NODE_VERSION}-alpine
+FROM node:${NODE_VERSION}-alpine AS builder
 
-# Use production node environment by default.
-ENV NODE_ENV production
+WORKDIR /app
 
+# Copier les fichiers de dépendances
+COPY package.json package-lock.json ./
 
-WORKDIR /usr/src/app
+# Installer les dépendances (y compris devDependencies pour le build)
+RUN npm ci
 
-# Download dependencies as a separate step to take advantage of Docker's caching.
-# Leverage a cache mount to /root/.npm to speed up subsequent builds.
-# Leverage a bind mounts to package.json and package-lock.json to avoid having to copy them into
-# into this layer.
-RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=package-lock.json,target=package-lock.json \
-    --mount=type=cache,target=/root/.npm \
-    npm ci --omit=dev
-
-# Run the application as a non-root user.
-USER node
-
-# Copy the rest of the source files into the image.
+# Copier le code source
 COPY . .
 
-# Expose the port that the application listens on.
-EXPOSE 5173
+# Construire l'application pour la production
+RUN npm run build
 
-# Run the application.
-CMD npm run dev
+# Stage 2: Serveur nginx pour la production
+FROM nginx:alpine AS production
+
+# Copier la configuration nginx personnalisée
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copier les fichiers buildés depuis le stage builder
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Exposer le port 80
+EXPOSE 80
+
+# Commande pour démarrer nginx
+CMD ["nginx", "-g", "daemon off;"]
