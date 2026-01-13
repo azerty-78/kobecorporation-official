@@ -144,7 +144,68 @@ jobs:
             type=sha,prefix={{branch}}-
             type=raw,value=latest,enable={{is_default_branch}}
       
-      # Étape 5: Build Docker Image (le contexte "." existe maintenant)
+      # Étape 5: Lire les variables depuis le fichier .env
+      - name: 📄 Load environment variables
+        id: env
+        run: |
+          # Fonction pour extraire une variable d'un fichier .env
+          extract_env_var() {
+            local var_name=$1
+            local file_path=$2
+            if [ -f "$file_path" ]; then
+              # Extraire la variable (ignorer les commentaires, gérer les espaces, guillemets, etc.)
+              grep -E "^${var_name}=" "$file_path" | sed -E "s/^${var_name}=['\"]?([^'\"]*)['\"]?$/\1/" | head -1 | xargs || echo ""
+            else
+              echo ""
+            fi
+          }
+          
+          # Lire les variables depuis setup-front/.env si le fichier existe
+          if [ -f "setup-front/.env" ]; then
+            echo "✅ Fichier .env trouvé, lecture des variables..."
+            
+            # Extraire les variables EmailJS
+            VITE_EMAILJS_PUBLIC_KEY=$(extract_env_var "VITE_EMAILJS_PUBLIC_KEY" "setup-front/.env")
+            VITE_EMAILJS_SERVICE_ID=$(extract_env_var "VITE_EMAILJS_SERVICE_ID" "setup-front/.env")
+            VITE_EMAILJS_CONTACT_TEMPLATE_ID=$(extract_env_var "VITE_EMAILJS_CONTACT_TEMPLATE_ID" "setup-front/.env")
+            VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID=$(extract_env_var "VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID" "setup-front/.env")
+            
+            # Afficher les variables (masquer les valeurs sensibles)
+            if [ -n "$VITE_EMAILJS_PUBLIC_KEY" ]; then
+              echo "VITE_EMAILJS_PUBLIC_KEY=${VITE_EMAILJS_PUBLIC_KEY:0:10}..."
+            else
+              echo "VITE_EMAILJS_PUBLIC_KEY=(vide)"
+            fi
+            if [ -n "$VITE_EMAILJS_SERVICE_ID" ]; then
+              echo "VITE_EMAILJS_SERVICE_ID=${VITE_EMAILJS_SERVICE_ID:0:10}..."
+            else
+              echo "VITE_EMAILJS_SERVICE_ID=(vide)"
+            fi
+            if [ -n "$VITE_EMAILJS_CONTACT_TEMPLATE_ID" ]; then
+              echo "VITE_EMAILJS_CONTACT_TEMPLATE_ID=${VITE_EMAILJS_CONTACT_TEMPLATE_ID:0:10}..."
+            else
+              echo "VITE_EMAILJS_CONTACT_TEMPLATE_ID=(vide)"
+            fi
+            if [ -n "$VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID" ]; then
+              echo "VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID=${VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID:0:10}..."
+            else
+              echo "VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID=(vide)"
+            fi
+            
+            # Exporter pour les prochaines étapes
+            echo "VITE_EMAILJS_PUBLIC_KEY=${VITE_EMAILJS_PUBLIC_KEY}" >> $GITHUB_ENV
+            echo "VITE_EMAILJS_SERVICE_ID=${VITE_EMAILJS_SERVICE_ID}" >> $GITHUB_ENV
+            echo "VITE_EMAILJS_CONTACT_TEMPLATE_ID=${VITE_EMAILJS_CONTACT_TEMPLATE_ID}" >> $GITHUB_ENV
+            echo "VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID=${VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID}" >> $GITHUB_ENV
+          else
+            echo "⚠️ Fichier setup-front/.env non trouvé, utilisation de valeurs vides"
+            echo "VITE_EMAILJS_PUBLIC_KEY=" >> $GITHUB_ENV
+            echo "VITE_EMAILJS_SERVICE_ID=" >> $GITHUB_ENV
+            echo "VITE_EMAILJS_CONTACT_TEMPLATE_ID=" >> $GITHUB_ENV
+            echo "VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID=" >> $GITHUB_ENV
+          fi
+      
+      # Étape 6: Build Docker Image (le contexte "." existe maintenant)
       - name: 🔨 Build Docker Image
         env:
           DOCKER_BUILDKIT: 0
@@ -172,10 +233,10 @@ jobs:
             --pull \
             --file ${{ env.DOCKERFILE_PATH }} \
             $TAG_ARGS \
-            --build-arg VITE_EMAILJS_PUBLIC_KEY="${{ secrets.VITE_EMAILJS_PUBLIC_KEY || '' }}" \
-            --build-arg VITE_EMAILJS_SERVICE_ID="${{ secrets.VITE_EMAILJS_SERVICE_ID || '' }}" \
-            --build-arg VITE_EMAILJS_CONTACT_TEMPLATE_ID="${{ secrets.VITE_EMAILJS_CONTACT_TEMPLATE_ID || '' }}" \
-            --build-arg VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID="${{ secrets.VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID || '' }}" \
+            --build-arg VITE_EMAILJS_PUBLIC_KEY="${VITE_EMAILJS_PUBLIC_KEY}" \
+            --build-arg VITE_EMAILJS_SERVICE_ID="${VITE_EMAILJS_SERVICE_ID}" \
+            --build-arg VITE_EMAILJS_CONTACT_TEMPLATE_ID="${VITE_EMAILJS_CONTACT_TEMPLATE_ID}" \
+            --build-arg VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID="${VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID}" \
             --build-arg VITE_APP_NAME="KOBE Corporation" \
             --build-arg VITE_APP_URL="https://kobecorporation.com" \
             ${{ env.DOCKER_CONTEXT }}
@@ -188,7 +249,7 @@ jobs:
             done
           fi
       
-      # Étape 6: Afficher les informations de l'image
+      # Étape 7: Afficher les informations de l'image
       - name: 📊 Image Info
         if: success()
         run: |

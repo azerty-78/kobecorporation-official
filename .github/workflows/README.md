@@ -15,12 +15,20 @@ Configurez ces secrets dans les paramètres du repository GitHub (Settings > Sec
 - `DOCKERHUB_USERNAME` : Votre nom d'utilisateur Docker Hub (ex: `azerty78`)
 - `DOCKERHUB_PASSWORD` : Votre token/mot de passe Docker Hub
 
-### Secrets optionnels (pour EmailJS)
+### Variables d'environnement (depuis le fichier .env)
 
-- `VITE_EMAILJS_PUBLIC_KEY` : Clé publique EmailJS (optionnel)
-- `VITE_EMAILJS_SERVICE_ID` : Service ID EmailJS (optionnel)
-- `VITE_EMAILJS_CONTACT_TEMPLATE_ID` : Template ID pour le formulaire de contact (optionnel)
-- `VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID` : Template ID pour la newsletter (optionnel)
+Les variables EmailJS sont lues automatiquement depuis le fichier `setup-front/.env` :
+- `VITE_EMAILJS_PUBLIC_KEY`
+- `VITE_EMAILJS_SERVICE_ID`
+- `VITE_EMAILJS_CONTACT_TEMPLATE_ID`
+- `VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID`
+
+**⚠️ Important** : 
+- Le fichier `setup-front/.env` doit être présent dans le repository pour que les variables soient lues
+- Si le fichier `.env` est dans `.gitignore`, vous devez soit :
+  - Le commiter explicitement (pas recommandé pour la sécurité)
+  - Créer un fichier `setup-front/.env.example` avec les valeurs et le copier en `.env` dans le workflow
+  - Utiliser des secrets GitHub pour les valeurs sensibles (mais ce n'est pas la méthode préférée ici)
 
 ## Déclenchement
 
@@ -58,12 +66,14 @@ Le workflow se déclenche automatiquement :
 
 Les variables suivantes sont passées au build Docker :
 
-- `VITE_EMAILJS_PUBLIC_KEY` (si défini dans les secrets)
-- `VITE_EMAILJS_SERVICE_ID` (si défini dans les secrets)
-- `VITE_EMAILJS_CONTACT_TEMPLATE_ID` (si défini dans les secrets)
-- `VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID` (si défini dans les secrets)
+- `VITE_EMAILJS_PUBLIC_KEY` (lu depuis `setup-front/.env`)
+- `VITE_EMAILJS_SERVICE_ID` (lu depuis `setup-front/.env`)
+- `VITE_EMAILJS_CONTACT_TEMPLATE_ID` (lu depuis `setup-front/.env`)
+- `VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID` (lu depuis `setup-front/.env`)
 - `VITE_APP_NAME` : "KOBE Corporation"
 - `VITE_APP_URL` : "https://kobecorporation.com"
+
+**Note** : Si le fichier `setup-front/.env` n'existe pas, les variables EmailJS seront vides (ce qui est acceptable si vous n'utilisez pas EmailJS).
 
 ## Utilisation
 
