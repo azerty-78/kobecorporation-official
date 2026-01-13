@@ -11,6 +11,7 @@ import {
 import { useLanguage } from '../../contexts/LanguageContext'
 import { useTheme } from '../../contexts/ThemeContext'
 import { companyInfo } from '../../data/siteContent'
+import logoImage from '../../assets/logo/kobe_corp_logo-nbgpng.png'
 
 const navLinkBase =
   'rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 hover:text-brand-700 hover:bg-brand-100 dark:hover:text-brand-300 dark:hover:bg-brand-900/50 focus:outline-none focus:ring-2 focus:ring-brand-500/20'
@@ -36,8 +37,12 @@ function Header() {
           className="flex items-center gap-2 transition-transform duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded-lg"
           onClick={() => setMobileMenuOpen(false)}
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105 dark:from-brand-500 dark:to-brand-600">
-            <span className="font-display text-lg font-bold">K</span>
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105 dark:bg-slate-800 p-1.5">
+            <img
+              src={logoImage}
+              alt={`${companyInfo.name} Logo`}
+              className="h-full w-full object-contain"
+            />
           </div>
           <div className="hidden sm:block">
             <p className="font-display text-xl font-semibold text-slate-900 dark:text-white">

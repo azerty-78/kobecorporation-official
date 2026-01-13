@@ -11,6 +11,7 @@ import { useLanguage } from '../../contexts/LanguageContext'
 import { useTheme } from '../../contexts/ThemeContext'
 import { companyInfo, contactInfo, programmes } from '../../data/siteContent'
 import { WhatsAppIcon, FacebookIcon, LinkedInIcon, InstagramIcon } from '../icons/SocialIcons'
+import logoImage from '../../assets/logo/kobe_corp_logo-nbgpng.png'
 
 function Footer() {
   const { language, setLanguage, t } = useLanguage()
@@ -23,8 +24,12 @@ function Footer() {
           {/* Colonne 1: À Propos */}
           <div className="lg:col-span-2">
             <NavLink to="/" className="mb-4 inline-flex items-center gap-2 transition-transform duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded-lg">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105">
-                <span className="font-display text-lg font-bold">K</span>
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105 dark:bg-slate-800 p-1.5">
+                <img
+                  src={logoImage}
+                  alt={`${companyInfo.name} Logo`}
+                  className="h-full w-full object-contain"
+                />
               </div>
               <div>
                 <p className="font-display text-lg font-semibold text-slate-900 dark:text-white">
