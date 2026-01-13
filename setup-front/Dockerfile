@@ -17,10 +17,11 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Installer les dépendances (y compris devDependencies pour le build)
-# L'erreur ETXTBSY avec esbuild peut être résolue en utilisant npm install
-# avec des options spécifiques et en nettoyant le cache
-RUN npm cache clean --force && \
-    npm install --legacy-peer-deps --prefer-offline --no-audit
+# Configurer npm pour des timeouts plus longs et retry automatique
+RUN npm config set fetch-retries 5 && \
+    npm config set fetch-retry-mintimeout 20000 && \
+    npm config set fetch-retry-maxtimeout 120000 && \
+    npm install --legacy-peer-deps --no-audit
 
 # Copier le code source
 COPY . .

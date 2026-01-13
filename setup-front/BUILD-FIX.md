@@ -10,8 +10,9 @@ L'erreur `ETXTBSY` (text file busy) avec esbuild est un problème connu dans Doc
 ## Solution appliquée
 
 Le Dockerfile a été modifié pour :
-1. Nettoyer le cache npm avant l'installation
-2. Utiliser `npm install` au lieu de `npm ci` avec `--legacy-peer-deps`
+1. Configurer npm avec des timeouts plus longs pour éviter les erreurs réseau
+2. Ajouter des retries automatiques en cas de problème réseau
+3. Utiliser `npm install` avec `--legacy-peer-deps` pour éviter les conflits de dépendances
 
 ## Solutions alternatives si le problème persiste
 
