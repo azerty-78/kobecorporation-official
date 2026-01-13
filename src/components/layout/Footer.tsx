@@ -43,21 +43,21 @@ function Footer() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
-                className="flex items-center gap-1.5 rounded-lg border-2 border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:border-brand-500 hover:bg-brand-100 hover:text-brand-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-brand-400 dark:hover:bg-brand-900/50 dark:hover:text-brand-300"
+                className="flex items-center gap-1.5 rounded-lg border-2 border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:border-brand-500 hover:bg-brand-100 hover:text-brand-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500/30 dark:border-slate-500 dark:bg-slate-800 dark:text-white dark:hover:border-brand-400 dark:hover:bg-brand-900/50 dark:hover:text-brand-300"
                 aria-label="Changer de langue"
               >
-                <GlobeAltIcon className="h-4 w-4" />
-                <span className="uppercase">{language}</span>
+                <GlobeAltIcon className="h-4 w-4 text-slate-700 dark:text-white" />
+                <span className="uppercase text-slate-700 dark:text-white">{language}</span>
               </button>
               <button
                 onClick={toggleTheme}
-                className="rounded-lg border-2 border-slate-300 bg-white p-1.5 text-slate-700 shadow-sm transition-all duration-200 hover:border-brand-500 hover:bg-brand-100 hover:text-brand-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-brand-400 dark:hover:bg-brand-900/50 dark:hover:text-brand-300"
+                className="rounded-lg border-2 border-slate-300 bg-white p-1.5 text-slate-700 shadow-sm transition-all duration-200 hover:border-brand-500 hover:bg-brand-100 hover:text-brand-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500/30 dark:border-slate-500 dark:bg-slate-800 dark:text-white dark:hover:border-brand-400 dark:hover:bg-brand-900/50 dark:hover:text-brand-300"
                 aria-label="Changer de thème"
               >
                 {theme === 'light' ? (
-                  <MoonIcon className="h-4 w-4" />
+                  <MoonIcon className="h-4 w-4 text-slate-700 dark:text-white" />
                 ) : (
-                  <SunIcon className="h-4 w-4" />
+                  <SunIcon className="h-4 w-4 text-slate-700 dark:text-white" />
                 )}
               </button>
             </div>
