@@ -3,12 +3,15 @@ import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
 import Home from './pages/Home'
 import Services from './pages/Services'
+import Programmes from './pages/Programmes'
+import About from './pages/About'
+import Portfolio from './pages/Portfolio'
 import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
 
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-radial">
+    <div className="min-h-screen bg-gradient-radial bg-slate-50 dark:bg-slate-900">
       <div className="absolute inset-0 -z-10 opacity-40 blur-3xl" />
       <Header />
       <main className="flex-1">
@@ -16,12 +19,15 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/programmes" element={<Programmes />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />
-      </div>
+    </div>
   )
 }
 
