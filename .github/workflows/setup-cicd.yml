@@ -68,8 +68,8 @@ jobs:
           
           # Lire la version depuis package.json (méthode bash pure)
           if [ -f "package.json" ]; then
-            # Extraire la version avec grep et sed (méthode plus fiable)
-            PACKAGE_VERSION=$(grep '"version"' package.json | head -1 | sed -E 's/.*"version"[[:space:]]*:[[:space:]]*"([^"]*)".*/\1/')
+            # Extraire la version avec grep et sed (méthode simple et fiable)
+            PACKAGE_VERSION=$(grep -m 1 '"version"' package.json | sed 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/')
             if [ -z "$PACKAGE_VERSION" ]; then
               PACKAGE_VERSION="0.0.0"
             fi
@@ -89,8 +89,9 @@ jobs:
           echo ""
           echo "📝 Dernier commit:"
           echo "  SHA: $(git log -1 --pretty=%H)"
-          echo "  Message: $(git log -1 --pretty=%B | head -1)"
-          echo "  Auteur: $(git log -1 --pretty=%an <%ae>)"
+          COMMIT_MSG_FIRST_LINE=$(git log -1 --pretty=%B | head -n 1)
+          echo "  Message: $COMMIT_MSG_FIRST_LINE"
+          echo "  Auteur: $(git log -1 --pretty='%an <%ae>')"
       
       - name: 📊 Analyze Changes
         id: changes
