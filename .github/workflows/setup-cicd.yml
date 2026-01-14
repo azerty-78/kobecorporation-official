@@ -36,6 +36,12 @@ jobs:
   tags:
     name: 🏷️ Create Git Tags
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      tag_created: ${{ steps.tag.outputs.created }}
+      tag_name: ${{ steps.tag.outputs.name }}
+      is_release: ${{ steps.tag.outputs.is_release }}
+    
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
@@ -43,22 +49,166 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: 📋 Tag Info
+      - name: ⚙️ Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      
+      - name: 📋 Extract Version & Info
+        id: version
         run: |
           echo "✅ Informations sur les tags Git"
-          echo "Ref: ${{ github.ref }}"
-          echo "SHA: ${{ github.sha }}"
-          echo "Branch: ${{ github.ref_name }}"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "📌 Ref: ${{ github.ref }}"
+          echo "🔖 SHA: ${{ github.sha }}"
+          echo "🌿 Branch: ${{ github.ref_name }}"
+          echo "👤 Auteur: $(git log -1 --pretty=%an)"
+          echo "📅 Date: $(git log -1 --pretty=%cd --date=format:'%Y-%m-%d %H:%M:%S')"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           
-          # Afficher les tags existants
-          git tag -l | head -10 || echo "Aucun tag trouvé"
-          
-          # Si c'est un push sur main ou master, afficher les informations
-          if [ "${{ github.ref }}" == "refs/heads/master" ] || [ "${{ github.ref }}" == "refs/heads/main" ]; then
-            echo "📌 Push sur ${{ github.ref_name }} détecté"
-            echo "Commit: ${{ github.sha }}"
-            echo "Message: $(git log -1 --pretty=%B)"
+          # Lire la version depuis package.json
+          if [ -f "package.json" ]; then
+            PACKAGE_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "0.0.0")
+            echo "📦 Version package.json: $PACKAGE_VERSION"
+            echo "version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️ package.json non trouvé, utilisation de la version par défaut"
+            echo "version=0.0.0" >> $GITHUB_OUTPUT
           fi
+          
+          # Afficher les 10 derniers tags
+          echo ""
+          echo "📋 Tags existants (10 derniers):"
+          git tag -l --sort=-version:refname | head -10 || echo "  Aucun tag trouvé"
+          
+          # Afficher les informations du commit
+          echo ""
+          echo "📝 Dernier commit:"
+          echo "  SHA: $(git log -1 --pretty=%H)"
+          echo "  Message: $(git log -1 --pretty=%B | head -1)"
+          echo "  Auteur: $(git log -1 --pretty=%an <%ae>)"
+      
+      - name: 📊 Analyze Changes
+        id: changes
+        run: |
+          echo "📊 Analyse des changements:"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          
+          # Compter les fichiers modifiés
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            FILES_CHANGED=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | wc -l)
+            echo "📁 Fichiers modifiés: $FILES_CHANGED"
+            
+            # Afficher les types de changements
+            echo ""
+            echo "📝 Types de changements:"
+            git diff --name-status ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | \
+              awk '{print "  " $1 " " $2}' | head -20 || echo "  Aucun changement détecté"
+          else
+            # Pour les pushes, comparer avec le commit précédent
+            PREV_SHA=$(git rev-parse HEAD~1 2>/dev/null || echo "")
+            if [ -n "$PREV_SHA" ]; then
+              FILES_CHANGED=$(git diff --name-only $PREV_SHA ${{ github.sha }} | wc -l)
+              echo "📁 Fichiers modifiés: $FILES_CHANGED"
+              
+              echo ""
+              echo "📝 Types de changements:"
+              git diff --name-status $PREV_SHA ${{ github.sha }} | \
+                awk '{print "  " $1 " " $2}' | head -20 || echo "  Aucun changement détecté"
+            else
+              echo "ℹ️ Premier commit de la branche"
+            fi
+          fi
+          
+          # Détecter le type de changement (feat, fix, etc.)
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          if echo "$COMMIT_MSG" | grep -qiE "^(feat|feature)"; then
+            CHANGE_TYPE="✨ Feature"
+          elif echo "$COMMIT_MSG" | grep -qiE "^(fix|bugfix)"; then
+            CHANGE_TYPE="🐛 Fix"
+          elif echo "$COMMIT_MSG" | grep -qiE "^(refactor)"; then
+            CHANGE_TYPE="♻️ Refactor"
+          elif echo "$COMMIT_MSG" | grep -qiE "^(docs|documentation)"; then
+            CHANGE_TYPE="📚 Documentation"
+          elif echo "$COMMIT_MSG" | grep -qiE "^(test)"; then
+            CHANGE_TYPE="🧪 Test"
+          elif echo "$COMMIT_MSG" | grep -qiE "^(chore)"; then
+            CHANGE_TYPE="🔧 Chore"
+          else
+            CHANGE_TYPE="📝 Update"
+          fi
+          
+          echo ""
+          echo "🏷️ Type de changement détecté: $CHANGE_TYPE"
+          echo "change_type=$CHANGE_TYPE" >> $GITHUB_OUTPUT
+      
+      - name: 🏷️ Create Git Tag
+        id: tag
+        if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          SHA="${{ github.sha }}"
+          BRANCH="${{ github.ref_name }}"
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          AUTHOR=$(git log -1 --pretty=%an)
+          DATE=$(git log -1 --pretty=%cd --date=format:'%Y-%m-%d %H:%M:%S')
+          
+          # Générer un tag avec timestamp pour éviter les doublons
+          TIMESTAMP=$(date +%Y%m%d%H%M%S)
+          SHORT_SHA=$(echo $SHA | cut -c1-7)
+          
+          # Format du tag: v{version}-{short_sha}-{timestamp}
+          TAG_NAME="v${VERSION}-${SHORT_SHA}-${TIMESTAMP}"
+          
+          # Vérifier si le tag existe déjà
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            echo "⚠️ Le tag $TAG_NAME existe déjà, utilisation d'un tag alternatif"
+            TAG_NAME="v${VERSION}-${SHORT_SHA}-${TIMESTAMP}-alt"
+          fi
+          
+          # Créer le message du tag (construit ligne par ligne pour éviter les problèmes YAML)
+          TAG_MESSAGE="Release $TAG_NAME - Commit: $SHA - Branch: $BRANCH - Auteur: $AUTHOR - Date: $DATE - Message: $COMMIT_MSG - Généré automatiquement par GitHub Actions"
+          
+          # Créer le tag annoté
+          git tag -a "$TAG_NAME" -m "$TAG_MESSAGE" "$SHA"
+          
+          echo "✅ Tag créé: $TAG_NAME"
+          echo "name=$TAG_NAME" >> $GITHUB_OUTPUT
+          echo "created=true" >> $GITHUB_OUTPUT
+          
+          # Détecter si c'est une release (version != 0.0.0)
+          if [ "$VERSION" != "0.0.0" ]; then
+            echo "is_release=true" >> $GITHUB_OUTPUT
+            echo "🎉 Release détectée (version: $VERSION)"
+          else
+            echo "is_release=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: 🚀 Push Tags
+        if: steps.tag.outputs.created == 'true'
+        run: |
+          TAG_NAME="${{ steps.tag.outputs.name }}"
+          echo "🚀 Push du tag $TAG_NAME vers le dépôt..."
+          git push origin "$TAG_NAME" || {
+            echo "⚠️ Erreur lors du push du tag, peut-être qu'il existe déjà sur le serveur"
+            exit 0  # Ne pas faire échouer le workflow si le tag existe déjà
+          }
+          echo "✅ Tag $TAG_NAME poussé avec succès"
+      
+      - name: 📋 Summary
+        run: |
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "📋 RÉSUMÉ DU JOB TAGS"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "✅ Version: ${{ steps.version.outputs.version }}"
+          if [ "${{ steps.tag.outputs.created }}" == "true" ]; then
+            echo "✅ Tag créé: ${{ steps.tag.outputs.name }}"
+            echo "🎉 Type: ${{ steps.tag.outputs.is_release == 'true' && 'Release' || 'Development Tag' }}"
+          else
+            echo "ℹ️ Aucun tag créé (PR ou branche non principale)"
+          fi
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   
   # ==========================================
   # JOB 2: Build Docker Image
