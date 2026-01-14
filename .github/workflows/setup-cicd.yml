@@ -530,7 +530,7 @@ jobs:
     if: |
       github.event_name != 'pull_request' && 
       (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') &&
-      needs.tags.outputs.is_release == 'true'
+      needs.tags.outputs.tag_created == 'true'
     
     steps:
       - name: 📥 Checkout code
@@ -543,45 +543,72 @@ jobs:
         run: |
           TAG_NAME="${{ needs.tags.outputs.tag_name }}"
           VERSION="${{ needs.tags.outputs.semantic_version }}"
-          CHANGE_TYPE="${{ needs.tags.outputs.tag_type }}"
+          TAG_TYPE="${{ needs.tags.outputs.tag_type }}"
+          IS_RELEASE="${{ needs.tags.outputs.is_release }}"
           
-          # Récupérer les commits depuis le dernier tag sémantique
-          LAST_TAG=$(git describe --tags --abbrev=0 --match "v[0-9]*" 2>/dev/null || echo "")
-          
-          if [ -n "$LAST_TAG" ]; then
-            echo "📝 Génération des notes depuis le tag $LAST_TAG"
-            COMMITS=$(git log ${LAST_TAG}..HEAD --pretty=format:"- %s (%h)" --no-merges)
+          # Déterminer si c'est une release sémantique ou un tag de développement
+          if [ "$IS_RELEASE" = "true" ] && [ -n "$VERSION" ]; then
+            RELEASE_TYPE="🎉 Release Sémantique"
+            IS_PRERELEASE="false"
+            # Récupérer les commits depuis le dernier tag sémantique
+            LAST_TAG=$(git describe --tags --abbrev=0 --match "v[0-9]*" 2>/dev/null || echo "")
+            if [ -n "$LAST_TAG" ]; then
+              echo "📝 Génération des notes depuis le tag $LAST_TAG"
+              COMMITS=$(git log ${LAST_TAG}..HEAD --pretty=format:"- %s (%h)" --no-merges)
+            else
+              echo "📝 Premier tag sémantique, récupération des 10 derniers commits"
+              COMMITS=$(git log -10 --pretty=format:"- %s (%h)" --no-merges)
+            fi
           else
-            echo "📝 Premier tag sémantique, récupération des 10 derniers commits"
+            RELEASE_TYPE="🔧 Release de Développement"
+            IS_PRERELEASE="true"
+            # Pour les tags de développement, récupérer les 10 derniers commits
+            echo "📝 Tag de développement, récupération des 10 derniers commits"
             COMMITS=$(git log -10 --pretty=format:"- %s (%h)" --no-merges)
           fi
           
-          # Créer le body de la release
-          RELEASE_BODY="## 🎉 Release $TAG_NAME
-          
-          **Version:** $VERSION
-          **Type:** $CHANGE_TYPE
-          
-          ### 📦 Image Docker
-          L'image Docker est disponible sur Docker Hub :
-          \`\`\`
-          docker pull ${{ env.DOCKER_IMAGE }}:$TAG_NAME
-          docker pull ${{ env.DOCKER_IMAGE }}:latest
-          \`\`\`
-          
-          ### 📝 Changements
-          $COMMITS
-          
-          ### 🔗 Liens
-          - **Docker Hub:** https://hub.docker.com/r/${{ env.DOCKER_IMAGE }}
-          - **Commit:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
-          
-          ---
-          *Généré automatiquement par GitHub Actions*"
-          
-          # Sauvegarder dans un fichier temporaire
-          echo "$RELEASE_BODY" > release_notes.md
-          echo "✅ Notes de release générées"
+          # Créer le body de la release en écrivant directement dans le fichier
+          {
+            if [ "$IS_RELEASE" = "true" ] && [ -n "$VERSION" ]; then
+              echo "## $RELEASE_TYPE"
+              echo ""
+              echo "**Version:** $VERSION"
+              echo "**Tag:** $TAG_NAME"
+              echo "**Type:** $TAG_TYPE"
+              echo ""
+              echo "### 📦 Image Docker"
+              echo "L'image Docker est disponible sur Docker Hub :"
+              echo "\`\`\`"
+              echo "docker pull ${{ env.DOCKER_IMAGE }}:$TAG_NAME"
+              echo "docker pull ${{ env.DOCKER_IMAGE }}:latest"
+              echo "\`\`\`"
+            else
+              echo "## $RELEASE_TYPE"
+              echo ""
+              echo "**Tag:** $TAG_NAME"
+              echo "**Type:** $TAG_TYPE"
+              echo ""
+              echo "⚠️ **Note:** Ceci est une release de développement. Pour une release de production, mettez à jour la version dans \`package.json\`."
+              echo ""
+              echo "### 📦 Image Docker"
+              echo "L'image Docker est disponible sur Docker Hub :"
+              echo "\`\`\`"
+              echo "docker pull ${{ env.DOCKER_IMAGE }}:$TAG_NAME"
+              echo "\`\`\`"
+            fi
+            echo ""
+            echo "### 📝 Changements"
+            echo "$COMMITS"
+            echo ""
+            echo "### 🔗 Liens"
+            echo "- **Docker Hub:** https://hub.docker.com/r/${{ env.DOCKER_IMAGE }}"
+            echo "- **Commit:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})"
+            echo ""
+            echo "---"
+            echo "*Généré automatiquement par GitHub Actions*"
+          } > release_notes.md
+          echo "is_prerelease=$IS_PRERELEASE" >> $GITHUB_OUTPUT
+          echo "✅ Notes de release générées (Prerelease: $IS_PRERELEASE)"
           
           # Afficher un aperçu
           echo "📄 Aperçu des notes de release:"
@@ -594,6 +621,6 @@ jobs:
           name: Release ${{ needs.tags.outputs.tag_name }}
           body_path: release_notes.md
           draft: false
-          prerelease: false
+          prerelease: ${{ steps.release_notes.outputs.is_prerelease }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
