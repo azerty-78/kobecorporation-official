@@ -12,11 +12,12 @@
 - ✅ **Plusieurs tags peuvent pointer vers la même image**
 
 **Exemple** :
+
 ```bash
 # Push 1 : Image ID abc123 avec tag "latest"
 docker push azerty78/kobecorporation-web:latest
 
-# Push 2 : Image ID def456 avec tag "latest" 
+# Push 2 : Image ID def456 avec tag "latest"
 docker push azerty78/kobecorporation-web:latest
 
 # Résultat :
@@ -28,12 +29,14 @@ docker push azerty78/kobecorporation-web:latest
 ### 2. **Limites Docker Hub**
 
 #### Plan Gratuit (Free) :
+
 - ✅ **1 repository privé** OU **illimité de repositories publics**
 - ✅ **6 mois de rétention** pour les images non utilisées
 - ⚠️ **Pas de limite de taille** mais attention à l'accumulation
 - ⚠️ **Rate limiting** : 200 pulls toutes les 6 heures (anonyme), illimité (authentifié)
 
 #### Plan Payant (Pro/Team) :
+
 - ✅ **Repositories privés illimités**
 - ✅ **Rétention illimitée**
 - ✅ **Pas de rate limiting**
@@ -41,11 +44,13 @@ docker push azerty78/kobecorporation-web:latest
 ### 3. **Problème : Accumulation d'Images**
 
 Avec votre workflow actuel, à chaque push :
+
 - Une nouvelle image est créée
 - Plusieurs tags sont créés (latest, branch-name, sha, etc.)
 - Les anciennes images restent sur Docker Hub (sans tag)
 
 **Exemple après 100 commits** :
+
 - 100 images différentes
 - Chaque image ~50-200 MB
 - **Total : 5-20 GB d'espace utilisé !**
@@ -65,7 +70,7 @@ cleanup:
   runs-on: ubuntu-latest
   needs: build
   if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-  
+
   steps:
     - name: 🗑️ Delete old untagged images
       # Utiliser l'API Docker Hub pour supprimer les images orphelines
@@ -76,6 +81,7 @@ cleanup:
 Modifier votre workflow pour créer moins de tags :
 
 **Actuellement** (beaucoup de tags) :
+
 - `latest`
 - `main` ou `master`
 - `main-{sha}`
@@ -83,6 +89,7 @@ Modifier votre workflow pour créer moins de tags :
 - `dev-{sha}-{timestamp}` (si développement)
 
 **Recommandé** (moins de tags) :
+
 - `latest` (seulement sur main)
 - `v{version}` (seulement pour les releases)
 - `dev-{sha}` (seulement pour le développement, sans timestamp)
@@ -90,6 +97,7 @@ Modifier votre workflow pour créer moins de tags :
 ### Solution 3 : Utiliser Docker Hub Retention Policies
 
 Docker Hub peut automatiquement supprimer les images :
+
 - Non utilisées depuis X jours
 - Sans tag depuis X jours
 - Basées sur des règles personnalisées
@@ -99,12 +107,14 @@ Docker Hub peut automatiquement supprimer les images :
 ### Solution 4 : Nettoyer Manuellement
 
 Via l'interface Docker Hub :
+
 1. Allez sur https://hub.docker.com/r/azerty78/kobecorporation-web
 2. Onglet "Tags"
 3. Supprimez les tags inutiles
 4. Les images orphelines seront supprimées automatiquement après 6 mois (plan gratuit)
 
 Via l'API Docker Hub :
+
 ```bash
 # Lister les tags
 curl -u azerty78:password https://hub.docker.com/v2/repositories/azerty78/kobecorporation-web/tags/
@@ -120,6 +130,7 @@ curl -X DELETE -u azerty78:password https://hub.docker.com/v2/repositories/azert
 ### Tags créés actuellement :
 
 1. **Sur chaque push vers main** :
+
    - `latest` ← **Écrase l'ancien**
    - `main` ← **Écrase l'ancien**
    - `main-{sha}` ← **Nouveau à chaque fois** (unique)
@@ -143,11 +154,13 @@ curl -X DELETE -u azerty78:password https://hub.docker.com/v2/repositories/azert
 ### Option A : Garder l'historique (Recommandé pour le développement)
 
 **Avantages** :
+
 - ✅ Peut revenir à n'importe quelle version
 - ✅ Traçabilité complète
 - ✅ Débogage facilité
 
 **Inconvénients** :
+
 - ⚠️ Accumulation d'images
 - ⚠️ Consommation d'espace
 
@@ -156,10 +169,12 @@ curl -X DELETE -u azerty78:password https://hub.docker.com/v2/repositories/azert
 ### Option B : Nettoyer automatiquement (Recommandé pour la production)
 
 **Avantages** :
+
 - ✅ Économie d'espace
 - ✅ Docker Hub plus propre
 
 **Inconvénients** :
+
 - ⚠️ Impossible de revenir aux anciennes versions
 - ⚠️ Perte de l'historique
 
@@ -168,6 +183,7 @@ curl -X DELETE -u azerty78:password https://hub.docker.com/v2/repositories/azert
 ### Option C : Hybride (Meilleur compromis)
 
 **Stratégie** :
+
 - ✅ Garder `latest` (toujours la dernière version)
 - ✅ Garder les versions sémantiques (`v1.0.0`, `v1.1.0`, etc.)
 - ✅ Supprimer les tags de développement après 30 jours
@@ -180,6 +196,7 @@ curl -X DELETE -u azerty78:password https://hub.docker.com/v2/repositories/azert
 Je peux ajouter au workflow :
 
 1. **Job de nettoyage automatique** qui :
+
    - Garde les 10 dernières images avec tag `main-{sha}`
    - Supprime les images de développement de plus de 30 jours
    - Garde toutes les versions sémantiques
