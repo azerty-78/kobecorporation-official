@@ -63,12 +63,16 @@ jobs:
           echo "🔖 SHA: ${{ github.sha }}"
           echo "🌿 Branch: ${{ github.ref_name }}"
           echo "👤 Auteur: $(git log -1 --pretty=%an)"
-          echo "📅 Date: $(git log -1 --pretty=%cd --date=format:'%Y-%m-%d %H:%M:%S')"
+          echo "📅 Date: $(git log -1 --pretty=%cd --date=format:%Y-%m-%d\ %H:%M:%S)"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           
-          # Lire la version depuis package.json
+          # Lire la version depuis package.json (méthode bash pure)
           if [ -f "package.json" ]; then
-            PACKAGE_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "0.0.0")
+            # Extraire la version avec grep et sed (méthode plus fiable)
+            PACKAGE_VERSION=$(grep '"version"' package.json | head -1 | sed -E 's/.*"version"[[:space:]]*:[[:space:]]*"([^"]*)".*/\1/')
+            if [ -z "$PACKAGE_VERSION" ]; then
+              PACKAGE_VERSION="0.0.0"
+            fi
             echo "📦 Version package.json: $PACKAGE_VERSION"
             echo "version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
           else
@@ -151,7 +155,7 @@ jobs:
           BRANCH="${{ github.ref_name }}"
           COMMIT_MSG=$(git log -1 --pretty=%B)
           AUTHOR=$(git log -1 --pretty=%an)
-          DATE=$(git log -1 --pretty=%cd --date=format:'%Y-%m-%d %H:%M:%S')
+          DATE=$(git log -1 --pretty=%cd --date=format:%Y-%m-%d\ %H:%M:%S)
           
           # Générer un tag avec timestamp pour éviter les doublons
           TIMESTAMP=$(date +%Y%m%d%H%M%S)
