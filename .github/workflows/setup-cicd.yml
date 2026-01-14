@@ -40,7 +40,9 @@ jobs:
       version: ${{ steps.version.outputs.version }}
       tag_created: ${{ steps.tag.outputs.created }}
       tag_name: ${{ steps.tag.outputs.name }}
+      tag_type: ${{ steps.tag.outputs.type }}
       is_release: ${{ steps.tag.outputs.is_release }}
+      semantic_version: ${{ steps.tag.outputs.semantic_version }}
     
     steps:
       - name: 📥 Checkout code
@@ -157,22 +159,38 @@ jobs:
           COMMIT_MSG=$(git log -1 --pretty=%B)
           AUTHOR=$(git log -1 --pretty=%an)
           DATE=$(git log -1 --pretty=%cd --date=format:%Y-%m-%d\ %H:%M:%S)
-          
-          # Générer un tag avec timestamp pour éviter les doublons
-          TIMESTAMP=$(date +%Y%m%d%H%M%S)
           SHORT_SHA=$(echo $SHA | cut -c1-7)
           
-          # Format du tag: v{version}-{short_sha}-{timestamp}
-          TAG_NAME="v${VERSION}-${SHORT_SHA}-${TIMESTAMP}"
+          # Détecter le type de changement pour déterminer le type de tag
+          CHANGE_TYPE="${{ steps.changes.outputs.change_type }}"
           
-          # Vérifier si le tag existe déjà
-          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
-            echo "⚠️ Le tag $TAG_NAME existe déjà, utilisation d'un tag alternatif"
-            TAG_NAME="v${VERSION}-${SHORT_SHA}-${TIMESTAMP}-alt"
+          # Si la version est 0.0.0, créer un tag de développement
+          # Sinon, créer un tag sémantique (v1.0.0, v1.1.0, etc.)
+          if [ "$VERSION" = "0.0.0" ]; then
+            # Tag de développement avec SHA et timestamp
+            TIMESTAMP=$(date +%Y%m%d%H%M%S)
+            TAG_NAME="dev-${SHORT_SHA}-${TIMESTAMP}"
+            TAG_TYPE="development"
+            echo "🔧 Création d'un tag de développement: $TAG_NAME"
+          else
+            # Tag sémantique basé sur la version (v1.0.0, v1.1.0, etc.)
+            TAG_NAME="v${VERSION}"
+            TAG_TYPE="semantic"
+            
+            # Vérifier si le tag sémantique existe déjà
+            if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+              echo "⚠️ Le tag sémantique $TAG_NAME existe déjà"
+              echo "ℹ️ Utilisation d'un tag de développement à la place"
+              TIMESTAMP=$(date +%Y%m%d%H%M%S)
+              TAG_NAME="dev-${SHORT_SHA}-${TIMESTAMP}"
+              TAG_TYPE="development"
+            else
+              echo "🎉 Création d'un tag sémantique: $TAG_NAME"
+            fi
           fi
           
-          # Créer le message du tag (construit ligne par ligne pour éviter les problèmes YAML)
-          TAG_MESSAGE="Release $TAG_NAME - Commit: $SHA - Branch: $BRANCH - Auteur: $AUTHOR - Date: $DATE - Message: $COMMIT_MSG - Généré automatiquement par GitHub Actions"
+          # Créer le message du tag enrichi (format simplifié pour éviter les problèmes YAML)
+          TAG_MESSAGE="Release $TAG_NAME - Version: $VERSION - Commit: $SHA - Branch: $BRANCH - Auteur: $AUTHOR - Date: $DATE - Type: $TAG_TYPE - Changement: $CHANGE_TYPE - Message: $COMMIT_MSG - Généré automatiquement par GitHub Actions"
           
           # Créer le tag annoté
           git tag -a "$TAG_NAME" -m "$TAG_MESSAGE" "$SHA"
@@ -180,13 +198,16 @@ jobs:
           echo "✅ Tag créé: $TAG_NAME"
           echo "name=$TAG_NAME" >> $GITHUB_OUTPUT
           echo "created=true" >> $GITHUB_OUTPUT
+          echo "type=$TAG_TYPE" >> $GITHUB_OUTPUT
           
-          # Détecter si c'est une release (version != 0.0.0)
-          if [ "$VERSION" != "0.0.0" ]; then
+          # Détecter si c'est une release sémantique (version != 0.0.0 et tag sémantique)
+          if [ "$VERSION" != "0.0.0" ] && [ "$TAG_TYPE" = "semantic" ]; then
             echo "is_release=true" >> $GITHUB_OUTPUT
-            echo "🎉 Release détectée (version: $VERSION)"
+            echo "semantic_version=$VERSION" >> $GITHUB_OUTPUT
+            echo "🎉 Release sémantique détectée (version: $VERSION)"
           else
             echo "is_release=false" >> $GITHUB_OUTPUT
+            echo "semantic_version=" >> $GITHUB_OUTPUT
           fi
       
       - name: 🚀 Push Tags
@@ -209,7 +230,14 @@ jobs:
           echo "✅ Version: ${{ steps.version.outputs.version }}"
           if [ "${{ steps.tag.outputs.created }}" == "true" ]; then
             echo "✅ Tag créé: ${{ steps.tag.outputs.name }}"
-            echo "🎉 Type: ${{ steps.tag.outputs.is_release == 'true' && 'Release' || 'Development Tag' }}"
+            echo "🏷️  Type de tag: ${{ steps.tag.outputs.type }}"
+            if [ "${{ steps.tag.outputs.is_release }}" == "true" ]; then
+              echo "🎉 Release sémantique: ${{ steps.tag.outputs.semantic_version }}"
+              echo "📦 L'image Docker sera taggée avec: ${{ steps.tag.outputs.tag_name }}"
+              echo "🚀 Une release GitHub sera créée automatiquement"
+            else
+              echo "🔧 Tag de développement créé"
+            fi
           else
             echo "ℹ️ Aucun tag créé (PR ou branche non principale)"
           fi
@@ -285,19 +313,25 @@ jobs:
           }
           echo "✅ Pull de node:22.13.1-alpine réussi"
       
-      # Étape 4: Extract metadata (tags, labels)
+      # Étape 4: Extract metadata (tags, labels) avec intégration des tags Git
       - name: 📋 Extract metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.DOCKER_IMAGE }}
           tags: |
+            # Tags Git (prioritaires si disponibles)
+            type=raw,value=${{ needs.tags.outputs.tag_name }},enable=${{ needs.tags.outputs.tag_created }}
+            # Tags sémantiques basés sur la version
+            type=semver,pattern={{version}},enable=${{ needs.tags.outputs.is_release }}
+            type=semver,pattern={{major}}.{{minor}},enable=${{ needs.tags.outputs.is_release }}
+            # Tags de branche et SHA (fallback)
             type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
             type=sha,prefix={{branch}}-
+            # Tag latest uniquement sur la branche principale
             type=raw,value=latest,enable={{is_default_branch}}
+            # Tags pour les PRs
+            type=ref,event=pr
       
       # Étape 5: Lire les variables depuis le fichier .env
       - name: 📄 Load environment variables
@@ -485,3 +519,81 @@ jobs:
           echo "✅ Container started successfully!"
           docker stop test-container
           docker rm test-container
+
+  # ==========================================
+  # JOB 4: Create GitHub Release
+  # ==========================================
+  release:
+    name: 🚀 Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [tags, build]
+    if: |
+      github.event_name != 'pull_request' && 
+      (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') &&
+      needs.tags.outputs.is_release == 'true'
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: 📋 Generate Release Notes
+        id: release_notes
+        run: |
+          TAG_NAME="${{ needs.tags.outputs.tag_name }}"
+          VERSION="${{ needs.tags.outputs.semantic_version }}"
+          CHANGE_TYPE="${{ needs.tags.outputs.tag_type }}"
+          
+          # Récupérer les commits depuis le dernier tag sémantique
+          LAST_TAG=$(git describe --tags --abbrev=0 --match "v[0-9]*" 2>/dev/null || echo "")
+          
+          if [ -n "$LAST_TAG" ]; then
+            echo "📝 Génération des notes depuis le tag $LAST_TAG"
+            COMMITS=$(git log ${LAST_TAG}..HEAD --pretty=format:"- %s (%h)" --no-merges)
+          else
+            echo "📝 Premier tag sémantique, récupération des 10 derniers commits"
+            COMMITS=$(git log -10 --pretty=format:"- %s (%h)" --no-merges)
+          fi
+          
+          # Créer le body de la release
+          RELEASE_BODY="## 🎉 Release $TAG_NAME
+          
+          **Version:** $VERSION
+          **Type:** $CHANGE_TYPE
+          
+          ### 📦 Image Docker
+          L'image Docker est disponible sur Docker Hub :
+          \`\`\`
+          docker pull ${{ env.DOCKER_IMAGE }}:$TAG_NAME
+          docker pull ${{ env.DOCKER_IMAGE }}:latest
+          \`\`\`
+          
+          ### 📝 Changements
+          $COMMITS
+          
+          ### 🔗 Liens
+          - **Docker Hub:** https://hub.docker.com/r/${{ env.DOCKER_IMAGE }}
+          - **Commit:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+          
+          ---
+          *Généré automatiquement par GitHub Actions*"
+          
+          # Sauvegarder dans un fichier temporaire
+          echo "$RELEASE_BODY" > release_notes.md
+          echo "✅ Notes de release générées"
+          
+          # Afficher un aperçu
+          echo "📄 Aperçu des notes de release:"
+          head -20 release_notes.md
+      
+      - name: 🚀 Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ needs.tags.outputs.tag_name }}
+          name: Release ${{ needs.tags.outputs.tag_name }}
+          body_path: release_notes.md
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
