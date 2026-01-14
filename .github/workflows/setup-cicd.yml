@@ -19,6 +19,13 @@ on:
   workflow_dispatch:  # Permet de déclencher manuellement depuis GitHub
 
 # ==========================================
+# PERMISSIONS
+# ==========================================
+permissions:
+  contents: write  # Nécessaire pour créer des releases et pousser des tags
+  packages: write  # Nécessaire pour pousser des images Docker (si utilisé)
+
+# ==========================================
 # VARIABLES GLOBALES
 # ==========================================
 env:
@@ -537,6 +544,31 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 🔍 Verify Tag Exists
+        run: |
+          TAG_NAME="${{ needs.tags.outputs.tag_name }}"
+          echo "🔍 Vérification que le tag $TAG_NAME existe sur le dépôt distant..."
+          
+          # Récupérer les tags du dépôt distant
+          git fetch --tags
+          
+          # Vérifier que le tag existe
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            echo "✅ Tag $TAG_NAME trouvé localement"
+          else
+            echo "⚠️ Tag $TAG_NAME non trouvé localement, tentative de récupération..."
+            git fetch origin tag "$TAG_NAME" || {
+              echo "❌ Erreur: Le tag $TAG_NAME n'existe pas sur le dépôt distant"
+              echo "ℹ️ Le tag doit être poussé avant de créer la release"
+              exit 1
+            }
+          fi
+          
+          # Afficher les informations du tag
+          echo "📋 Informations du tag:"
+          git show "$TAG_NAME" --no-patch --format="  SHA: %H%n  Auteur: %an%n  Date: %ad" || echo "  Impossible d'afficher les informations"
       
       - name: 📋 Generate Release Notes
         id: release_notes
@@ -622,6 +654,6 @@ jobs:
           body_path: release_notes.md
           draft: false
           prerelease: ${{ steps.release_notes.outputs.is_prerelease }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          generate_release_notes: false
 
