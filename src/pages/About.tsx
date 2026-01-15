@@ -259,20 +259,18 @@ function EngagementCard({ item, index }: { item: any; index: number }) {
   return (
     <div
       ref={elementRef}
-      className={`group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl ${
+      className={`flex items-start gap-4 transition-all duration-700 ${
         isVisible
-          ? 'translate-y-0 opacity-100'
-          : 'translate-y-8 opacity-0'
+          ? 'translate-x-0 opacity-100'
+          : '-translate-x-4 opacity-0'
       }`}
       style={{ transitionDelay: `${index * 100}ms` }}
     >
-      <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-      <div className="relative">
-        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
-          {item.icon}
-        </div>
-        <h3 className="mb-2 font-semibold text-ink transition-colors duration-300 group-hover:text-brand-600">
+      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-brand-50 transition-all duration-300 hover:scale-110">
+        {item.icon}
+      </div>
+      <div>
+        <h3 className="mb-2 font-semibold text-ink">
           {item.title}
         </h3>
         <p className="text-sm leading-relaxed text-slate-600">
@@ -914,33 +912,9 @@ function About() {
                     ? 'Accompagnement au-delà de la livraison, évolution de votre solution et support continu.'
                     : 'Support beyond delivery, evolution of your solution and continuous support.',
                 },
-              ].map((item, index) => {
-                const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
-                return (
-                  <div
-                    key={index}
-                    ref={elementRef}
-                    className={`flex items-start gap-4 transition-all duration-700 ${
-                      isVisible
-                        ? 'translate-x-0 opacity-100'
-                        : '-translate-x-4 opacity-0'
-                    }`}
-                    style={{ transitionDelay: `${index * 100}ms` }}
-                  >
-                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-brand-50 transition-all duration-300 hover:scale-110">
-                      {item.icon}
-                    </div>
-                    <div>
-                      <h3 className="mb-2 font-semibold text-ink">
-                        {item.title}
-                      </h3>
-                      <p className="text-sm leading-relaxed text-slate-600">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                )
-              })}
+              ].map((item, index) => (
+                <EngagementCard key={index} item={item} index={index} />
+              ))}
             </div>
           </div>
         </div>

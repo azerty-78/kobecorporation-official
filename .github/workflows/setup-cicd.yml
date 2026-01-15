@@ -328,13 +328,14 @@ jobs:
           images: ${{ env.DOCKER_IMAGE }}
           tags: |
             # Tags Git (prioritaires si disponibles)
-            type=raw,value=${{ needs.tags.outputs.tag_name }},enable=${{ needs.tags.outputs.tag_created == 'true' }}
+            type=raw,value=${{ needs.tags.outputs.tag_name }},enable=${{ needs.tags.outputs.tag_created == 'true' && needs.tags.outputs.tag_name != '' }}
             # Tags sémantiques basés sur la version
             type=semver,pattern={{version}},enable=${{ needs.tags.outputs.is_release == 'true' }}
             type=semver,pattern={{major}}.{{minor}},enable=${{ needs.tags.outputs.is_release == 'true' }}
-            # Tags de branche et SHA (fallback)
+            # Tags de branche (fallback)
             type=ref,event=branch
-            type=sha,prefix={{branch}}-
+            # Tag SHA avec préfixe de branche (fallback) - s'assurer que le préfixe est valide
+            type=sha,prefix=${{ github.ref_name }}-
             # Tag latest uniquement sur la branche principale
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' }}
             # Tags pour les PRs
@@ -417,11 +418,23 @@ jobs:
             TAGS="${{ env.DOCKER_IMAGE }}:latest ${{ env.DOCKER_IMAGE }}:${{ github.sha }}"
           fi
           
-          # Construire les arguments --tag
+          # Construire les arguments --tag en filtrant les tags invalides
           TAG_ARGS=""
           for tag in $TAGS; do
-            TAG_ARGS="$TAG_ARGS --tag $tag"
+            # Vérifier que le tag est valide (non vide, ne commence pas par un tiret, format valide)
+            if [ -n "$tag" ] && [ "${tag#-}" = "$tag" ] && echo "$tag" | grep -qE '^[^:]+:[^:]+$'; then
+              TAG_ARGS="$TAG_ARGS --tag $tag"
+              echo "✅ Tag valide ajouté: $tag"
+            else
+              echo "⚠️ Tag invalide ignoré: $tag"
+            fi
           done
+          
+          # Vérifier qu'au moins un tag valide a été ajouté
+          if [ -z "$TAG_ARGS" ]; then
+            echo "❌ Aucun tag valide trouvé, utilisation du tag par défaut"
+            TAG_ARGS="--tag ${{ env.DOCKER_IMAGE }}:latest"
+          fi
           
           # Construire l'image (le contexte "." devrait maintenant exister)
           # Utiliser --pull pour forcer le pull des images de base avec authentification
@@ -440,8 +453,13 @@ jobs:
           # Push l'image si ce n'est pas une PR
           if [ "${{ github.event_name }}" != "pull_request" ]; then
             for tag in $TAGS; do
-              echo "Pushing $tag..."
-              docker push $tag
+              # Vérifier que le tag est valide avant de push
+              if [ -n "$tag" ] && [ "${tag#-}" = "$tag" ] && echo "$tag" | grep -qE '^[^:]+:[^:]+$'; then
+                echo "Pushing $tag..."
+                docker push "$tag" || echo "⚠️ Erreur lors du push de $tag"
+              else
+                echo "⚠️ Tag invalide ignoré lors du push: $tag"
+              fi
             done
           fi
       
