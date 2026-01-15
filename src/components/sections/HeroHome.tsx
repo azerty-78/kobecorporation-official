@@ -1,48 +1,8 @@
 import { NavLink } from 'react-router-dom'
 import { ArrowRightIcon, SparklesIcon } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
-import { companyInfo, chiffres } from '../../data/siteContent'
+import { companyInfo } from '../../data/siteContent'
 import { useScrollAnimation } from '../../hooks/useScrollAnimation'
-import { useCounter } from '../../hooks/useCounter'
-
-interface StatCounterProps {
-  item: { label: string; labelEn: string; value: string }
-  isActive: boolean
-  language: 'fr' | 'en'
-}
-
-function StatCounter({ item, isActive, language }: StatCounterProps) {
-  const numericValue = parseFloat(item.value.replace(/[^0-9.]/g, ''))
-  const counter = useCounter(numericValue, isActive, {
-    duration: 2000,
-    start: 0,
-    decimals: item.value.includes('.') ? 1 : 0,
-  })
-
-  return (
-    <div className="group relative flex flex-col transition-all duration-500 hover:scale-110 hover:translate-y-[-4px]">
-      {/* Effet de brillance au hover */}
-      <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-brand-400 via-brand-500 to-brand-600 opacity-0 blur transition-opacity duration-500 group-hover:opacity-20" />
-      
-      <div className="relative">
-        <span className="font-display text-3xl text-ink transition-all duration-300 group-hover:text-brand-600">
-          {item.value.includes('+')
-            ? `${counter.toLocaleString()}+`
-            : item.value.includes('%')
-            ? `${counter}%`
-            : item.value.includes('K')
-            ? `${counter}K`
-            : item.value.includes('/')
-            ? item.value
-            : counter.toLocaleString()}
-        </span>
-        <span className="block text-sm text-slate-500 transition-colors duration-300 group-hover:text-slate-700">
-          {language === 'fr' ? item.label : item.labelEn}
-        </span>
-      </div>
-    </div>
-  )
-}
 
 function HeroHome() {
   const { language, t } = useLanguage()
@@ -125,7 +85,8 @@ function HeroHome() {
             <span className="relative z-10">{t('home.hero.cta2')}</span>
           </NavLink>
         </div>
-        <div
+        {/* Statistiques masquées temporairement - entreprise en création */}
+        {/* <div
           className={`flex flex-wrap gap-6 pt-4 transition-all duration-1000 delay-600 ${
             isVisible
               ? 'translate-y-0 opacity-100'
@@ -140,7 +101,7 @@ function HeroHome() {
               language={language}
             />
           ))}
-        </div>
+        </div> */}
       </div>
       <div
         className={`group glass-panel relative overflow-hidden rounded-3xl p-8 transition-all duration-1000 delay-700 hover:shadow-2xl ${

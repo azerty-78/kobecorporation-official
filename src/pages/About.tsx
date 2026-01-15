@@ -1,5 +1,5 @@
 import { useLanguage } from '../contexts/LanguageContext'
-import { companyInfo, valeurs, chiffres } from '../data/siteContent'
+import { companyInfo, valeurs } from '../data/siteContent'
 import {
   CheckBadgeIcon,
   ShieldCheckIcon,
@@ -142,53 +142,7 @@ function DifferentiateurCard({ item, index }: { item: any; index: number }) {
   )
 }
 
-// Composant pour les statistiques
-function StatCard({ stat, index, language }: { stat: any; index: number; language: 'fr' | 'en' }) {
-  const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
-  
-  return (
-    <div
-      ref={elementRef}
-      className={`group/stat text-center transition-all duration-700 hover:-translate-y-1 ${
-        isVisible
-          ? 'translate-y-0 opacity-100'
-          : 'translate-y-8 opacity-0'
-      }`}
-      style={{ transitionDelay: `${index * 150}ms` }}
-    >
-      <p className="mb-2 font-display text-4xl text-brand-600 transition-all duration-300 group-hover/stat:scale-110 group-hover/stat:text-brand-700">
-        {stat.value}
-      </p>
-      <p className="text-sm text-slate-600">
-        {language === 'fr' ? stat.label : stat.labelEn}
-      </p>
-    </div>
-  )
-}
-
-// Composant pour les statistiques supplémentaires
-function ExtraStatCard({ stat, index, language }: { stat: any; index: number; language: 'fr' | 'en' }) {
-  const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
-  
-  return (
-    <div
-      ref={elementRef}
-      className={`group/stat glass-panel rounded-2xl p-6 text-center transition-all duration-700 hover:-translate-y-2 hover:shadow-xl ${
-        isVisible
-          ? 'translate-y-0 opacity-100'
-          : 'translate-y-8 opacity-0'
-      }`}
-      style={{ transitionDelay: `${(index + 4) * 150}ms` }}
-    >
-      <p className="mb-2 font-display text-3xl font-bold text-brand-600 transition-all duration-300 group-hover/stat:scale-110">
-        {stat.value}
-      </p>
-      <p className="text-sm font-medium text-slate-600">
-        {language === 'fr' ? stat.label : stat.labelEn}
-      </p>
-    </div>
-  )
-}
+// Composants de statistiques masqués temporairement
 
 // Composant pour les garanties
 function GuaranteeCard({ item, index }: { item: any; index: number }) {
@@ -363,27 +317,56 @@ function About() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
-      {/* Introduction avec animations */}
+      {/* Hero Section améliorée avec animations */}
       <div
         ref={introRef}
-        className={`mb-20 space-y-6 text-center transition-all duration-1000 ${
+        className={`group relative mb-20 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-50 via-white to-brand-100/50 p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
           introVisible
             ? 'translate-y-0 opacity-100'
             : 'translate-y-8 opacity-0'
         }`}
       >
-        <div className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-sm">
-          <RocketLaunchIcon className="h-4 w-4 animate-pulse" />
-          <span>{language === 'fr' ? 'À Propos' : 'About'}</span>
+        {/* Gradient animé en arrière-plan */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-400/10 animate-gradient-shift" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/20 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+        
+        {/* Particules animées */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-10 left-10 h-2 w-2 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '0s' }} />
+          <div className="absolute top-20 right-20 h-1.5 w-1.5 rounded-full bg-brand-300 animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute bottom-20 left-20 h-2.5 w-2.5 rounded-full bg-brand-500 animate-pulse" style={{ animationDelay: '2s' }} />
+          <div className="absolute bottom-10 right-10 h-1 w-1 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '3s' }} />
         </div>
-        <h1 className="font-display text-4xl text-ink transition-all duration-1000 delay-200 md:text-5xl lg:text-6xl">
-          {language === 'fr' ? 'Notre Histoire' : 'Our Story'}
-        </h1>
-        <p className="mx-auto max-w-3xl text-lg leading-relaxed text-slate-600 transition-all duration-1000 delay-300">
-          {language === 'fr'
-            ? 'Découvrez l\'histoire, les valeurs et la vision qui guident KOBE Corporation dans sa mission de transformation technologique.'
-            : 'Discover the story, values and vision that guide KOBE Corporation in its mission of technological transformation.'}
-        </p>
+        
+        <div className="relative space-y-6">
+          <div
+            className={`group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-sm transition-all duration-700 delay-100 ${
+              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+            }`}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent translate-x-[-100%] group-hover/badge:translate-x-[100%] transition-transform duration-1000" />
+            <RocketLaunchIcon className="relative z-10 h-4 w-4 animate-pulse transition-transform duration-300 group-hover/badge:rotate-12" />
+            <span className="relative z-10">{language === 'fr' ? 'À Propos' : 'About'}</span>
+          </div>
+          
+          <h1
+            className={`font-display text-4xl leading-tight text-ink transition-all duration-1000 delay-200 md:text-5xl lg:text-6xl ${
+              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+            }`}
+          >
+            {language === 'fr' ? 'Notre Histoire' : 'Our Story'}
+          </h1>
+          
+          <p
+            className={`mx-auto max-w-3xl text-lg leading-relaxed text-slate-600 transition-all duration-1000 delay-300 ${
+              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+            }`}
+          >
+            {language === 'fr'
+              ? 'Découvrez l\'histoire, les valeurs et la vision qui guident KOBE Corporation dans sa mission de transformation technologique.'
+              : 'Discover the story, values and vision that guide KOBE Corporation in its mission of technological transformation.'}
+          </p>
+        </div>
       </div>
 
       {/* Histoire avec timeline verticale responsive */}
@@ -665,10 +648,9 @@ function About() {
         </div>
       </section>
 
-      {/* Chiffres & Impact avec animations enrichis */}
-      <section className="mb-24">
+      {/* Chiffres & Impact - Masqués temporairement (entreprise en création) */}
+      {/* <section className="mb-24">
         <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 shadow-xl transition-all duration-700 hover:shadow-2xl md:p-12">
-          {/* Gradient animé */}
           <div className="absolute inset-0 bg-gradient-to-br from-brand-500/10 via-white to-brand-100/30 animate-gradient-shift" />
           <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/20 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
 
@@ -682,7 +664,6 @@ function About() {
               ))}
             </div>
             
-            {/* Statistiques supplémentaires */}
             <div className="mt-12 grid gap-6 md:grid-cols-3">
               {[
                 { value: '200+', label: language === 'fr' ? 'Projets livrés' : 'Projects delivered', labelEn: 'Projects delivered' },
@@ -694,7 +675,7 @@ function About() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Garanties & Certifications */}
       <section className="mb-24">

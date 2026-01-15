@@ -37,19 +37,36 @@ function Portfolio() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
-      {/* Introduction */}
-      <div className="mb-16 space-y-4 text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">
-          {language === 'fr' ? 'Portfolio' : 'Portfolio'}
-        </p>
-        <h1 className="font-display text-4xl text-ink md:text-5xl">
-          {language === 'fr' ? 'Nos Réalisations' : 'Our Achievements'}
-        </h1>
-        <p className="mx-auto max-w-3xl text-lg text-slate-600">
-          {language === 'fr'
-            ? 'Découvrez les projets sur lesquels nous avons travaillé'
-            : 'Discover the projects we have worked on'}
-        </p>
+      {/* Hero Section améliorée avec animations */}
+      <div className="group relative mb-16 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-50 via-white to-brand-100/50 p-12 text-center shadow-xl md:p-16">
+        {/* Gradient animé en arrière-plan */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-400/10 animate-gradient-shift" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/20 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+        
+        {/* Particules animées */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-10 left-10 h-2 w-2 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '0s' }} />
+          <div className="absolute top-20 right-20 h-1.5 w-1.5 rounded-full bg-brand-300 animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute bottom-20 left-20 h-2.5 w-2.5 rounded-full bg-brand-500 animate-pulse" style={{ animationDelay: '2s' }} />
+          <div className="absolute bottom-10 right-10 h-1 w-1 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '3s' }} />
+        </div>
+        
+        <div className="relative space-y-4">
+          <div className="group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-sm">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent translate-x-[-100%] group-hover/badge:translate-x-[100%] transition-transform duration-1000" />
+            <span className="relative z-10 uppercase tracking-[0.2em]">{language === 'fr' ? 'Portfolio' : 'Portfolio'}</span>
+          </div>
+          
+          <h1 className="font-display text-4xl leading-tight text-ink md:text-5xl lg:text-6xl">
+            {language === 'fr' ? 'Nos Réalisations' : 'Our Achievements'}
+          </h1>
+          
+          <p className="mx-auto max-w-3xl text-lg leading-relaxed text-slate-600">
+            {language === 'fr'
+              ? 'Découvrez les projets sur lesquels nous avons travaillé'
+              : 'Discover the projects we have worked on'}
+          </p>
+        </div>
       </div>
 
       {/* Filtres */}
