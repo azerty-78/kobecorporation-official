@@ -10,15 +10,14 @@ function NotFound() {
       {/* Hero Section améliorée */}
       <div
         ref={elementRef}
-        className={`group relative w-full overflow-hidden rounded-3xl bg-gradient-to-br from-brand-50 via-white to-brand-100/50 p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
+        className={`group relative w-full overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
           isVisible
             ? 'translate-y-0 opacity-100'
             : 'translate-y-8 opacity-0'
         }`}
       >
-        {/* Gradient animé en arrière-plan */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-400/10 animate-gradient-shift" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/20 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+        {/* Fond blanc pur */}
+        <div className="absolute inset-0 bg-white" />
         
         {/* Particules animées */}
         <div className="absolute inset-0 opacity-20">

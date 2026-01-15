@@ -38,10 +38,9 @@ function Portfolio() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
       {/* Hero Section améliorée avec animations */}
-      <div className="group relative mb-16 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-50 via-white to-brand-100/50 p-12 text-center shadow-xl md:p-16">
-        {/* Gradient animé en arrière-plan */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-400/10 animate-gradient-shift" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/20 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+      <div className="group relative mb-16 overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl md:p-16">
+        {/* Fond blanc pur */}
+        <div className="absolute inset-0 bg-white" />
         
         {/* Particules animées */}
         <div className="absolute inset-0 opacity-20">

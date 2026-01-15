@@ -28,21 +28,21 @@ function ContactSection({ id = 'contact' }: ContactSectionProps) {
         </a>
       </div>
       <div className="grid gap-6 md:grid-cols-3">
-        <div className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
+        <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
           <PhoneIcon className="h-5 w-5 text-brand-500" />
           <div>
             <p className="text-sm text-slate-500">Téléphone</p>
             <p className="font-semibold text-ink">+225 XX XX XX XX</p>
           </div>
         </div>
-        <div className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
+        <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
           <EnvelopeIcon className="h-5 w-5 text-brand-500" />
           <div>
             <p className="text-sm text-slate-500">E-mail</p>
             <p className="font-semibold text-ink">contact@kobecorporation.com</p>
           </div>
         </div>
-        <div className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
+        <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
           <BuildingOffice2Icon className="h-5 w-5 text-brand-500" />
           <div>
             <p className="text-sm text-slate-500">Adresse</p>

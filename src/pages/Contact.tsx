@@ -98,7 +98,7 @@ function FAQItem({ faq, index, isOpen, onToggle }: { faq: { question: string; an
           </h4>
         </div>
         <div className={`flex-shrink-0 rounded-lg p-1 transition-all duration-300 ${
-          isOpen ? 'bg-brand-100 rotate-180' : 'bg-slate-100 group-hover/faq:bg-brand-50'
+          isOpen ? 'bg-brand-100 rotate-180' : 'bg-white border border-slate-200 group-hover/faq:bg-brand-50'
         }`}>
           <ChevronDownIcon className={`h-5 w-5 transition-colors duration-300 ${
             isOpen ? 'text-brand-600' : 'text-slate-600'
@@ -296,15 +296,14 @@ function Contact() {
       {/* Hero Section améliorée avec animations */}
       <div
         ref={introRef}
-        className={`group relative mb-20 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-50 via-white to-brand-100/50 p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
+        className={`group relative mb-20 overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
           introVisible
             ? 'translate-y-0 opacity-100'
             : 'translate-y-8 opacity-0'
         }`}
       >
-        {/* Gradient animé en arrière-plan */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-400/10 animate-gradient-shift" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/20 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+        {/* Fond blanc pur */}
+        <div className="absolute inset-0 bg-white" />
         
         {/* Particules animées */}
         <div className="absolute inset-0 opacity-20">
@@ -350,9 +349,8 @@ function Contact() {
         {/* Formulaire de Contact amélioré - Prend plus d'espace */}
         <div className="lg:col-span-2">
           <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 shadow-xl transition-all duration-700 hover:shadow-2xl md:p-10">
-            {/* Gradient animé */}
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-white to-brand-100/30 animate-gradient-shift" />
-            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/10 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+            {/* Fond blanc pur */}
+            <div className="absolute inset-0 bg-white" />
 
             <div className="relative">
               <h2 className="mb-6 font-display text-2xl text-ink md:text-3xl">
@@ -570,7 +568,7 @@ function Contact() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 rounded-xl bg-slate-50 p-4">
+                <div className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
                   <input
                     type="checkbox"
                     id="consent"

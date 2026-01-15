@@ -192,15 +192,14 @@ function Services() {
       {/* Hero Section améliorée avec animations */}
       <div 
         ref={introRef}
-        className={`group relative mb-20 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-50 via-white to-brand-100/50 p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
+        className={`group relative mb-20 overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
           introVisible
             ? 'translate-y-0 opacity-100'
             : 'translate-y-8 opacity-0'
         }`}
       >
-        {/* Gradient animé en arrière-plan */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-400/10 animate-gradient-shift" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/20 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+        {/* Fond blanc pur */}
+        <div className="absolute inset-0 bg-white" />
         
         {/* Particules animées */}
         <div className="absolute inset-0 opacity-20">
@@ -694,7 +693,7 @@ function Services() {
       <div className="mt-32">
         <div className="group glass-panel relative mx-auto max-w-4xl overflow-hidden rounded-3xl p-10 shadow-xl transition-all duration-700 hover:shadow-2xl md:p-16">
           {/* Gradient animé */}
-          <div className="absolute inset-0 bg-gradient-to-br from-brand-500/10 via-white to-brand-100/30 animate-gradient-shift" />
+          <div className="absolute inset-0 bg-white" />
           <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/20 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
           
           {/* Particules décoratives */}
