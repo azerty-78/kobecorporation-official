@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { programmes } from '../data/siteContent'
 import {
@@ -179,19 +178,6 @@ const programmeDetails = {
 function Programmes() {
   const { language } = useLanguage()
   const { elementRef: introRef, isVisible: introVisible } = useScrollAnimation({ threshold: 0.2 })
-
-  useEffect(() => {
-    // Scroll vers l'ancre si présente dans l'URL
-    const hash = window.location.hash
-    if (hash) {
-      const element = document.querySelector(hash)
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }, 100)
-      }
-    }
-  }, [])
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
