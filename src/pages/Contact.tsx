@@ -3,10 +3,19 @@ import { useLanguage } from '../contexts/LanguageContext'
 import { companyInfo, contactInfo } from '../data/siteContent'
 import {
   PaperClipIcon,
+  CheckCircleIcon,
+  XCircleIcon,
+  RocketLaunchIcon,
+  ClockIcon,
+  CheckIcon,
 } from '@heroicons/react/24/outline'
+import { useScrollAnimation } from '../hooks/useScrollAnimation'
+import { WhatsAppIcon, FacebookIcon, LinkedInIcon, InstagramIcon } from '../components/icons/SocialIcons'
 
 function Contact() {
   const { language } = useLanguage()
+  const { elementRef: introRef, isVisible: introVisible } = useScrollAnimation({ threshold: 0.2 })
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -86,58 +95,83 @@ function Contact() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
-      {/* Hero Section */}
-      <div className="mb-16 space-y-4 text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">
-          {language === 'fr' ? 'Contact' : 'Contact'}
-        </p>
-        <h1 className="font-display text-4xl text-ink md:text-5xl">
+      {/* Hero Section avec animations */}
+      <div
+        ref={introRef}
+        className={`mb-20 space-y-6 text-center transition-all duration-1000 ${
+          introVisible
+            ? 'translate-y-0 opacity-100'
+            : 'translate-y-8 opacity-0'
+        }`}
+      >
+        <div className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-sm">
+          <RocketLaunchIcon className="h-4 w-4 animate-pulse" />
+          <span>{language === 'fr' ? 'Contact' : 'Contact'}</span>
+        </div>
+        <h1 className="font-display text-4xl text-ink transition-all duration-1000 delay-200 md:text-5xl lg:text-6xl">
           {language === 'fr' ? 'Contactez-Nous' : 'Contact Us'}
         </h1>
-        <p className="mx-auto max-w-3xl text-lg text-slate-600">
+        <p className="mx-auto max-w-3xl text-lg leading-relaxed text-slate-600 transition-all duration-1000 delay-300">
           {language === 'fr'
-            ? 'Nous sommes disponibles 24/7 pour répondre à vos besoins'
-            : 'We are available 24/7 to meet your needs'}
+            ? 'Nous sommes disponibles 24/7 pour répondre à vos besoins. Discutons de votre projet et découvrons comment nous pouvons vous accompagner.'
+            : 'We are available 24/7 to meet your needs. Let\'s discuss your project and discover how we can support you.'}
         </p>
       </div>
 
       <div className="grid gap-12 lg:grid-cols-3">
-        {/* Informations de Contact */}
+        {/* Informations de Contact avec animations */}
         <div className="space-y-6">
           <div>
-            <h2 className="mb-6 font-display text-2xl text-ink">
+            <h2 className="mb-6 font-display text-2xl text-ink md:text-3xl">
               {language === 'fr' ? 'Informations de Contact' : 'Contact Information'}
             </h2>
             <div className="space-y-4">
-              {contactInfo.map((info, index) => (
-                <div
-                  key={index}
-                  className="glass-panel flex items-start gap-3 rounded-2xl p-4"
-                >
-                  <div className="mt-0.5">{info.icon}</div>
-                  <div>
-                    <p className="text-xs text-slate-500">
-                      {language === 'fr' ? info.label : info.labelEn}
-                    </p>
-                    {info.link ? (
-                      <a
-                        href={info.link}
-                        className="text-sm font-semibold text-ink transition hover:text-brand-600"
-                      >
-                        {info.value}
-                      </a>
-                    ) : (
-                      <p className="text-sm font-semibold text-ink">
-                        {info.value}
+              {contactInfo.map((info, index) => {
+                const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+                return (
+                  <div
+                    key={index}
+                    ref={elementRef}
+                    className={`group glass-panel relative overflow-hidden flex items-start gap-3 rounded-2xl p-5 transition-all duration-700 hover:-translate-y-1 hover:shadow-xl ${
+                      isVisible
+                        ? 'translate-y-0 opacity-100'
+                        : 'translate-y-8 opacity-0'
+                    }`}
+                    style={{ transitionDelay: `${index * 100}ms` }}
+                  >
+                    {/* Ligne décorative */}
+                    <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
+                    
+                    {/* Gradient au hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                    
+                    <div className="relative flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-brand-50 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
+                      {info.icon}
+                    </div>
+                    <div className="flex-1">
+                      <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        {language === 'fr' ? info.label : info.labelEn}
                       </p>
-                    )}
+                      {info.link ? (
+                        <a
+                          href={info.link}
+                          className="text-sm font-semibold text-ink transition-colors duration-300 hover:text-brand-600"
+                        >
+                          {info.value}
+                        </a>
+                      ) : (
+                        <p className="text-sm font-semibold text-ink">
+                          {info.value}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
 
-          {/* Réseaux Sociaux */}
+          {/* Réseaux Sociaux améliorés */}
           <div>
             <h3 className="mb-4 text-sm font-semibold text-ink">
               {language === 'fr' ? 'Suivez-Nous' : 'Follow Us'}
@@ -147,291 +181,357 @@ function Contact() {
                 href={companyInfo.social.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-brand-300 hover:text-brand-600"
+                className="group/social flex h-12 w-12 items-center justify-center rounded-xl bg-[#25D366]/10 text-[#25D366] transition-all duration-300 hover:scale-110 hover:bg-[#25D366] hover:text-white hover:shadow-lg"
                 aria-label="WhatsApp"
               >
-                💬
+                <WhatsAppIcon className="h-6 w-6 transition-transform duration-300 group-hover/social:scale-110" />
               </a>
               <a
                 href={companyInfo.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-brand-300 hover:text-brand-600"
+                className="group/social flex h-12 w-12 items-center justify-center rounded-xl bg-[#1877F2]/10 text-[#1877F2] transition-all duration-300 hover:scale-110 hover:bg-[#1877F2] hover:text-white hover:shadow-lg"
                 aria-label="Facebook"
               >
-                👍
+                <FacebookIcon className="h-6 w-6 transition-transform duration-300 group-hover/social:scale-110" />
               </a>
               <a
                 href={companyInfo.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-brand-300 hover:text-brand-600"
+                className="group/social flex h-12 w-12 items-center justify-center rounded-xl bg-[#0A66C2]/10 text-[#0A66C2] transition-all duration-300 hover:scale-110 hover:bg-[#0A66C2] hover:text-white hover:shadow-lg"
                 aria-label="LinkedIn"
               >
-                🔗
+                <LinkedInIcon className="h-6 w-6 transition-transform duration-300 group-hover/social:scale-110" />
               </a>
               <a
                 href={companyInfo.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-brand-300 hover:text-brand-600"
+                className="group/social flex h-12 w-12 items-center justify-center rounded-xl bg-[#E4405F]/10 text-[#E4405F] transition-all duration-300 hover:scale-110 hover:bg-[#E4405F] hover:text-white hover:shadow-lg"
                 aria-label="Instagram"
               >
-                📸
+                <InstagramIcon className="h-6 w-6 transition-transform duration-300 group-hover/social:scale-110" />
               </a>
             </div>
           </div>
 
-          {/* FAQ Rapide */}
-          <div className="glass-panel rounded-2xl p-6">
-            <h3 className="mb-4 text-sm font-semibold text-ink">
+          {/* FAQ Rapide améliorée */}
+          <div className="group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl">
+            {/* Ligne décorative */}
+            <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
+            
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold text-ink">
+              <ClockIcon className="h-5 w-5 text-brand-500" />
               {language === 'fr' ? 'Questions Fréquentes' : 'Frequently Asked Questions'}
             </h3>
-            <div className="space-y-3 text-xs text-slate-600">
-              <div>
-                <p className="font-semibold">
+            <div className="space-y-4 text-xs text-slate-600">
+              <div className="space-y-1">
+                <p className="font-semibold text-ink">
                   {language === 'fr'
                     ? 'Q: Quel est votre délai de réponse ?'
                     : 'Q: What is your response time?'}
                 </p>
-                <p>
-                  {language === 'fr'
-                    ? 'R: Nous répondons généralement sous 24 heures maximum.'
-                    : 'A: We usually respond within 24 hours maximum.'}
+                <p className="flex items-start gap-2">
+                  <CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-500" />
+                  <span>
+                    {language === 'fr'
+                      ? 'Nous répondons généralement sous 24 heures maximum.'
+                      : 'We usually respond within 24 hours maximum.'}
+                  </span>
                 </p>
               </div>
-              <div>
-                <p className="font-semibold">
+              <div className="space-y-1">
+                <p className="font-semibold text-ink">
                   {language === 'fr'
                     ? 'Q: Proposez-vous des consultations gratuites ?'
                     : 'Q: Do you offer free consultations?'}
                 </p>
-                <p>
-                  {language === 'fr'
-                    ? 'R: Oui, la première consultation pour analyser votre projet est gratuite.'
-                    : 'A: Yes, the first consultation to analyze your project is free.'}
+                <p className="flex items-start gap-2">
+                  <CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-500" />
+                  <span>
+                    {language === 'fr'
+                      ? 'Oui, la première consultation pour analyser votre projet est gratuite.'
+                      : 'Yes, the first consultation to analyze your project is free.'}
+                  </span>
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Formulaire de Contact */}
+        {/* Formulaire de Contact amélioré */}
         <div className="lg:col-span-2">
-          <div className="glass-panel rounded-3xl p-8">
-            <h2 className="mb-6 font-display text-2xl text-ink">
-              {language === 'fr' ? 'Envoyez-nous un message' : 'Send us a message'}
-            </h2>
+          <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 shadow-xl transition-all duration-700 hover:shadow-2xl md:p-10">
+            {/* Gradient animé */}
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-white to-brand-100/30 animate-gradient-shift" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/10 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
 
-            {submitStatus === 'success' && (
-              <div className="mb-6 rounded-lg bg-green-50 p-4 text-sm text-green-800">
-                {language === 'fr'
-                  ? 'Message envoyé avec succès ! Nous vous répondrons sous 24h.'
-                  : 'Message sent successfully! We will respond within 24h.'}
-              </div>
-            )}
+            <div className="relative">
+              <h2 className="mb-6 font-display text-2xl text-ink md:text-3xl">
+                {language === 'fr' ? 'Envoyez-nous un message' : 'Send us a message'}
+              </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid gap-6 md:grid-cols-2">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="mb-2 block text-sm font-medium text-ink"
-                  >
-                    {language === 'fr' ? 'Nom complet' : 'Full name'} *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-                  />
+              {/* Message de succès amélioré */}
+              {submitStatus === 'success' && (
+                <div className="mb-6 flex items-center gap-3 rounded-xl bg-green-50 p-4 text-sm text-green-800 shadow-sm transition-all duration-500">
+                  <CheckCircleIcon className="h-5 w-5 flex-shrink-0 text-green-600" />
+                  <div>
+                    <p className="font-semibold">
+                      {language === 'fr'
+                        ? 'Message envoyé avec succès !'
+                        : 'Message sent successfully!'}
+                    </p>
+                    <p className="text-xs text-green-700">
+                      {language === 'fr'
+                        ? 'Nous vous répondrons sous 24h.'
+                        : 'We will respond within 24h.'}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="mb-2 block text-sm font-medium text-ink"
-                  >
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-                  />
-                </div>
-              </div>
+              )}
 
-              <div className="grid gap-6 md:grid-cols-2">
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="mb-2 block text-sm font-medium text-ink"
-                  >
-                    {language === 'fr' ? 'Téléphone' : 'Phone'}
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-                  />
+              {/* Message d'erreur */}
+              {submitStatus === 'error' && (
+                <div className="mb-6 flex items-center gap-3 rounded-xl bg-red-50 p-4 text-sm text-red-800 shadow-sm">
+                  <XCircleIcon className="h-5 w-5 flex-shrink-0 text-red-600" />
+                  <div>
+                    <p className="font-semibold">
+                      {language === 'fr'
+                        ? 'Erreur lors de l\'envoi'
+                        : 'Error sending message'}
+                    </p>
+                    <p className="text-xs text-red-700">
+                      {language === 'fr'
+                        ? 'Veuillez réessayer plus tard.'
+                        : 'Please try again later.'}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <label
-                    htmlFor="company"
-                    className="mb-2 block text-sm font-medium text-ink"
-                  >
-                    {language === 'fr' ? 'Entreprise' : 'Company'}
-                  </label>
-                  <input
-                    type="text"
-                    id="company"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-                  />
-                </div>
-              </div>
+              )}
 
-              <div className="grid gap-6 md:grid-cols-2">
-                <div>
-                  <label
-                    htmlFor="projectType"
-                    className="mb-2 block text-sm font-medium text-ink"
-                  >
-                    {language === 'fr' ? 'Type de projet' : 'Project type'}
-                  </label>
-                  <select
-                    id="projectType"
-                    name="projectType"
-                    value={formData.projectType}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-                  >
-                    <option value="">
-                      {language === 'fr' ? 'Sélectionner...' : 'Select...'}
-                    </option>
-                    {projectTypes.map((type) => (
-                      <option key={type.value} value={type.value}>
-                        {language === 'fr' ? type.label : type.labelEn}
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid gap-6 md:grid-cols-2">
+                  <div className="group/field">
+                    <label
+                      htmlFor="name"
+                      className="mb-2 block text-sm font-medium text-ink transition-colors duration-300 group-focus-within/field:text-brand-600"
+                    >
+                      {language === 'fr' ? 'Nom complet' : 'Full name'} *
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-slate-300"
+                      placeholder={language === 'fr' ? 'Votre nom' : 'Your name'}
+                    />
+                  </div>
+                  <div className="group/field">
+                    <label
+                      htmlFor="email"
+                      className="mb-2 block text-sm font-medium text-ink transition-colors duration-300 group-focus-within/field:text-brand-600"
+                    >
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-slate-300"
+                      placeholder="votre@email.com"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid gap-6 md:grid-cols-2">
+                  <div className="group/field">
+                    <label
+                      htmlFor="phone"
+                      className="mb-2 block text-sm font-medium text-ink transition-colors duration-300 group-focus-within/field:text-brand-600"
+                    >
+                      {language === 'fr' ? 'Téléphone' : 'Phone'}
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-slate-300"
+                      placeholder="+237 XXX XXX XXX"
+                    />
+                  </div>
+                  <div className="group/field">
+                    <label
+                      htmlFor="company"
+                      className="mb-2 block text-sm font-medium text-ink transition-colors duration-300 group-focus-within/field:text-brand-600"
+                    >
+                      {language === 'fr' ? 'Entreprise' : 'Company'}
+                    </label>
+                    <input
+                      type="text"
+                      id="company"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
+                      className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-slate-300"
+                      placeholder={language === 'fr' ? 'Nom de votre entreprise' : 'Company name'}
+                    />
+                  </div>
+                </div>
+
+                <div className="grid gap-6 md:grid-cols-2">
+                  <div className="group/field">
+                    <label
+                      htmlFor="projectType"
+                      className="mb-2 block text-sm font-medium text-ink transition-colors duration-300 group-focus-within/field:text-brand-600"
+                    >
+                      {language === 'fr' ? 'Type de projet' : 'Project type'}
+                    </label>
+                    <select
+                      id="projectType"
+                      name="projectType"
+                      value={formData.projectType}
+                      onChange={handleChange}
+                      className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-slate-300"
+                    >
+                      <option value="">
+                        {language === 'fr' ? 'Sélectionner...' : 'Select...'}
                       </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label
-                    htmlFor="budget"
-                    className="mb-2 block text-sm font-medium text-ink"
-                  >
-                    {language === 'fr' ? 'Budget estimé' : 'Estimated budget'}
-                  </label>
-                  <select
-                    id="budget"
-                    name="budget"
-                    value={formData.budget}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-                  >
-                    <option value="">
-                      {language === 'fr' ? 'Sélectionner...' : 'Select...'}
-                    </option>
-                    {budgetRanges.map((range) => (
-                      <option key={range.value} value={range.value}>
-                        {language === 'fr' ? range.label : range.labelEn}
+                      {projectTypes.map((type) => (
+                        <option key={type.value} value={type.value}>
+                          {language === 'fr' ? type.label : type.labelEn}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="group/field">
+                    <label
+                      htmlFor="budget"
+                      className="mb-2 block text-sm font-medium text-ink transition-colors duration-300 group-focus-within/field:text-brand-600"
+                    >
+                      {language === 'fr' ? 'Budget estimé' : 'Estimated budget'}
+                    </label>
+                    <select
+                      id="budget"
+                      name="budget"
+                      value={formData.budget}
+                      onChange={handleChange}
+                      className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-slate-300"
+                    >
+                      <option value="">
+                        {language === 'fr' ? 'Sélectionner...' : 'Select...'}
                       </option>
-                    ))}
-                  </select>
+                      {budgetRanges.map((range) => (
+                        <option key={range.value} value={range.value}>
+                          {language === 'fr' ? range.label : range.labelEn}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <label
-                  htmlFor="message"
-                  className="mb-2 block text-sm font-medium text-ink"
+                <div className="group/field">
+                  <label
+                    htmlFor="message"
+                    className="mb-2 block text-sm font-medium text-ink transition-colors duration-300 group-focus-within/field:text-brand-600"
+                  >
+                    {language === 'fr' ? 'Message' : 'Message'} *
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows={6}
+                    value={formData.message}
+                    onChange={handleChange}
+                    className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-slate-300 resize-none"
+                    placeholder={language === 'fr' ? 'Décrivez votre projet...' : 'Describe your project...'}
+                  />
+                </div>
+
+                <div className="group/field">
+                  <label
+                    htmlFor="attachment"
+                    className="mb-2 flex items-center gap-2 text-sm font-medium text-ink transition-colors duration-300 group-focus-within/field:text-brand-600"
+                  >
+                    <PaperClipIcon className="h-4 w-4" />
+                    {language === 'fr'
+                      ? 'Pièce jointe (optionnel)'
+                      : 'Attachment (optional)'}
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="file"
+                      id="attachment"
+                      name="attachment"
+                      onChange={handleFileChange}
+                      className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-slate-300 file:mr-4 file:rounded-lg file:border-0 file:bg-brand-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-brand-600 hover:file:bg-brand-100"
+                    />
+                    {formData.attachment && (
+                      <p className="mt-2 text-xs text-slate-600">
+                        {language === 'fr' ? 'Fichier sélectionné :' : 'Selected file:'} {formData.attachment.name}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 rounded-xl bg-slate-50 p-4">
+                  <input
+                    type="checkbox"
+                    id="consent"
+                    name="consent"
+                    required
+                    checked={formData.consent}
+                    onChange={handleChange}
+                    className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-500 transition-all duration-300 focus:ring-2 focus:ring-brand-500/20"
+                  />
+                  <label
+                    htmlFor="consent"
+                    className="text-sm leading-relaxed text-slate-600"
+                  >
+                    {language === 'fr' ? (
+                      <>
+                        J'accepte que mes données soient utilisées pour me
+                        recontacter *
+                      </>
+                    ) : (
+                      <>I agree that my data be used to contact me back *</>
+                    )}
+                  </label>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="group/btn relative w-full overflow-hidden rounded-full bg-gradient-to-r from-brand-500 via-brand-600 to-brand-500 px-8 py-4 text-sm font-semibold text-white shadow-xl transition-all duration-500 hover:-translate-y-1 hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:scale-100"
                 >
-                  {language === 'fr' ? 'Message' : 'Message'} *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  required
-                  rows={6}
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="attachment"
-                  className="mb-2 flex items-center gap-2 text-sm font-medium text-ink"
-                >
-                  <PaperClipIcon className="h-4 w-4" />
-                  {language === 'fr'
-                    ? 'Pièce jointe (optionnel)'
-                    : 'Attachment (optional)'}
-                </label>
-                <input
-                  type="file"
-                  id="attachment"
-                  name="attachment"
-                  onChange={handleFileChange}
-                  className="w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-ink transition focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-                />
-              </div>
-
-              <div className="flex items-start gap-2">
-                <input
-                  type="checkbox"
-                  id="consent"
-                  name="consent"
-                  required
-                  checked={formData.consent}
-                  onChange={handleChange}
-                  className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-500 focus:ring-brand-500"
-                />
-                <label
-                  htmlFor="consent"
-                  className="text-sm text-slate-600"
-                >
-                  {language === 'fr' ? (
-                    <>
-                      J'accepte que mes données soient utilisées pour me
-                      recontacter
-                    </>
-                  ) : (
-                    <>I agree that my data be used to contact me back</>
-                  )}
-                  *
-                </label>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-brand-600 disabled:opacity-50"
-              >
-                {isSubmitting
-                  ? language === 'fr'
-                    ? 'Envoi en cours...'
-                    : 'Sending...'
-                  : language === 'fr'
-                  ? 'Envoyer le message'
-                  : 'Send message'}
-              </button>
-            </form>
+                  {/* Effet de brillance animé */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000" />
+                  
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    {isSubmitting ? (
+                      <>
+                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                        {language === 'fr' ? 'Envoi en cours...' : 'Sending...'}
+                      </>
+                    ) : (
+                      <>
+                        {language === 'fr' ? 'Envoyer le message' : 'Send message'}
+                        <RocketLaunchIcon className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                      </>
+                    )}
+                  </span>
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
