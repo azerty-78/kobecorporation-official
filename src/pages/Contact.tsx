@@ -6,12 +6,119 @@ import {
   CheckCircleIcon,
   XCircleIcon,
   RocketLaunchIcon,
-  CheckIcon,
   ChevronDownIcon,
   QuestionMarkCircleIcon,
 } from '@heroicons/react/24/outline'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import { WhatsAppIcon, FacebookIcon, LinkedInIcon, InstagramIcon } from '../components/icons/SocialIcons'
+
+// Composant pour les informations de contact
+function ContactInfoCard({ info, index, language }: { info: any; index: number; language: 'fr' | 'en' }) {
+  const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+  
+  return (
+    <div
+      ref={elementRef}
+      className={`group glass-panel relative overflow-hidden flex items-start gap-3 rounded-2xl p-5 transition-all duration-700 hover:-translate-y-1 hover:shadow-xl ${
+        isVisible
+          ? 'translate-y-0 opacity-100'
+          : 'translate-y-8 opacity-0'
+      }`}
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
+      <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="relative flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-brand-50 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
+        {info.icon}
+      </div>
+      <div className="flex-1">
+        <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+          {language === 'fr' ? info.label : info.labelEn}
+        </p>
+        {info.link ? (
+          <a
+            href={info.link}
+            className="text-sm font-semibold text-ink transition-colors duration-300 hover:text-brand-600"
+          >
+            {info.value}
+          </a>
+        ) : (
+          <p className="text-sm font-semibold text-ink">
+            {info.value}
+          </p>
+        )}
+      </div>
+    </div>
+  )
+}
+
+// Composant pour un item FAQ individuel
+function FAQItem({ faq, index, isOpen, onToggle }: { faq: { question: string; answer: string }; index: number; isOpen: boolean; onToggle: () => void }) {
+  const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+  
+  return (
+    <div
+      ref={elementRef}
+      className={`group/faq relative overflow-hidden rounded-xl border-2 transition-all duration-500 ${
+        isOpen
+          ? 'border-brand-300 bg-gradient-to-br from-brand-50/80 to-white shadow-lg'
+          : 'border-slate-200 bg-white hover:border-brand-200 hover:shadow-md'
+      } ${
+        isVisible
+          ? 'translate-y-0 opacity-100'
+          : 'translate-y-4 opacity-0'
+      }`}
+      style={{ transitionDelay: `${index * 50}ms` }}
+    >
+      {/* Ligne décorative animée */}
+      <div className={`absolute top-0 left-0 h-1 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 ${
+        isOpen ? 'w-full' : 'w-0'
+      }`} />
+      
+      {/* Gradient au hover */}
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover/faq:opacity-100" />
+      
+      <button
+        onClick={onToggle}
+        className="relative flex w-full items-center justify-between gap-4 p-4 text-left transition-all duration-300 hover:bg-brand-50/30"
+        aria-expanded={isOpen}
+      >
+        <div className="flex flex-1 items-start gap-3">
+          <div className={`mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg font-display text-sm font-bold shadow-sm transition-all duration-300 ${
+            isOpen
+              ? 'bg-gradient-to-br from-brand-500 to-brand-600 text-white scale-110 rotate-6'
+              : 'bg-brand-50 text-brand-600 group-hover/faq:bg-brand-100 group-hover/faq:scale-105'
+          }`}>
+            {index + 1}
+          </div>
+          <h4 className={`flex-1 font-semibold leading-snug transition-all duration-300 ${
+            isOpen ? 'text-brand-700 text-base' : 'text-ink text-sm'
+          }`}>
+            {faq.question}
+          </h4>
+        </div>
+        <div className={`flex-shrink-0 rounded-lg p-1 transition-all duration-300 ${
+          isOpen ? 'bg-brand-100 rotate-180' : 'bg-slate-100 group-hover/faq:bg-brand-50'
+        }`}>
+          <ChevronDownIcon className={`h-5 w-5 transition-colors duration-300 ${
+            isOpen ? 'text-brand-600' : 'text-slate-600'
+          }`} />
+        </div>
+      </button>
+      
+      {/* Contenu de la réponse */}
+      <div className={`overflow-hidden transition-all duration-500 ${
+        isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+      }`}>
+        <div className="px-4 pb-4 pt-0">
+          <p className="text-sm leading-relaxed text-slate-600">
+            {faq.answer}
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 // Composant FAQ avec accordéon
 function FAQAccordion({ language }: { language: 'fr' | 'en' }) {
@@ -90,86 +197,15 @@ function FAQAccordion({ language }: { language: 'fr' | 'en' }) {
 
   return (
     <div className="space-y-3">
-      {faqs.map((faq, index) => {
-        const isOpen = openIndex === index
-        const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
-        
-        return (
-          <div
-            key={index}
-            ref={elementRef}
-            className={`group/faq relative overflow-hidden rounded-xl border-2 transition-all duration-500 ${
-              isOpen
-                ? 'border-brand-300 bg-gradient-to-br from-brand-50/80 to-white shadow-lg'
-                : 'border-slate-200 bg-white hover:border-brand-200 hover:shadow-md'
-            } ${
-              isVisible
-                ? 'translate-y-0 opacity-100'
-                : 'translate-y-4 opacity-0'
-            }`}
-            style={{ transitionDelay: `${index * 50}ms` }}
-          >
-            {/* Ligne décorative animée */}
-            <div className={`absolute top-0 left-0 h-1 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 ${
-              isOpen ? 'w-full' : 'w-0'
-            }`} />
-            
-            {/* Gradient au hover */}
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover/faq:opacity-100" />
-            
-            <button
-              onClick={() => toggleFAQ(index)}
-              className="relative flex w-full items-center justify-between gap-4 p-4 text-left transition-all duration-300 hover:bg-brand-50/30"
-              aria-expanded={isOpen}
-            >
-              <div className="flex flex-1 items-start gap-3">
-                <div className={`mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg font-display text-sm font-bold shadow-sm transition-all duration-300 ${
-                  isOpen
-                    ? 'bg-gradient-to-br from-brand-500 to-brand-600 text-white scale-110 rotate-6'
-                    : 'bg-brand-50 text-brand-600 group-hover/faq:bg-brand-100 group-hover/faq:scale-105'
-                }`}>
-                  {index + 1}
-                </div>
-                <h4 className={`flex-1 font-semibold leading-snug transition-all duration-300 ${
-                  isOpen ? 'text-brand-700 text-base' : 'text-ink text-sm'
-                }`}>
-                  {faq.question}
-                </h4>
-              </div>
-              <div className={`flex-shrink-0 rounded-lg p-1 transition-all duration-300 ${
-                isOpen ? 'bg-brand-100' : 'bg-slate-50'
-              }`}>
-                <ChevronDownIcon
-                  className={`h-5 w-5 text-slate-500 transition-all duration-500 ${
-                    isOpen ? 'rotate-180 text-brand-600 scale-110' : 'rotate-0'
-                  }`}
-                />
-              </div>
-            </button>
-            
-            <div
-              className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-              }`}
-            >
-              <div className="px-4 pb-4 pl-14">
-                <div className="group/answer relative flex items-start gap-3 rounded-xl bg-gradient-to-br from-white to-brand-50/30 p-4 shadow-sm transition-all duration-300 hover:shadow-md">
-                  {/* Icône avec animation */}
-                  <div className="relative flex-shrink-0">
-                    <div className="absolute inset-0 rounded-full bg-brand-400/20 animate-ping opacity-0 group-hover/answer:opacity-100" />
-                    <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-sm">
-                      <CheckIcon className="h-4 w-4" />
-                    </div>
-                  </div>
-                  <p className="flex-1 text-sm leading-relaxed text-slate-700">
-                    {faq.answer}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )
-      })}
+      {faqs.map((faq, index) => (
+        <FAQItem
+          key={index}
+          faq={faq}
+          index={index}
+          isOpen={openIndex === index}
+          onToggle={() => toggleFAQ(index)}
+        />
+      ))}
     </div>
   )
 }
@@ -257,148 +293,61 @@ function Contact() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
-      {/* Hero Section avec animations */}
+      {/* Hero Section améliorée avec animations */}
       <div
         ref={introRef}
-        className={`mb-20 space-y-6 text-center transition-all duration-1000 ${
+        className={`group relative mb-20 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-50 via-white to-brand-100/50 p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
           introVisible
             ? 'translate-y-0 opacity-100'
             : 'translate-y-8 opacity-0'
         }`}
       >
-        <div className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-sm">
-          <RocketLaunchIcon className="h-4 w-4 animate-pulse" />
-          <span>{language === 'fr' ? 'Contact' : 'Contact'}</span>
+        {/* Gradient animé en arrière-plan */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-400/10 animate-gradient-shift" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/20 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+        
+        {/* Particules animées */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-10 left-10 h-2 w-2 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '0s' }} />
+          <div className="absolute top-20 right-20 h-1.5 w-1.5 rounded-full bg-brand-300 animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute bottom-20 left-20 h-2.5 w-2.5 rounded-full bg-brand-500 animate-pulse" style={{ animationDelay: '2s' }} />
+          <div className="absolute bottom-10 right-10 h-1 w-1 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '3s' }} />
         </div>
-        <h1 className="font-display text-4xl text-ink transition-all duration-1000 delay-200 md:text-5xl lg:text-6xl">
-          {language === 'fr' ? 'Contactez-Nous' : 'Contact Us'}
-        </h1>
-        <p className="mx-auto max-w-3xl text-lg leading-relaxed text-slate-600 transition-all duration-1000 delay-300">
-          {language === 'fr'
-            ? 'Nous sommes disponibles 24/7 pour répondre à vos besoins. Discutons de votre projet et découvrons comment nous pouvons vous accompagner.'
-            : 'We are available 24/7 to meet your needs. Let\'s discuss your project and discover how we can support you.'}
-        </p>
+        
+        <div className="relative space-y-6">
+          <div
+            className={`group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-sm transition-all duration-700 delay-100 ${
+              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+            }`}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent translate-x-[-100%] group-hover/badge:translate-x-[100%] transition-transform duration-1000" />
+            <RocketLaunchIcon className="relative z-10 h-4 w-4 animate-pulse transition-transform duration-300 group-hover/badge:rotate-12" />
+            <span className="relative z-10">{language === 'fr' ? 'Contact' : 'Contact'}</span>
+          </div>
+          
+          <h1
+            className={`font-display text-4xl leading-tight text-ink transition-all duration-1000 delay-200 md:text-5xl lg:text-6xl ${
+              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+            }`}
+          >
+            {language === 'fr' ? 'Contactez-Nous' : 'Contact Us'}
+          </h1>
+          
+          <p
+            className={`mx-auto max-w-3xl text-lg leading-relaxed text-slate-600 transition-all duration-1000 delay-300 ${
+              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+            }`}
+          >
+            {language === 'fr'
+              ? 'Nous sommes disponibles 24/7 pour répondre à vos besoins. Discutons de votre projet et découvrons comment nous pouvons vous accompagner.'
+              : 'We are available 24/7 to meet your needs. Let\'s discuss your project and discover how we can support you.'}
+          </p>
+        </div>
       </div>
 
-      <div className="grid gap-12 lg:grid-cols-3">
-        {/* Informations de Contact avec animations */}
-        <div className="space-y-6">
-          <div>
-            <h2 className="mb-6 font-display text-2xl text-ink md:text-3xl">
-              {language === 'fr' ? 'Informations de Contact' : 'Contact Information'}
-            </h2>
-            <div className="space-y-4">
-              {contactInfo.map((info, index) => {
-                const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
-                return (
-                  <div
-                    key={index}
-                    ref={elementRef}
-                    className={`group glass-panel relative overflow-hidden flex items-start gap-3 rounded-2xl p-5 transition-all duration-700 hover:-translate-y-1 hover:shadow-xl ${
-                      isVisible
-                        ? 'translate-y-0 opacity-100'
-                        : 'translate-y-8 opacity-0'
-                    }`}
-                    style={{ transitionDelay: `${index * 100}ms` }}
-                  >
-                    {/* Ligne décorative */}
-                    <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
-                    
-                    {/* Gradient au hover */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                    
-                    <div className="relative flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-brand-50 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
-                      {info.icon}
-                    </div>
-                    <div className="flex-1">
-                      <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                        {language === 'fr' ? info.label : info.labelEn}
-                      </p>
-                      {info.link ? (
-                        <a
-                          href={info.link}
-                          className="text-sm font-semibold text-ink transition-colors duration-300 hover:text-brand-600"
-                        >
-                          {info.value}
-                        </a>
-                      ) : (
-                        <p className="text-sm font-semibold text-ink">
-                          {info.value}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Réseaux Sociaux améliorés */}
-          <div>
-            <h3 className="mb-4 text-sm font-semibold text-ink">
-              {language === 'fr' ? 'Suivez-Nous' : 'Follow Us'}
-            </h3>
-            <div className="flex gap-3">
-              <a
-                href={companyInfo.social.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group/social flex h-12 w-12 items-center justify-center rounded-xl bg-[#25D366]/10 text-[#25D366] transition-all duration-300 hover:scale-110 hover:bg-[#25D366] hover:text-white hover:shadow-lg"
-                aria-label="WhatsApp"
-              >
-                <WhatsAppIcon className="h-6 w-6 transition-transform duration-300 group-hover/social:scale-110" />
-              </a>
-              <a
-                href={companyInfo.social.facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group/social flex h-12 w-12 items-center justify-center rounded-xl bg-[#1877F2]/10 text-[#1877F2] transition-all duration-300 hover:scale-110 hover:bg-[#1877F2] hover:text-white hover:shadow-lg"
-                aria-label="Facebook"
-              >
-                <FacebookIcon className="h-6 w-6 transition-transform duration-300 group-hover/social:scale-110" />
-              </a>
-              <a
-                href={companyInfo.social.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group/social flex h-12 w-12 items-center justify-center rounded-xl bg-[#0A66C2]/10 text-[#0A66C2] transition-all duration-300 hover:scale-110 hover:bg-[#0A66C2] hover:text-white hover:shadow-lg"
-                aria-label="LinkedIn"
-              >
-                <LinkedInIcon className="h-6 w-6 transition-transform duration-300 group-hover/social:scale-110" />
-              </a>
-              <a
-                href={companyInfo.social.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group/social flex h-12 w-12 items-center justify-center rounded-xl bg-[#E4405F]/10 text-[#E4405F] transition-all duration-300 hover:scale-110 hover:bg-[#E4405F] hover:text-white hover:shadow-lg"
-                aria-label="Instagram"
-              >
-                <InstagramIcon className="h-6 w-6 transition-transform duration-300 group-hover/social:scale-110" />
-              </a>
-            </div>
-          </div>
-
-          {/* FAQ Interactive avec accordéon */}
-          <div className="group glass-panel relative overflow-hidden rounded-2xl p-6 shadow-lg transition-all duration-500 hover:-translate-y-1 hover:shadow-xl">
-            {/* Gradient animé */}
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-            
-            {/* Ligne décorative */}
-            <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
-            
-            <div className="relative mb-6 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-md">
-                <QuestionMarkCircleIcon className="h-5 w-5" />
-              </div>
-              <h3 className="text-base font-semibold text-ink md:text-lg">
-                {language === 'fr' ? 'Questions Fréquentes' : 'Frequently Asked Questions'}
-              </h3>
-            </div>
-            <FAQAccordion language={language} />
-          </div>
-        </div>
-
-        {/* Formulaire de Contact amélioré */}
+      {/* Layout principal : Formulaire + Informations */}
+      <div className="grid gap-12 lg:grid-cols-3 mb-16">
+        {/* Formulaire de Contact amélioré - Prend plus d'espace */}
         <div className="lg:col-span-2">
           <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 shadow-xl transition-all duration-700 hover:shadow-2xl md:p-10">
             {/* Gradient animé */}
@@ -672,7 +621,87 @@ function Contact() {
             </div>
           </div>
         </div>
+
+        {/* Informations de Contact avec animations - Colonne droite */}
+        <div className="space-y-6">
+          <div>
+            <h2 className="mb-6 font-display text-2xl text-ink md:text-3xl">
+              {language === 'fr' ? 'Informations de Contact' : 'Contact Information'}
+            </h2>
+            <div className="space-y-4">
+              {contactInfo.map((info, index) => (
+                <ContactInfoCard key={index} info={info} index={index} language={language} />
+              ))}
+            </div>
+          </div>
+
+          {/* Réseaux Sociaux améliorés */}
+          <div>
+            <h3 className="mb-4 text-sm font-semibold text-ink">
+              {language === 'fr' ? 'Suivez-Nous' : 'Follow Us'}
+            </h3>
+            <div className="flex gap-3">
+              <a
+                href={companyInfo.social.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/social flex h-12 w-12 items-center justify-center rounded-xl bg-[#25D366]/10 text-[#25D366] transition-all duration-300 hover:scale-110 hover:bg-[#25D366] hover:text-white hover:shadow-lg"
+                aria-label="WhatsApp"
+              >
+                <WhatsAppIcon className="h-6 w-6 transition-transform duration-300 group-hover/social:scale-110" />
+              </a>
+              <a
+                href={companyInfo.social.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/social flex h-12 w-12 items-center justify-center rounded-xl bg-[#1877F2]/10 text-[#1877F2] transition-all duration-300 hover:scale-110 hover:bg-[#1877F2] hover:text-white hover:shadow-lg"
+                aria-label="Facebook"
+              >
+                <FacebookIcon className="h-6 w-6 transition-transform duration-300 group-hover/social:scale-110" />
+              </a>
+              <a
+                href={companyInfo.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/social flex h-12 w-12 items-center justify-center rounded-xl bg-[#0A66C2]/10 text-[#0A66C2] transition-all duration-300 hover:scale-110 hover:bg-[#0A66C2] hover:text-white hover:shadow-lg"
+                aria-label="LinkedIn"
+              >
+                <LinkedInIcon className="h-6 w-6 transition-transform duration-300 group-hover/social:scale-110" />
+              </a>
+              <a
+                href={companyInfo.social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/social flex h-12 w-12 items-center justify-center rounded-xl bg-[#E4405F]/10 text-[#E4405F] transition-all duration-300 hover:scale-110 hover:bg-[#E4405F] hover:text-white hover:shadow-lg"
+                aria-label="Instagram"
+              >
+                <InstagramIcon className="h-6 w-6 transition-transform duration-300 group-hover/social:scale-110" />
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
+
+      {/* FAQ Interactive avec accordéon - En bas verticalement sur grands écrans */}
+      <section className="mt-16">
+        <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 shadow-xl transition-all duration-700 hover:shadow-2xl md:p-12">
+          {/* Gradient animé */}
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-white to-brand-100/30 animate-gradient-shift" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/10 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+          
+          <div className="relative">
+            <div className="mb-8 flex items-center gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-lg">
+                <QuestionMarkCircleIcon className="h-6 w-6" />
+              </div>
+              <h2 className="font-display text-2xl text-ink md:text-3xl">
+                {language === 'fr' ? 'Questions Fréquentes' : 'Frequently Asked Questions'}
+              </h2>
+            </div>
+            <FAQAccordion language={language} />
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

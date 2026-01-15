@@ -45,11 +45,11 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version.outputs.version }}
-      tag_created: ${{ steps.tag.outputs.created }}
-      tag_name: ${{ steps.tag.outputs.name }}
-      tag_type: ${{ steps.tag.outputs.type }}
-      is_release: ${{ steps.tag.outputs.is_release }}
-      semantic_version: ${{ steps.tag.outputs.semantic_version }}
+      tag_created: ${{ steps.finalize.outputs.created }}
+      tag_name: ${{ steps.finalize.outputs.name }}
+      tag_type: ${{ steps.finalize.outputs.type }}
+      is_release: ${{ steps.finalize.outputs.is_release }}
+      semantic_version: ${{ steps.finalize.outputs.semantic_version }}
     
     steps:
       - name: 📥 Checkout code
@@ -217,6 +217,27 @@ jobs:
             echo "semantic_version=" >> $GITHUB_OUTPUT
           fi
       
+      - name: 📋 Finalize Tag Outputs
+        id: finalize
+        if: always()
+        run: |
+          # Si le tag n'a pas été créé, utiliser les valeurs par défaut
+          if [ "${{ steps.tag.outputs.created }}" != "true" ]; then
+            echo "ℹ️ Aucun tag créé (PR ou branche non principale)"
+            echo "name=" >> $GITHUB_OUTPUT
+            echo "created=false" >> $GITHUB_OUTPUT
+            echo "type=" >> $GITHUB_OUTPUT
+            echo "is_release=false" >> $GITHUB_OUTPUT
+            echo "semantic_version=" >> $GITHUB_OUTPUT
+          else
+            # Utiliser les valeurs du step tag
+            echo "name=${{ steps.tag.outputs.name }}" >> $GITHUB_OUTPUT
+            echo "created=${{ steps.tag.outputs.created }}" >> $GITHUB_OUTPUT
+            echo "type=${{ steps.tag.outputs.type }}" >> $GITHUB_OUTPUT
+            echo "is_release=${{ steps.tag.outputs.is_release }}" >> $GITHUB_OUTPUT
+            echo "semantic_version=${{ steps.tag.outputs.semantic_version }}" >> $GITHUB_OUTPUT
+          fi
+      
       - name: 🚀 Push Tags
         if: steps.tag.outputs.created == 'true'
         run: |
@@ -328,13 +349,14 @@ jobs:
           images: ${{ env.DOCKER_IMAGE }}
           tags: |
             # Tags Git (prioritaires si disponibles)
-            type=raw,value=${{ needs.tags.outputs.tag_name }},enable=${{ needs.tags.outputs.tag_created == 'true' }}
+            type=raw,value=${{ needs.tags.outputs.tag_name }},enable=${{ needs.tags.outputs.tag_created == 'true' && needs.tags.outputs.tag_name != '' }}
             # Tags sémantiques basés sur la version
             type=semver,pattern={{version}},enable=${{ needs.tags.outputs.is_release == 'true' }}
             type=semver,pattern={{major}}.{{minor}},enable=${{ needs.tags.outputs.is_release == 'true' }}
-            # Tags de branche et SHA (fallback)
+            # Tags de branche (fallback)
             type=ref,event=branch
-            type=sha,prefix={{branch}}-
+            # Tag SHA avec préfixe de branche (fallback) - s'assurer que le préfixe est valide
+            type=sha,prefix=${{ github.ref_name }}-
             # Tag latest uniquement sur la branche principale
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' }}
             # Tags pour les PRs
@@ -417,11 +439,23 @@ jobs:
             TAGS="${{ env.DOCKER_IMAGE }}:latest ${{ env.DOCKER_IMAGE }}:${{ github.sha }}"
           fi
           
-          # Construire les arguments --tag
+          # Construire les arguments --tag en filtrant les tags invalides
           TAG_ARGS=""
           for tag in $TAGS; do
-            TAG_ARGS="$TAG_ARGS --tag $tag"
+            # Vérifier que le tag est valide (non vide, ne commence pas par un tiret, format valide)
+            if [ -n "$tag" ] && [ "${tag#-}" = "$tag" ] && echo "$tag" | grep -qE '^[^:]+:[^:]+$'; then
+              TAG_ARGS="$TAG_ARGS --tag $tag"
+              echo "✅ Tag valide ajouté: $tag"
+            else
+              echo "⚠️ Tag invalide ignoré: $tag"
+            fi
           done
+          
+          # Vérifier qu'au moins un tag valide a été ajouté
+          if [ -z "$TAG_ARGS" ]; then
+            echo "❌ Aucun tag valide trouvé, utilisation du tag par défaut"
+            TAG_ARGS="--tag ${{ env.DOCKER_IMAGE }}:latest"
+          fi
           
           # Construire l'image (le contexte "." devrait maintenant exister)
           # Utiliser --pull pour forcer le pull des images de base avec authentification
@@ -440,8 +474,13 @@ jobs:
           # Push l'image si ce n'est pas une PR
           if [ "${{ github.event_name }}" != "pull_request" ]; then
             for tag in $TAGS; do
-              echo "Pushing $tag..."
-              docker push $tag
+              # Vérifier que le tag est valide avant de push
+              if [ -n "$tag" ] && [ "${tag#-}" = "$tag" ] && echo "$tag" | grep -qE '^[^:]+:[^:]+$'; then
+                echo "Pushing $tag..."
+                docker push "$tag" || echo "⚠️ Erreur lors du push de $tag"
+              else
+                echo "⚠️ Tag invalide ignoré lors du push: $tag"
+              fi
             done
           fi
       
@@ -461,7 +500,9 @@ jobs:
     name: 🧪 Test Docker Image
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name != 'pull_request'  # Skip tests sur PR
+    if: |
+      github.event_name != 'pull_request' &&
+      needs.build.result == 'success'
     
     steps:
       # Étape 1: Checkout
@@ -537,7 +578,8 @@ jobs:
     if: |
       github.event_name != 'pull_request' && 
       (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') &&
-      needs.tags.outputs.tag_created == 'true'
+      needs.tags.outputs.tag_created == 'true' &&
+      needs.build.result == 'success'
     
     steps:
       - name: 📥 Checkout code

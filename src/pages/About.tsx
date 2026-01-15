@@ -1,5 +1,5 @@
 import { useLanguage } from '../contexts/LanguageContext'
-import { companyInfo, valeurs, chiffres } from '../data/siteContent'
+import { companyInfo, valeurs } from '../data/siteContent'
 import {
   CheckBadgeIcon,
   ShieldCheckIcon,
@@ -22,7 +22,7 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import benDjibrilPhoto from '../assets/people/ben-djibril-official-with-glass-nbg.png'
 
 // Composant pour les milestones de l'histoire
-function HistoryMilestone({ milestone, index, language }: { milestone: any; index: number; language: 'fr' | 'en' }) {
+function HistoryMilestone({ milestone, index }: { milestone: any; index: number }) {
   const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.2 })
   const isEven = index % 2 === 0
   
@@ -111,6 +111,157 @@ function ValeurCard({ valeur, index, language }: { valeur: any; index: number; l
   )
 }
 
+// Composant pour les différenciateurs
+function DifferentiateurCard({ item, index }: { item: any; index: number }) {
+  const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+  
+  return (
+    <div
+      ref={elementRef}
+      className={`group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl ${
+        isVisible
+          ? 'translate-y-0 opacity-100'
+          : 'translate-y-8 opacity-0'
+      }`}
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
+      <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="relative">
+        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
+          {item.icon}
+        </div>
+        <h3 className="mb-2 font-semibold text-ink transition-colors duration-300 group-hover:text-brand-600">
+          {item.title}
+        </h3>
+        <p className="text-sm text-slate-600">
+          {item.text}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+// Composants de statistiques masqués temporairement
+
+// Composant pour les garanties
+function GuaranteeCard({ item, index }: { item: any; index: number }) {
+  const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+  
+  return (
+    <div
+      ref={elementRef}
+      className={`group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl ${
+        isVisible
+          ? 'translate-y-0 opacity-100'
+          : 'translate-y-8 opacity-0'
+      }`}
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
+      <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="relative">
+        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
+          {item.icon}
+        </div>
+        <h3 className="mb-3 font-semibold text-lg text-ink transition-colors duration-300 group-hover:text-brand-600">
+          {item.title}
+        </h3>
+        <p className="text-sm leading-relaxed text-slate-600">
+          {item.description}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+// Composant pour les programmes uniques
+function ProgramCard({ item, index }: { item: any; index: number }) {
+  const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+  
+  return (
+    <div
+      ref={elementRef}
+      className={`group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl ${
+        isVisible
+          ? 'translate-y-0 opacity-100'
+          : 'translate-y-8 opacity-0'
+      }`}
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
+      <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="relative">
+        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
+          {item.icon}
+        </div>
+        <h3 className="mb-2 font-semibold text-ink transition-colors duration-300 group-hover:text-brand-600">
+          {item.title}
+        </h3>
+        <p className="text-sm text-slate-600">
+          {item.description}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+// Composant pour les engagements client
+function EngagementCard({ item, index }: { item: any; index: number }) {
+  const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+  
+  return (
+    <div
+      ref={elementRef}
+      className={`flex items-start gap-4 transition-all duration-700 ${
+        isVisible
+          ? 'translate-x-0 opacity-100'
+          : '-translate-x-4 opacity-0'
+      }`}
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
+      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-brand-50 transition-all duration-300 hover:scale-110">
+        {item.icon}
+      </div>
+      <div>
+        <h3 className="mb-2 font-semibold text-ink">
+          {item.title}
+        </h3>
+        <p className="text-sm leading-relaxed text-slate-600">
+          {item.description}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+// Composant pour le processus qualité
+function QualityStepCard({ item, index }: { item: any; index: number }) {
+  const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+  
+  return (
+    <div
+      ref={elementRef}
+      className={`group/step text-center transition-all duration-700 hover:-translate-y-1 ${
+        isVisible
+          ? 'translate-y-0 opacity-100'
+          : 'translate-y-8 opacity-0'
+      }`}
+      style={{ transitionDelay: `${index * 150}ms` }}
+    >
+      <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-[rgb(31,41,55)] text-white shadow-lg transition-all duration-500 group-hover/step:scale-110 group-hover/step:rotate-6 group-hover/step:bg-[rgb(15,23,42)]">
+        <span className="font-display text-2xl font-bold">{item.step}</span>
+      </div>
+      <h3 className="mb-2 font-semibold text-ink transition-colors duration-300 group-hover/step:text-brand-600">
+        {item.title}
+      </h3>
+      <p className="text-sm text-slate-600">
+        {item.description}
+      </p>
+    </div>
+  )
+}
+
 // Icônes SVG pour les réseaux sociaux
 function LinkedInIcon({ className }: { className?: string }) {
   return (
@@ -166,27 +317,56 @@ function About() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
-      {/* Introduction avec animations */}
+      {/* Hero Section améliorée avec animations */}
       <div
         ref={introRef}
-        className={`mb-20 space-y-6 text-center transition-all duration-1000 ${
+        className={`group relative mb-20 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-50 via-white to-brand-100/50 p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
           introVisible
             ? 'translate-y-0 opacity-100'
             : 'translate-y-8 opacity-0'
         }`}
       >
-        <div className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-sm">
-          <RocketLaunchIcon className="h-4 w-4 animate-pulse" />
-          <span>{language === 'fr' ? 'À Propos' : 'About'}</span>
+        {/* Gradient animé en arrière-plan */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-400/10 animate-gradient-shift" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/20 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+        
+        {/* Particules animées */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-10 left-10 h-2 w-2 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '0s' }} />
+          <div className="absolute top-20 right-20 h-1.5 w-1.5 rounded-full bg-brand-300 animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute bottom-20 left-20 h-2.5 w-2.5 rounded-full bg-brand-500 animate-pulse" style={{ animationDelay: '2s' }} />
+          <div className="absolute bottom-10 right-10 h-1 w-1 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '3s' }} />
         </div>
-        <h1 className="font-display text-4xl text-ink transition-all duration-1000 delay-200 md:text-5xl lg:text-6xl">
-          {language === 'fr' ? 'Notre Histoire' : 'Our Story'}
-        </h1>
-        <p className="mx-auto max-w-3xl text-lg leading-relaxed text-slate-600 transition-all duration-1000 delay-300">
-          {language === 'fr'
-            ? 'Découvrez l\'histoire, les valeurs et la vision qui guident KOBE Corporation dans sa mission de transformation technologique.'
-            : 'Discover the story, values and vision that guide KOBE Corporation in its mission of technological transformation.'}
-        </p>
+        
+        <div className="relative space-y-6">
+          <div
+            className={`group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-sm transition-all duration-700 delay-100 ${
+              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+            }`}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent translate-x-[-100%] group-hover/badge:translate-x-[100%] transition-transform duration-1000" />
+            <RocketLaunchIcon className="relative z-10 h-4 w-4 animate-pulse transition-transform duration-300 group-hover/badge:rotate-12" />
+            <span className="relative z-10">{language === 'fr' ? 'À Propos' : 'About'}</span>
+          </div>
+          
+          <h1
+            className={`font-display text-4xl leading-tight text-ink transition-all duration-1000 delay-200 md:text-5xl lg:text-6xl ${
+              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+            }`}
+          >
+            {language === 'fr' ? 'Notre Histoire' : 'Our Story'}
+          </h1>
+          
+          <p
+            className={`mx-auto max-w-3xl text-lg leading-relaxed text-slate-600 transition-all duration-1000 delay-300 ${
+              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+            }`}
+          >
+            {language === 'fr'
+              ? 'Découvrez l\'histoire, les valeurs et la vision qui guident KOBE Corporation dans sa mission de transformation technologique.'
+              : 'Discover the story, values and vision that guide KOBE Corporation in its mission of technological transformation.'}
+          </p>
+        </div>
       </div>
 
       {/* Histoire avec timeline verticale responsive */}
@@ -266,7 +446,7 @@ function About() {
                 iconColor: 'text-red-600',
               },
             ].map((milestone, index) => (
-              <HistoryMilestone key={index} milestone={milestone} index={index} language={language} />
+              <HistoryMilestone key={index} milestone={milestone} index={index} />
             ))}
           </div>
         </div>
@@ -462,46 +642,15 @@ function About() {
                   ? 'Formation de talents et contribution open source'
                   : 'Talent development and open source contribution',
             },
-          ].map((item, index) => {
-            const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
-            return (
-              <div
-                key={index}
-                ref={elementRef}
-                className={`group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl ${
-                  isVisible
-                    ? 'translate-y-0 opacity-100'
-                    : 'translate-y-8 opacity-0'
-                }`}
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                {/* Ligne décorative */}
-                <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
-                
-                {/* Gradient au hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                
-                <div className="relative">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
-                    {item.icon}
-                  </div>
-                  <h3 className="mb-2 font-semibold text-ink transition-colors duration-300 group-hover:text-brand-600">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-slate-600">
-                    {item.text}
-                  </p>
-                </div>
-              </div>
-            )
-          })}
+          ].map((item, index) => (
+            <DifferentiateurCard key={index} item={item} index={index} />
+          ))}
         </div>
       </section>
 
-      {/* Chiffres & Impact avec animations enrichis */}
-      <section className="mb-24">
+      {/* Chiffres & Impact - Masqués temporairement (entreprise en création) */}
+      {/* <section className="mb-24">
         <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 shadow-xl transition-all duration-700 hover:shadow-2xl md:p-12">
-          {/* Gradient animé */}
           <div className="absolute inset-0 bg-gradient-to-br from-brand-500/10 via-white to-brand-100/30 animate-gradient-shift" />
           <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/20 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
 
@@ -510,62 +659,23 @@ function About() {
               {language === 'fr' ? 'Notre Impact' : 'Our Impact'}
             </h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-              {chiffres.map((chiffre, index) => {
-                const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
-                return (
-                  <div
-                    key={index}
-                    ref={elementRef}
-                    className={`group/stat text-center transition-all duration-700 hover:-translate-y-1 ${
-                      isVisible
-                        ? 'translate-y-0 opacity-100'
-                        : 'translate-y-8 opacity-0'
-                    }`}
-                    style={{ transitionDelay: `${index * 150}ms` }}
-                  >
-                    <p className="mb-2 font-display text-4xl text-brand-600 transition-all duration-300 group-hover/stat:scale-110 group-hover/stat:text-brand-700">
-                      {chiffre.value}
-                    </p>
-                    <p className="text-sm text-slate-600">
-                      {language === 'fr' ? chiffre.label : chiffre.labelEn}
-                    </p>
-                  </div>
-                )
-              })}
+              {chiffres.map((chiffre, index) => (
+                <StatCard key={index} stat={chiffre} index={index} language={language} />
+              ))}
             </div>
             
-            {/* Statistiques supplémentaires */}
             <div className="mt-12 grid gap-6 md:grid-cols-3">
               {[
                 { value: '200+', label: language === 'fr' ? 'Projets livrés' : 'Projects delivered', labelEn: 'Projects delivered' },
                 { value: '98%', label: language === 'fr' ? 'Satisfaction client' : 'Client satisfaction', labelEn: 'Client satisfaction' },
                 { value: '24/7', label: language === 'fr' ? 'Support disponible' : 'Support available', labelEn: 'Support available' },
-              ].map((stat, index) => {
-                const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
-                return (
-                  <div
-                    key={index}
-                    ref={elementRef}
-                    className={`group/stat glass-panel rounded-2xl p-6 text-center transition-all duration-700 hover:-translate-y-2 hover:shadow-xl ${
-                      isVisible
-                        ? 'translate-y-0 opacity-100'
-                        : 'translate-y-8 opacity-0'
-                    }`}
-                    style={{ transitionDelay: `${(index + 4) * 150}ms` }}
-                  >
-                    <p className="mb-2 font-display text-3xl font-bold text-brand-600 transition-all duration-300 group-hover/stat:scale-110">
-                      {stat.value}
-                    </p>
-                    <p className="text-sm font-medium text-slate-600">
-                      {language === 'fr' ? stat.label : stat.labelEn}
-                    </p>
-                  </div>
-                )
-              })}
+              ].map((stat, index) => (
+                <ExtraStatCard key={index} stat={stat} index={index} language={language} />
+              ))}
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Garanties & Certifications */}
       <section className="mb-24">
@@ -623,39 +733,9 @@ function About() {
                 ? 'Architectures conçues pour évoluer avec votre croissance et vos besoins futurs.'
                 : 'Architectures designed to evolve with your growth and future needs.',
             },
-          ].map((item, index) => {
-            const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
-            return (
-              <div
-                key={index}
-                ref={elementRef}
-                className={`group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl ${
-                  isVisible
-                    ? 'translate-y-0 opacity-100'
-                    : 'translate-y-8 opacity-0'
-                }`}
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                {/* Ligne décorative */}
-                <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
-                
-                {/* Gradient au hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                
-                <div className="relative">
-                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
-                    {item.icon}
-                  </div>
-                  <h3 className="mb-3 font-semibold text-lg text-ink transition-colors duration-300 group-hover:text-brand-600">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-slate-600">
-                    {item.description}
-                  </p>
-                </div>
-              </div>
-            )
-          })}
+          ].map((item, index) => (
+            <GuaranteeCard key={index} item={item} index={index} />
+          ))}
         </div>
       </section>
 
@@ -708,31 +788,9 @@ function About() {
                     ? 'Tests finaux, documentation et formation des équipes'
                     : 'Final tests, documentation and team training',
                 },
-              ].map((item, index) => {
-                const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
-                return (
-                  <div
-                    key={index}
-                    ref={elementRef}
-                    className={`group/step text-center transition-all duration-700 hover:-translate-y-1 ${
-                      isVisible
-                        ? 'translate-y-0 opacity-100'
-                        : 'translate-y-8 opacity-0'
-                    }`}
-                    style={{ transitionDelay: `${index * 150}ms` }}
-                  >
-                    <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-[rgb(31,41,55)] text-white shadow-lg transition-all duration-500 group-hover/step:scale-110 group-hover/step:rotate-6 group-hover/step:bg-[rgb(15,23,42)]">
-                      <span className="font-display text-2xl font-bold">{item.step}</span>
-                    </div>
-                    <h3 className="mb-2 font-semibold text-ink transition-colors duration-300 group-hover/step:text-brand-600">
-                      {item.title}
-                    </h3>
-                    <p className="text-sm text-slate-600">
-                      {item.description}
-                    </p>
-                  </div>
-                )
-              })}
+              ].map((item, index) => (
+                <QualityStepCard key={index} item={item} index={index} />
+              ))}
             </div>
           </div>
         </div>
@@ -780,39 +838,9 @@ function About() {
                 ? 'Accès à notre réseau de clients, projets et événements exclusifs. Plus KOBE grandit, plus vos opportunités augmentent.'
                 : 'Access to our network of clients, projects and exclusive events. The more KOBE grows, the more your opportunities increase.',
             },
-          ].map((item, index) => {
-            const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
-            return (
-              <div
-                key={index}
-                ref={elementRef}
-                className={`group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl ${
-                  isVisible
-                    ? 'translate-y-0 opacity-100'
-                    : 'translate-y-8 opacity-0'
-                }`}
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                {/* Ligne décorative */}
-                <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
-                
-                {/* Gradient au hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                
-                <div className="relative">
-                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
-                    {item.icon}
-                  </div>
-                  <h3 className="mb-3 font-semibold text-lg text-ink transition-colors duration-300 group-hover:text-brand-600">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-slate-600">
-                    {item.description}
-                  </p>
-                </div>
-              </div>
-            )
-          })}
+          ].map((item, index) => (
+            <ProgramCard key={index} item={item} index={index} />
+          ))}
         </div>
       </section>
 
@@ -865,33 +893,9 @@ function About() {
                     ? 'Accompagnement au-delà de la livraison, évolution de votre solution et support continu.'
                     : 'Support beyond delivery, evolution of your solution and continuous support.',
                 },
-              ].map((item, index) => {
-                const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
-                return (
-                  <div
-                    key={index}
-                    ref={elementRef}
-                    className={`flex items-start gap-4 transition-all duration-700 ${
-                      isVisible
-                        ? 'translate-x-0 opacity-100'
-                        : '-translate-x-4 opacity-0'
-                    }`}
-                    style={{ transitionDelay: `${index * 100}ms` }}
-                  >
-                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-brand-50 transition-all duration-300 hover:scale-110">
-                      {item.icon}
-                    </div>
-                    <div>
-                      <h3 className="mb-2 font-semibold text-ink">
-                        {item.title}
-                      </h3>
-                      <p className="text-sm leading-relaxed text-slate-600">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                )
-              })}
+              ].map((item, index) => (
+                <EngagementCard key={index} item={item} index={index} />
+              ))}
             </div>
           </div>
         </div>

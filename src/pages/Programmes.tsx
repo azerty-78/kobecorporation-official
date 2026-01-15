@@ -195,29 +195,58 @@ function Programmes() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
-      {/* Introduction avec animations */}
+      {/* Hero Section améliorée avec animations */}
       <div
         ref={introRef}
-        className={`mb-20 space-y-6 text-center transition-all duration-1000 ${
+        className={`group relative mb-20 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-50 via-white to-brand-100/50 p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
           introVisible
             ? 'translate-y-0 opacity-100'
             : 'translate-y-8 opacity-0'
         }`}
       >
-        <div className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-sm">
-          <RocketLaunchIcon className="h-4 w-4 animate-pulse" />
-          <span>{language === 'fr' ? 'Nos Programmes' : 'Our Programs'}</span>
+        {/* Gradient animé en arrière-plan */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-400/10 animate-gradient-shift" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/20 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+        
+        {/* Particules animées */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-10 left-10 h-2 w-2 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '0s' }} />
+          <div className="absolute top-20 right-20 h-1.5 w-1.5 rounded-full bg-brand-300 animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute bottom-20 left-20 h-2.5 w-2.5 rounded-full bg-brand-500 animate-pulse" style={{ animationDelay: '2s' }} />
+          <div className="absolute bottom-10 right-10 h-1 w-1 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '3s' }} />
         </div>
-        <h1 className="font-display text-4xl text-ink transition-all duration-1000 delay-200 md:text-5xl lg:text-6xl">
-          {language === 'fr'
-            ? 'Nos Programmes de Développement'
-            : 'Our Development Programs'}
-        </h1>
-        <p className="mx-auto max-w-3xl text-lg leading-relaxed text-slate-600 transition-all duration-1000 delay-300">
-          {language === 'fr'
-            ? 'Rejoignez une communauté dynamique de développeurs passionnés. Que vous soyez freelance, étudiant ou développeur open source, découvrez des opportunités qui transforment votre carrière.'
-            : 'Join a dynamic community of passionate developers. Whether you\'re a freelancer, student or open source developer, discover opportunities that transform your career.'}
-        </p>
+        
+        <div className="relative space-y-6">
+          <div
+            className={`group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-sm transition-all duration-700 delay-100 ${
+              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+            }`}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent translate-x-[-100%] group-hover/badge:translate-x-[100%] transition-transform duration-1000" />
+            <RocketLaunchIcon className="relative z-10 h-4 w-4 animate-pulse transition-transform duration-300 group-hover/badge:rotate-12" />
+            <span className="relative z-10">{language === 'fr' ? 'Nos Programmes' : 'Our Programs'}</span>
+          </div>
+          
+          <h1
+            className={`font-display text-4xl leading-tight text-ink transition-all duration-1000 delay-200 md:text-5xl lg:text-6xl ${
+              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+            }`}
+          >
+            {language === 'fr'
+              ? 'Nos Programmes de Développement'
+              : 'Our Development Programs'}
+          </h1>
+          
+          <p
+            className={`mx-auto max-w-3xl text-lg leading-relaxed text-slate-600 transition-all duration-1000 delay-300 ${
+              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+            }`}
+          >
+            {language === 'fr'
+              ? 'Rejoignez une communauté dynamique de développeurs passionnés. Que vous soyez freelance, étudiant ou développeur open source, découvrez des opportunités qui transforment votre carrière.'
+              : 'Join a dynamic community of passionate developers. Whether you\'re a freelancer, student or open source developer, discover opportunities that transform your career.'}
+          </p>
+        </div>
       </div>
 
       {/* Programmes avec animations */}
@@ -272,8 +301,8 @@ function Programmes() {
                       : programme.descriptionEn}
                   </p>
 
-                  {/* Statistiques */}
-                  {details?.stats && (
+                  {/* Statistiques masquées temporairement - entreprise en création */}
+                  {/* {details?.stats && (
                     <div className="grid grid-cols-3 gap-4 transition-all duration-1000 delay-400">
                       {details.stats.map((stat, idx) => (
                         <div
@@ -289,7 +318,7 @@ function Programmes() {
                         </div>
                       ))}
                     </div>
-                  )}
+                  )} */}
 
                   {/* Features */}
                   <div className="glass-panel rounded-2xl p-6 transition-all duration-1000 delay-500">

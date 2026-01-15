@@ -3,7 +3,6 @@ import ServicesGrid from '../components/sections/ServicesGrid'
 import ProgramsPreview from '../components/sections/ProgramsPreview'
 import MissionsSection from '../components/sections/MissionsSection'
 import ProcessSection from '../components/sections/ProcessSection'
-import TestimonialsSection from '../components/sections/TestimonialsSection'
 import CTASection from '../components/sections/CTASection'
 
 function Home() {
@@ -34,10 +33,10 @@ function Home() {
         <ProcessSection />
       </section>
 
-      {/* Testimonials Section */}
-      <section>
+      {/* Testimonials Section - Masquée temporairement */}
+      {/* <section>
         <TestimonialsSection />
-      </section>
+      </section> */}
 
       {/* CTA Section - Plus d'espace avant le footer */}
       <section className="pb-8">

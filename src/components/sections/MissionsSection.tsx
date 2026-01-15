@@ -1,57 +1,6 @@
 import { CheckBadgeIcon, ShieldCheckIcon, SparklesIcon } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
-import { chiffres } from '../../data/siteContent'
 import { useScrollAnimation } from '../../hooks/useScrollAnimation'
-import { useCounter } from '../../hooks/useCounter'
-
-interface MissionStatProps {
-  item: { label: string; labelEn: string; value: string }
-  isActive: boolean
-  language: 'fr' | 'en'
-  index: number
-}
-
-function MissionStat({ item, isActive, language, index }: MissionStatProps) {
-  const numericValue = parseFloat(item.value.replace(/[^0-9.]/g, ''))
-  const counter = useCounter(numericValue, isActive, {
-    duration: 2000,
-    start: 0,
-    decimals: item.value.includes('.') ? 1 : 0,
-  })
-
-  return (
-    <div
-      className={`group relative overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 p-5 backdrop-blur-sm transition-all duration-700 hover:scale-110 hover:border-brand-400/50 hover:bg-gradient-to-br hover:from-brand-500/20 hover:to-brand-400/10 hover:shadow-xl ${
-        isActive
-          ? 'translate-y-0 opacity-100'
-          : 'translate-y-8 opacity-0'
-      }`}
-      style={{
-        transitionDelay: `${index * 150}ms`,
-      }}
-    >
-      {/* Effet de brillance au hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-400/20 via-transparent to-brand-300/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-      
-      <div className="relative">
-        <p className="font-display text-3xl text-white transition-all duration-300 group-hover:text-brand-200 group-hover:scale-110">
-          {item.value.includes('+')
-            ? `${counter.toLocaleString()}+`
-            : item.value.includes('%')
-            ? `${counter}%`
-            : item.value.includes('K')
-            ? `${counter}K`
-            : item.value.includes('/')
-            ? item.value
-            : counter.toLocaleString()}
-        </p>
-        <p className="mt-2 text-sm text-slate-200 transition-colors duration-300 group-hover:text-brand-100">
-          {language === 'fr' ? item.label : item.labelEn}
-        </p>
-      </div>
-    </div>
-  )
-}
 
 function MissionsSection() {
   const { language } = useLanguage()
@@ -153,7 +102,8 @@ function MissionsSection() {
                 ? 'Un partenaire de confiance, capable d\'aligner vision stratégique et exécution terrain, avec un accompagnement humain et réactif.'
                 : 'A trusted partner, capable of aligning strategic vision and field execution, with human and responsive support.'}
             </p>
-            <div className="grid gap-4 sm:grid-cols-2">
+            {/* Statistiques masquées temporairement - entreprise en création */}
+            {/* <div className="grid gap-4 sm:grid-cols-2">
               {chiffres.map((item, index) => (
                 <MissionStat
                   key={index}
@@ -163,7 +113,7 @@ function MissionsSection() {
                   index={index}
                 />
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
