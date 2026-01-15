@@ -14,6 +14,10 @@ import {
   AcademicCapIcon,
   UserGroupIcon,
   BriefcaseIcon,
+  LightBulbIcon,
+  StarIcon,
+  FireIcon,
+  HeartIcon,
 } from '@heroicons/react/24/outline'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import benDjibrilPhoto from '../assets/people/ben-djibril-official-with-glass-nbg.png'
@@ -61,6 +65,7 @@ function GitHubIcon({ className }: { className?: string }) {
 function About() {
   const { language } = useLanguage()
   const { elementRef: introRef, isVisible: introVisible } = useScrollAnimation({ threshold: 0.2 })
+  const { elementRef: historyRef, isVisible: historyVisible } = useScrollAnimation({ threshold: 0.1 })
 
   // Liens sociaux de Ben Djibril
   const benDjibrilSocial = {
@@ -95,69 +100,201 @@ function About() {
         </p>
       </div>
 
-      {/* Histoire avec animations */}
+      {/* Histoire avec timeline visuelle et animations */}
       <section className="mb-24">
-        <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 shadow-xl transition-all duration-700 hover:shadow-2xl md:p-12">
-          {/* Gradient animé */}
-          <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-white to-brand-100/30 animate-gradient-shift" />
-          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/10 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+        <div className="mb-12 text-center">
+          <h2 className="mb-4 font-display text-3xl text-ink md:text-4xl">
+            {language === 'fr' ? 'Notre Histoire' : 'Our Story'}
+          </h2>
+          <p className="mx-auto max-w-2xl text-slate-600">
+            {language === 'fr'
+              ? 'Un parcours marqué par l\'innovation, la vision et l\'engagement envers l\'écosystème technologique africain'
+              : 'A journey marked by innovation, vision and commitment to the African technology ecosystem'}
+          </p>
+        </div>
 
-          <div className="relative mx-auto max-w-3xl space-y-6">
-            <p className="text-lg leading-relaxed text-slate-700">
-              {language === 'fr' ? (
-                <>
-                  KOBE Corporation est née en {companyInfo.year} de l'ambition de{' '}
-                  {companyInfo.founder} de créer un écosystème technologique unique en Afrique. 
-                  Contrairement aux entreprises traditionnelles, KOBE Corporation ne se contente 
-                  pas de développer des logiciels : nous construisons un pont entre les talents 
-                  locaux et les opportunités mondiales.
-                </>
-              ) : (
-                <>
-                  KOBE Corporation was born in {companyInfo.year} from{' '}
-                  {companyInfo.founder}'s ambition to create a unique technology ecosystem in Africa. 
-                  Unlike traditional companies, KOBE Corporation doesn't just develop software: 
-                  we build a bridge between local talent and global opportunities.
-                </>
-              )}
-            </p>
-            <p className="text-lg leading-relaxed text-slate-700">
-              {language === 'fr' ? (
-                <>
-                  Notre particularité ? Nous avons créé quatre programmes uniques qui transforment 
-                  la façon dont les développeurs africains travaillent : un cadre légal pour les 
-                  freelances, des stages sur de vrais projets en production pour les étudiants, 
-                  une communauté open source active, et un réseau de networking qui grandit avec 
-                  nous. Chaque programme est conçu pour créer des opportunités réelles et mesurables.
-                </>
-              ) : (
-                <>
-                  Our uniqueness? We've created four unique programs that transform how African 
-                  developers work: a legal framework for freelancers, internships on real production 
-                  projects for students, an active open source community, and a networking network 
-                  that grows with us. Each program is designed to create real and measurable opportunities.
-                </>
-              )}
-            </p>
-            <p className="text-lg leading-relaxed text-slate-700">
-              {language === 'fr' ? (
-                <>
-                  Basés à Yaoundé, au Cameroun, nous opérons avec une compréhension profonde du 
-                  marché africain tout en respectant les standards internationaux. Notre modèle 
-                  d'affaires unique combine développement logiciel, hébergement cloud, formation 
-                  professionnelle et accompagnement communautaire - une approche holistique que 
-                  peu d'entreprises offrent.
-                </>
-              ) : (
-                <>
-                  Based in Yaoundé, Cameroon, we operate with a deep understanding of the African 
-                  market while respecting international standards. Our unique business model combines 
-                  software development, cloud hosting, professional training and community support - 
-                  a holistic approach that few companies offer.
-                </>
-              )}
-            </p>
+        {/* Timeline horizontale avec cartes animées */}
+        <div ref={historyRef} className="relative">
+          {/* Ligne de connexion horizontale (desktop) */}
+          <div className="absolute left-0 top-1/2 hidden h-1 w-full -translate-y-1/2 bg-gradient-to-r from-brand-200 via-brand-300 to-brand-200 opacity-30 md:block" />
+          <div
+            className={`absolute left-0 top-1/2 hidden h-1 -translate-y-1/2 bg-gradient-to-r from-brand-500 to-brand-600 transition-all duration-2000 ease-out md:block ${
+              historyVisible ? 'w-full' : 'w-0'
+            }`}
+          />
+
+          {/* Grille des étapes */}
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                year: companyInfo.year,
+                icon: <LightBulbIcon className="h-8 w-8" />,
+                title: language === 'fr' ? 'La Vision' : 'The Vision',
+                description:
+                  language === 'fr'
+                    ? `${companyInfo.founder} crée KOBE Corporation avec l'ambition de transformer l'écosystème technologique africain.`
+                    : `${companyInfo.founder} creates KOBE Corporation with the ambition to transform the African technology ecosystem.`,
+                color: 'from-yellow-400 to-orange-500',
+                bgColor: 'bg-yellow-50',
+                iconColor: 'text-yellow-600',
+              },
+              {
+                year: '2024',
+                icon: <RocketLaunchIcon className="h-8 w-8" />,
+                title: language === 'fr' ? 'Le Lancement' : 'The Launch',
+                description:
+                  language === 'fr'
+                    ? 'Développement de solutions logicielles de classe mondiale et création des premiers programmes pour les talents locaux.'
+                    : 'Development of world-class software solutions and creation of the first programs for local talent.',
+                color: 'from-blue-400 to-blue-600',
+                bgColor: 'bg-blue-50',
+                iconColor: 'text-blue-600',
+              },
+              {
+                year: '2024-2025',
+                icon: <StarIcon className="h-8 w-8" />,
+                title: language === 'fr' ? 'L\'Expansion' : 'The Expansion',
+                description:
+                  language === 'fr'
+                    ? 'Création de quatre programmes uniques : Freelance, Étudiants, Open Source et Networking. Chaque programme transforme la façon dont les développeurs africains travaillent.'
+                    : 'Creation of four unique programs: Freelance, Students, Open Source and Networking. Each program transforms how African developers work.',
+                color: 'from-purple-400 to-purple-600',
+                bgColor: 'bg-purple-50',
+                iconColor: 'text-purple-600',
+              },
+              {
+                year: 'Aujourd\'hui',
+                icon: <FireIcon className="h-8 w-8" />,
+                title: language === 'fr' ? 'L\'Impact' : 'The Impact',
+                description:
+                  language === 'fr'
+                    ? 'Basés à Yaoundé, nous opérons avec une compréhension profonde du marché africain tout en respectant les standards internationaux. Notre modèle unique combine développement, hébergement, formation et accompagnement communautaire.'
+                    : 'Based in Yaoundé, we operate with a deep understanding of the African market while respecting international standards. Our unique model combines development, hosting, training and community support.',
+                color: 'from-red-400 to-pink-500',
+                bgColor: 'bg-red-50',
+                iconColor: 'text-red-600',
+              },
+            ].map((milestone, index) => {
+              const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+              return (
+                <div
+                  key={index}
+                  ref={elementRef}
+                  className="relative"
+                >
+                  {/* Point de connexion (desktop) */}
+                  <div className={`absolute left-1/2 top-1/2 z-10 hidden h-6 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-white bg-gradient-to-br ${milestone.color} shadow-lg transition-all duration-500 md:block group-hover/milestone:scale-125 group-hover/milestone:rotate-180`} />
+
+                  {/* Carte de l'étape */}
+                  <div
+                    className={`group/milestone relative overflow-hidden rounded-2xl border-2 border-slate-200 bg-white p-6 shadow-lg transition-all duration-700 hover:-translate-y-2 hover:border-brand-300 hover:shadow-2xl ${
+                      isVisible
+                        ? 'translate-y-0 opacity-100 scale-100'
+                        : 'translate-y-8 opacity-0 scale-95'
+                    }`}
+                    style={{ transitionDelay: `${index * 150}ms` }}
+                  >
+                    {/* Gradient animé en arrière-plan */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${milestone.color} opacity-0 transition-opacity duration-500 group-hover/milestone:opacity-5`} />
+
+                    {/* Ligne décorative en haut */}
+                    <div className={`absolute top-0 left-0 h-1 w-0 bg-gradient-to-r ${milestone.color} transition-all duration-500 group-hover/milestone:w-full`} />
+
+                    {/* Badge année */}
+                    <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">
+                      <ClockIcon className="h-3 w-3" />
+                      <span>{milestone.year}</span>
+                    </div>
+
+                    {/* Icône */}
+                    <div
+                      className={`mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl ${milestone.bgColor} transition-all duration-500 group-hover/milestone:scale-110 group-hover/milestone:rotate-6`}
+                    >
+                      <div className={milestone.iconColor}>{milestone.icon}</div>
+                    </div>
+
+                    {/* Contenu */}
+                    <h3 className="mb-2 font-display text-xl font-semibold text-ink transition-colors duration-300 group-hover/milestone:text-brand-600">
+                      {milestone.title}
+                    </h3>
+                    <p className="text-sm leading-relaxed text-slate-600">
+                      {milestone.description}
+                    </p>
+
+                    {/* Particules animées au hover */}
+                    <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover/milestone:opacity-100">
+                      <div className="absolute top-4 right-4 h-1 w-1 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '0s' }} />
+                      <div className="absolute bottom-6 left-6 h-1.5 w-1.5 rounded-full bg-brand-300 animate-pulse" style={{ animationDelay: '1s' }} />
+                      <div className="absolute top-1/2 right-8 h-1 w-1 rounded-full bg-brand-200 animate-pulse" style={{ animationDelay: '2s' }} />
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
           </div>
+        </div>
+
+        {/* Section complémentaire avec statistiques */}
+        <div className="mt-16 grid gap-6 md:grid-cols-3">
+          {[
+            {
+              icon: <HeartIcon className="h-6 w-6" />,
+              title: language === 'fr' ? 'Notre Mission' : 'Our Mission',
+              text:
+                language === 'fr'
+                  ? 'Créer un pont entre les talents locaux et les opportunités mondiales'
+                  : 'Create a bridge between local talent and global opportunities',
+              color: 'text-red-500',
+              bgColor: 'bg-red-50',
+            },
+            {
+              icon: <GlobeAltIcon className="h-6 w-6" />,
+              title: language === 'fr' ? 'Notre Vision' : 'Our Vision',
+              text:
+                language === 'fr'
+                  ? 'Transformer l\'écosystème technologique africain avec des solutions innovantes'
+                  : 'Transform the African technology ecosystem with innovative solutions',
+              color: 'text-blue-500',
+              bgColor: 'bg-blue-50',
+            },
+            {
+              icon: <SparklesIcon className="h-6 w-6" />,
+              title: language === 'fr' ? 'Notre Engagement' : 'Our Commitment',
+              text:
+                language === 'fr'
+                  ? 'Une approche holistique combinant développement, formation et accompagnement communautaire'
+                  : 'A holistic approach combining development, training and community support',
+              color: 'text-purple-500',
+              bgColor: 'bg-purple-50',
+            },
+          ].map((item, index) => {
+            const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+            return (
+              <div
+                key={index}
+                ref={elementRef}
+                className={`group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-1 hover:shadow-xl ${
+                  isVisible
+                    ? 'translate-y-0 opacity-100'
+                    : 'translate-y-4 opacity-0'
+                }`}
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                {/* Ligne décorative */}
+                <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
+
+                <div className="relative">
+                  <div className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl ${item.bgColor} transition-all duration-500 group-hover:scale-110 group-hover:rotate-6`}>
+                    <div className={item.color}>{item.icon}</div>
+                  </div>
+                  <h3 className="mb-2 font-semibold text-ink transition-colors duration-300 group-hover:text-brand-600">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-slate-600">{item.text}</p>
+                </div>
+              </div>
+            )
+          })}
         </div>
       </section>
 

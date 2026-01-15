@@ -6,7 +6,6 @@ import {
   CheckCircleIcon,
   XCircleIcon,
   RocketLaunchIcon,
-  ClockIcon,
   CheckIcon,
   ChevronDownIcon,
   QuestionMarkCircleIcon,
