@@ -107,7 +107,7 @@ function HeroHome() {
         >
           <NavLink
             to="/services"
-            className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-brand-500 px-6 py-3.5 text-sm font-semibold text-white shadow-soft transition-all duration-300 hover:-translate-y-1 hover:bg-brand-600 hover:shadow-xl"
+            className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-[rgb(31,41,55)] px-6 py-3.5 text-sm font-semibold text-white shadow-soft transition-all duration-300 hover:-translate-y-1 hover:bg-[rgb(15,23,42)] hover:shadow-xl"
           >
             {/* Effet de brillance au hover */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
