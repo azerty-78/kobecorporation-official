@@ -539,7 +539,7 @@ function Services() {
         })}
       </div>
 
-      {/* Processus de Travail avec animations améliorées */}
+      {/* Timeline Méthodologie */}
       <section className="mt-32">
         <div className="mb-16 text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-sm mb-4">
@@ -556,40 +556,125 @@ function Services() {
           </p>
         </div>
         
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {process.map((step, index) => {
-            const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
-            return (
+        {/* Timeline Container */}
+        <div className="relative">
+          {/* Ligne verticale centrale (desktop) */}
+          <div className="absolute left-1/2 top-0 hidden h-full w-1 -translate-x-1/2 md:block">
+            {/* Ligne de base */}
+            <div className="absolute inset-0 bg-gradient-to-b from-brand-200 via-brand-300 to-brand-200 opacity-30" />
+            
+            {/* Ligne animée qui se remplit */}
+            <div 
+              className="absolute top-0 left-0 w-full bg-gradient-to-b from-brand-400 via-brand-500 to-brand-400 transition-all duration-2000"
+              style={{
+                height: '100%',
+                transitionDelay: '300ms',
+              }}
+            />
+            
+            {/* Particules animées le long de la ligne */}
+            {process.map((_, i) => (
               <div
-                key={step.step}
-                ref={elementRef}
-                className={`group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl ${
-                  isVisible
-                    ? 'translate-y-0 opacity-100'
-                    : 'translate-y-8 opacity-0'
-                }`}
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                {/* Ligne décorative */}
-                <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
-                
-                {/* Gradient au hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                
-                <div className="relative">
-                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
-                    <span className="font-display text-2xl font-bold">{step.step}</span>
+                key={i}
+                className="absolute left-1/2 h-4 w-4 -translate-x-1/2 rounded-full bg-brand-500 shadow-lg animate-pulse"
+                style={{
+                  top: `${(i / (process.length - 1)) * 100}%`,
+                  animationDelay: `${i * 0.3}s`,
+                  animationDuration: '2s',
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Étapes de la timeline */}
+          <div className="space-y-12 md:space-y-16">
+            {process.map((step, index) => {
+              const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.2 })
+              const isEven = index % 2 === 0
+
+              return (
+                <div
+                  key={step.step}
+                  ref={elementRef}
+                  className={`relative grid gap-8 md:grid-cols-2 md:items-center ${
+                    isEven ? '' : 'md:grid-flow-dense'
+                  }`}
+                >
+                  {/* Contenu (gauche pour pair, droite pour impair) */}
+                  <div
+                    className={`group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl md:p-8 ${
+                      isEven ? 'md:col-start-1' : 'md:col-start-2'
+                    } ${
+                      isVisible
+                        ? 'translate-x-0 opacity-100'
+                        : isEven
+                        ? '-translate-x-8 opacity-0'
+                        : 'translate-x-8 opacity-0'
+                    }`}
+                    style={{ transitionDelay: `${index * 150}ms` }}
+                  >
+                    {/* Ligne décorative animée */}
+                    <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-700 group-hover:w-full" />
+                    
+                    {/* Gradient au hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                    
+                    <div className="relative">
+                      <div className="mb-4 flex items-center gap-4">
+                        {/* Badge numéro d'étape */}
+                        <div className="relative">
+                          <div className="absolute inset-0 rounded-2xl bg-brand-400/30 blur-xl opacity-0 transition-opacity duration-500 group-hover:opacity-50" />
+                          <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
+                            <span className="font-display text-2xl font-bold">{step.step}</span>
+                          </div>
+                        </div>
+                        
+                        <div className="flex-1">
+                          <div className="mb-1 text-xs font-semibold uppercase tracking-wider text-brand-600">
+                            {language === 'fr' ? 'Étape' : 'Step'} {step.step}
+                          </div>
+                          <h3 className="text-xl font-semibold text-ink transition-colors duration-300 group-hover:text-brand-600 md:text-2xl">
+                            {language === 'fr' ? step.title : step.titleEn}
+                          </h3>
+                        </div>
+                      </div>
+                      
+                      <p className="text-sm leading-relaxed text-slate-600 md:text-base">
+                        {language === 'fr' ? step.description : step.descriptionEn}
+                      </p>
+                    </div>
                   </div>
-                  <h3 className="mb-2 font-semibold text-ink transition-colors duration-300 group-hover:text-brand-600">
-                    {language === 'fr' ? step.title : step.titleEn}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-slate-600">
-                    {language === 'fr' ? step.description : step.descriptionEn}
-                  </p>
+
+                  {/* Point de connexion sur la ligne (desktop) */}
+                  <div
+                    className={`hidden items-center justify-center md:flex ${
+                      isEven ? 'md:col-start-2 md:justify-start' : 'md:col-start-1 md:justify-end'
+                    }`}
+                  >
+                    <div className="group/connector relative z-10">
+                      {/* Cercle externe pulsant */}
+                      <div className="absolute inset-0 rounded-full bg-brand-400/30 animate-ping" />
+                      
+                      {/* Point central */}
+                      <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-brand-600 shadow-xl transition-all duration-500 hover:scale-125 hover:rotate-180">
+                        <div className="h-6 w-6 rounded-full bg-white shadow-inner transition-all duration-300 group-hover/connector:scale-110" />
+                        
+                        {/* Effet de brillance */}
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/30 to-transparent opacity-0 transition-opacity duration-300 group-hover/connector:opacity-100" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Espace vide pour l'alignement */}
+                  <div
+                    className={`hidden md:block ${
+                      isEven ? 'md:col-start-1' : 'md:col-start-2'
+                    }`}
+                  />
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
         </div>
       </section>
 
