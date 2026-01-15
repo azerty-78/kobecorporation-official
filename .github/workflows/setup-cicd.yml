@@ -1314,13 +1314,112 @@ jobs:
             echo "✅ Certificats obtenus avec succès !"
             echo "📋 Certificats disponibles :"
             docker exec $CERTBOT_CONTAINER certbot certificates | grep -A 10 "kobecorporation.com" || true
+            
+            echo ""
+            echo "📋 Étape 3 : Activation automatique de HTTPS"
+            echo "=============================================="
+            
+            # Vérifier si les certificats existent maintenant
+            if docker exec $CERTBOT_CONTAINER certbot certificates 2>/dev/null | grep -q "kobecorporation.com"; then
+              echo "🔓 Activation automatique de HTTPS..."
+              
+              # Fonction pour décommenter les sections HTTPS
+              uncomment_https_section() {
+                local file=$1
+                local domain_name=$2
+                
+                if [ ! -f "$file" ]; then
+                  echo "⚠️  Fichier $file non trouvé"
+                  return 1
+                fi
+                
+                echo "🔓 Décommentage des sections HTTPS pour $domain_name..."
+                
+                # Créer une copie temporaire
+                TEMP_FILE="/tmp/$(basename $file)"
+                cp "$file" "$TEMP_FILE"
+                
+                # Décommenter toutes les lignes dans la section HTTPS
+                # Méthode simple : utiliser sed pour décommenter les lignes entre "# Configuration HTTPS" et "# }"
+                sed -i '/^# Configuration HTTPS/,/^# }$/ {
+                  s/^# \(.*\)/\1/
+                  s/^#$//
+                }' "$TEMP_FILE" 2>/dev/null || {
+                  # Méthode alternative si sed échoue
+                  awk '
+                    BEGIN { in_https = 0 }
+                    /^# Configuration HTTPS/ { in_https = 1; next }
+                    in_https && /^# }$/ { in_https = 0; next }
+                    in_https && /^# [^#]/ { sub(/^# /, ""); print; next }
+                    in_https && /^#$/ { print ""; next }
+                    in_https { next }
+                    { print }
+                  ' "$TEMP_FILE" > "$TEMP_FILE.new" && mv "$TEMP_FILE.new" "$TEMP_FILE"
+                }
+                
+                # Vérifier que le décommentage a fonctionné
+                if grep -q "^[[:space:]]*listen 443 ssl" "$TEMP_FILE"; then
+                  echo "$TEMP_FILE"
+                  return 0
+                else
+                  echo "⚠️  Le décommentage automatique a échoué pour $domain_name"
+                  rm -f "$TEMP_FILE"
+                  return 1
+                fi
+              }
+              
+              # Décommenter kobecorporation.com.conf
+              if [ -f "$KOBE_CONF_DIR/conf.d/kobecorporation.com.conf" ]; then
+                UNCOMMENTED_FILE=$(uncomment_https_section "$KOBE_CONF_DIR/conf.d/kobecorporation.com.conf" "kobecorporation.com")
+                if [ -n "$UNCOMMENTED_FILE" ] && [ -f "$UNCOMMENTED_FILE" ]; then
+                  # Copier dans blogpress-nginx
+                  if [ -z "$BLOGPRESS_CONF_DIR" ] || [ ! -d "$BLOGPRESS_CONF_DIR" ]; then
+                    docker cp "$UNCOMMENTED_FILE" "$NGINX_CONTAINER:/etc/nginx/conf.d/kobecorporation.com.conf"
+                  else
+                    cp "$UNCOMMENTED_FILE" "$BLOGPRESS_CONF_DIR/kobecorporation.com.conf"
+                  fi
+                  echo "✅ Configuration HTTPS activée pour kobecorporation.com"
+                  rm -f "$UNCOMMENTED_FILE"
+                fi
+              fi
+              
+              # Décommenter ben-djibril.kobecorporation.com.conf
+              if [ -f "$KOBE_CONF_DIR/conf.d/ben-djibril.kobecorporation.com.conf" ]; then
+                UNCOMMENTED_FILE=$(uncomment_https_section "$KOBE_CONF_DIR/conf.d/ben-djibril.kobecorporation.com.conf" "ben-djibril.kobecorporation.com")
+                if [ -n "$UNCOMMENTED_FILE" ] && [ -f "$UNCOMMENTED_FILE" ]; then
+                  if [ -z "$BLOGPRESS_CONF_DIR" ] || [ ! -d "$BLOGPRESS_CONF_DIR" ]; then
+                    docker cp "$UNCOMMENTED_FILE" "$NGINX_CONTAINER:/etc/nginx/conf.d/ben-djibril.kobecorporation.com.conf"
+                  else
+                    cp "$UNCOMMENTED_FILE" "$BLOGPRESS_CONF_DIR/ben-djibril.kobecorporation.com.conf"
+                  fi
+                  echo "✅ Configuration HTTPS activée pour ben-djibril.kobecorporation.com"
+                  rm -f "$UNCOMMENTED_FILE"
+                fi
+              fi
+              
+              # Tester et recharger Nginx avec HTTPS activé
+              if docker exec $NGINX_CONTAINER nginx -t 2>/dev/null; then
+                echo "✅ Configuration Nginx avec HTTPS valide"
+                docker exec $NGINX_CONTAINER nginx -s reload 2>/dev/null || docker restart $NGINX_CONTAINER
+                echo "✅ Nginx rechargé avec HTTPS activé"
+              else
+                echo "⚠️  Erreur dans la configuration Nginx après activation HTTPS"
+                docker exec $NGINX_CONTAINER nginx -t
+              fi
+            else
+              echo "ℹ️  Les certificats existent déjà - Vérification de l'activation HTTPS..."
+              
+              # Vérifier si HTTPS est déjà activé
+              if docker exec $NGINX_CONTAINER grep -q "listen 443 ssl" /etc/nginx/conf.d/kobecorporation.com.conf 2>/dev/null; then
+                echo "✅ HTTPS est déjà activé pour kobecorporation.com"
+              else
+                echo "💡 HTTPS n'est pas encore activé. Les certificats existent, mais les sections HTTPS doivent être décommentées manuellement."
+              fi
+            fi
           fi
           
           echo ""
-          echo "💡 Prochaines étapes manuelles :"
-          echo "   1. Décommentez les sections HTTPS dans setup-kobe-proxy/conf.d/*.conf"
-          echo "   2. Copiez les fichiers mis à jour dans blogpress-nginx"
-          echo "   3. Rechargez Nginx: docker exec $NGINX_CONTAINER nginx -s reload"
+          echo "✅ Configuration SSL terminée !"
           SSL_SETUP
       
       - name: 🎉 Deployment Summary
