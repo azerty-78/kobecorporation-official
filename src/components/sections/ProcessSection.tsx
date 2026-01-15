@@ -107,31 +107,34 @@ function ProcessSection() {
         {/* Ligne de connexion animée (desktop seulement) */}
         <div className="absolute left-1/2 top-0 hidden h-full w-1 -translate-x-1/2 md:block">
           {/* Ligne de base */}
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-200 via-brand-300 to-brand-200 opacity-30" />
+          <div className="absolute inset-0 bg-slate-200 opacity-30" />
           
           {/* Ligne animée qui se remplit */}
           <div 
-            className="absolute top-0 left-0 w-full bg-gradient-to-b from-brand-400 via-brand-500 to-brand-400 transition-all duration-1000"
+            className="absolute top-0 left-0 w-full transition-all duration-1000"
             style={{
               height: isVisible ? '100%' : '0%',
+              backgroundColor: 'rgb(31, 41, 55)',
               transitionDelay: '500ms',
             }}
           />
           
           {/* Particules animées le long de la ligne */}
-          <div className="absolute inset-0">
-            {[...Array(3)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-brand-500 shadow-lg animate-pulse"
-                style={{
-                  top: `${25 + i * 25}%`,
-                  animationDelay: `${i * 0.5}s`,
-                  animationDuration: '2s',
-                }}
-              />
-            ))}
-          </div>
+          {isVisible && (
+            <div className="absolute inset-0">
+              {[...Array(3)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-[rgb(31,41,55)] shadow-lg animate-pulse"
+                  style={{
+                    top: `${25 + i * 25}%`,
+                    animationDelay: `${i * 0.5}s`,
+                    animationDuration: '2s',
+                  }}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="space-y-8 md:space-y-12">
@@ -210,7 +213,7 @@ function ProcessSection() {
                     {/* Cercle externe pulsant */}
                     <div className="absolute inset-0 rounded-full bg-brand-400 opacity-0 animate-ping group-hover/connector:opacity-30" />
                     
-                    <div className="relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-brand-600 shadow-xl transition-all duration-500 hover:scale-125 hover:rotate-180">
+                    <div className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[rgb(31,41,55)] shadow-xl transition-all duration-500 hover:scale-125 hover:rotate-180 hover:bg-[rgb(15,23,42)]">
                       <div className="h-5 w-5 rounded-full bg-white shadow-inner transition-all duration-300 group-hover/connector:scale-110" />
                       
                       {/* Effet de brillance */}

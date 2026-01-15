@@ -17,7 +17,6 @@ import {
   LightBulbIcon,
   StarIcon,
   FireIcon,
-  HeartIcon,
 } from '@heroicons/react/24/outline'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import benDjibrilPhoto from '../assets/people/ben-djibril-official-with-glass-nbg.png'
@@ -100,7 +99,7 @@ function About() {
         </p>
       </div>
 
-      {/* Histoire avec timeline visuelle et animations */}
+      {/* Histoire avec timeline verticale responsive */}
       <section className="mb-24">
         <div className="mb-12 text-center">
           <h2 className="mb-4 font-display text-3xl text-ink md:text-4xl">
@@ -113,18 +112,35 @@ function About() {
           </p>
         </div>
 
-        {/* Timeline horizontale avec cartes animées */}
-        <div ref={historyRef} className="relative">
-          {/* Ligne de connexion horizontale (desktop) */}
-          <div className="absolute left-0 top-1/2 hidden h-1 w-full -translate-y-1/2 bg-gradient-to-r from-brand-200 via-brand-300 to-brand-200 opacity-30 md:block" />
-          <div
-            className={`absolute left-0 top-1/2 hidden h-1 -translate-y-1/2 bg-gradient-to-r from-brand-500 to-brand-600 transition-all duration-2000 ease-out md:block ${
-              historyVisible ? 'w-full' : 'w-0'
-            }`}
-          />
+        {/* Timeline verticale responsive */}
+        <div ref={historyRef} className="relative mx-auto max-w-4xl">
+          {/* Ligne verticale centrale (desktop) */}
+          <div className="absolute left-1/2 top-0 hidden h-full w-1 -translate-x-1/2 md:block">
+            {/* Ligne de base */}
+            <div className="absolute inset-0 bg-slate-200 opacity-30" />
+            
+            {/* Ligne animée qui se remplit */}
+            <div 
+              className="absolute top-0 left-0 w-full transition-all duration-2000"
+              style={{
+                height: historyVisible ? '100%' : '0%',
+                backgroundColor: 'rgb(31, 41, 55)',
+                transitionDelay: '300ms',
+              }}
+            />
+            
+            {/* Particules animées le long de la ligne */}
+            {historyVisible && (
+              <>
+                <div className="absolute left-1/2 top-[25%] h-3 w-3 -translate-x-1/2 rounded-full bg-[rgb(31,41,55)] shadow-lg animate-pulse" style={{ animationDelay: '0.5s' }} />
+                <div className="absolute left-1/2 top-[50%] h-3 w-3 -translate-x-1/2 rounded-full bg-[rgb(31,41,55)] shadow-lg animate-pulse" style={{ animationDelay: '1s' }} />
+                <div className="absolute left-1/2 top-[75%] h-3 w-3 -translate-x-1/2 rounded-full bg-[rgb(31,41,55)] shadow-lg animate-pulse" style={{ animationDelay: '1.5s' }} />
+              </>
+            )}
+          </div>
 
-          {/* Grille des étapes */}
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {/* Étapes de la timeline */}
+          <div className="space-y-12 md:space-y-16">
             {[
               {
                 year: companyInfo.year,
@@ -132,9 +148,8 @@ function About() {
                 title: language === 'fr' ? 'La Vision' : 'The Vision',
                 description:
                   language === 'fr'
-                    ? `${companyInfo.founder} crée KOBE Corporation avec l'ambition de transformer l'écosystème technologique africain.`
-                    : `${companyInfo.founder} creates KOBE Corporation with the ambition to transform the African technology ecosystem.`,
-                color: 'from-yellow-400 to-orange-500',
+                    ? `${companyInfo.founder} crée KOBE Corporation avec l'ambition de transformer l'écosystème technologique africain. Contrairement aux entreprises traditionnelles, nous ne nous contentons pas de développer des logiciels : nous construisons un pont entre les talents locaux et les opportunités mondiales.`
+                    : `${companyInfo.founder} creates KOBE Corporation with the ambition to transform the African technology ecosystem. Unlike traditional companies, we don't just develop software: we build a bridge between local talent and global opportunities.`,
                 bgColor: 'bg-yellow-50',
                 iconColor: 'text-yellow-600',
               },
@@ -144,9 +159,8 @@ function About() {
                 title: language === 'fr' ? 'Le Lancement' : 'The Launch',
                 description:
                   language === 'fr'
-                    ? 'Développement de solutions logicielles de classe mondiale et création des premiers programmes pour les talents locaux.'
-                    : 'Development of world-class software solutions and creation of the first programs for local talent.',
-                color: 'from-blue-400 to-blue-600',
+                    ? 'Développement de solutions logicielles de classe mondiale et création des premiers programmes pour les talents locaux. Nous avons commencé à opérer depuis Yaoundé, au Cameroun, avec une compréhension profonde du marché africain tout en respectant les standards internationaux.'
+                    : 'Development of world-class software solutions and creation of the first programs for local talent. We started operating from Yaoundé, Cameroon, with a deep understanding of the African market while respecting international standards.',
                 bgColor: 'bg-blue-50',
                 iconColor: 'text-blue-600',
               },
@@ -156,9 +170,8 @@ function About() {
                 title: language === 'fr' ? 'L\'Expansion' : 'The Expansion',
                 description:
                   language === 'fr'
-                    ? 'Création de quatre programmes uniques : Freelance, Étudiants, Open Source et Networking. Chaque programme transforme la façon dont les développeurs africains travaillent.'
-                    : 'Creation of four unique programs: Freelance, Students, Open Source and Networking. Each program transforms how African developers work.',
-                color: 'from-purple-400 to-purple-600',
+                    ? 'Création de quatre programmes uniques qui transforment la façon dont les développeurs africains travaillent : un cadre légal pour les freelances, des stages sur de vrais projets en production pour les étudiants, une communauté open source active, et un réseau de networking qui grandit avec nous.'
+                    : 'Creation of four unique programs that transform how African developers work: a legal framework for freelancers, internships on real production projects for students, an active open source community, and a networking network that grows with us.',
                 bgColor: 'bg-purple-50',
                 iconColor: 'text-purple-600',
               },
@@ -168,64 +181,67 @@ function About() {
                 title: language === 'fr' ? 'L\'Impact' : 'The Impact',
                 description:
                   language === 'fr'
-                    ? 'Basés à Yaoundé, nous opérons avec une compréhension profonde du marché africain tout en respectant les standards internationaux. Notre modèle unique combine développement, hébergement, formation et accompagnement communautaire.'
-                    : 'Based in Yaoundé, we operate with a deep understanding of the African market while respecting international standards. Our unique model combines development, hosting, training and community support.',
-                color: 'from-red-400 to-pink-500',
+                    ? 'Notre modèle d\'affaires unique combine développement logiciel, hébergement cloud, formation professionnelle et accompagnement communautaire - une approche holistique que peu d\'entreprises offrent. Chaque programme est conçu pour créer des opportunités réelles et mesurables.'
+                    : 'Our unique business model combines software development, cloud hosting, professional training and community support - a holistic approach that few companies offer. Each program is designed to create real and measurable opportunities.',
                 bgColor: 'bg-red-50',
                 iconColor: 'text-red-600',
               },
             ].map((milestone, index) => {
-              const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+              const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.2 })
+              const isEven = index % 2 === 0
               return (
                 <div
                   key={index}
                   ref={elementRef}
-                  className="relative"
+                  className={`relative flex items-center ${isEven ? 'justify-start' : 'justify-end'}`}
                 >
-                  {/* Point de connexion (desktop) */}
-                  <div className={`absolute left-1/2 top-1/2 z-10 hidden h-6 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-white bg-gradient-to-br ${milestone.color} shadow-lg transition-all duration-500 md:block group-hover/milestone:scale-125 group-hover/milestone:rotate-180`} />
+                  {/* Point de connexion */}
+                  <div
+                    className={`absolute left-1/2 top-1/2 z-10 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-white bg-[rgb(31,41,55)] text-white shadow-lg transition-all duration-500 group-hover/step:scale-125 group-hover/step:rotate-180 ${
+                      isVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+                    }`}
+                    style={{ transitionDelay: `${index * 100 + 500}ms` }}
+                  >
+                    <span className="font-display text-lg font-bold">{index + 1}</span>
+                  </div>
 
                   {/* Carte de l'étape */}
                   <div
-                    className={`group/milestone relative overflow-hidden rounded-2xl border-2 border-slate-200 bg-white p-6 shadow-lg transition-all duration-700 hover:-translate-y-2 hover:border-brand-300 hover:shadow-2xl ${
+                    className={`group/step glass-panel relative w-[calc(50%-40px)] overflow-hidden rounded-2xl p-6 shadow-xl transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl md:p-8 ${
                       isVisible
-                        ? 'translate-y-0 opacity-100 scale-100'
-                        : 'translate-y-8 opacity-0 scale-95'
+                        ? 'translate-x-0 opacity-100'
+                        : isEven
+                        ? '-translate-x-16 opacity-0'
+                        : 'translate-x-16 opacity-0'
                     }`}
-                    style={{ transitionDelay: `${index * 150}ms` }}
+                    style={{ transitionDelay: `${index * 150 + 300}ms` }}
                   >
-                    {/* Gradient animé en arrière-plan */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${milestone.color} opacity-0 transition-opacity duration-500 group-hover/milestone:opacity-5`} />
+                    {/* Ligne décorative */}
+                    <div className="absolute top-0 left-0 h-1 w-0 bg-[rgb(31,41,55)] transition-all duration-500 group-hover/step:w-full" />
+                    
+                    {/* Gradient au hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover/step:opacity-100" />
+                    
+                    <div className="relative">
+                      {/* Badge année */}
+                      <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">
+                        <ClockIcon className="h-3 w-3" />
+                        <span>{milestone.year}</span>
+                      </div>
 
-                    {/* Ligne décorative en haut */}
-                    <div className={`absolute top-0 left-0 h-1 w-0 bg-gradient-to-r ${milestone.color} transition-all duration-500 group-hover/milestone:w-full`} />
+                      {/* Icône */}
+                      <div
+                        className={`mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl ${milestone.bgColor} transition-all duration-500 group-hover/step:scale-110 group-hover/step:rotate-6`}
+                      >
+                        <div className={milestone.iconColor}>{milestone.icon}</div>
+                      </div>
 
-                    {/* Badge année */}
-                    <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">
-                      <ClockIcon className="h-3 w-3" />
-                      <span>{milestone.year}</span>
-                    </div>
-
-                    {/* Icône */}
-                    <div
-                      className={`mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl ${milestone.bgColor} transition-all duration-500 group-hover/milestone:scale-110 group-hover/milestone:rotate-6`}
-                    >
-                      <div className={milestone.iconColor}>{milestone.icon}</div>
-                    </div>
-
-                    {/* Contenu */}
-                    <h3 className="mb-2 font-display text-xl font-semibold text-ink transition-colors duration-300 group-hover/milestone:text-brand-600">
-                      {milestone.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-slate-600">
-                      {milestone.description}
-                    </p>
-
-                    {/* Particules animées au hover */}
-                    <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover/milestone:opacity-100">
-                      <div className="absolute top-4 right-4 h-1 w-1 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '0s' }} />
-                      <div className="absolute bottom-6 left-6 h-1.5 w-1.5 rounded-full bg-brand-300 animate-pulse" style={{ animationDelay: '1s' }} />
-                      <div className="absolute top-1/2 right-8 h-1 w-1 rounded-full bg-brand-200 animate-pulse" style={{ animationDelay: '2s' }} />
+                      <h3 className="mb-2 font-display text-xl font-semibold text-ink transition-colors duration-300 group-hover/step:text-brand-600">
+                        {milestone.title}
+                      </h3>
+                      <p className="text-sm leading-relaxed text-slate-600">
+                        {milestone.description}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -233,137 +249,43 @@ function About() {
             })}
           </div>
         </div>
-
-        {/* Section complémentaire avec statistiques */}
-        <div className="mt-16 grid gap-6 md:grid-cols-3">
-          {[
-            {
-              icon: <HeartIcon className="h-6 w-6" />,
-              title: language === 'fr' ? 'Notre Mission' : 'Our Mission',
-              text:
-                language === 'fr'
-                  ? 'Créer un pont entre les talents locaux et les opportunités mondiales'
-                  : 'Create a bridge between local talent and global opportunities',
-              color: 'text-red-500',
-              bgColor: 'bg-red-50',
-            },
-            {
-              icon: <GlobeAltIcon className="h-6 w-6" />,
-              title: language === 'fr' ? 'Notre Vision' : 'Our Vision',
-              text:
-                language === 'fr'
-                  ? 'Transformer l\'écosystème technologique africain avec des solutions innovantes'
-                  : 'Transform the African technology ecosystem with innovative solutions',
-              color: 'text-blue-500',
-              bgColor: 'bg-blue-50',
-            },
-            {
-              icon: <SparklesIcon className="h-6 w-6" />,
-              title: language === 'fr' ? 'Notre Engagement' : 'Our Commitment',
-              text:
-                language === 'fr'
-                  ? 'Une approche holistique combinant développement, formation et accompagnement communautaire'
-                  : 'A holistic approach combining development, training and community support',
-              color: 'text-purple-500',
-              bgColor: 'bg-purple-50',
-            },
-          ].map((item, index) => {
-            const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
-            return (
-              <div
-                key={index}
-                ref={elementRef}
-                className={`group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-1 hover:shadow-xl ${
-                  isVisible
-                    ? 'translate-y-0 opacity-100'
-                    : 'translate-y-4 opacity-0'
-                }`}
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                {/* Ligne décorative */}
-                <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
-
-                <div className="relative">
-                  <div className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl ${item.bgColor} transition-all duration-500 group-hover:scale-110 group-hover:rotate-6`}>
-                    <div className={item.color}>{item.icon}</div>
-                  </div>
-                  <h3 className="mb-2 font-semibold text-ink transition-colors duration-300 group-hover:text-brand-600">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-slate-600">{item.text}</p>
-                </div>
-              </div>
-            )
-          })}
-        </div>
       </section>
 
-      {/* Mission & Vision avec animations */}
+      {/* Valeurs avec animations */}
       <section className="mb-24">
-        <div className="grid gap-12 lg:grid-cols-2">
-          <div className="space-y-6">
-            <h2 className="font-display text-3xl text-ink md:text-4xl">
-              {language === 'fr' ? 'Notre Mission' : 'Our Mission'}
-            </h2>
-            <div className="space-y-4">
-              <div className="glass-panel rounded-2xl p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl">
-                <h3 className="mb-2 text-lg font-semibold text-brand-600">
-                  {companyInfo.slogan}
-                </h3>
-                <p className="text-slate-600">
-                  {language === 'fr' ? (
-                    <>
-                      Nous croyons que chaque individu, chaque entreprise mérite
-                      les meilleurs outils technologiques pour réaliser ses
-                      ambitions.
-                    </>
-                  ) : (
-                    <>
-                      We believe that every individual, every business deserves
-                      the best technological tools to achieve its ambitions.
-                    </>
-                  )}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl">
-            {/* Ligne décorative */}
-            <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
-            
-            <h3 className="mb-6 font-display text-2xl text-ink">
-              {language === 'fr' ? 'Nos Valeurs' : 'Our Values'}
-            </h3>
-            <div className="space-y-4">
-              {valeurs.map((valeur, index) => {
-                const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
-                return (
-                  <div
-                    key={index}
-                    ref={elementRef}
-                    className={`flex items-start gap-3 transition-all duration-700 ${
-                      isVisible
-                        ? 'translate-x-0 opacity-100'
-                        : '-translate-x-4 opacity-0'
-                    }`}
-                    style={{ transitionDelay: `${index * 100}ms` }}
-                  >
-                    <div className="mt-0.5 transition-transform duration-300 hover:scale-110">
-                      {valeur.icon}
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-ink">
-                        {language === 'fr' ? valeur.title : valeur.titleEn}
-                      </h4>
-                      <p className="text-sm text-slate-600">
-                        {language === 'fr' ? valeur.text : valeur.textEn}
-                      </p>
-                    </div>
+        <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl md:p-12">
+          {/* Ligne décorative */}
+          <div className="absolute top-0 left-0 h-1 w-0 bg-[rgb(31,41,55)] transition-all duration-500 group-hover:w-full" />
+          
+          <h2 className="mb-8 font-display text-3xl text-ink md:text-4xl">
+            {language === 'fr' ? 'Nos Valeurs' : 'Our Values'}
+          </h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {valeurs.map((valeur, index) => {
+              const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+              return (
+                <div
+                  key={index}
+                  ref={elementRef}
+                  className={`group/value glass-panel rounded-2xl p-6 transition-all duration-700 hover:-translate-y-1 hover:shadow-xl ${
+                    isVisible
+                      ? 'translate-y-0 opacity-100'
+                      : 'translate-y-4 opacity-0'
+                  }`}
+                  style={{ transitionDelay: `${index * 100}ms` }}
+                >
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 transition-all duration-300 group-hover/value:scale-110 group-hover/value:rotate-6">
+                    {valeur.icon}
                   </div>
-                )
-              })}
-            </div>
+                  <h4 className="mb-2 font-semibold text-ink">
+                    {language === 'fr' ? valeur.title : valeur.titleEn}
+                  </h4>
+                  <p className="text-sm text-slate-600">
+                    {language === 'fr' ? valeur.text : valeur.textEn}
+                  </p>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>

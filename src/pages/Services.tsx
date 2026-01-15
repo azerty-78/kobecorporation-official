@@ -561,22 +561,23 @@ function Services() {
           {/* Ligne verticale centrale (desktop) */}
           <div className="absolute left-1/2 top-0 hidden h-full w-1 -translate-x-1/2 md:block">
             {/* Ligne de base */}
-            <div className="absolute inset-0 bg-gradient-to-b from-brand-200 via-brand-300 to-brand-200 opacity-30" />
+            <div className="absolute inset-0 bg-slate-200 opacity-30" />
             
             {/* Ligne animée qui se remplit */}
             <div 
-              className="absolute top-0 left-0 w-full bg-gradient-to-b from-brand-400 via-brand-500 to-brand-400 transition-all duration-2000"
+              className="absolute top-0 left-0 w-full transition-all duration-2000"
               style={{
                 height: '100%',
+                backgroundColor: 'rgb(31, 41, 55)',
                 transitionDelay: '300ms',
               }}
             />
             
             {/* Particules animées le long de la ligne */}
-            {process.map((_, i) => (
+            {timelineVisible && process.map((_, i) => (
               <div
                 key={i}
-                className="absolute left-1/2 h-4 w-4 -translate-x-1/2 rounded-full bg-brand-500 shadow-lg animate-pulse"
+                className="absolute left-1/2 h-4 w-4 -translate-x-1/2 rounded-full bg-[rgb(31,41,55)] shadow-lg animate-pulse"
                 style={{
                   top: `${(i / (process.length - 1)) * 100}%`,
                   animationDelay: `${i * 0.3}s`,
@@ -624,7 +625,7 @@ function Services() {
                         {/* Badge numéro d'étape */}
                         <div className="relative">
                           <div className="absolute inset-0 rounded-2xl bg-brand-400/30 blur-xl opacity-0 transition-opacity duration-500 group-hover:opacity-50" />
-                          <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
+                          <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-[rgb(31,41,55)] text-white shadow-xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-[rgb(15,23,42)]">
                             <span className="font-display text-2xl font-bold">{step.step}</span>
                           </div>
                         </div>
@@ -656,7 +657,7 @@ function Services() {
                       <div className="absolute inset-0 rounded-full bg-brand-400/30 animate-ping" />
                       
                       {/* Point central */}
-                      <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-brand-600 shadow-xl transition-all duration-500 hover:scale-125 hover:rotate-180">
+                      <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-[rgb(31,41,55)] shadow-xl transition-all duration-500 hover:scale-125 hover:rotate-180 hover:bg-[rgb(15,23,42)]">
                         <div className="h-6 w-6 rounded-full bg-white shadow-inner transition-all duration-300 group-hover/connector:scale-110" />
                         
                         {/* Effet de brillance */}
