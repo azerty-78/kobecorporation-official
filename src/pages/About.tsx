@@ -21,6 +21,96 @@ import {
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import benDjibrilPhoto from '../assets/people/ben-djibril-official-with-glass-nbg.png'
 
+// Composant pour les milestones de l'histoire
+function HistoryMilestone({ milestone, index, language }: { milestone: any; index: number; language: 'fr' | 'en' }) {
+  const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.2 })
+  const isEven = index % 2 === 0
+  
+  return (
+    <div
+      ref={elementRef}
+      className={`relative flex items-center ${
+        'justify-center lg:justify-start'
+      } ${!isEven ? 'lg:justify-end' : ''}`}
+    >
+      {/* Point de connexion - masqué sur mobile */}
+      <div
+        className={`absolute left-1/2 top-1/2 z-10 hidden h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-white bg-[rgb(31,41,55)] text-white shadow-lg transition-all duration-500 group-hover/step:scale-125 group-hover/step:rotate-180 lg:flex ${
+          isVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+        }`}
+        style={{ transitionDelay: `${index * 100 + 500}ms` }}
+      >
+        <span className="font-display text-lg font-bold">{index + 1}</span>
+      </div>
+
+      {/* Carte de l'étape */}
+      <div
+        className={`group/step glass-panel relative w-full overflow-hidden rounded-2xl p-6 shadow-xl transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl lg:w-[calc(50%-40px)] md:p-8 ${
+          isVisible
+            ? 'translate-y-0 opacity-100'
+            : 'translate-y-8 opacity-0'
+        }`}
+        style={{ transitionDelay: `${index * 150 + 300}ms` }}
+      >
+        {/* Ligne décorative */}
+        <div className="absolute top-0 left-0 h-1 w-0 bg-[rgb(31,41,55)] transition-all duration-500 group-hover/step:w-full" />
+        
+        {/* Gradient au hover */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover/step:opacity-100" />
+        
+        <div className="relative">
+          {/* Badge année */}
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">
+            <ClockIcon className="h-3 w-3" />
+            <span>{milestone.year}</span>
+          </div>
+
+          {/* Icône */}
+          <div
+            className={`mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl ${milestone.bgColor} transition-all duration-500 group-hover/step:scale-110 group-hover/step:rotate-6`}
+          >
+            <div className={milestone.iconColor}>{milestone.icon}</div>
+          </div>
+
+          <h3 className="mb-2 font-display text-xl font-semibold text-ink transition-colors duration-300 group-hover/step:text-brand-600">
+            {milestone.title}
+          </h3>
+          <p className="text-sm leading-relaxed text-slate-600">
+            {milestone.description}
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Composant pour les valeurs
+function ValeurCard({ valeur, index, language }: { valeur: any; index: number; language: 'fr' | 'en' }) {
+  const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+  
+  return (
+    <div
+      ref={elementRef}
+      className={`group/value glass-panel rounded-2xl p-6 transition-all duration-700 hover:-translate-y-1 hover:shadow-xl ${
+        isVisible
+          ? 'translate-y-0 opacity-100'
+          : 'translate-y-4 opacity-0'
+      }`}
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
+      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 transition-all duration-300 group-hover/value:scale-110 group-hover/value:rotate-6">
+        {valeur.icon}
+      </div>
+      <h4 className="mb-2 font-semibold text-ink">
+        {language === 'fr' ? valeur.title : valeur.titleEn}
+      </h4>
+      <p className="text-sm text-slate-600">
+        {language === 'fr' ? valeur.text : valeur.textEn}
+      </p>
+    </div>
+  )
+}
+
 // Icônes SVG pour les réseaux sociaux
 function LinkedInIcon({ className }: { className?: string }) {
   return (
@@ -101,12 +191,6 @@ function About() {
 
       {/* Histoire avec timeline verticale responsive */}
       <section className="mb-24">
-        <div className="mb-12 text-center">
-          <h2 className="mb-4 font-display text-3xl text-ink md:text-4xl">
-            {language === 'fr' ? 'Notre Histoire' : 'Our Story'}
-          </h2>
-        </div>
-
         {/* Timeline verticale responsive - masquée sur mobile, visible à partir de lg */}
         <div ref={historyRef} className="relative mx-auto max-w-4xl">
           {/* Ligne verticale centrale (lg et plus seulement) */}
@@ -181,69 +265,9 @@ function About() {
                 bgColor: 'bg-red-50',
                 iconColor: 'text-red-600',
               },
-            ].map((milestone, index) => {
-              const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.2 })
-              const isEven = index % 2 === 0
-              return (
-                <div
-                  key={index}
-                  ref={elementRef}
-                  className={`relative flex items-center ${
-                    // Sur mobile, toutes les cartes sont centrées et pleine largeur
-                    // Sur lg et plus, alternance gauche/droite
-                    'justify-center lg:justify-start'
-                  } ${!isEven ? 'lg:justify-end' : ''}`}
-                >
-                  {/* Point de connexion - masqué sur mobile */}
-                  <div
-                    className={`absolute left-1/2 top-1/2 z-10 hidden h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-white bg-[rgb(31,41,55)] text-white shadow-lg transition-all duration-500 group-hover/step:scale-125 group-hover/step:rotate-180 lg:flex ${
-                      isVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
-                    }`}
-                    style={{ transitionDelay: `${index * 100 + 500}ms` }}
-                  >
-                    <span className="font-display text-lg font-bold">{index + 1}</span>
-                  </div>
-
-                  {/* Carte de l'étape */}
-                  <div
-                    className={`group/step glass-panel relative w-full overflow-hidden rounded-2xl p-6 shadow-xl transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl lg:w-[calc(50%-40px)] md:p-8 ${
-                      isVisible
-                        ? 'translate-y-0 opacity-100'
-                        : 'translate-y-8 opacity-0'
-                    }`}
-                    style={{ transitionDelay: `${index * 150 + 300}ms` }}
-                  >
-                    {/* Ligne décorative */}
-                    <div className="absolute top-0 left-0 h-1 w-0 bg-[rgb(31,41,55)] transition-all duration-500 group-hover/step:w-full" />
-                    
-                    {/* Gradient au hover */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover/step:opacity-100" />
-                    
-                    <div className="relative">
-                      {/* Badge année */}
-                      <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">
-                        <ClockIcon className="h-3 w-3" />
-                        <span>{milestone.year}</span>
-                      </div>
-
-                      {/* Icône */}
-                      <div
-                        className={`mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl ${milestone.bgColor} transition-all duration-500 group-hover/step:scale-110 group-hover/step:rotate-6`}
-                      >
-                        <div className={milestone.iconColor}>{milestone.icon}</div>
-                      </div>
-
-                      <h3 className="mb-2 font-display text-xl font-semibold text-ink transition-colors duration-300 group-hover/step:text-brand-600">
-                        {milestone.title}
-                      </h3>
-                      <p className="text-sm leading-relaxed text-slate-600">
-                        {milestone.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
+            ].map((milestone, index) => (
+              <HistoryMilestone key={index} milestone={milestone} index={index} language={language} />
+            ))}
           </div>
         </div>
       </section>
@@ -258,31 +282,9 @@ function About() {
             {language === 'fr' ? 'Nos Valeurs' : 'Our Values'}
           </h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {valeurs.map((valeur, index) => {
-              const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
-              return (
-                <div
-                  key={index}
-                  ref={elementRef}
-                  className={`group/value glass-panel rounded-2xl p-6 transition-all duration-700 hover:-translate-y-1 hover:shadow-xl ${
-                    isVisible
-                      ? 'translate-y-0 opacity-100'
-                      : 'translate-y-4 opacity-0'
-                  }`}
-                  style={{ transitionDelay: `${index * 100}ms` }}
-                >
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 transition-all duration-300 group-hover/value:scale-110 group-hover/value:rotate-6">
-                    {valeur.icon}
-                  </div>
-                  <h4 className="mb-2 font-semibold text-ink">
-                    {language === 'fr' ? valeur.title : valeur.titleEn}
-                  </h4>
-                  <p className="text-sm text-slate-600">
-                    {language === 'fr' ? valeur.text : valeur.textEn}
-                  </p>
-                </div>
-              )
-            })}
+            {valeurs.map((valeur, index) => (
+              <ValeurCard key={index} valeur={valeur} index={index} language={language} />
+            ))}
           </div>
         </div>
       </section>
