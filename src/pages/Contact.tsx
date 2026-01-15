@@ -8,9 +8,172 @@ import {
   RocketLaunchIcon,
   ClockIcon,
   CheckIcon,
+  ChevronDownIcon,
+  QuestionMarkCircleIcon,
 } from '@heroicons/react/24/outline'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import { WhatsAppIcon, FacebookIcon, LinkedInIcon, InstagramIcon } from '../components/icons/SocialIcons'
+
+// Composant FAQ avec accordéon
+function FAQAccordion({ language }: { language: 'fr' | 'en' }) {
+  const [openIndex, setOpenIndex] = useState<number | null>(0)
+
+  const faqs = [
+    {
+      question: language === 'fr' 
+        ? 'Quel est votre délai de réponse ?'
+        : 'What is your response time?',
+      answer: language === 'fr'
+        ? 'Nous répondons généralement sous 24 heures maximum, même les weekends. Pour les urgences, nous avons un support 24/7 disponible.'
+        : 'We usually respond within 24 hours maximum, even on weekends. For emergencies, we have 24/7 support available.',
+    },
+    {
+      question: language === 'fr'
+        ? 'Proposez-vous des consultations gratuites ?'
+        : 'Do you offer free consultations?',
+      answer: language === 'fr'
+        ? 'Oui, la première consultation pour analyser votre projet et discuter de vos besoins est entièrement gratuite. C\'est l\'occasion de découvrir comment nous pouvons vous aider.'
+        : 'Yes, the first consultation to analyze your project and discuss your needs is completely free. It\'s an opportunity to discover how we can help you.',
+    },
+    {
+      question: language === 'fr'
+        ? 'Quels sont vos tarifs ?'
+        : 'What are your rates?',
+      answer: language === 'fr'
+        ? 'Nos tarifs varient selon le type de projet et sa complexité. Nous proposons des budgets adaptés aux particuliers, PME et grandes entreprises. Contactez-nous pour un devis personnalisé gratuit.'
+        : 'Our rates vary depending on the type of project and its complexity. We offer budgets adapted to individuals, SMEs and large enterprises. Contact us for a free personalized quote.',
+    },
+    {
+      question: language === 'fr'
+        ? 'Travaillez-vous avec des clients internationaux ?'
+        : 'Do you work with international clients?',
+      answer: language === 'fr'
+        ? 'Absolument ! Nous travaillons avec des clients du monde entier. Notre équipe est habituée aux projets à distance et nous utilisons les meilleurs outils de collaboration pour garantir une communication fluide.'
+        : 'Absolutely! We work with clients from around the world. Our team is used to remote projects and we use the best collaboration tools to ensure smooth communication.',
+    },
+    {
+      question: language === 'fr'
+        ? 'Quelle est votre garantie sur les projets ?'
+        : 'What is your guarantee on projects?',
+      answer: language === 'fr'
+        ? 'Nous garantissons la qualité de notre code avec des tests automatisés (90%+ coverage), code review systématique et documentation complète. Nous offrons également 6 mois de support post-lancement inclus.'
+        : 'We guarantee the quality of our code with automated tests (90%+ coverage), systematic code review and complete documentation. We also offer 6 months of post-launch support included.',
+    },
+    {
+      question: language === 'fr'
+        ? 'Proposez-vous des formations ?'
+        : 'Do you offer training?',
+      answer: language === 'fr'
+        ? 'Oui ! Nous proposons des bootcamps intensifs, formations en entreprise et mentorat individuel. Nos programmes couvrent le développement web, mobile, DevOps, cybersécurité et bien plus.'
+        : 'Yes! We offer intensive bootcamps, corporate training and individual mentoring. Our programs cover web development, mobile, DevOps, cybersecurity and much more.',
+    },
+    {
+      question: language === 'fr'
+        ? 'Comment fonctionne le processus de développement ?'
+        : 'How does the development process work?',
+      answer: language === 'fr'
+        ? 'Notre processus suit 5 étapes : Découverte (analyse des besoins), Planification (scope et timeline), Développement (avec code review et tests), Déploiement (mise en production) et Support (accompagnement continu).'
+        : 'Our process follows 5 steps: Discovery (needs analysis), Planning (scope and timeline), Development (with code review and tests), Deployment (production) and Support (continuous support).',
+    },
+    {
+      question: language === 'fr'
+        ? 'Quels modes de paiement acceptez-vous ?'
+        : 'What payment methods do you accept?',
+      answer: language === 'fr'
+        ? 'Nous acceptons les virements bancaires, Mobile Money (Orange Money, MTN Mobile Money), PayPal et les cartes bancaires. Les paiements peuvent être échelonnés selon le projet.'
+        : 'We accept bank transfers, Mobile Money (Orange Money, MTN Mobile Money), PayPal and bank cards. Payments can be spread out according to the project.',
+    },
+  ]
+
+  const toggleFAQ = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index)
+  }
+
+  return (
+    <div className="space-y-3">
+      {faqs.map((faq, index) => {
+        const isOpen = openIndex === index
+        const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+        
+        return (
+          <div
+            key={index}
+            ref={elementRef}
+            className={`group/faq relative overflow-hidden rounded-xl border-2 transition-all duration-500 ${
+              isOpen
+                ? 'border-brand-300 bg-gradient-to-br from-brand-50/80 to-white shadow-lg'
+                : 'border-slate-200 bg-white hover:border-brand-200 hover:shadow-md'
+            } ${
+              isVisible
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-4 opacity-0'
+            }`}
+            style={{ transitionDelay: `${index * 50}ms` }}
+          >
+            {/* Ligne décorative animée */}
+            <div className={`absolute top-0 left-0 h-1 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 ${
+              isOpen ? 'w-full' : 'w-0'
+            }`} />
+            
+            {/* Gradient au hover */}
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover/faq:opacity-100" />
+            
+            <button
+              onClick={() => toggleFAQ(index)}
+              className="relative flex w-full items-center justify-between gap-4 p-4 text-left transition-all duration-300 hover:bg-brand-50/30"
+              aria-expanded={isOpen}
+            >
+              <div className="flex flex-1 items-start gap-3">
+                <div className={`mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg font-display text-sm font-bold shadow-sm transition-all duration-300 ${
+                  isOpen
+                    ? 'bg-gradient-to-br from-brand-500 to-brand-600 text-white scale-110 rotate-6'
+                    : 'bg-brand-50 text-brand-600 group-hover/faq:bg-brand-100 group-hover/faq:scale-105'
+                }`}>
+                  {index + 1}
+                </div>
+                <h4 className={`flex-1 font-semibold leading-snug transition-all duration-300 ${
+                  isOpen ? 'text-brand-700 text-base' : 'text-ink text-sm'
+                }`}>
+                  {faq.question}
+                </h4>
+              </div>
+              <div className={`flex-shrink-0 rounded-lg p-1 transition-all duration-300 ${
+                isOpen ? 'bg-brand-100' : 'bg-slate-50'
+              }`}>
+                <ChevronDownIcon
+                  className={`h-5 w-5 text-slate-500 transition-all duration-500 ${
+                    isOpen ? 'rotate-180 text-brand-600 scale-110' : 'rotate-0'
+                  }`}
+                />
+              </div>
+            </button>
+            
+            <div
+              className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+              }`}
+            >
+              <div className="px-4 pb-4 pl-14">
+                <div className="group/answer relative flex items-start gap-3 rounded-xl bg-gradient-to-br from-white to-brand-50/30 p-4 shadow-sm transition-all duration-300 hover:shadow-md">
+                  {/* Icône avec animation */}
+                  <div className="relative flex-shrink-0">
+                    <div className="absolute inset-0 rounded-full bg-brand-400/20 animate-ping opacity-0 group-hover/answer:opacity-100" />
+                    <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-sm">
+                      <CheckIcon className="h-4 w-4" />
+                    </div>
+                  </div>
+                  <p className="flex-1 text-sm leading-relaxed text-slate-700">
+                    {faq.answer}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
 function Contact() {
   const { language } = useLanguage()
@@ -216,47 +379,23 @@ function Contact() {
             </div>
           </div>
 
-          {/* FAQ Rapide améliorée */}
-          <div className="group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl">
+          {/* FAQ Interactive avec accordéon */}
+          <div className="group glass-panel relative overflow-hidden rounded-2xl p-6 shadow-lg transition-all duration-500 hover:-translate-y-1 hover:shadow-xl">
+            {/* Gradient animé */}
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            
             {/* Ligne décorative */}
             <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
             
-            <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold text-ink">
-              <ClockIcon className="h-5 w-5 text-brand-500" />
-              {language === 'fr' ? 'Questions Fréquentes' : 'Frequently Asked Questions'}
-            </h3>
-            <div className="space-y-4 text-xs text-slate-600">
-              <div className="space-y-1">
-                <p className="font-semibold text-ink">
-                  {language === 'fr'
-                    ? 'Q: Quel est votre délai de réponse ?'
-                    : 'Q: What is your response time?'}
-                </p>
-                <p className="flex items-start gap-2">
-                  <CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-500" />
-                  <span>
-                    {language === 'fr'
-                      ? 'Nous répondons généralement sous 24 heures maximum.'
-                      : 'We usually respond within 24 hours maximum.'}
-                  </span>
-                </p>
+            <div className="relative mb-6 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-md">
+                <QuestionMarkCircleIcon className="h-5 w-5" />
               </div>
-              <div className="space-y-1">
-                <p className="font-semibold text-ink">
-                  {language === 'fr'
-                    ? 'Q: Proposez-vous des consultations gratuites ?'
-                    : 'Q: Do you offer free consultations?'}
-                </p>
-                <p className="flex items-start gap-2">
-                  <CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-500" />
-                  <span>
-                    {language === 'fr'
-                      ? 'Oui, la première consultation pour analyser votre projet est gratuite.'
-                      : 'Yes, the first consultation to analyze your project is free.'}
-                  </span>
-                </p>
-              </div>
+              <h3 className="text-base font-semibold text-ink md:text-lg">
+                {language === 'fr' ? 'Questions Fréquentes' : 'Frequently Asked Questions'}
+              </h3>
             </div>
+            <FAQAccordion language={language} />
           </div>
         </div>
 
