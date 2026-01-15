@@ -650,7 +650,7 @@ function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="group/btn relative w-full overflow-hidden rounded-full bg-gradient-to-r from-brand-500 via-brand-600 to-brand-500 px-8 py-4 text-sm font-semibold text-white shadow-xl transition-all duration-500 hover:-translate-y-1 hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:scale-100"
+                  className="group/btn relative w-full overflow-hidden rounded-full bg-[rgb(31,41,55)] px-8 py-4 text-sm font-semibold text-white shadow-xl transition-all duration-500 hover:-translate-y-1 hover:scale-105 hover:bg-[rgb(15,23,42)] hover:shadow-2xl disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:scale-100 disabled:hover:bg-[rgb(31,41,55)]"
                 >
                   {/* Effet de brillance animé */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000" />
