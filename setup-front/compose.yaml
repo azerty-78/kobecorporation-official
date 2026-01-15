@@ -22,4 +22,4 @@ services:
 networks:
   kobecorp-network:
     name: kobecorp-network
-    driver: bridge
+    external: true
