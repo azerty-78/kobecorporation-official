@@ -1151,6 +1151,140 @@ jobs:
           fi
           VERIFY
       
+      - name: 🔐 Configure blogpress-nginx and Obtain SSL Certificates
+        continue-on-error: true
+        run: |
+          echo "🔐 Configuration de blogpress-nginx et obtention des certificats SSL"
+          echo "===================================================================="
+          
+          mkdir -p ~/.ssh
+          cat > ~/.ssh/config << EOF
+          Host vps-deploy
+            HostName ${{ secrets.VPS_HOST }}
+            User ${{ secrets.VPS_USERNAME }}
+            Port ${{ secrets.VPS_PORT || 22 }}
+            StrictHostKeyChecking no
+            UserKnownHostsFile=/dev/null
+          EOF
+          chmod 600 ~/.ssh/config
+          
+          ssh -F ~/.ssh/config vps-deploy << 'SSL_SETUP'
+          set -e
+          
+          CERTBOT_CONTAINER="blogpress-certbot"
+          NGINX_CONTAINER="blogpress-nginx"
+          EMAIL="bendjibril789@gmail.com"
+          KOBE_CONF_DIR="$HOME/kobe-corporation/setup-kobe-proxy"
+          
+          echo "📋 Étape 1 : Configuration de blogpress-nginx"
+          echo "=============================================="
+          
+          # Vérifier que les conteneurs sont en cours d'exécution
+          if ! docker ps | grep -q "$NGINX_CONTAINER"; then
+            echo "❌ Erreur: $NGINX_CONTAINER n'est pas en cours d'exécution"
+            exit 1
+          fi
+          
+          if ! docker ps | grep -q "$CERTBOT_CONTAINER"; then
+            echo "❌ Erreur: $CERTBOT_CONTAINER n'est pas en cours d'exécution"
+            exit 1
+          fi
+          
+          # Vérifier que le réseau kobecorp-network existe
+          if ! docker network inspect kobecorp-network &>/dev/null; then
+            echo "📦 Création du réseau kobecorp-network..."
+            docker network create kobecorp-network
+          fi
+          
+          # Connecter blogpress-nginx au réseau si nécessaire
+          if ! docker network inspect kobecorp-network | grep -q "$NGINX_CONTAINER"; then
+            echo "🔗 Connexion de blogpress-nginx au réseau kobecorp-network..."
+            docker network connect kobecorp-network $NGINX_CONTAINER || echo "⚠️  blogpress-nginx est peut-être déjà sur le réseau"
+          fi
+          
+          # Copier les configurations si elles n'existent pas
+          if [ ! -f "$KOBE_CONF_DIR/conf.d/kobecorporation.com.conf" ]; then
+            echo "⚠️  Les configurations KOBE ne sont pas présentes"
+            echo "💡 Les configurations doivent être copiées manuellement"
+            exit 1
+          fi
+          
+          # Trouver le répertoire de configuration de blogpress-nginx
+          BLOGPRESS_CONF_DIR=$(docker inspect $NGINX_CONTAINER 2>/dev/null | grep -A 10 "Mounts" | grep "Source.*conf.d" | head -1 | awk -F'"' '{print $4}' || echo "")
+          
+          if [ -z "$BLOGPRESS_CONF_DIR" ] || [ ! -d "$BLOGPRESS_CONF_DIR" ]; then
+            echo "📦 Copie directe dans le conteneur..."
+            docker cp "$KOBE_CONF_DIR/conf.d/kobecorporation.com.conf" "$NGINX_CONTAINER:/etc/nginx/conf.d/" 2>/dev/null || true
+            docker cp "$KOBE_CONF_DIR/conf.d/ben-djibril.kobecorporation.com.conf" "$NGINX_CONTAINER:/etc/nginx/conf.d/" 2>/dev/null || true
+          else
+            echo "✅ Répertoire trouvé: $BLOGPRESS_CONF_DIR"
+            cp "$KOBE_CONF_DIR/conf.d/kobecorporation.com.conf" "$BLOGPRESS_CONF_DIR/" 2>/dev/null || true
+            cp "$KOBE_CONF_DIR/conf.d/ben-djibril.kobecorporation.com.conf" "$BLOGPRESS_CONF_DIR/" 2>/dev/null || true
+          fi
+          
+          # Tester et recharger Nginx
+          if docker exec $NGINX_CONTAINER nginx -t 2>/dev/null; then
+            echo "✅ Configuration Nginx valide"
+            docker exec $NGINX_CONTAINER nginx -s reload 2>/dev/null || docker restart $NGINX_CONTAINER
+            echo "✅ Nginx rechargé"
+          else
+            echo "⚠️  Erreur dans la configuration Nginx (peut être normal si déjà configuré)"
+          fi
+          
+          echo ""
+          echo "📋 Étape 2 : Obtention des certificats SSL"
+          echo "==========================================="
+          
+          # Vérifier si les certificats existent déjà
+          if docker exec $CERTBOT_CONTAINER certbot certificates 2>/dev/null | grep -q "kobecorporation.com"; then
+            echo "ℹ️  Les certificats existent déjà"
+            echo "📋 Certificats actuels :"
+            docker exec $CERTBOT_CONTAINER certbot certificates | grep -A 5 "kobecorporation.com" || true
+            echo ""
+            echo "💡 Pour renouveler les certificats, exécutez manuellement :"
+            echo "   docker exec $CERTBOT_CONTAINER certbot renew --force-renewal"
+          else
+            echo "🔐 Obtention des certificats pour kobecorporation.com..."
+            docker exec $CERTBOT_CONTAINER certbot certonly \
+              --webroot \
+              --webroot-path=/var/www/certbot \
+              --email "$EMAIL" \
+              --agree-tos \
+              --no-eff-email \
+              --non-interactive \
+              -d kobecorporation.com \
+              -d www.kobecorporation.com \
+              -d ben-djibril.kobecorporation.com \
+              --keep-until-expiring 2>&1 || {
+                EXIT_CODE=$?
+                if [ $EXIT_CODE -eq 1 ]; then
+                  echo "⚠️  Erreur lors de l'obtention des certificats"
+                  echo "💡 Causes possibles :"
+                  echo "   - Les domaines ne pointent pas vers ce serveur"
+                  echo "   - Le port 80 n'est pas accessible depuis Internet"
+                  echo "   - Les configurations Nginx ne sont pas actives"
+                  echo ""
+                  echo "💡 Pour obtenir les certificats manuellement, exécutez :"
+                  echo "   docker exec $CERTBOT_CONTAINER certbot certonly --webroot --webroot-path=/var/www/certbot --email $EMAIL --agree-tos --no-eff-email -d kobecorporation.com -d www.kobecorporation.com -d ben-djibril.kobecorporation.com"
+                else
+                  echo "ℹ️  Les certificats existent déjà ou sont valides"
+                fi
+                exit $EXIT_CODE
+              }
+            
+            echo ""
+            echo "✅ Certificats obtenus avec succès !"
+            echo "📋 Certificats disponibles :"
+            docker exec $CERTBOT_CONTAINER certbot certificates | grep -A 10 "kobecorporation.com" || true
+          fi
+          
+          echo ""
+          echo "💡 Prochaines étapes manuelles :"
+          echo "   1. Décommentez les sections HTTPS dans setup-kobe-proxy/conf.d/*.conf"
+          echo "   2. Copiez les fichiers mis à jour dans blogpress-nginx"
+          echo "   3. Rechargez Nginx: docker exec $NGINX_CONTAINER nginx -s reload"
+          SSL_SETUP
+      
       - name: 🎉 Deployment Summary
         if: success()
         run: |
