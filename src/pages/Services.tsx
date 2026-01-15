@@ -574,7 +574,7 @@ function Services() {
             />
             
             {/* Particules animées le long de la ligne */}
-            {timelineVisible && process.map((_, i) => (
+            {process.map((_, i) => (
               <div
                 key={i}
                 className="absolute left-1/2 h-4 w-4 -translate-x-1/2 rounded-full bg-[rgb(31,41,55)] shadow-lg animate-pulse"
