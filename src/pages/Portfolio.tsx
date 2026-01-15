@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { NavLink } from 'react-router-dom'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
+import SEO from '../components/SEO'
+import { getSEOData } from '../data/seoData'
 
 // Types de projets (à remplir avec de vrais projets plus tard)
 const projectCategories = [
@@ -29,6 +31,7 @@ const projects = [
 function Portfolio() {
   const { language } = useLanguage()
   const [selectedCategory, setSelectedCategory] = useState('all')
+  const seo = getSEOData('/portfolio', language)
 
   const filteredProjects =
     selectedCategory === 'all'
@@ -36,6 +39,12 @@ function Portfolio() {
       : projects.filter((p) => p.category === selectedCategory)
 
   return (
+    <>
+      <SEO
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+      />
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
       {/* Hero Section améliorée avec animations */}
       <div className="group relative mb-16 overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl md:p-16">
@@ -166,6 +175,7 @@ function Portfolio() {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

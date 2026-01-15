@@ -1,11 +1,18 @@
 import { Link } from 'react-router-dom'
 import { HomeIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
+import SEO from '../components/SEO'
 
 function NotFound() {
   const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.2 })
   
   return (
+    <>
+      <SEO
+        title="Page introuvable - 404"
+        description="La page que vous recherchez n'existe pas ou n'est plus disponible."
+        noindex={true}
+      />
     <div className="mx-auto flex min-h-[60vh] max-w-3xl flex-col items-center justify-center gap-8 px-6 py-14">
       {/* Hero Section améliorée */}
       <div
@@ -72,6 +79,7 @@ function NotFound() {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

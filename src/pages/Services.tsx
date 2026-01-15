@@ -14,6 +14,8 @@ import {
   RocketLaunchIcon,
 } from '@heroicons/react/24/outline'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
+import SEO from '../components/SEO'
+import { getSEOData } from '../data/seoData'
 
 // Images professionnelles pour chaque service (2 par service)
 const serviceImages = {
@@ -38,6 +40,7 @@ const serviceImages = {
 function Services() {
   const { language } = useLanguage()
   const { elementRef: introRef, isVisible: introVisible } = useScrollAnimation({ threshold: 0.2 })
+  const seo = getSEOData('/services', language)
 
   const serviceDetails = [
     {
@@ -187,6 +190,12 @@ function Services() {
   ]
 
   return (
+    <>
+      <SEO
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+      />
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
       {/* Introduction avec animations */}
       {/* Hero Section améliorée avec animations */}
@@ -741,6 +750,7 @@ function Services() {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

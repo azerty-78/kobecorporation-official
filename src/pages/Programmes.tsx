@@ -10,6 +10,8 @@ import {
 } from '@heroicons/react/24/outline'
 import { NavLink } from 'react-router-dom'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
+import SEO from '../components/SEO'
+import { getSEOData } from '../data/seoData'
 
 // Images professionnelles pour chaque programme (2 par programme)
 const programmeImages = {
@@ -178,8 +180,15 @@ const programmeDetails = {
 function Programmes() {
   const { language } = useLanguage()
   const { elementRef: introRef, isVisible: introVisible } = useScrollAnimation({ threshold: 0.2 })
+  const seo = getSEOData('/programmes', language)
 
   return (
+    <>
+      <SEO
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+      />
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
       {/* Hero Section améliorée avec animations */}
       <div
@@ -521,6 +530,7 @@ function Programmes() {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

@@ -1,5 +1,7 @@
 import { useLanguage } from '../contexts/LanguageContext'
 import { companyInfo, valeurs } from '../data/siteContent'
+import SEO from '../components/SEO'
+import { getSEOData } from '../data/seoData'
 import {
   CheckBadgeIcon,
   ShieldCheckIcon,
@@ -306,6 +308,7 @@ function About() {
   const { language } = useLanguage()
   const { elementRef: introRef, isVisible: introVisible } = useScrollAnimation({ threshold: 0.2 })
   const { elementRef: historyRef, isVisible: historyVisible } = useScrollAnimation({ threshold: 0.1 })
+  const seo = getSEOData('/about', language)
 
   // Liens sociaux de Ben Djibril
   const benDjibrilSocial = {
@@ -316,6 +319,12 @@ function About() {
   }
 
   return (
+    <>
+      <SEO
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+      />
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
       {/* Hero Section améliorée avec animations */}
       <div
@@ -972,6 +981,7 @@ function About() {
         </div>
       </section>
     </div>
+    </>
   )
 }
 

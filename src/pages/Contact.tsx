@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
+import SEO from '../components/SEO'
+import { getSEOData } from '../data/seoData'
 import { companyInfo, contactInfo } from '../data/siteContent'
 import {
   PaperClipIcon,
@@ -213,6 +215,7 @@ function FAQAccordion({ language }: { language: 'fr' | 'en' }) {
 function Contact() {
   const { language } = useLanguage()
   const { elementRef: introRef, isVisible: introVisible } = useScrollAnimation({ threshold: 0.2 })
+  const seo = getSEOData('/contact', language)
   
   const [formData, setFormData] = useState({
     name: '',
@@ -292,6 +295,12 @@ function Contact() {
   }
 
   return (
+    <>
+      <SEO
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+      />
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
       {/* Hero Section améliorée avec animations */}
       <div
@@ -702,6 +711,7 @@ function Contact() {
         </div>
       </section>
     </div>
+    </>
   )
 }
 
