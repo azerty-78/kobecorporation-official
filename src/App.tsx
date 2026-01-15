@@ -9,6 +9,9 @@ import Programmes from './pages/Programmes'
 import About from './pages/About'
 import Portfolio from './pages/Portfolio'
 import Contact from './pages/Contact'
+import Privacy from './pages/Privacy'
+import Legal from './pages/Legal'
+import Terms from './pages/Terms'
 import NotFound from './pages/NotFound'
 
 function App() {
