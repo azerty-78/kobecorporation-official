@@ -51,9 +51,10 @@ function Portfolio() {
         </div>
         
         <div className="relative space-y-4">
-          <div className="group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-sm">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent translate-x-[-100%] group-hover/badge:translate-x-[100%] transition-transform duration-1000" />
-            <span className="relative z-10 uppercase tracking-[0.2em]">{language === 'fr' ? 'Portfolio' : 'Portfolio'}</span>
+          <div className="group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-md transition-all duration-300 hover:border-brand-300 hover:shadow-lg hover:-translate-y-0.5">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-50/50 to-transparent translate-x-[-100%] group-hover/badge:translate-x-[100%] transition-transform duration-1000" />
+            <div className="absolute inset-0 bg-brand-50/50 opacity-0 transition-opacity duration-300 group-hover/badge:opacity-100" />
+            <span className="relative z-10 uppercase tracking-[0.2em] transition-colors duration-300 group-hover/badge:text-brand-700">{language === 'fr' ? 'Portfolio' : 'Portfolio'}</span>
           </div>
           
           <h1 className="font-display text-4xl leading-tight text-ink md:text-5xl lg:text-6xl">
