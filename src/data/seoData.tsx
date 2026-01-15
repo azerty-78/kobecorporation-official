@@ -71,6 +71,42 @@ export const seoData = {
       keywords: 'contact KOBE Corporation, software development quote, free consultation, Yaoundé Cameroon, business phone, contact email',
     },
   },
+  privacy: {
+    fr: {
+      title: 'Politique de Confidentialité - KOBE Corporation',
+      description: 'Politique de confidentialité de KOBE Corporation. Découvrez comment nous collectons, utilisons et protégeons vos données personnelles conformément au RGPD.',
+      keywords: 'politique confidentialité, protection données, RGPD, vie privée, KOBE Corporation, données personnelles',
+    },
+    en: {
+      title: 'Privacy Policy - KOBE Corporation',
+      description: 'KOBE Corporation privacy policy. Learn how we collect, use and protect your personal data in accordance with GDPR.',
+      keywords: 'privacy policy, data protection, GDPR, privacy, KOBE Corporation, personal data',
+    },
+  },
+  legal: {
+    fr: {
+      title: 'Mentions Légales - KOBE Corporation',
+      description: 'Mentions légales de KOBE Corporation. Informations sur l\'éditeur du site, l\'hébergement et les droits de propriété intellectuelle.',
+      keywords: 'mentions légales, éditeur site, hébergement, propriété intellectuelle, KOBE Corporation',
+    },
+    en: {
+      title: 'Legal Notice - KOBE Corporation',
+      description: 'KOBE Corporation legal notice. Information about the site publisher, hosting and intellectual property rights.',
+      keywords: 'legal notice, site publisher, hosting, intellectual property, KOBE Corporation',
+    },
+  },
+  terms: {
+    fr: {
+      title: 'Conditions Générales d\'Utilisation - KOBE Corporation',
+      description: 'Conditions générales d\'utilisation du site web KOBE Corporation. Règles et conditions d\'accès et d\'utilisation de nos services.',
+      keywords: 'conditions générales, CGU, termes utilisation, règles site, KOBE Corporation',
+    },
+    en: {
+      title: 'Terms & Conditions - KOBE Corporation',
+      description: 'Terms and conditions of use of the KOBE Corporation website. Rules and conditions for accessing and using our services.',
+      keywords: 'terms conditions, T&C, terms of use, site rules, KOBE Corporation',
+    },
+  },
 }
 
 export const getSEOData = (path: string, language: 'fr' | 'en' = 'fr') => {

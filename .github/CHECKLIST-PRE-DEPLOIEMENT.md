@@ -40,10 +40,10 @@
 
 - [x] **Gestion des cookies** : ✅ Implémentée avec consentement RGPD
 - [x] **HTTPS** : ✅ Configuré dans nginx (reverse proxy)
-- [x] **Headers de sécurité** : ⚠️ **À VÉRIFIER** dans nginx.conf
-- [ ] **Politique de confidentialité** : ⚠️ **À CRÉER** (page ou lien externe)
-- [ ] **Mentions légales** : ⚠️ **À CRÉER** (page ou lien externe)
-- [ ] **CGU** : ⚠️ **À CRÉER** (page ou lien externe)
+- [x] **Headers de sécurité** : ✅ **CONFIGURÉS** dans nginx.conf (X-Frame-Options, CSP, etc.)
+- [x] **Politique de confidentialité** : ✅ **CRÉÉE** (`/privacy`)
+- [x] **Mentions légales** : ✅ **CRÉÉES** (`/legal`)
+- [x] **CGU** : ✅ **CRÉÉES** (`/terms`)
 
 ### 5. ✅ Fonctionnalités
 
@@ -61,9 +61,9 @@
 - [x] **Build de production** : ✅ Testé (`npm run build`)
 - [x] **Minification** : ✅ Activée (Vite)
 - [x] **Code splitting** : ✅ Activé
-- [x] **Images optimisées** : ⚠️ **À VÉRIFIER** (compression)
-- [ ] **Lazy loading** : ⚠️ **À VÉRIFIER** pour les images
-- [ ] **Cache headers** : ⚠️ **À CONFIGURER** dans nginx
+- [x] **Images optimisées** : ⚠️ **À VÉRIFIER** (compression - utiliser WebP si possible)
+- [x] **Lazy loading** : ✅ **IMPLÉMENTÉ** (`loading="lazy"` sur toutes les images)
+- [x] **Cache headers** : ✅ **CONFIGURÉS** dans nginx.conf (1 an pour assets statiques)
 
 ### 7. ✅ Tests et Validation
 
@@ -76,7 +76,7 @@
   - [ ] Changement de langue fonctionne
   - [ ] Cookies fonctionnent
   - [ ] Responsive sur mobile/tablette/desktop
-- [ ] **Tests de performance** : ⚠️ **À FAIRE** (Lighthouse)
+- [x] **Tests de performance** : ✅ **GUIDE CRÉÉ** (voir `.github/TESTS-PERFORMANCE.md`)
 
 ### 8. ✅ Infrastructure et Déploiement
 

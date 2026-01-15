@@ -2,7 +2,7 @@ import { useLanguage } from '../contexts/LanguageContext'
 import SEO from '../components/SEO'
 import { getSEOData } from '../data/seoData'
 import { companyInfo } from '../data/siteContent'
-import { DocumentCheckIcon, HandshakeIcon, CreditCardIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { DocumentCheckIcon, UserGroupIcon, CreditCardIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
 function Terms() {
   const { language } = useLanguage()
@@ -42,7 +42,7 @@ function Terms() {
               {/* Acceptation */}
               <div className="glass-panel rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
                 <div className="mb-4 flex items-center gap-3">
-                  <HandshakeIcon className="h-6 w-6 text-brand-600" />
+                  <UserGroupIcon className="h-6 w-6 text-brand-600" />
                   <h2 className="font-display text-2xl font-semibold text-ink">
                     {language === 'fr' ? '1. Acceptation des conditions' : '1. Acceptance of Terms'}
                   </h2>
