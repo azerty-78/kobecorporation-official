@@ -707,18 +707,17 @@ jobs:
           else
             echo "⚠️ Fichier setup-front/.env non trouvé"
             echo "📝 Création d'un .env minimal avec le domaine..."
-            cat > .deploy/setup-front/.env << 'ENVFILE'
-# Domaine principal
-DOMAIN=kobecorporation.com
-VITE_APP_URL=https://kobecorporation.com
-VITE_APP_NAME=KOBE Corporation
-
-# Variables EmailJS (à remplir)
-VITE_EMAILJS_PUBLIC_KEY=
-VITE_EMAILJS_SERVICE_ID=
-VITE_EMAILJS_CONTACT_TEMPLATE_ID=
-VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID=
-ENVFILE
+            printf '%s\n' \
+              '# Domaine principal' \
+              'DOMAIN=kobecorporation.com' \
+              'VITE_APP_URL=https://kobecorporation.com' \
+              'VITE_APP_NAME=KOBE Corporation' \
+              '' \
+              '# Variables EmailJS (à remplir)' \
+              'VITE_EMAILJS_PUBLIC_KEY=' \
+              'VITE_EMAILJS_SERVICE_ID=' \
+              'VITE_EMAILJS_CONTACT_TEMPLATE_ID=' \
+              'VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID=' > .deploy/setup-front/.env
             echo "✅ Fichier .env minimal créé avec le domaine kobecorporation.com"
           fi
           
@@ -916,18 +915,17 @@ ENVFILE
             fi
           else
             echo "⚠️ .env non trouvé, création avec le domaine..."
-            cat > "$DEPLOY_PATH/setup-front/.env" << 'ENVFILE'
-# Domaine principal
-DOMAIN=kobecorporation.com
-VITE_APP_URL=https://kobecorporation.com
-VITE_APP_NAME=KOBE Corporation
-
-# Variables EmailJS (à remplir)
-VITE_EMAILJS_PUBLIC_KEY=
-VITE_EMAILJS_SERVICE_ID=
-VITE_EMAILJS_CONTACT_TEMPLATE_ID=
-VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID=
-ENVFILE
+            printf '%s\n' \
+              '# Domaine principal' \
+              'DOMAIN=kobecorporation.com' \
+              'VITE_APP_URL=https://kobecorporation.com' \
+              'VITE_APP_NAME=KOBE Corporation' \
+              '' \
+              '# Variables EmailJS (à remplir)' \
+              'VITE_EMAILJS_PUBLIC_KEY=' \
+              'VITE_EMAILJS_SERVICE_ID=' \
+              'VITE_EMAILJS_CONTACT_TEMPLATE_ID=' \
+              'VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID=' > "$DEPLOY_PATH/setup-front/.env"
             echo "✅ Fichier .env créé avec le domaine kobecorporation.com"
           fi
           
