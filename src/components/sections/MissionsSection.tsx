@@ -21,7 +21,7 @@ function MissionStat({ item, isActive, language, index }: MissionStatProps) {
 
   return (
     <div
-      className={`rounded-2xl border border-white/10 bg-white/5 p-4 transition-all duration-500 hover:scale-105 hover:bg-white/10 hover:shadow-lg ${
+      className={`group relative overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 p-5 backdrop-blur-sm transition-all duration-700 hover:scale-110 hover:border-brand-400/50 hover:bg-gradient-to-br hover:from-brand-500/20 hover:to-brand-400/10 hover:shadow-xl ${
         isActive
           ? 'translate-y-0 opacity-100'
           : 'translate-y-8 opacity-0'
@@ -30,20 +30,25 @@ function MissionStat({ item, isActive, language, index }: MissionStatProps) {
         transitionDelay: `${index * 150}ms`,
       }}
     >
-      <p className="font-display text-2xl">
-        {item.value.includes('+')
-          ? `${counter.toLocaleString()}+`
-          : item.value.includes('%')
-          ? `${counter}%`
-          : item.value.includes('K')
-          ? `${counter}K`
-          : item.value.includes('/')
-          ? item.value
-          : counter.toLocaleString()}
-      </p>
-      <p className="text-sm text-slate-200">
-        {language === 'fr' ? item.label : item.labelEn}
-      </p>
+      {/* Effet de brillance au hover */}
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-400/20 via-transparent to-brand-300/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      
+      <div className="relative">
+        <p className="font-display text-3xl text-white transition-all duration-300 group-hover:text-brand-200 group-hover:scale-110">
+          {item.value.includes('+')
+            ? `${counter.toLocaleString()}+`
+            : item.value.includes('%')
+            ? `${counter}%`
+            : item.value.includes('K')
+            ? `${counter}K`
+            : item.value.includes('/')
+            ? item.value
+            : counter.toLocaleString()}
+        </p>
+        <p className="mt-2 text-sm text-slate-200 transition-colors duration-300 group-hover:text-brand-100">
+          {language === 'fr' ? item.label : item.labelEn}
+        </p>
+      </div>
     </div>
   )
 }
@@ -119,18 +124,30 @@ function MissionsSection() {
           </ul>
         </div>
         <div
-          className={`relative overflow-hidden rounded-3xl bg-ink px-6 py-8 text-white transition-all duration-1000 ${
+          className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br from-ink via-slate-900 to-ink px-8 py-10 text-white shadow-2xl transition-all duration-1000 hover:shadow-[0_0_40px_rgba(59,130,246,0.3)] ${
             isVisible
               ? 'translate-x-0 opacity-100 scale-100'
               : 'translate-x-8 opacity-0 scale-95'
           }`}
         >
-          <div className="absolute inset-0 opacity-40" />
-          <div className="relative space-y-4">
-            <p className="font-semibold text-brand-100">
-              {language === 'fr' ? 'Pourquoi KOBE Corporation' : 'Why KOBE Corporation'}
-            </p>
-            <p className="text-lg text-slate-100">
+          {/* Gradient animé en arrière-plan */}
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-500/20 via-transparent to-brand-400/10 opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+          
+          {/* Particules animées */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-10 right-10 h-1 w-1 rounded-full bg-brand-300 animate-pulse" style={{ animationDelay: '0s' }} />
+            <div className="absolute bottom-20 left-10 h-1.5 w-1.5 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '1.5s' }} />
+            <div className="absolute top-1/2 right-20 h-1 w-1 rounded-full bg-brand-200 animate-pulse" style={{ animationDelay: '3s' }} />
+          </div>
+          
+          <div className="relative space-y-6">
+            <div className="flex items-center gap-3">
+              <div className="h-1 w-12 rounded-full bg-gradient-to-r from-brand-400 to-brand-300 transition-all duration-500 group-hover:w-16" />
+              <p className="font-semibold text-brand-100 transition-colors duration-300 group-hover:text-brand-50">
+                {language === 'fr' ? 'Pourquoi KOBE Corporation' : 'Why KOBE Corporation'}
+              </p>
+            </div>
+            <p className="text-lg leading-relaxed text-slate-100 transition-colors duration-300 group-hover:text-white">
               {language === 'fr'
                 ? 'Un partenaire de confiance, capable d\'aligner vision stratégique et exécution terrain, avec un accompagnement humain et réactif.'
                 : 'A trusted partner, capable of aligning strategic vision and field execution, with human and responsive support.'}

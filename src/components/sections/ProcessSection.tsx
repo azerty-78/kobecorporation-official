@@ -104,8 +104,35 @@ function ProcessSection() {
 
       {/* Process Steps */}
       <div className="relative">
-        {/* Ligne de connexion (desktop seulement) */}
-        <div className="absolute left-1/2 top-0 hidden h-full w-0.5 -translate-x-1/2 bg-gradient-to-b from-brand-200 via-brand-300 to-brand-200 md:block" />
+        {/* Ligne de connexion animée (desktop seulement) */}
+        <div className="absolute left-1/2 top-0 hidden h-full w-1 -translate-x-1/2 md:block">
+          {/* Ligne de base */}
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-200 via-brand-300 to-brand-200 opacity-30" />
+          
+          {/* Ligne animée qui se remplit */}
+          <div 
+            className="absolute top-0 left-0 w-full bg-gradient-to-b from-brand-400 via-brand-500 to-brand-400 transition-all duration-1000"
+            style={{
+              height: isVisible ? '100%' : '0%',
+              transitionDelay: '500ms',
+            }}
+          />
+          
+          {/* Particules animées le long de la ligne */}
+          <div className="absolute inset-0">
+            {[...Array(3)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-brand-500 shadow-lg animate-pulse"
+                style={{
+                  top: `${25 + i * 25}%`,
+                  animationDelay: `${i * 0.5}s`,
+                  animationDuration: '2s',
+                }}
+              />
+            ))}
+          </div>
+        </div>
 
         <div className="space-y-8 md:space-y-12">
           {processSteps.map((step, index) => {
@@ -121,7 +148,7 @@ function ProcessSection() {
               >
                 {/* Contenu */}
                 <div
-                  className={`glass-panel group relative overflow-hidden rounded-2xl p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl md:p-8 ${
+                  className={`group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl md:p-8 ${
                     isEven ? 'md:col-start-1' : 'md:col-start-2'
                   } ${
                     isVisible
@@ -132,26 +159,40 @@ function ProcessSection() {
                     transitionDelay: `${index * 150}ms`,
                   }}
                 >
-                  {/* Gradient de fond */}
+                  {/* Gradient de fond animé */}
                   <div
-                    className={`absolute inset-0 bg-gradient-to-br ${step.color} opacity-0 transition-opacity duration-300 group-hover:opacity-100`}
+                    className={`absolute inset-0 bg-gradient-to-br ${step.color} opacity-0 transition-opacity duration-500 group-hover:opacity-100`}
                   />
+                  
+                  {/* Ligne décorative animée */}
+                  <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 via-brand-400 to-brand-300 transition-all duration-700 group-hover:w-full" />
 
                   <div className="relative">
-                    <div className="mb-4 flex items-center gap-4">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 transition-all duration-300 group-hover:scale-110 group-hover:bg-brand-100 group-hover:shadow-md">
-                        <Icon className="h-6 w-6 text-brand-600" />
+                    <div className="mb-5 flex items-start gap-4">
+                      <div className="relative">
+                        {/* Cercle de fond animé */}
+                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-brand-100 to-brand-200 opacity-0 blur-xl transition-all duration-500 group-hover:opacity-50 group-hover:scale-150" />
+                        
+                        <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-50 to-brand-100 shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:shadow-xl">
+                          <Icon className="h-7 w-7 text-brand-600 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[-6deg]" />
+                        </div>
+                        
+                        {/* Badge numéro d'étape */}
+                        <div className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-brand-500 text-xs font-bold text-white shadow-md transition-all duration-300 group-hover:scale-125 group-hover:rotate-12">
+                          {index + 1}
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <div className="text-xs font-semibold uppercase tracking-wider text-brand-600">
+                      
+                      <div className="flex-1 pt-1">
+                        <div className="mb-1 text-xs font-semibold uppercase tracking-wider text-brand-600 transition-colors duration-300 group-hover:text-brand-700">
                           {language === 'fr' ? 'Étape' : 'Step'} {index + 1}
                         </div>
-                        <h3 className="text-xl font-semibold text-ink">
+                        <h3 className="text-xl font-semibold text-ink transition-colors duration-300 group-hover:text-brand-600">
                           {language === 'fr' ? step.title : step.titleEn}
                         </h3>
                       </div>
                     </div>
-                    <p className="text-slate-600">
+                    <p className="leading-relaxed text-slate-600 transition-colors duration-300 group-hover:text-slate-700">
                       {language === 'fr'
                         ? step.description
                         : step.descriptionEn}
@@ -165,8 +206,16 @@ function ProcessSection() {
                     isEven ? 'md:col-start-2 md:justify-start' : 'md:col-start-1 md:justify-end'
                   }`}
                 >
-                  <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-brand-500 shadow-lg transition-all duration-300 hover:scale-110">
-                    <div className="h-4 w-4 rounded-full bg-white" />
+                  <div className="group/connector relative z-10">
+                    {/* Cercle externe pulsant */}
+                    <div className="absolute inset-0 rounded-full bg-brand-400 opacity-0 animate-ping group-hover/connector:opacity-30" />
+                    
+                    <div className="relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-brand-600 shadow-xl transition-all duration-500 hover:scale-125 hover:rotate-180">
+                      <div className="h-5 w-5 rounded-full bg-white shadow-inner transition-all duration-300 group-hover/connector:scale-110" />
+                      
+                      {/* Effet de brillance */}
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/30 to-transparent opacity-0 transition-opacity duration-300 group-hover/connector:opacity-100" />
+                    </div>
                   </div>
                 </div>
 
@@ -190,16 +239,27 @@ function ProcessSection() {
             : 'translate-y-8 opacity-0'
         }`}
       >
-        <p className="mb-4 text-slate-600">
+        <p className="mb-6 text-lg text-slate-600 transition-colors duration-300">
           {language === 'fr'
             ? 'Prêt à démarrer votre projet ?'
             : 'Ready to start your project?'}
         </p>
         <a
           href="/contact"
-          className="inline-flex items-center gap-2 rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-600 hover:shadow-lg"
+          className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-gradient-to-r from-brand-500 to-brand-600 px-8 py-4 text-sm font-semibold text-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:scale-105"
         >
-          {language === 'fr' ? 'Discutons de votre projet' : 'Let\'s discuss your project'}
+          {/* Effet de brillance animé */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+          
+          <span className="relative z-10">{language === 'fr' ? 'Discutons de votre projet' : 'Let\'s discuss your project'}</span>
+          
+          {/* Flèche animée */}
+          <div className="relative z-10 flex items-center">
+            <div className="h-0.5 w-6 bg-white transition-all duration-300 group-hover:w-8" />
+            <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </div>
         </a>
       </div>
     </section>
