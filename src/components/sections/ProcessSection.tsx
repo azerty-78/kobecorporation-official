@@ -104,54 +104,69 @@ function ProcessSection() {
 
       {/* Process Steps */}
       <div className="relative">
-        {/* Ligne de connexion animée (desktop seulement) */}
-        <div className="absolute left-1/2 top-0 hidden h-full w-1 -translate-x-1/2 md:block">
+        {/* Ligne de connexion animée (lg et plus seulement) */}
+        <div className="absolute left-1/2 top-0 hidden h-full w-1 -translate-x-1/2 lg:block">
           {/* Ligne de base */}
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-200 via-brand-300 to-brand-200 opacity-30" />
+          <div className="absolute inset-0 bg-slate-200 opacity-30" />
           
           {/* Ligne animée qui se remplit */}
           <div 
-            className="absolute top-0 left-0 w-full bg-gradient-to-b from-brand-400 via-brand-500 to-brand-400 transition-all duration-1000"
+            className="absolute top-0 left-0 w-full transition-all duration-1000"
             style={{
               height: isVisible ? '100%' : '0%',
+              backgroundColor: 'rgb(31, 41, 55)',
               transitionDelay: '500ms',
             }}
           />
           
           {/* Particules animées le long de la ligne */}
-          <div className="absolute inset-0">
-            {[...Array(3)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-brand-500 shadow-lg animate-pulse"
-                style={{
-                  top: `${25 + i * 25}%`,
-                  animationDelay: `${i * 0.5}s`,
-                  animationDuration: '2s',
-                }}
-              />
-            ))}
-          </div>
+          {isVisible && (
+            <div className="absolute inset-0">
+              {[...Array(3)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-[rgb(31,41,55)] shadow-lg animate-pulse"
+                  style={{
+                    top: `${25 + i * 25}%`,
+                    animationDelay: `${i * 0.5}s`,
+                    animationDuration: '2s',
+                  }}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
-        <div className="space-y-8 md:space-y-12">
+        <div className="space-y-8 lg:space-y-12">
           {processSteps.map((step, index) => {
             const Icon = step.icon
             const isEven = index % 2 === 0
+            const { elementRef: stepRef, isVisible: stepVisible } = useScrollAnimation({ threshold: 0.2 })
 
             return (
               <div
                 key={index}
-                className={`grid gap-6 md:grid-cols-2 md:items-center lg:gap-12 ${
-                  isEven ? '' : 'md:grid-flow-dense'
-                }`}
+                ref={stepRef}
+                className={`relative flex items-center ${
+                  // Sur mobile, toutes les cartes sont centrées et pleine largeur
+                  // Sur lg et plus, alternance gauche/droite
+                  'justify-center lg:justify-start'
+                } ${!isEven ? 'lg:justify-end' : ''}`}
               >
+                {/* Point de connexion - masqué sur mobile */}
+                <div
+                  className={`absolute left-1/2 top-1/2 z-10 hidden h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-white bg-[rgb(31,41,55)] text-white shadow-lg transition-all duration-500 group-hover/step:scale-125 group-hover/step:rotate-180 lg:flex ${
+                    stepVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+                  }`}
+                  style={{ transitionDelay: `${index * 100 + 500}ms` }}
+                >
+                  <span className="font-display text-lg font-bold">{index + 1}</span>
+                </div>
+
                 {/* Contenu */}
                 <div
-                  className={`group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl md:p-8 ${
-                    isEven ? 'md:col-start-1' : 'md:col-start-2'
-                  } ${
-                    isVisible
+                  className={`group glass-panel relative w-full overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl lg:w-[calc(50%-40px)] md:p-8 ${
+                    stepVisible
                       ? 'translate-y-0 opacity-100'
                       : 'translate-y-8 opacity-0'
                   }`}
@@ -199,32 +214,6 @@ function ProcessSection() {
                     </p>
                   </div>
                 </div>
-
-                {/* Point de connexion (desktop seulement) */}
-                <div
-                  className={`hidden items-center justify-center md:flex ${
-                    isEven ? 'md:col-start-2 md:justify-start' : 'md:col-start-1 md:justify-end'
-                  }`}
-                >
-                  <div className="group/connector relative z-10">
-                    {/* Cercle externe pulsant */}
-                    <div className="absolute inset-0 rounded-full bg-brand-400 opacity-0 animate-ping group-hover/connector:opacity-30" />
-                    
-                    <div className="relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-brand-600 shadow-xl transition-all duration-500 hover:scale-125 hover:rotate-180">
-                      <div className="h-5 w-5 rounded-full bg-white shadow-inner transition-all duration-300 group-hover/connector:scale-110" />
-                      
-                      {/* Effet de brillance */}
-                      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/30 to-transparent opacity-0 transition-opacity duration-300 group-hover/connector:opacity-100" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Espace vide pour l'alignement */}
-                <div
-                  className={`hidden md:block ${
-                    isEven ? 'md:col-start-1' : 'md:col-start-2'
-                  }`}
-                />
               </div>
             )
           })}
@@ -246,7 +235,7 @@ function ProcessSection() {
         </p>
         <a
           href="/contact"
-          className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-gradient-to-r from-brand-500 to-brand-600 px-8 py-4 text-sm font-semibold text-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:scale-105"
+          className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-[rgb(31,41,55)] px-8 py-4 text-sm font-semibold text-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:bg-[rgb(15,23,42)] hover:shadow-2xl hover:scale-105"
         >
           {/* Effet de brillance animé */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />

@@ -124,11 +124,12 @@ function MissionsSection() {
           </ul>
         </div>
         <div
-          className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br from-ink via-slate-900 to-ink px-8 py-10 text-white shadow-2xl transition-all duration-1000 hover:shadow-[0_0_40px_rgba(59,130,246,0.3)] ${
+          className={`group relative overflow-hidden rounded-3xl px-8 py-10 text-white shadow-2xl transition-all duration-1000 hover:shadow-[0_0_40px_rgba(31,41,55,0.5)] ${
             isVisible
               ? 'translate-x-0 opacity-100 scale-100'
               : 'translate-x-8 opacity-0 scale-95'
           }`}
+          style={{ backgroundColor: 'rgb(31, 41, 55)' }}
         >
           {/* Gradient animé en arrière-plan */}
           <div className="absolute inset-0 bg-gradient-to-br from-brand-500/20 via-transparent to-brand-400/10 opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
