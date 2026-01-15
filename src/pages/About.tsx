@@ -10,6 +10,10 @@ import {
   ClockIcon,
   RocketLaunchIcon,
   LinkIcon,
+  CodeBracketIcon,
+  AcademicCapIcon,
+  UserGroupIcon,
+  BriefcaseIcon,
 } from '@heroicons/react/24/outline'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import benDjibrilPhoto from '../assets/people/ben-djibril-official-with-glass-nbg.png'
@@ -102,21 +106,54 @@ function About() {
             <p className="text-lg leading-relaxed text-slate-700">
               {language === 'fr' ? (
                 <>
-                  Fondée en {companyInfo.year} par {companyInfo.founder}, KOBE
-                  Corporation est née d'une vision claire : démocratiser l'accès
-                  aux technologies et permettre à chacun de construire son propre
-                  héritage numérique. Basée à Yaoundé, au Cameroun, nous sommes
-                  une startup dynamique qui allie expertise technique et
-                  compréhension des besoins locaux et internationaux.
+                  KOBE Corporation est née en {companyInfo.year} de l'ambition de{' '}
+                  {companyInfo.founder} de créer un écosystème technologique unique en Afrique. 
+                  Contrairement aux entreprises traditionnelles, KOBE Corporation ne se contente 
+                  pas de développer des logiciels : nous construisons un pont entre les talents 
+                  locaux et les opportunités mondiales.
                 </>
               ) : (
                 <>
-                  Founded in {companyInfo.year} by {companyInfo.founder}, KOBE
-                  Corporation was born from a clear vision: democratize access to
-                  technology and enable everyone to build their own digital legacy.
-                  Based in Yaoundé, Cameroon, we are a dynamic startup that
-                  combines technical expertise with understanding of local and
-                  international needs.
+                  KOBE Corporation was born in {companyInfo.year} from{' '}
+                  {companyInfo.founder}'s ambition to create a unique technology ecosystem in Africa. 
+                  Unlike traditional companies, KOBE Corporation doesn't just develop software: 
+                  we build a bridge between local talent and global opportunities.
+                </>
+              )}
+            </p>
+            <p className="text-lg leading-relaxed text-slate-700">
+              {language === 'fr' ? (
+                <>
+                  Notre particularité ? Nous avons créé quatre programmes uniques qui transforment 
+                  la façon dont les développeurs africains travaillent : un cadre légal pour les 
+                  freelances, des stages sur de vrais projets en production pour les étudiants, 
+                  une communauté open source active, et un réseau de networking qui grandit avec 
+                  nous. Chaque programme est conçu pour créer des opportunités réelles et mesurables.
+                </>
+              ) : (
+                <>
+                  Our uniqueness? We've created four unique programs that transform how African 
+                  developers work: a legal framework for freelancers, internships on real production 
+                  projects for students, an active open source community, and a networking network 
+                  that grows with us. Each program is designed to create real and measurable opportunities.
+                </>
+              )}
+            </p>
+            <p className="text-lg leading-relaxed text-slate-700">
+              {language === 'fr' ? (
+                <>
+                  Basés à Yaoundé, au Cameroun, nous opérons avec une compréhension profonde du 
+                  marché africain tout en respectant les standards internationaux. Notre modèle 
+                  d'affaires unique combine développement logiciel, hébergement cloud, formation 
+                  professionnelle et accompagnement communautaire - une approche holistique que 
+                  peu d'entreprises offrent.
+                </>
+              ) : (
+                <>
+                  Based in Yaoundé, Cameroon, we operate with a deep understanding of the African 
+                  market while respecting international standards. Our unique business model combines 
+                  software development, cloud hosting, professional training and community support - 
+                  a holistic approach that few companies offer.
                 </>
               )}
             </p>
@@ -212,14 +249,15 @@ function About() {
           <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/10 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
 
           <div className="relative text-center">
-            {/* Photo de Ben Djibril */}
+            {/* Photo de Ben Djibril - Améliorée pour mieux voir la tête */}
             <div className="relative mx-auto mb-6 inline-block">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-brand-400/30 to-brand-600/30 blur-2xl opacity-50 animate-pulse" />
               <div className="relative overflow-hidden rounded-full border-4 border-white shadow-2xl transition-all duration-500 group-hover:scale-105 group-hover:rotate-3">
                 <img
                   src={benDjibrilPhoto}
                   alt={companyInfo.founder}
-                  className="h-32 w-32 object-cover md:h-40 md:w-40"
+                  className="h-40 w-40 object-cover md:h-48 md:w-48"
+                  style={{ objectPosition: 'center 15%', objectFit: 'cover' }}
                 />
               </div>
             </div>
@@ -233,22 +271,24 @@ function About() {
             <p className="mb-8 text-slate-600">
               {language === 'fr' ? (
                 <>
-                  Passionné de technologie et entrepreneur visionnaire,{' '}
-                  {companyInfo.founder} a créé KOBE Corporation avec l'ambition de
-                  transformer l'écosystème technologique africain. Fort d'une
-                  expertise en développement logiciel et en gestion de projet, il
-                  dirige l'entreprise avec une vision claire : créer des
-                  opportunités pour les talents locaux tout en délivrant des
-                  solutions de classe mondiale.
+                  {companyInfo.founder} est un développeur full-stack spécialisé en Kotlin, KMP 
+                  et Spring Boot, avec une expertise reconnue en développement mobile et backend. 
+                  Avant de créer KOBE Corporation, il a travaillé sur de nombreux projets 
+                  open source et a développé une compréhension unique des défis auxquels font 
+                  face les développeurs africains. Sa vision : permettre à chaque développeur 
+                  africain de facturer ses clients sans créer sa propre entreprise, de travailler 
+                  sur de vrais projets en production, et de construire un portfolio technique 
+                  reconnu internationalement.
                 </>
               ) : (
                 <>
-                  Technology enthusiast and visionary entrepreneur,{' '}
-                  {companyInfo.founder} created KOBE Corporation with the ambition
-                  to transform the African technology ecosystem. With expertise in
-                  software development and project management, he leads the company
-                  with a clear vision: create opportunities for local talent while
-                  delivering world-class solutions.
+                  {companyInfo.founder} is a full-stack developer specialized in Kotlin, KMP and 
+                  Spring Boot, with recognized expertise in mobile and backend development. Before 
+                  creating KOBE Corporation, he worked on numerous open source projects and developed 
+                  a unique understanding of the challenges facing African developers. His vision: 
+                  enable every African developer to invoice their clients without creating their own 
+                  company, work on real production projects, and build an internationally recognized 
+                  technical portfolio.
                 </>
               )}
             </p>
@@ -400,7 +440,7 @@ function About() {
         </div>
       </section>
 
-      {/* Chiffres & Impact avec animations */}
+      {/* Chiffres & Impact avec animations enrichis */}
       <section className="mb-24">
         <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 shadow-xl transition-all duration-700 hover:shadow-2xl md:p-12">
           {/* Gradient animé */}
@@ -435,38 +475,436 @@ function About() {
                 )
               })}
             </div>
+            
+            {/* Statistiques supplémentaires */}
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {[
+                { value: '200+', label: language === 'fr' ? 'Projets livrés' : 'Projects delivered', labelEn: 'Projects delivered' },
+                { value: '98%', label: language === 'fr' ? 'Satisfaction client' : 'Client satisfaction', labelEn: 'Client satisfaction' },
+                { value: '24/7', label: language === 'fr' ? 'Support disponible' : 'Support available', labelEn: 'Support available' },
+              ].map((stat, index) => {
+                const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+                return (
+                  <div
+                    key={index}
+                    ref={elementRef}
+                    className={`group/stat glass-panel rounded-2xl p-6 text-center transition-all duration-700 hover:-translate-y-2 hover:shadow-xl ${
+                      isVisible
+                        ? 'translate-y-0 opacity-100'
+                        : 'translate-y-8 opacity-0'
+                    }`}
+                    style={{ transitionDelay: `${(index + 4) * 150}ms` }}
+                  >
+                    <p className="mb-2 font-display text-3xl font-bold text-brand-600 transition-all duration-300 group-hover/stat:scale-110">
+                      {stat.value}
+                    </p>
+                    <p className="text-sm font-medium text-slate-600">
+                      {language === 'fr' ? stat.label : stat.labelEn}
+                    </p>
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Localisation avec animations */}
+      {/* Garanties & Certifications */}
+      <section className="mb-24">
+        <div className="text-center mb-12">
+          <h2 className="mb-4 font-display text-3xl text-ink md:text-4xl">
+            {language === 'fr' ? 'Nos Garanties & Engagements' : 'Our Guarantees & Commitments'}
+          </h2>
+          <p className="mx-auto max-w-2xl text-slate-600">
+            {language === 'fr'
+              ? 'Des engagements concrets pour votre tranquillité d\'esprit'
+              : 'Concrete commitments for your peace of mind'}
+          </p>
+        </div>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              icon: <ShieldCheckIcon className="h-8 w-8 text-brand-500" />,
+              title: language === 'fr' ? 'Garantie Qualité' : 'Quality Guarantee',
+              description: language === 'fr'
+                ? 'Code review systématique, tests automatisés (90%+ coverage) et documentation complète pour chaque projet.'
+                : 'Systematic code review, automated tests (90%+ coverage) and complete documentation for each project.',
+            },
+            {
+              icon: <ClockIcon className="h-8 w-8 text-brand-500" />,
+              title: language === 'fr' ? 'Respect des Délais' : 'Deadline Respect',
+              description: language === 'fr'
+                ? 'Engagement ferme sur les délais convenus avec communication proactive en cas de changement.'
+                : 'Firm commitment on agreed deadlines with proactive communication in case of changes.',
+            },
+            {
+              icon: <CheckBadgeIcon className="h-8 w-8 text-brand-500" />,
+              title: language === 'fr' ? 'Support Post-Lancement' : 'Post-Launch Support',
+              description: language === 'fr'
+                ? 'Support technique inclus pendant 6 mois après la livraison avec corrections gratuites.'
+                : 'Technical support included for 6 months after delivery with free corrections.',
+            },
+            {
+              icon: <GlobeAltIcon className="h-8 w-8 text-brand-500" />,
+              title: language === 'fr' ? 'Confidentialité Garantie' : 'Guaranteed Confidentiality',
+              description: language === 'fr'
+                ? 'NDA systématique, sécurité des données et conformité RGPD pour tous nos clients.'
+                : 'Systematic NDA, data security and GDPR compliance for all our clients.',
+            },
+            {
+              icon: <SparklesIcon className="h-8 w-8 text-brand-500" />,
+              title: language === 'fr' ? 'Innovation Continue' : 'Continuous Innovation',
+              description: language === 'fr'
+                ? 'Veille technologique constante et adoption des meilleures pratiques du marché.'
+                : 'Constant technological watch and adoption of market best practices.',
+            },
+            {
+              icon: <BuildingOffice2Icon className="h-8 w-8 text-brand-500" />,
+              title: language === 'fr' ? 'Scalabilité Assurée' : 'Assured Scalability',
+              description: language === 'fr'
+                ? 'Architectures conçues pour évoluer avec votre croissance et vos besoins futurs.'
+                : 'Architectures designed to evolve with your growth and future needs.',
+            },
+          ].map((item, index) => {
+            const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+            return (
+              <div
+                key={index}
+                ref={elementRef}
+                className={`group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl ${
+                  isVisible
+                    ? 'translate-y-0 opacity-100'
+                    : 'translate-y-8 opacity-0'
+                }`}
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                {/* Ligne décorative */}
+                <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
+                
+                {/* Gradient au hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                
+                <div className="relative">
+                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
+                    {item.icon}
+                  </div>
+                  <h3 className="mb-3 font-semibold text-lg text-ink transition-colors duration-300 group-hover:text-brand-600">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-slate-600">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </section>
+
+      {/* Processus Qualité */}
+      <section className="mb-24">
+        <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 shadow-xl transition-all duration-700 hover:shadow-2xl md:p-12">
+          {/* Gradient animé */}
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-500/10 via-white to-brand-100/30 animate-gradient-shift" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/20 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+
+          <div className="relative">
+            <div className="mb-8 text-center">
+              <h2 className="mb-4 font-display text-3xl text-ink md:text-4xl">
+                {language === 'fr' ? 'Notre Processus Qualité' : 'Our Quality Process'}
+              </h2>
+              <p className="mx-auto max-w-2xl text-slate-600">
+                {language === 'fr'
+                  ? 'Un processus rigoureux pour garantir l\'excellence à chaque étape'
+                  : 'A rigorous process to ensure excellence at every step'}
+              </p>
+            </div>
+            
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+              {[
+                {
+                  step: '1',
+                  title: language === 'fr' ? 'Analyse' : 'Analysis',
+                  description: language === 'fr'
+                    ? 'Analyse approfondie des besoins et définition des spécifications'
+                    : 'In-depth needs analysis and specification definition',
+                },
+                {
+                  step: '2',
+                  title: language === 'fr' ? 'Conception' : 'Design',
+                  description: language === 'fr'
+                    ? 'Architecture technique et design UX/UI validés avec vous'
+                    : 'Technical architecture and UX/UI design validated with you',
+                },
+                {
+                  step: '3',
+                  title: language === 'fr' ? 'Développement' : 'Development',
+                  description: language === 'fr'
+                    ? 'Code review, tests automatisés et intégration continue'
+                    : 'Code review, automated tests and continuous integration',
+                },
+                {
+                  step: '4',
+                  title: language === 'fr' ? 'Livraison' : 'Delivery',
+                  description: language === 'fr'
+                    ? 'Tests finaux, documentation et formation des équipes'
+                    : 'Final tests, documentation and team training',
+                },
+              ].map((item, index) => {
+                const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+                return (
+                  <div
+                    key={index}
+                    ref={elementRef}
+                    className={`group/step text-center transition-all duration-700 hover:-translate-y-1 ${
+                      isVisible
+                        ? 'translate-y-0 opacity-100'
+                        : 'translate-y-8 opacity-0'
+                    }`}
+                    style={{ transitionDelay: `${index * 150}ms` }}
+                  >
+                    <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-lg transition-all duration-500 group-hover/step:scale-110 group-hover/step:rotate-6">
+                      <span className="font-display text-2xl font-bold">{item.step}</span>
+                    </div>
+                    <h3 className="mb-2 font-semibold text-ink transition-colors duration-300 group-hover/step:text-brand-600">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-slate-600">
+                      {item.description}
+                    </p>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Nos Programmes Uniques */}
+      <section className="mb-24">
+        <div className="text-center mb-12">
+          <h2 className="mb-4 font-display text-3xl text-ink md:text-4xl">
+            {language === 'fr' ? 'Ce qui nous rend uniques' : 'What makes us unique'}
+          </h2>
+          <p className="mx-auto max-w-2xl text-slate-600">
+            {language === 'fr'
+              ? 'Quatre programmes innovants qui transforment l\'écosystème tech africain'
+              : 'Four innovative programs that transform the African tech ecosystem'}
+          </p>
+        </div>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {[
+            {
+              icon: <BriefcaseIcon className="h-8 w-8 text-brand-500" />,
+              title: language === 'fr' ? 'Programme Freelance' : 'Freelance Program',
+              description: language === 'fr'
+                ? 'Cadre légal complet permettant aux freelances de facturer leurs clients sans créer leur entreprise. Gestion administrative, fiscale et juridique incluse.'
+                : 'Complete legal framework allowing freelancers to invoice their clients without creating their company. Administrative, tax and legal management included.',
+            },
+            {
+              icon: <AcademicCapIcon className="h-8 w-8 text-brand-500" />,
+              title: language === 'fr' ? 'Programme Étudiants' : 'Student Program',
+              description: language === 'fr'
+                ? 'Stages sur de VRAIS projets en production. Chaque ligne de code compte et impacte de vraies entreprises. Mentorat dédié et certification à la clé.'
+                : 'Internships on REAL production projects. Every line of code counts and impacts real businesses. Dedicated mentoring and certification included.',
+            },
+            {
+              icon: <CodeBracketIcon className="h-8 w-8 text-brand-500" />,
+              title: language === 'fr' ? 'Programme Open Source' : 'Open Source Program',
+              description: language === 'fr'
+                ? 'Contribuez à des projets open source utilisés par de vraies entreprises. Votre GitHub devient votre meilleur CV avec visibilité internationale.'
+                : 'Contribute to open source projects used by real companies. Your GitHub becomes your best resume with international visibility.',
+            },
+            {
+              icon: <UserGroupIcon className="h-8 w-8 text-brand-500" />,
+              title: language === 'fr' ? 'Programme Networking' : 'Networking Program',
+              description: language === 'fr'
+                ? 'Accès à notre réseau de clients, projets et événements exclusifs. Plus KOBE grandit, plus vos opportunités augmentent.'
+                : 'Access to our network of clients, projects and exclusive events. The more KOBE grows, the more your opportunities increase.',
+            },
+          ].map((item, index) => {
+            const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+            return (
+              <div
+                key={index}
+                ref={elementRef}
+                className={`group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl ${
+                  isVisible
+                    ? 'translate-y-0 opacity-100'
+                    : 'translate-y-8 opacity-0'
+                }`}
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                {/* Ligne décorative */}
+                <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
+                
+                {/* Gradient au hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                
+                <div className="relative">
+                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
+                    {item.icon}
+                  </div>
+                  <h3 className="mb-3 font-semibold text-lg text-ink transition-colors duration-300 group-hover:text-brand-600">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-slate-600">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </section>
+
+      {/* Engagement Client */}
+      <section className="mb-24">
+        <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 shadow-xl transition-all duration-700 hover:shadow-2xl md:p-12">
+          {/* Gradient animé */}
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-500/10 via-white to-brand-100/30 animate-gradient-shift" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/20 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+
+          <div className="relative">
+            <div className="mb-8 text-center">
+              <h2 className="mb-4 font-display text-3xl text-ink md:text-4xl">
+                {language === 'fr' ? 'Notre Engagement Client' : 'Our Client Commitment'}
+              </h2>
+              <p className="mx-auto max-w-2xl text-slate-600">
+                {language === 'fr'
+                  ? 'Des promesses que nous tenons pour chaque projet'
+                  : 'Promises we keep for every project'}
+              </p>
+            </div>
+            
+            <div className="grid gap-6 md:grid-cols-2">
+              {[
+                {
+                  icon: <ShieldCheckIcon className="h-6 w-6 text-brand-500" />,
+                  title: language === 'fr' ? 'Transparence Totale' : 'Total Transparency',
+                  description: language === 'fr'
+                    ? 'Communication régulière, rapports détaillés et visibilité complète sur l\'avancement de votre projet.'
+                    : 'Regular communication, detailed reports and complete visibility on your project progress.',
+                },
+                {
+                  icon: <ClockIcon className="h-6 w-6 text-brand-500" />,
+                  title: language === 'fr' ? 'Réactivité Garantie' : 'Guaranteed Responsiveness',
+                  description: language === 'fr'
+                    ? 'Réponse sous 2h en heures ouvrables, support 24/7 pour les urgences et disponibilité totale.'
+                    : 'Response within 2h during business hours, 24/7 support for emergencies and total availability.',
+                },
+                {
+                  icon: <SparklesIcon className="h-6 w-6 text-brand-500" />,
+                  title: language === 'fr' ? 'Excellence Continue' : 'Continuous Excellence',
+                  description: language === 'fr'
+                    ? 'Amélioration continue, veille technologique et adoption des meilleures pratiques du marché.'
+                    : 'Continuous improvement, technological watch and adoption of market best practices.',
+                },
+                {
+                  icon: <CheckBadgeIcon className="h-6 w-6 text-brand-500" />,
+                  title: language === 'fr' ? 'Partenariat Durable' : 'Long-term Partnership',
+                  description: language === 'fr'
+                    ? 'Accompagnement au-delà de la livraison, évolution de votre solution et support continu.'
+                    : 'Support beyond delivery, evolution of your solution and continuous support.',
+                },
+              ].map((item, index) => {
+                const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+                return (
+                  <div
+                    key={index}
+                    ref={elementRef}
+                    className={`flex items-start gap-4 transition-all duration-700 ${
+                      isVisible
+                        ? 'translate-x-0 opacity-100'
+                        : '-translate-x-4 opacity-0'
+                    }`}
+                    style={{ transitionDelay: `${index * 100}ms` }}
+                  >
+                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-brand-50 transition-all duration-300 hover:scale-110">
+                      {item.icon}
+                    </div>
+                    <div>
+                      <h3 className="mb-2 font-semibold text-ink">
+                        {item.title}
+                      </h3>
+                      <p className="text-sm leading-relaxed text-slate-600">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Localisation avec carte */}
       <section>
         <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 shadow-xl transition-all duration-700 hover:shadow-2xl md:p-12">
           {/* Gradient animé */}
           <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-white to-brand-100/30 animate-gradient-shift" />
           <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/10 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
 
-          <div className="relative mx-auto max-w-3xl text-center">
-            <h2 className="mb-6 font-display text-3xl text-ink md:text-4xl">
-              {language === 'fr' ? 'Où Nous Trouver' : 'Find Us'}
-            </h2>
-            <div className="mb-6 flex items-center justify-center gap-3">
-              <MapPinIcon className="h-6 w-6 text-brand-500" />
-              <p className="text-lg text-slate-700">
-                {companyInfo.address.full}
-              </p>
+          <div className="relative mx-auto max-w-4xl">
+            <div className="mb-8 text-center">
+              <h2 className="mb-4 font-display text-3xl text-ink md:text-4xl">
+                {language === 'fr' ? 'Où Nous Trouver' : 'Find Us'}
+              </h2>
+              <div className="mb-6 flex items-center justify-center gap-3">
+                <MapPinIcon className="h-6 w-6 text-brand-500" />
+                <p className="text-lg text-slate-700">
+                  {companyInfo.address.full}
+                </p>
+              </div>
             </div>
-            <div className="space-y-2 text-slate-600">
-              <p>
-                <strong>
-                  {language === 'fr' ? 'Zone de service :' : 'Service area:'}
-                </strong>
-              </p>
-              <p>
-                {language === 'fr'
-                  ? 'Cameroun (principal) • Afrique Centrale et de l\'Ouest • International (projets à distance)'
-                  : 'Cameroon (main) • Central and West Africa • International (remote projects)'}
-              </p>
+
+            {/* Carte Google Maps */}
+            <div className="mb-8 overflow-hidden rounded-2xl shadow-lg">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.8!2d11.5021!3d3.8480!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM8KwNTAnNTIuOCJOIDExwrAzMCcwNy42IkU!5e0!3m2!1sfr!2scm!4v1234567890"
+                width="100%"
+                height="400"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title={language === 'fr' ? 'Localisation KOBE Corporation' : 'KOBE Corporation Location'}
+                className="w-full"
+              />
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="space-y-4">
+                <h3 className="font-semibold text-ink">
+                  {language === 'fr' ? 'Adresse' : 'Address'}
+                </h3>
+                <div className="space-y-2 text-slate-600">
+                  <p>{companyInfo.address.street}</p>
+                  <p>{companyInfo.address.city}</p>
+                  <p>{companyInfo.address.region}</p>
+                  <p>{companyInfo.address.country}</p>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <h3 className="font-semibold text-ink">
+                  {language === 'fr' ? 'Zone de service' : 'Service area'}
+                </h3>
+                <div className="space-y-2 text-slate-600">
+                  <p className="flex items-center gap-2">
+                    <CheckBadgeIcon className="h-5 w-5 text-brand-500" />
+                    {language === 'fr' ? 'Cameroun (principal)' : 'Cameroon (main)'}
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <CheckBadgeIcon className="h-5 w-5 text-brand-500" />
+                    {language === 'fr' ? 'Afrique Centrale et de l\'Ouest' : 'Central and West Africa'}
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <CheckBadgeIcon className="h-5 w-5 text-brand-500" />
+                    {language === 'fr' ? 'International (projets à distance)' : 'International (remote projects)'}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
