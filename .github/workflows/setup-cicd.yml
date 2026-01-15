@@ -876,6 +876,13 @@ jobs:
           # Copier les configurations Nginx pour blogpress-nginx
           if [ -d ".deploy/setup-kobe-proxy/conf.d" ]; then
             echo "📋 Copie des configurations Nginx pour blogpress-nginx..."
+            
+            # Créer le répertoire sur le serveur si nécessaire
+            ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.VPS_PORT || 22 }} \
+              ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} \
+              "mkdir -p ~/kobe-corporation/setup-kobe-proxy/conf.d" || true
+            
+            # Copier les fichiers
             rsync -avz \
               -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.VPS_PORT || 22 }}" \
               .deploy/setup-kobe-proxy/conf.d/ \

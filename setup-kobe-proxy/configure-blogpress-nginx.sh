@@ -109,7 +109,7 @@ if [[ $REPLY =~ ^[Oo]$ ]]; then
     docker exec $BLOGPRESS_CERTBOT_CONTAINER certbot certonly \
       --webroot \
       --webroot-path=/var/www/certbot \
-      --email contact@kobecorporation.com \
+      --email bendjibril789@gmail.com \
       --agree-tos \
       --no-eff-email \
       -d kobecorporation.com \
