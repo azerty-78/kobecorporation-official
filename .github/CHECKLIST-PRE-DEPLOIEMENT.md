@@ -134,12 +134,12 @@
 
 #### 🟡 IMPORTANT (Recommandé)
 
-6. **Créer les pages légales** :
+6. **Créer les pages légales** : ✅ **FAIT**
 
-   - Politique de confidentialité
-   - Mentions légales
-   - Conditions générales d'utilisation
-   - Lier dans le footer
+   - ✅ Politique de confidentialité (`/privacy`)
+   - ✅ Mentions légales (`/legal`)
+   - ✅ Conditions générales d'utilisation (`/terms`)
+   - ✅ Liées dans le footer
 
 7. **Optimiser les images** :
 
@@ -153,17 +153,20 @@
    - Soumettre le sitemap
    - Vérifier l'indexation
 
-9. **Ajouter les headers de sécurité dans nginx** :
+9. **Ajouter les headers de sécurité dans nginx** : ✅ **FAIT**
 
-   - Content-Security-Policy
-   - X-Frame-Options
-   - X-Content-Type-Options
-   - etc.
+   - ✅ Content-Security-Policy
+   - ✅ X-Frame-Options
+   - ✅ X-Content-Type-Options
+   - ✅ X-XSS-Protection
+   - ✅ Referrer-Policy
+   - ✅ Permissions-Policy
 
-10. **Tests de performance** :
-    - Lighthouse (score > 90)
-    - PageSpeed Insights
-    - Optimiser si nécessaire
+10. **Tests de performance** : ✅ **GUIDE CRÉÉ**
+
+    - ✅ Guide créé (`.github/TESTS-PERFORMANCE.md`)
+    - ⚠️ À effectuer après déploiement (Lighthouse, PageSpeed Insights)
+    - Objectif : Score > 90
 
 #### 🟢 OPTIONNEL (Améliorations futures)
 
