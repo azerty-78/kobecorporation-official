@@ -722,6 +722,15 @@ jobs:
           cp -r src .deploy/ 2>/dev/null || echo "src/ non trouvé"
           cp -r public .deploy/ 2>/dev/null || echo "public/ non trouvé"
           
+          # Copier les configurations Nginx pour blogpress-nginx
+          if [ -d "setup-kobe-proxy/conf.d" ]; then
+            mkdir -p .deploy/setup-kobe-proxy/conf.d
+            cp setup-kobe-proxy/conf.d/*.conf .deploy/setup-kobe-proxy/conf.d/ 2>/dev/null || echo "⚠️ Aucun fichier .conf trouvé dans setup-kobe-proxy/conf.d/"
+            echo "✅ Configurations Nginx copiées pour blogpress-nginx"
+          else
+            echo "⚠️ setup-kobe-proxy/conf.d/ non trouvé"
+          fi
+          
           if [ ! -f ".deploy/setup-front/nginx.conf" ]; then
             echo "❌ Erreur: nginx.conf n'est pas dans .deploy/setup-front/"
             exit 1
@@ -862,6 +871,18 @@ jobs:
           else
             echo "❌ Erreur: public/ n'existe pas dans .deploy/"
             exit 1
+          fi
+          
+          # Copier les configurations Nginx pour blogpress-nginx
+          if [ -d ".deploy/setup-kobe-proxy/conf.d" ]; then
+            echo "📋 Copie des configurations Nginx pour blogpress-nginx..."
+            rsync -avz \
+              -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.VPS_PORT || 22 }}" \
+              .deploy/setup-kobe-proxy/conf.d/ \
+              ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:~/kobe-corporation/setup-kobe-proxy/conf.d/
+            echo "✅ Configurations Nginx copiées"
+          else
+            echo "⚠️ setup-kobe-proxy/conf.d/ non trouvé dans .deploy/"
           fi
           
           echo "✅ Tous les fichiers ont été copiés vers le serveur"
@@ -1202,24 +1223,41 @@ jobs:
             docker network connect kobecorp-network $NGINX_CONTAINER || echo "⚠️  blogpress-nginx est peut-être déjà sur le réseau"
           fi
           
-          # Copier les configurations si elles n'existent pas
+          # Vérifier que les configurations existent sur le serveur
           if [ ! -f "$KOBE_CONF_DIR/conf.d/kobecorporation.com.conf" ]; then
-            echo "⚠️  Les configurations KOBE ne sont pas présentes"
-            echo "💡 Les configurations doivent être copiées manuellement"
+            echo "⚠️  Les configurations KOBE ne sont pas présentes dans $KOBE_CONF_DIR/conf.d/"
+            echo "💡 Les configurations devraient être copiées lors du déploiement"
+            echo "💡 Vérification des fichiers disponibles..."
+            ls -la "$KOBE_CONF_DIR/conf.d/" 2>/dev/null || echo "   Le répertoire n'existe pas"
             exit 1
           fi
+          
+          echo "✅ Configurations trouvées dans $KOBE_CONF_DIR/conf.d/"
+          ls -lh "$KOBE_CONF_DIR/conf.d/"*.conf 2>/dev/null || echo "⚠️  Aucun fichier .conf trouvé"
           
           # Trouver le répertoire de configuration de blogpress-nginx
           BLOGPRESS_CONF_DIR=$(docker inspect $NGINX_CONTAINER 2>/dev/null | grep -A 10 "Mounts" | grep "Source.*conf.d" | head -1 | awk -F'"' '{print $4}' || echo "")
           
           if [ -z "$BLOGPRESS_CONF_DIR" ] || [ ! -d "$BLOGPRESS_CONF_DIR" ]; then
-            echo "📦 Copie directe dans le conteneur..."
-            docker cp "$KOBE_CONF_DIR/conf.d/kobecorporation.com.conf" "$NGINX_CONTAINER:/etc/nginx/conf.d/" 2>/dev/null || true
-            docker cp "$KOBE_CONF_DIR/conf.d/ben-djibril.kobecorporation.com.conf" "$NGINX_CONTAINER:/etc/nginx/conf.d/" 2>/dev/null || true
+            echo "📦 Copie directe dans le conteneur (méthode recommandée)..."
+            docker cp "$KOBE_CONF_DIR/conf.d/kobecorporation.com.conf" "$NGINX_CONTAINER:/etc/nginx/conf.d/" || {
+              echo "❌ Erreur lors de la copie de kobecorporation.com.conf"
+              exit 1
+            }
+            docker cp "$KOBE_CONF_DIR/conf.d/ben-djibril.kobecorporation.com.conf" "$NGINX_CONTAINER:/etc/nginx/conf.d/" || {
+              echo "⚠️  Erreur lors de la copie de ben-djibril.kobecorporation.com.conf (peut être normal si non présent)"
+            }
+            echo "✅ Configurations copiées dans le conteneur"
           else
             echo "✅ Répertoire trouvé: $BLOGPRESS_CONF_DIR"
-            cp "$KOBE_CONF_DIR/conf.d/kobecorporation.com.conf" "$BLOGPRESS_CONF_DIR/" 2>/dev/null || true
-            cp "$KOBE_CONF_DIR/conf.d/ben-djibril.kobecorporation.com.conf" "$BLOGPRESS_CONF_DIR/" 2>/dev/null || true
+            cp "$KOBE_CONF_DIR/conf.d/kobecorporation.com.conf" "$BLOGPRESS_CONF_DIR/" || {
+              echo "❌ Erreur lors de la copie de kobecorporation.com.conf"
+              exit 1
+            }
+            cp "$KOBE_CONF_DIR/conf.d/ben-djibril.kobecorporation.com.conf" "$BLOGPRESS_CONF_DIR/" 2>/dev/null || {
+              echo "⚠️  ben-djibril.kobecorporation.com.conf non trouvé (peut être normal)"
+            }
+            echo "✅ Configurations copiées dans $BLOGPRESS_CONF_DIR"
           fi
           
           # Tester et recharger Nginx
