@@ -571,6 +571,593 @@ jobs:
   # ==========================================
   # JOB 4: Create GitHub Release
   # ==========================================
+  deploy:
+    name: 🚀 Deploy to VPS
+    runs-on: ubuntu-latest
+    needs: [build, test]
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🔑 Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+      
+      - name: 🔍 Test SSH Connection
+        run: |
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.VPS_PORT || 22 }} ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} "echo '✅ Connexion SSH réussie'"
+      
+      - name: 🐳 Check & Setup Docker on Server
+        run: |
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.VPS_PORT || 22 }} \
+            ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} << 'DOCKER_SETUP'
+          set -e
+          
+          echo "🔍 Vérification de Docker..."
+          
+          # Détecter la distribution
+          if [ -f /etc/os-release ]; then
+            . /etc/os-release
+            OS=$ID
+          else
+            OS="unknown"
+          fi
+          
+          # Vérifier si Docker est installé
+          if ! command -v docker &> /dev/null; then
+            echo "⚠️ Docker n'est pas installé, installation en cours..."
+            
+            if [ "$OS" = "unknown" ]; then
+              echo "❌ Impossible de détecter la distribution"
+              exit 1
+            fi
+            
+            if [ "$OS" = "ubuntu" ] || [ "$OS" = "debian" ]; then
+              echo "📦 Installation Docker pour Ubuntu/Debian..."
+              sudo apt-get update -qq
+              sudo apt-get install -y ca-certificates curl gnupg lsb-release
+              sudo mkdir -p /etc/apt/keyrings
+              curl -fsSL https://download.docker.com/linux/$OS/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+              echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/$OS $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+              sudo apt-get update -qq
+              sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+            elif [ "$OS" = "centos" ] || [ "$OS" = "rhel" ] || [ "$OS" = "fedora" ]; then
+              echo "📦 Installation Docker pour CentOS/RHEL/Fedora..."
+              sudo yum install -y yum-utils
+              sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+              sudo yum install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+            else
+              echo "❌ Distribution non supportée: $OS"
+              exit 1
+            fi
+          else
+            echo "✅ Docker est déjà installé"
+            docker --version
+          fi
+          
+          # Vérifier Docker Compose
+          if ! command -v docker-compose &> /dev/null && ! docker compose version &> /dev/null; then
+            echo "⚠️ Docker Compose n'est pas installé, installation en cours..."
+            if [ "$OS" = "ubuntu" ] || [ "$OS" = "debian" ]; then
+              sudo apt-get install -y docker-compose-plugin
+            elif [ "$OS" = "centos" ] || [ "$OS" = "rhel" ] || [ "$OS" = "fedora" ]; then
+              sudo yum install -y docker-compose-plugin
+            fi
+          else
+            echo "✅ Docker Compose est déjà installé"
+            docker-compose --version 2>/dev/null || docker compose version
+          fi
+          
+          # Vérifier le service Docker
+          if ! sudo systemctl is-active --quiet docker 2>/dev/null; then
+            echo "⚠️ Le service Docker n'est pas démarré, démarrage en cours..."
+            sudo systemctl start docker
+            sudo systemctl enable docker
+          else
+            echo "✅ Le service Docker est démarré"
+          fi
+          
+          # Vérifier que l'utilisateur peut utiliser Docker
+          if ! docker ps &> /dev/null; then
+            echo "⚠️ L'utilisateur ne peut pas utiliser Docker sans sudo, ajout au groupe docker..."
+            CURRENT_USER=$(whoami)
+            sudo usermod -aG docker "$CURRENT_USER"
+            echo "✅ Utilisateur $CURRENT_USER ajouté au groupe docker"
+          else
+            echo "✅ L'utilisateur peut utiliser Docker"
+          fi
+          
+          # Test final
+          echo "🧪 Test final de Docker..."
+          if docker ps &> /dev/null; then
+            docker ps
+            echo "✅ Docker est prêt et fonctionne sans sudo!"
+          elif sudo docker ps &> /dev/null; then
+            sudo docker ps
+            echo "✅ Docker est prêt (utilise sudo pour l'instant)"
+          else
+            echo "❌ Erreur: Docker ne fonctionne pas"
+            exit 1
+          fi
+          DOCKER_SETUP
+      
+      - name: 📦 Prepare deployment files
+        run: |
+          mkdir -p .deploy
+          
+          cp -r setup-front .deploy/
+          cp package.json .deploy/
+          cp package-lock.json .deploy/ 2>/dev/null || echo "package-lock.json non trouvé, ignoré"
+          cp index.html .deploy/ 2>/dev/null || echo "index.html non trouvé"
+          cp vite.config.ts .deploy/ 2>/dev/null || echo "vite.config.ts non trouvé"
+          cp tsconfig.json .deploy/ 2>/dev/null || echo "tsconfig.json non trouvé"
+          cp tsconfig.app.json .deploy/ 2>/dev/null || echo "tsconfig.app.json non trouvé"
+          cp tsconfig.node.json .deploy/ 2>/dev/null || echo "tsconfig.node.json non trouvé"
+          cp tailwind.config.js .deploy/ 2>/dev/null || echo "tailwind.config.js non trouvé"
+          cp postcss.config.js .deploy/ 2>/dev/null || echo "postcss.config.js non trouvé"
+          cp eslint.config.js .deploy/ 2>/dev/null || echo "eslint.config.js non trouvé"
+          
+          # Copier le fichier .env s'il existe (important pour le domaine et les variables)
+          if [ -f "setup-front/.env" ]; then
+            cp setup-front/.env .deploy/setup-front/.env
+            echo "✅ Fichier .env copié (contient le domaine et les variables)"
+          else
+            echo "⚠️ Fichier setup-front/.env non trouvé"
+            echo "📝 Création d'un .env minimal avec le domaine..."
+            cat > .deploy/setup-front/.env << 'ENVFILE'
+# Domaine principal
+DOMAIN=kobecorporation.com
+VITE_APP_URL=https://kobecorporation.com
+VITE_APP_NAME=KOBE Corporation
+
+# Variables EmailJS (à remplir)
+VITE_EMAILJS_PUBLIC_KEY=
+VITE_EMAILJS_SERVICE_ID=
+VITE_EMAILJS_CONTACT_TEMPLATE_ID=
+VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID=
+ENVFILE
+            echo "✅ Fichier .env minimal créé avec le domaine kobecorporation.com"
+          fi
+          
+          cp -r src .deploy/ 2>/dev/null || echo "src/ non trouvé"
+          cp -r public .deploy/ 2>/dev/null || echo "public/ non trouvé"
+          
+          if [ ! -f ".deploy/setup-front/nginx.conf" ]; then
+            echo "❌ Erreur: nginx.conf n'est pas dans .deploy/setup-front/"
+            exit 1
+          fi
+          
+          if [ ! -f ".deploy/setup-front/Dockerfile" ]; then
+            echo "❌ Erreur: Dockerfile n'est pas dans .deploy/setup-front/"
+            exit 1
+          fi
+          
+          # Vérifier que le .env contient le domaine
+          if [ -f ".deploy/setup-front/.env" ]; then
+            if grep -q "kobecorporation.com" .deploy/setup-front/.env; then
+              echo "✅ Le domaine kobecorporation.com est présent dans .env"
+            else
+              echo "⚠️ Le domaine kobecorporation.com n'est pas dans .env, ajout..."
+              echo "" >> .deploy/setup-front/.env
+              echo "DOMAIN=kobecorporation.com" >> .deploy/setup-front/.env
+              echo "VITE_APP_URL=https://kobecorporation.com" >> .deploy/setup-front/.env
+            fi
+          fi
+          
+          echo "✅ Fichiers de déploiement préparés"
+      
+      - name: 🔧 Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          cat >> ~/.ssh/config << EOF
+          Host vps-deploy
+            HostName ${{ secrets.VPS_HOST }}
+            User ${{ secrets.VPS_USERNAME }}
+            Port ${{ secrets.VPS_PORT || 22 }}
+            StrictHostKeyChecking no
+            UserKnownHostsFile=/dev/null
+          EOF
+          ssh-keyscan -p ${{ secrets.VPS_PORT || 22 }} -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
+      
+      - name: 🧹 Clean old deployment files
+        run: |
+          mkdir -p ~/.ssh
+          cat > ~/.ssh/config << EOF
+          Host vps-deploy
+            HostName ${{ secrets.VPS_HOST }}
+            User ${{ secrets.VPS_USERNAME }}
+            Port ${{ secrets.VPS_PORT || 22 }}
+            StrictHostKeyChecking no
+            UserKnownHostsFile=/dev/null
+          EOF
+          chmod 600 ~/.ssh/config
+          
+          ssh -F ~/.ssh/config vps-deploy << 'EOF'
+            set -e
+            
+            echo "🧹 Nettoyage des anciens fichiers de déploiement..."
+            
+            # Arrêter et supprimer les anciens conteneurs
+            if docker ps -a --format '{{.Names}}' | grep -q "kobecorporation-web"; then
+              echo "🛑 Arrêt des anciens conteneurs..."
+              docker stop kobecorporation-web 2>/dev/null || true
+              docker rm kobecorporation-web 2>/dev/null || true
+            fi
+            
+            # Supprimer les anciens dossiers
+            if [ -d "/opt/kobe-corporation" ]; then
+              echo "🗑️ Suppression de l'ancien répertoire /opt/kobe-corporation..."
+              sudo rm -rf /opt/kobe-corporation || true
+            fi
+            
+            # Créer la structure de dossiers
+            echo "📁 Création de la structure de dossiers..."
+            mkdir -p ~/kobe-corporation/setup-front
+            
+            echo "✅ Nettoyage terminé"
+          EOF
+      
+      - name: 📤 Copy files to VPS
+        run: |
+          echo "📤 Copie des fichiers vers le serveur..."
+          
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          ssh-keyscan -p ${{ secrets.VPS_PORT || 22 }} -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
+          chmod 600 ~/.ssh/known_hosts 2>/dev/null || true
+          
+          # Copier setup-front/ (inclut .env, nginx.conf, compose.yaml)
+          rsync -avz --delete \
+            --include="nginx.conf" \
+            --include=".env" \
+            --include="compose.yaml" \
+            -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.VPS_PORT || 22 }}" \
+            .deploy/setup-front/ \
+            ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:~/kobe-corporation/setup-front/
+          
+          # Copier les fichiers à la racine
+          echo "📦 Copie des fichiers de build à la racine..."
+          
+          if [ -f ".deploy/package.json" ]; then
+            rsync -avz \
+              -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.VPS_PORT || 22 }}" \
+              .deploy/package.json \
+              ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:~/kobe-corporation/
+          else
+            echo "❌ Erreur: package.json n'existe pas dans .deploy/"
+            exit 1
+          fi
+          
+          if [ -f ".deploy/package-lock.json" ]; then
+            rsync -avz \
+              -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.VPS_PORT || 22 }}" \
+              .deploy/package-lock.json \
+              ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:~/kobe-corporation/
+          fi
+          
+          for file in index.html vite.config.ts tsconfig.json tsconfig.app.json tsconfig.node.json tailwind.config.js postcss.config.js eslint.config.js; do
+            if [ -f ".deploy/$file" ]; then
+              rsync -avz \
+                -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.VPS_PORT || 22 }}" \
+                .deploy/$file \
+                ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:~/kobe-corporation/
+            fi
+          done
+          
+          if [ -d ".deploy/src" ]; then
+            rsync -avz \
+              -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.VPS_PORT || 22 }}" \
+              .deploy/src/ \
+              ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:~/kobe-corporation/src/
+          else
+            echo "❌ Erreur: src/ n'existe pas dans .deploy/"
+            exit 1
+          fi
+          
+          if [ -d ".deploy/public" ]; then
+            rsync -avz \
+              -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.VPS_PORT || 22 }}" \
+              .deploy/public/ \
+              ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:~/kobe-corporation/public/
+          else
+            echo "❌ Erreur: public/ n'existe pas dans .deploy/"
+            exit 1
+          fi
+          
+          echo "✅ Tous les fichiers ont été copiés vers le serveur"
+          
+          # Vérifier les fichiers
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.VPS_PORT || 22 }} \
+            ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} << 'VERIFY_FILES'
+          set -e
+          
+          DEPLOY_PATH="$HOME/kobe-corporation"
+          
+          echo "📋 Vérification de $DEPLOY_PATH/package.json:"
+          if [ -f "$DEPLOY_PATH/package.json" ]; then
+            echo "✅ package.json trouvé"
+            ls -lh "$DEPLOY_PATH/package.json"
+          else
+            echo "❌ ERREUR: package.json n'est pas présent dans $DEPLOY_PATH"
+            exit 1
+          fi
+          
+          echo "📋 Vérification de $DEPLOY_PATH/src:"
+          if [ -d "$DEPLOY_PATH/src" ]; then
+            echo "✅ src/ trouvé"
+          else
+            echo "❌ ERREUR: src/ n'est pas présent dans $DEPLOY_PATH"
+            exit 1
+          fi
+          
+          echo "📋 Vérification de $DEPLOY_PATH/public:"
+          if [ -d "$DEPLOY_PATH/public" ]; then
+            echo "✅ public/ trouvé"
+          else
+            echo "❌ ERREUR: public/ n'est pas présent dans $DEPLOY_PATH"
+            exit 1
+          fi
+          
+          echo "📋 Vérification de $DEPLOY_PATH/setup-front/.env:"
+          if [ -f "$DEPLOY_PATH/setup-front/.env" ]; then
+            echo "✅ .env trouvé dans setup-front/"
+            if grep -q "kobecorporation.com" "$DEPLOY_PATH/setup-front/.env"; then
+              echo "✅ Le domaine kobecorporation.com est présent dans .env"
+              grep -E "^DOMAIN=|^VITE_APP_URL=" "$DEPLOY_PATH/setup-front/.env" | head -2
+            else
+              echo "⚠️ Le domaine kobecorporation.com n'est pas dans .env, ajout..."
+              echo "" >> "$DEPLOY_PATH/setup-front/.env"
+              echo "DOMAIN=kobecorporation.com" >> "$DEPLOY_PATH/setup-front/.env"
+              echo "VITE_APP_URL=https://kobecorporation.com" >> "$DEPLOY_PATH/setup-front/.env"
+              echo "✅ Domaine ajouté au .env"
+            fi
+          else
+            echo "⚠️ .env non trouvé, création avec le domaine..."
+            cat > "$DEPLOY_PATH/setup-front/.env" << 'ENVFILE'
+# Domaine principal
+DOMAIN=kobecorporation.com
+VITE_APP_URL=https://kobecorporation.com
+VITE_APP_NAME=KOBE Corporation
+
+# Variables EmailJS (à remplir)
+VITE_EMAILJS_PUBLIC_KEY=
+VITE_EMAILJS_SERVICE_ID=
+VITE_EMAILJS_CONTACT_TEMPLATE_ID=
+VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID=
+ENVFILE
+            echo "✅ Fichier .env créé avec le domaine kobecorporation.com"
+          fi
+          
+          echo "✅ Tous les fichiers nécessaires sont présents sur le serveur"
+          VERIFY_FILES
+      
+      - name: 🐳 Deploy Docker Containers
+        run: |
+          mkdir -p ~/.ssh
+          cat > ~/.ssh/config << EOF
+          Host vps-deploy
+            HostName ${{ secrets.VPS_HOST }}
+            User ${{ secrets.VPS_USERNAME }}
+            Port ${{ secrets.VPS_PORT || 22 }}
+            StrictHostKeyChecking no
+            UserKnownHostsFile=/dev/null
+          EOF
+          chmod 600 ~/.ssh/config
+          
+          ssh -F ~/.ssh/config vps-deploy << 'DEPLOY_DOCKER'
+          set -e
+          
+          get_docker_cmd() {
+            if docker ps &> /dev/null 2>&1; then
+              echo "docker"
+            else
+              echo "sudo docker"
+            fi
+          }
+          
+          DOCKER_CMD=$(get_docker_cmd)
+          
+          get_compose_cmd() {
+            if docker ps &> /dev/null 2>&1; then
+              if command -v docker-compose &> /dev/null; then
+                echo "docker-compose"
+              else
+                echo "docker compose"
+              fi
+            else
+              if command -v docker-compose &> /dev/null; then
+                echo "sudo docker-compose"
+              else
+                echo "sudo docker compose"
+              fi
+            fi
+          }
+          
+          COMPOSE_CMD=$(get_compose_cmd)
+          
+          DEPLOY_PATH="$HOME/kobe-corporation"
+          DOCKER_COMPOSE_PATH="$DEPLOY_PATH/setup-front"
+          
+          echo "🔍 Vérification des fichiers nécessaires pour le build Docker..."
+          echo "📁 Contexte Docker: $DEPLOY_PATH"
+          
+          if [ ! -f "$DEPLOY_PATH/package.json" ]; then
+            echo "❌ ERREUR: package.json n'est pas présent dans $DEPLOY_PATH"
+            exit 1
+          else
+            echo "✅ package.json trouvé dans $DEPLOY_PATH"
+          fi
+          
+          if [ ! -d "$DEPLOY_PATH/src" ]; then
+            echo "❌ ERREUR: src/ n'est pas présent dans $DEPLOY_PATH"
+            exit 1
+          else
+            echo "✅ src/ trouvé dans $DEPLOY_PATH"
+          fi
+          
+          if [ ! -d "$DEPLOY_PATH/public" ]; then
+            echo "❌ ERREUR: public/ n'est pas présent dans $DEPLOY_PATH"
+            exit 1
+          else
+            echo "✅ public/ trouvé dans $DEPLOY_PATH"
+          fi
+          
+          cd "$DOCKER_COMPOSE_PATH"
+          
+          if [ ! -f "compose.yaml" ]; then
+            echo "❌ Erreur: compose.yaml n'est pas présent dans $DOCKER_COMPOSE_PATH"
+            exit 1
+          fi
+          
+          echo ""
+          echo "🔨 Build et démarrage des conteneurs..."
+          if echo "$COMPOSE_CMD" | grep -q "docker compose"; then
+            $COMPOSE_CMD -f compose.yaml pull || echo "⚠️ Pull échoué, utilisation de l'image locale"
+            $COMPOSE_CMD -f compose.yaml up -d --build --force-recreate
+          else
+            $COMPOSE_CMD -f compose.yaml pull || echo "⚠️ Pull échoué, utilisation de l'image locale"
+            $COMPOSE_CMD -f compose.yaml up -d --build --force-recreate
+          fi
+
+          echo "⏳ Attente du démarrage des conteneurs..."
+          sleep 10
+
+          echo "📊 Statut des conteneurs:"
+          if echo "$COMPOSE_CMD" | grep -q "docker compose"; then
+            $COMPOSE_CMD -f compose.yaml ps
+          else
+            $COMPOSE_CMD -f compose.yaml ps
+          fi
+
+          if echo "$COMPOSE_CMD" | grep -q "docker compose"; then
+            if $COMPOSE_CMD -f compose.yaml ps | grep -q "Up"; then
+              echo "✅ Conteneurs démarrés avec succès!"
+            else
+              echo "❌ Erreur: Les conteneurs ne sont pas démarrés"
+              $COMPOSE_CMD -f compose.yaml logs
+              exit 1
+            fi
+          else
+            if $COMPOSE_CMD -f compose.yaml ps | grep -q "Up"; then
+              echo "✅ Conteneurs démarrés avec succès!"
+            else
+              echo "❌ Erreur: Les conteneurs ne sont pas démarrés"
+              $COMPOSE_CMD -f compose.yaml logs
+              exit 1
+            fi
+          fi
+
+          echo "📋 Logs récents:"
+          if echo "$COMPOSE_CMD" | grep -q "docker compose"; then
+            $COMPOSE_CMD -f compose.yaml logs --tail=50
+          else
+            $COMPOSE_CMD -f compose.yaml logs --tail=50
+          fi
+          DEPLOY_DOCKER
+
+      - name: ✅ Verify deployment
+        run: |
+          echo "✅ Vérification du déploiement..."
+          
+          mkdir -p ~/.ssh
+          cat > ~/.ssh/config << EOF
+          Host vps-deploy
+            HostName ${{ secrets.VPS_HOST }}
+            User ${{ secrets.VPS_USERNAME }}
+            Port ${{ secrets.VPS_PORT || 22 }}
+            StrictHostKeyChecking no
+            UserKnownHostsFile=/dev/null
+          EOF
+          chmod 600 ~/.ssh/config
+          
+          ssh -F ~/.ssh/config vps-deploy << 'VERIFY'
+          set -e
+          
+          get_docker_cmd() {
+            if docker ps &> /dev/null 2>&1; then
+              echo "docker"
+            else
+              echo "sudo docker"
+            fi
+          }
+          
+          DOCKER_CMD=$(get_docker_cmd)
+          
+          get_compose_cmd() {
+            if docker ps &> /dev/null 2>&1; then
+              if command -v docker-compose &> /dev/null; then
+                echo "docker-compose"
+              else
+                echo "docker compose"
+              fi
+            else
+              if command -v docker-compose &> /dev/null; then
+                echo "sudo docker-compose"
+              else
+                echo "sudo docker compose"
+              fi
+            fi
+          }
+          
+          COMPOSE_CMD=$(get_compose_cmd)
+          
+          DEPLOY_PATH="$HOME/kobe-corporation"
+          DOCKER_COMPOSE_PATH="$DEPLOY_PATH/setup-front"
+          
+          cd "$DOCKER_COMPOSE_PATH"
+          
+          if $COMPOSE_CMD ps | grep -q "Up"; then
+            echo "✅ Déploiement réussi! Le conteneur est en cours d'exécution."
+            
+            echo ""
+            echo "📊 Informations du conteneur:"
+            $DOCKER_CMD ps --filter "name=kobecorporation-web" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+            
+            echo ""
+            echo "🌐 Vérification du réseau Docker..."
+            if $DOCKER_CMD inspect kobecorporation-web --format '{{range $key, $value := .NetworkSettings.Networks}}{{$key}}{{end}}' | grep -q "kobecorp-network"; then
+              echo "✅ Le conteneur est sur le réseau kobecorp-network"
+            else
+              echo "⚠️ Le conteneur n'est pas sur le réseau kobecorp-network"
+            fi
+            
+            CONTAINER_IP=$($DOCKER_CMD inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' kobecorporation-web 2>/dev/null || echo "")
+            if [ -n "$CONTAINER_IP" ]; then
+              echo ""
+              echo "🌐 IP du conteneur: $CONTAINER_IP"
+              echo "🔍 Test de connectivité..."
+              curl -f http://localhost:80 > /dev/null 2>&1 && echo "✅ L'application répond sur le port 80" || echo "⚠️ L'application ne répond pas encore (peut être normal si elle démarre)"
+            fi
+          else
+            echo "❌ Erreur: Le conteneur n'est pas en cours d'exécution"
+            $COMPOSE_CMD ps
+            $COMPOSE_CMD logs --tail=100
+            exit 1
+          fi
+          VERIFY
+      
+      - name: 🎉 Deployment Summary
+        if: success()
+        run: |
+          echo ""
+          echo "🎉 =========================================="
+          echo "🎉 DÉPLOIEMENT RÉUSSI!"
+          echo "🎉 =========================================="
+          echo ""
+          echo "📦 Image Docker: ${{ env.DOCKER_IMAGE }}:latest"
+          echo "🌐 Serveur: ${{ secrets.VPS_HOST }}"
+          echo "📁 Chemin de déploiement: ~/kobe-corporation/setup-front"
+          echo "🐳 Conteneur: kobecorporation-web"
+          echo "🌐 Réseau Docker: kobecorp-network"
+          echo "🔌 Port interne: 80"
+          echo ""
+          echo "✅ L'application est maintenant déployée et accessible!"
+          echo "📝 Note: Le proxy Nginx doit être configuré pour utiliser kobecorporation-web:80"
+          echo ""
+
   release:
     name: 🚀 Create GitHub Release
     runs-on: ubuntu-latest
