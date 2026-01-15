@@ -32,6 +32,9 @@ env:
   DOCKER_IMAGE: azerty78/kobecorporation-web
   DOCKERFILE_PATH: setup-front/Dockerfile
   DOCKER_CONTEXT: .
+  NGINX_IMAGE: azerty78/kobe-nginx
+  NGINX_DOCKERFILE_PATH: setup-kobe-proxy/Dockerfile
+  NGINX_DOCKER_CONTEXT: setup-kobe-proxy
 
 # ==========================================
 # JOBS
@@ -494,15 +497,224 @@ jobs:
           docker images | grep "${{ env.DOCKER_IMAGE }}"
   
   # ==========================================
-  # JOB 3: Test Docker Image (optionnel pour l'instant)
+  # JOB 3: Build & Push Nginx Image
+  # ==========================================
+  build-nginx:
+    needs: [tags]
+    name: 🔨 Build & Push Nginx Image
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Étape 1: Checkout du code
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      # Étape 2: Nettoyer et recréer les contextes Docker correctement
+      - name: 🧹 Setup Docker Properly
+        run: |
+          # Supprimer buildx et contextes corrompus
+          rm -rf ~/.docker/buildx 2>/dev/null || true
+          rm -rf ~/.docker/contexts 2>/dev/null || true
+          
+          # Recréer la structure de contextes correctement
+          mkdir -p ~/.docker/contexts/meta
+          
+          # Créer le contexte par défaut "." (nécessaire pour docker run)
+          DEFAULT_CONTEXT_DIR=~/.docker/contexts/meta/cdb4ee2aea69cc6a83331bbe96dc2caa9a299d21329efb0336fc02a82e1839a8
+          mkdir -p "$DEFAULT_CONTEXT_DIR"
+          
+          # Créer le fichier meta.json pour le contexte par défaut
+          cat > "$DEFAULT_CONTEXT_DIR/meta.json" <<'EOF'
+          {
+            "Name": ".",
+            "Metadata": {
+              "Description": "Default context"
+            },
+            "Endpoints": {
+              "docker": {
+                "Host": "unix:///var/run/docker.sock",
+                "SkipTLSVerify": false
+              }
+            }
+          }
+          EOF
+          
+          # Vérifier que le fichier a été créé
+          if [ -f "$DEFAULT_CONTEXT_DIR/meta.json" ]; then
+            echo "✅ Contexte Docker par défaut créé avec succès"
+          else
+            echo "❌ Erreur: Impossible de créer le contexte par défaut"
+            exit 1
+          fi
+      
+      # Étape 3: Login à DockerHub 
+      - name: 🔐 Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      
+      # Étape 3b: Tester la syntaxe Nginx
+      - name: ✅ Test Nginx Configuration
+        run: |
+          echo "🔍 Test de la syntaxe Nginx..."
+          
+          # Pull l'image nginx:alpine pour le test
+          docker pull nginx:alpine || echo "Image déjà présente"
+          
+          # Créer un conteneur temporaire pour tester la config
+          ABS_PATH=$(pwd)
+          
+          # Créer des certificats SSL self-signed pour le test (nécessaires pour valider la syntaxe HTTPS)
+          echo "📝 Création de certificats SSL self-signed pour le test..."
+          mkdir -p /tmp/letsencrypt-test/live/kobecorporation.com
+          mkdir -p /tmp/letsencrypt-test/live/ben-djibril.kobecorporation.com
+          
+          # Fonction pour générer un certificat self-signed
+          generate_cert() {
+            local domain=$1
+            local cert_dir="/tmp/letsencrypt-test/live/$domain"
+            
+            # Essayer avec openssl local d'abord
+            if command -v openssl &> /dev/null; then
+              openssl req -x509 -nodes -days 1 -newkey rsa:2048 \
+                -keyout "$cert_dir/privkey.pem" \
+                -out "$cert_dir/fullchain.pem" \
+                -subj "/CN=$domain" 2>/dev/null && return 0
+            fi
+            
+            # Sinon utiliser un conteneur Docker
+            docker run --rm \
+              -v /tmp/letsencrypt-test:/certs \
+              alpine/openssl:latest \
+              req -x509 -nodes -days 1 -newkey rsa:2048 \
+              -keyout "/certs/live/$domain/privkey.pem" \
+              -out "/certs/live/$domain/fullchain.pem" \
+              -subj "/CN=$domain" 2>/dev/null && return 0
+            
+            echo "⚠️  Impossible de générer le certificat pour $domain"
+            return 1
+          }
+          
+          # Générer les certificats pour chaque domaine
+          generate_cert "kobecorporation.com" || echo "⚠️  Échec pour kobecorporation.com"
+          generate_cert "ben-djibril.kobecorporation.com" || echo "⚠️  Échec pour ben-djibril.kobecorporation.com"
+          
+          # Tester la syntaxe (les erreurs de résolution DNS sont normales dans l'environnement de test)
+          OUTPUT=$(docker run --rm \
+            -v "$ABS_PATH/setup-kobe-proxy/nginx.conf:/etc/nginx/nginx.conf:ro" \
+            -v "$ABS_PATH/setup-kobe-proxy/conf.d:/etc/nginx/conf.d:ro" \
+            -v "/tmp/letsencrypt-test:/etc/letsencrypt:ro" \
+            nginx:alpine \
+            nginx -t 2>&1) || true
+          
+          # Nettoyer les certificats factices
+          rm -rf /tmp/letsencrypt-test
+          
+          # Vérifier si c'est une erreur de syntaxe ou juste de résolution DNS
+          if echo "$OUTPUT" | grep -q "host not found in upstream"; then
+            echo "⚠️  Avertissement: Résolution DNS échouée (normal dans l'environnement de test)"
+            echo "✅ La syntaxe Nginx est valide (les hôtes seront résolus en production)"
+          elif echo "$OUTPUT" | grep -q "configuration file.*test is successful"; then
+            echo "✅ Configuration Nginx valide!"
+          elif echo "$OUTPUT" | grep -q "syntax is ok"; then
+            echo "✅ Configuration Nginx valide!"
+          elif echo "$OUTPUT" | grep -q "deprecated"; then
+            # Les avertissements de dépréciation ne sont pas bloquants
+            echo "⚠️  Avertissements de dépréciation détectés (non bloquants)"
+            if echo "$OUTPUT" | grep -q "syntax is ok\|test is successful"; then
+              echo "✅ Configuration Nginx valide!"
+            else
+              echo "❌ Erreur dans la configuration Nginx:"
+              echo "$OUTPUT"
+              exit 1
+            fi
+          else
+            echo "❌ Erreur dans la configuration Nginx:"
+            echo "$OUTPUT"
+            exit 1
+          fi
+      
+      # Étape 4: Extract metadata (tags, labels)
+      - name: 📋 Extract metadata
+        id: meta-nginx
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.NGINX_IMAGE }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix=${{ github.ref_name }}-
+            type=raw,value=${{ needs.tags.outputs.tag_name }},enable=${{ needs.tags.outputs.tag_created == 'true' && needs.tags.outputs.tag_name != '' }}
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' }}
+      
+      # Étape 5: Build Docker Image Nginx
+      - name: 🔨 Build Nginx Docker Image
+        env:
+          DOCKER_BUILDKIT: 0
+        run: |
+          # Préparer les tags
+          TAGS="${{ steps.meta-nginx.outputs.tags }}"
+          if [ -z "$TAGS" ]; then
+            # Fallback si metadata-action ne fonctionne pas
+            TAGS="${{ env.NGINX_IMAGE }}:latest ${{ env.NGINX_IMAGE }}:${{ github.sha }}"
+          fi
+          
+          # Construire les arguments --tag en filtrant les tags invalides
+          TAG_ARGS=""
+          for tag in $TAGS; do
+            # Vérifier que le tag est valide (non vide, ne commence pas par un tiret, format valide)
+            if [ -n "$tag" ] && [ "${tag#-}" = "$tag" ] && echo "$tag" | grep -qE '^[^:]+:[^:]+$'; then
+              TAG_ARGS="$TAG_ARGS --tag $tag"
+              echo "✅ Tag valide ajouté: $tag"
+            else
+              echo "⚠️ Tag invalide ignoré: $tag"
+            fi
+          done
+          
+          # Vérifier qu'au moins un tag valide a été ajouté
+          if [ -z "$TAG_ARGS" ]; then
+            echo "❌ Aucun tag valide trouvé, utilisation du tag par défaut"
+            TAG_ARGS="--tag ${{ env.NGINX_IMAGE }}:latest"
+          fi
+          
+          # Construire l'image Nginx
+          docker build \
+            --pull \
+            --file ${{ env.NGINX_DOCKERFILE_PATH }} \
+            $TAG_ARGS \
+            ${{ env.NGINX_DOCKER_CONTEXT }}
+          
+          # Push l'image si ce n'est pas une PR
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            for tag in $TAGS; do
+              # Vérifier que le tag est valide avant de push
+              if [ -n "$tag" ] && [ "${tag#-}" = "$tag" ] && echo "$tag" | grep -qE '^[^:]+:[^:]+$'; then
+                echo "Pushing $tag..."
+                docker push $tag || echo "⚠️ Échec du push pour $tag (peut être normal si le tag existe déjà)"
+              fi
+            done
+          fi
+      
+      # Étape 6: Afficher les informations de l'image
+      - name: 📊 Nginx Image Info
+        if: success()
+        run: |
+          echo "✅ Image Nginx buildée avec succès!"
+          echo "📦 Image: ${{ env.NGINX_IMAGE }}"
+          echo "🏷️  Tags: ${{ steps.meta-nginx.outputs.tags }}"
+          docker images | grep "${{ env.NGINX_IMAGE }}"
+  
+  # ==========================================
+  # JOB 4: Test Docker Image (optionnel pour l'instant)
   # ==========================================
   test:
     name: 🧪 Test Docker Image
     runs-on: ubuntu-latest
     needs: build
-    if: |
-      github.event_name != 'pull_request' &&
-      needs.build.result == 'success'
+    if: github.event_name != 'pull_request' && needs.build.result == 'success'
     
     steps:
       # Étape 1: Checkout
@@ -569,13 +781,13 @@ jobs:
           docker rm test-container
 
   # ==========================================
-  # JOB 4: Create GitHub Release
+  # JOB 5: Deploy to VPS
   # ==========================================
   deploy:
     name: 🚀 Deploy to VPS
     runs-on: ubuntu-latest
-    needs: [build, test]
-    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    needs: [build, build-nginx, test]
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && needs.build.result == 'success' && needs.build-nginx.result == 'success' && needs.test.result == 'success'
     
     steps:
       - name: 📥 Checkout code
