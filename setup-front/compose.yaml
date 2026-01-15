@@ -6,8 +6,10 @@ services:
     image: kobecorporation-web:latest
     container_name: kobecorporation-web
     restart: unless-stopped
-    ports:
-      - "80:80"
+    # Ne pas exposer de port sur l'hôte (le reverse proxy blogpress-nginx gère les ports 80/443)
+    # Le port 80 est exposé uniquement en interne sur le réseau Docker
+    expose:
+      - "80"
     environment:
       - NODE_ENV=production
     networks:
