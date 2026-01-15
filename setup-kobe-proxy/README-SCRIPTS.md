@@ -170,8 +170,32 @@ Ces scripts **ne sont PAS copiés** sur le serveur par le CI/CD. Si vous voulez 
 2. **Ou les créer directement** sur le serveur
 3. **Ou utiliser git pull** si le dépôt est cloné sur le serveur
 
+## 🔧 Dépannage : Erreur 404
+
+Si vous obtenez une erreur 404 sur vos domaines, utilisez le script de correction automatique :
+
+```bash
+# Sur le serveur VPS
+cd ~/kobe-corporation/setup-kobe-proxy
+chmod +x fix-404.sh
+./fix-404.sh
+```
+
+Ce script va :
+
+1. ✅ Vérifier que tous les conteneurs sont démarrés
+2. ✅ Vérifier/créer le réseau `kobecorp-network`
+3. ✅ Connecter tous les conteneurs au réseau
+4. ✅ Copier les configurations Nginx dans blogpress-nginx
+5. ✅ Vérifier la syntaxe Nginx
+6. ✅ Recharger Nginx
+7. ✅ Tester la connectivité
+
+Pour plus de détails, consultez `TROUBLESHOOTING-404.md`.
+
 ## 📚 Documentation Complémentaire
 
 - [Guide Reverse Proxy Multi-Domaines](../../.github/GUIDE-REVERSE-PROXY-MULTI-DOMAINES.md)
 - [Guide SSL Automatisation](../../.github/GUIDE-SSL-AUTOMATISATION.md)
+- [Dépannage 404](TROUBLESHOOTING-404.md) : Guide complet de dépannage pour les erreurs 404
 - [Réponses SSL](../../.github/REPONSES-SSL.md)
