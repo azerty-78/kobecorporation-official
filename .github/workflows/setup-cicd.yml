@@ -1191,6 +1191,22 @@ jobs:
           DEPLOY_PATH="$HOME/kobe-corporation"
           DOCKER_COMPOSE_PATH="$DEPLOY_PATH/setup-front"
           
+          echo "🌐 Vérification/création du réseau Docker kobecorp-network..."
+          if ! $DOCKER_CMD network ls | grep -q "kobecorp-network"; then
+            echo "📦 Création du réseau kobecorp-network..."
+            $DOCKER_CMD network create kobecorp-network || {
+              echo "⚠️ Le réseau existe peut-être déjà, vérification..."
+              if $DOCKER_CMD network inspect kobecorp-network &>/dev/null; then
+                echo "✅ Le réseau kobecorp-network existe déjà"
+              else
+                echo "❌ Erreur: Impossible de créer ou vérifier le réseau"
+                exit 1
+              fi
+            }
+          else
+            echo "✅ Le réseau kobecorp-network existe déjà"
+          fi
+          
           echo "🔍 Vérification des fichiers nécessaires pour le build Docker..."
           echo "📁 Contexte Docker: $DEPLOY_PATH"
           
