@@ -328,15 +328,15 @@ jobs:
           images: ${{ env.DOCKER_IMAGE }}
           tags: |
             # Tags Git (prioritaires si disponibles)
-            type=raw,value=${{ needs.tags.outputs.tag_name }},enable=${{ needs.tags.outputs.tag_created }}
+            type=raw,value=${{ needs.tags.outputs.tag_name }},enable=${{ needs.tags.outputs.tag_created == 'true' }}
             # Tags sémantiques basés sur la version
-            type=semver,pattern={{version}},enable=${{ needs.tags.outputs.is_release }}
-            type=semver,pattern={{major}}.{{minor}},enable=${{ needs.tags.outputs.is_release }}
+            type=semver,pattern={{version}},enable=${{ needs.tags.outputs.is_release == 'true' }}
+            type=semver,pattern={{major}}.{{minor}},enable=${{ needs.tags.outputs.is_release == 'true' }}
             # Tags de branche et SHA (fallback)
             type=ref,event=branch
             type=sha,prefix={{branch}}-
             # Tag latest uniquement sur la branche principale
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' }}
             # Tags pour les PRs
             type=ref,event=pr
       

@@ -663,7 +663,7 @@ function About() {
                     }`}
                     style={{ transitionDelay: `${index * 150}ms` }}
                   >
-                    <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-lg transition-all duration-500 group-hover/step:scale-110 group-hover/step:rotate-6">
+                    <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-[rgb(31,41,55)] text-white shadow-lg transition-all duration-500 group-hover/step:scale-110 group-hover/step:rotate-6 group-hover/step:bg-[rgb(15,23,42)]">
                       <span className="font-display text-2xl font-bold">{item.step}</span>
                     </div>
                     <h3 className="mb-2 font-semibold text-ink transition-colors duration-300 group-hover/step:text-brand-600">
