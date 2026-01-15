@@ -4,15 +4,10 @@ import { programmes } from '../data/siteContent'
 import {
   CheckIcon,
   ArrowRightIcon,
-  BriefcaseIcon,
-  AcademicCapIcon,
-  BookOpenIcon,
   UserGroupIcon,
-  ClockIcon,
   RocketLaunchIcon,
   ShieldCheckIcon,
   StarIcon,
-  ChartBarIcon,
 } from '@heroicons/react/24/outline'
 import { NavLink } from 'react-router-dom'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
