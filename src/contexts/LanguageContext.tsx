@@ -1,8 +1,7 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { Language } from '../utils/i18n'
 import { getTranslation } from '../utils/i18n'
-import { useCookies } from './CookieContext'
 
 interface LanguageContextType {
   language: Language
@@ -12,24 +11,38 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  // Utiliser le contexte des cookies pour vérifier si on peut utiliser localStorage
-  let cookieContext
+// Fonction helper pour vérifier si on peut utiliser localStorage
+const canUseStorage = (): boolean => {
   try {
-    cookieContext = useCookies()
+    const consent = localStorage.getItem('kobe-cookie-consent')
+    const prefs = localStorage.getItem('kobe-cookie-preferences')
+    
+    if (consent === 'true' && prefs) {
+      try {
+        const parsed = JSON.parse(prefs)
+        return parsed.preferences === true
+      } catch {
+        return true // Par défaut, on autorise si erreur de parsing
+      }
+    }
+    // Si pas de consentement encore, on autorise (première visite)
+    return true
   } catch {
-    // Si le contexte n'est pas disponible, on peut quand même fonctionner
-    cookieContext = null
+    return false
   }
+}
 
-  const canUseStorage = cookieContext ? cookieContext.preferences.preferences : true
-
+export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>(() => {
     // Détecter la langue du navigateur ou utiliser celle sauvegardée
-    if (canUseStorage) {
-      const saved = localStorage.getItem('kobe-language') as Language
-      if (saved && (saved === 'fr' || saved === 'en')) {
-        return saved
+    if (canUseStorage()) {
+      try {
+        const saved = localStorage.getItem('kobe-language') as Language
+        if (saved && (saved === 'fr' || saved === 'en')) {
+          return saved
+        }
+      } catch {
+        // Ignorer les erreurs
       }
     }
     const browserLang = navigator.language.split('-')[0]
@@ -38,18 +51,14 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang)
-    if (canUseStorage) {
-      localStorage.setItem('kobe-language', lang)
+    if (canUseStorage()) {
+      try {
+        localStorage.setItem('kobe-language', lang)
+      } catch {
+        // Ignorer les erreurs de localStorage
+      }
     }
   }
-
-  // Mettre à jour si les préférences de cookies changent
-  useEffect(() => {
-    if (cookieContext && !cookieContext.preferences.preferences) {
-      // Si les préférences sont désactivées, on garde la langue en mémoire mais on ne la sauvegarde pas
-      // La langue reste en mémoire pour la session
-    }
-  }, [cookieContext?.preferences.preferences])
 
   const t = (path: string) => getTranslation(language, path)
 

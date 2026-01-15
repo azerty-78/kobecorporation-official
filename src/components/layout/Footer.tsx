@@ -3,12 +3,14 @@ import {
   GlobeAltIcon,
 } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
+import { useCookies } from '../../contexts/CookieContext'
 import { companyInfo, contactInfo, programmes } from '../../data/siteContent'
 import { WhatsAppIcon, FacebookIcon, LinkedInIcon, InstagramIcon } from '../icons/SocialIcons'
 import logoImage from '../../assets/logo/kobe_corp_logo-nbgpng.png'
 
 function Footer() {
   const { language, setLanguage, t } = useLanguage()
+  const { openSettings } = useCookies()
 
   return (
     <footer className="border-t border-white/10 py-12 backdrop-blur-md" style={{ backgroundColor: '#000000' }}>
@@ -240,12 +242,12 @@ function Footer() {
                 >
                   {t('footer.legal.terms')}
                 </a>
-                <a
-                  href="#"
+                <button
+                  onClick={openSettings}
                   className="text-white transition-colors duration-200 hover:text-brand-400 focus:outline-none focus:ring-2 focus:ring-white/20 rounded"
                 >
                   {t('footer.legal.cookies')}
-                </a>
+                </button>
               </div>
             </div>
           </div>

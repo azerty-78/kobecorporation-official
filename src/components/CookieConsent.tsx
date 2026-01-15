@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { XMarkIcon, Cog6ToothIcon, CheckIcon } from '@heroicons/react/24/outline'
-import { useCookies, CookiePreferences } from '../contexts/CookieContext'
+import { useCookies } from '../contexts/CookieContext'
+import type { CookiePreferences } from '../contexts/CookieContext'
 import { useLanguage } from '../contexts/LanguageContext'
 
 function CookieConsent() {
