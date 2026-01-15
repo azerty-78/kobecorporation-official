@@ -60,7 +60,7 @@ function Portfolio() {
             onClick={() => setSelectedCategory(category.id)}
             className={`rounded-full px-4 py-2 text-sm font-medium transition ${
               selectedCategory === category.id
-                ? 'bg-brand-500 text-white shadow-soft'
+                ? 'bg-[rgb(31,41,55)] text-white shadow-soft'
                 : 'border border-slate-200 bg-white text-slate-700 hover:border-brand-300 hover:text-brand-600'
             }`}
           >
@@ -141,7 +141,7 @@ function Portfolio() {
           </p>
           <NavLink
             to="/contact"
-            className="inline-flex items-center gap-2 rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-brand-600"
+            className="inline-flex items-center gap-2 rounded-full bg-[rgb(31,41,55)] px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-[rgb(15,23,42)]"
           >
             {language === 'fr' ? 'Discutons de votre idée' : 'Let\'s discuss your idea'}
             <ArrowRightIcon className="h-4 w-4" />

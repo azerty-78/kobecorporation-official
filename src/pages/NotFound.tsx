@@ -11,7 +11,7 @@ function NotFound() {
       </p>
       <Link
         to="/"
-        className="inline-flex items-center rounded-full bg-brand-500 px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-brand-600"
+        className="inline-flex items-center rounded-full bg-[rgb(31,41,55)] px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-[rgb(15,23,42)]"
       >
         Revenir à l’accueil
       </Link>
