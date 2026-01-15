@@ -558,8 +558,8 @@ function Services() {
         
         {/* Timeline Container */}
         <div className="relative">
-          {/* Ligne verticale centrale (desktop) */}
-          <div className="absolute left-1/2 top-0 hidden h-full w-1 -translate-x-1/2 md:block">
+          {/* Ligne verticale centrale (lg et plus seulement) */}
+          <div className="absolute left-1/2 top-0 hidden h-full w-1 -translate-x-1/2 lg:block">
             {/* Ligne de base */}
             <div className="absolute inset-0 bg-slate-200 opacity-30" />
             
@@ -588,7 +588,7 @@ function Services() {
           </div>
 
           {/* Étapes de la timeline */}
-          <div className="space-y-12 md:space-y-16">
+          <div className="space-y-8 lg:space-y-16">
             {process.map((step, index) => {
               const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.2 })
               const isEven = index % 2 === 0
@@ -597,20 +597,28 @@ function Services() {
                 <div
                   key={step.step}
                   ref={elementRef}
-                  className={`relative grid gap-8 md:grid-cols-2 md:items-center ${
-                    isEven ? '' : 'md:grid-flow-dense'
-                  }`}
+                  className={`relative flex items-center ${
+                    // Sur mobile, toutes les cartes sont centrées et pleine largeur
+                    // Sur lg et plus, alternance gauche/droite
+                    'justify-center lg:justify-start'
+                  } ${!isEven ? 'lg:justify-end' : ''}`}
                 >
-                  {/* Contenu (gauche pour pair, droite pour impair) */}
+                  {/* Point de connexion - masqué sur mobile */}
                   <div
-                    className={`group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl md:p-8 ${
-                      isEven ? 'md:col-start-1' : 'md:col-start-2'
-                    } ${
+                    className={`absolute left-1/2 top-1/2 z-10 hidden h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-white bg-[rgb(31,41,55)] text-white shadow-lg transition-all duration-500 group-hover/step:scale-125 group-hover/step:rotate-180 lg:flex ${
+                      isVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+                    }`}
+                    style={{ transitionDelay: `${index * 100 + 500}ms` }}
+                  >
+                    <span className="font-display text-lg font-bold">{step.step}</span>
+                  </div>
+
+                  {/* Contenu */}
+                  <div
+                    className={`group glass-panel relative w-full overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl lg:w-[calc(50%-40px)] md:p-8 ${
                       isVisible
-                        ? 'translate-x-0 opacity-100'
-                        : isEven
-                        ? '-translate-x-8 opacity-0'
-                        : 'translate-x-8 opacity-0'
+                        ? 'translate-y-0 opacity-100'
+                        : 'translate-y-8 opacity-0'
                     }`}
                     style={{ transitionDelay: `${index * 150}ms` }}
                   >
@@ -645,33 +653,6 @@ function Services() {
                       </p>
                     </div>
                   </div>
-
-                  {/* Point de connexion sur la ligne (desktop) */}
-                  <div
-                    className={`hidden items-center justify-center md:flex ${
-                      isEven ? 'md:col-start-2 md:justify-start' : 'md:col-start-1 md:justify-end'
-                    }`}
-                  >
-                    <div className="group/connector relative z-10">
-                      {/* Cercle externe pulsant */}
-                      <div className="absolute inset-0 rounded-full bg-brand-400/30 animate-ping" />
-                      
-                      {/* Point central */}
-                      <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-[rgb(31,41,55)] shadow-xl transition-all duration-500 hover:scale-125 hover:rotate-180 hover:bg-[rgb(15,23,42)]">
-                        <div className="h-6 w-6 rounded-full bg-white shadow-inner transition-all duration-300 group-hover/connector:scale-110" />
-                        
-                        {/* Effet de brillance */}
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/30 to-transparent opacity-0 transition-opacity duration-300 group-hover/connector:opacity-100" />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Espace vide pour l'alignement */}
-                  <div
-                    className={`hidden md:block ${
-                      isEven ? 'md:col-start-1' : 'md:col-start-2'
-                    }`}
-                  />
                 </div>
               )
             })}

@@ -105,17 +105,12 @@ function About() {
           <h2 className="mb-4 font-display text-3xl text-ink md:text-4xl">
             {language === 'fr' ? 'Notre Histoire' : 'Our Story'}
           </h2>
-          <p className="mx-auto max-w-2xl text-slate-600">
-            {language === 'fr'
-              ? 'Un parcours marqué par l\'innovation, la vision et l\'engagement envers l\'écosystème technologique africain'
-              : 'A journey marked by innovation, vision and commitment to the African technology ecosystem'}
-          </p>
         </div>
 
-        {/* Timeline verticale responsive */}
+        {/* Timeline verticale responsive - masquée sur mobile, visible à partir de lg */}
         <div ref={historyRef} className="relative mx-auto max-w-4xl">
-          {/* Ligne verticale centrale (desktop) */}
-          <div className="absolute left-1/2 top-0 hidden h-full w-1 -translate-x-1/2 md:block">
+          {/* Ligne verticale centrale (lg et plus seulement) */}
+          <div className="absolute left-1/2 top-0 hidden h-full w-1 -translate-x-1/2 lg:block">
             {/* Ligne de base */}
             <div className="absolute inset-0 bg-slate-200 opacity-30" />
             
@@ -140,7 +135,7 @@ function About() {
           </div>
 
           {/* Étapes de la timeline */}
-          <div className="space-y-12 md:space-y-16">
+          <div className="space-y-8 lg:space-y-16">
             {[
               {
                 year: companyInfo.year,
@@ -193,11 +188,15 @@ function About() {
                 <div
                   key={index}
                   ref={elementRef}
-                  className={`relative flex items-center ${isEven ? 'justify-start' : 'justify-end'}`}
+                  className={`relative flex items-center ${
+                    // Sur mobile, toutes les cartes sont centrées et pleine largeur
+                    // Sur lg et plus, alternance gauche/droite
+                    'justify-center lg:justify-start'
+                  } ${!isEven ? 'lg:justify-end' : ''}`}
                 >
-                  {/* Point de connexion */}
+                  {/* Point de connexion - masqué sur mobile */}
                   <div
-                    className={`absolute left-1/2 top-1/2 z-10 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-white bg-[rgb(31,41,55)] text-white shadow-lg transition-all duration-500 group-hover/step:scale-125 group-hover/step:rotate-180 ${
+                    className={`absolute left-1/2 top-1/2 z-10 hidden h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-white bg-[rgb(31,41,55)] text-white shadow-lg transition-all duration-500 group-hover/step:scale-125 group-hover/step:rotate-180 lg:flex ${
                       isVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
                     }`}
                     style={{ transitionDelay: `${index * 100 + 500}ms` }}
@@ -207,12 +206,10 @@ function About() {
 
                   {/* Carte de l'étape */}
                   <div
-                    className={`group/step glass-panel relative w-[calc(50%-40px)] overflow-hidden rounded-2xl p-6 shadow-xl transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl md:p-8 ${
+                    className={`group/step glass-panel relative w-full overflow-hidden rounded-2xl p-6 shadow-xl transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl lg:w-[calc(50%-40px)] md:p-8 ${
                       isVisible
-                        ? 'translate-x-0 opacity-100'
-                        : isEven
-                        ? '-translate-x-16 opacity-0'
-                        : 'translate-x-16 opacity-0'
+                        ? 'translate-y-0 opacity-100'
+                        : 'translate-y-8 opacity-0'
                     }`}
                     style={{ transitionDelay: `${index * 150 + 300}ms` }}
                   >
