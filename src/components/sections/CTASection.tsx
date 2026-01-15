@@ -12,9 +12,8 @@ function CTASection() {
       ref={elementRef}
       className="group glass-panel relative overflow-hidden rounded-3xl p-10 shadow-xl transition-all duration-700 hover:shadow-2xl md:p-16"
     >
-      {/* Gradient animé en arrière-plan avec effet de brillance */}
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-500/10 via-white to-brand-100/30 animate-gradient-shift" />
-      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/20 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+      {/* Fond blanc pur */}
+      <div className="absolute inset-0 bg-white" />
       
       {/* Particules décoratives */}
       <div className="absolute inset-0 opacity-20">

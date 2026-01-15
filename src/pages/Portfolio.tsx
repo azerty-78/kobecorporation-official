@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { NavLink } from 'react-router-dom'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
+import SEO from '../components/SEO'
+import { getSEOData } from '../data/seoData'
 
 // Types de projets (à remplir avec de vrais projets plus tard)
 const projectCategories = [
@@ -29,6 +31,7 @@ const projects = [
 function Portfolio() {
   const { language } = useLanguage()
   const [selectedCategory, setSelectedCategory] = useState('all')
+  const seo = getSEOData('/portfolio', language)
 
   const filteredProjects =
     selectedCategory === 'all'
@@ -36,12 +39,17 @@ function Portfolio() {
       : projects.filter((p) => p.category === selectedCategory)
 
   return (
+    <>
+      <SEO
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+      />
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
       {/* Hero Section améliorée avec animations */}
-      <div className="group relative mb-16 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-50 via-white to-brand-100/50 p-12 text-center shadow-xl md:p-16">
-        {/* Gradient animé en arrière-plan */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-400/10 animate-gradient-shift" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/20 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+      <div className="group relative mb-16 overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl md:p-16">
+        {/* Fond blanc pur */}
+        <div className="absolute inset-0 bg-white" />
         
         {/* Particules animées */}
         <div className="absolute inset-0 opacity-20">
@@ -52,9 +60,10 @@ function Portfolio() {
         </div>
         
         <div className="relative space-y-4">
-          <div className="group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-sm">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent translate-x-[-100%] group-hover/badge:translate-x-[100%] transition-transform duration-1000" />
-            <span className="relative z-10 uppercase tracking-[0.2em]">{language === 'fr' ? 'Portfolio' : 'Portfolio'}</span>
+          <div className="group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-md transition-all duration-300 hover:border-brand-300 hover:shadow-lg hover:-translate-y-0.5">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-50/50 to-transparent translate-x-[-100%] group-hover/badge:translate-x-[100%] transition-transform duration-1000" />
+            <div className="absolute inset-0 bg-brand-50/50 opacity-0 transition-opacity duration-300 group-hover/badge:opacity-100" />
+            <span className="relative z-10 uppercase tracking-[0.2em] transition-colors duration-300 group-hover/badge:text-brand-700">{language === 'fr' ? 'Portfolio' : 'Portfolio'}</span>
           </div>
           
           <h1 className="font-display text-4xl leading-tight text-ink md:text-5xl lg:text-6xl">
@@ -166,6 +175,7 @@ function Portfolio() {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

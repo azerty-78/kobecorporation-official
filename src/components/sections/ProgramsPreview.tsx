@@ -32,7 +32,7 @@ function ProgramsPreview() {
         </div>
         <NavLink
           to="/programmes"
-          className="group hidden items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-800 transition-all duration-300 hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700 hover:shadow-md md:inline-flex"
+          className="group hidden items-center gap-2 rounded-full border-2 border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 hover:shadow-lg md:inline-flex"
         >
           {language === 'fr' ? 'Voir tous les programmes' : 'View all programs'}
           <ArrowRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
