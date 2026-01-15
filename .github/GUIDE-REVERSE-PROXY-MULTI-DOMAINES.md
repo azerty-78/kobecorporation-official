@@ -1,5 +1,11 @@
 # 🌐 Guide Complet : Reverse Proxy Multi-Domaines
 
+## ⚠️ Note Importante
+
+**Le conteneur proxy KOBE (`kobecorp-nginx`) n'est PAS déployé.** Les configurations dans `setup-kobe-proxy/` sont utilisées par **blogpress-nginx** qui gère tous les domaines.
+
+Le workflow CI/CD ne build plus l'image Nginx (job `build-nginx` supprimé).
+
 ## 📊 Architecture Actuelle
 
 ```
