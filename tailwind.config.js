@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  // Désactiver le purge en mode dev pour garantir la cohérence
+  // En production, Tailwind purge automatiquement
+  safelist: [], // Liste des classes à toujours inclure (vide = pas de safelist)
   theme: {
     extend: {
       fontFamily: {

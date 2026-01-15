@@ -2,7 +2,7 @@ import HeroHome from '../components/sections/HeroHome'
 import ServicesGrid from '../components/sections/ServicesGrid'
 import ProgramsPreview from '../components/sections/ProgramsPreview'
 import MissionsSection from '../components/sections/MissionsSection'
-import TechnologiesSection from '../components/sections/TechnologiesSection'
+import ProcessSection from '../components/sections/ProcessSection'
 import TestimonialsSection from '../components/sections/TestimonialsSection'
 import CTASection from '../components/sections/CTASection'
 
@@ -29,9 +29,9 @@ function Home() {
         <MissionsSection />
       </section>
 
-      {/* Technologies Section */}
+      {/* Process Section */}
       <section>
-        <TechnologiesSection />
+        <ProcessSection />
       </section>
 
       {/* Testimonials Section */}

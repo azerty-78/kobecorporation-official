@@ -32,8 +32,15 @@ ENV VITE_EMAILJS_SERVICE_ID=${VITE_EMAILJS_SERVICE_ID}
 ENV VITE_EMAILJS_CONTACT_TEMPLATE_ID=${VITE_EMAILJS_CONTACT_TEMPLATE_ID}
 ENV VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID=${VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID}
 
+# Définir NODE_ENV explicitement pour garantir un build de production identique
+ENV NODE_ENV=production
+
+# Nettoyer les caches pour garantir un build propre et identique
+RUN rm -rf node_modules/.cache .vite dist || true
+
 # Construire l'application pour la production
-RUN npm run build
+# Utiliser --mode production pour garantir un build identique à la production locale
+RUN npm run build -- --mode production
 
 # Stage 2: Serveur nginx pour la production
 FROM nginx:alpine AS production
