@@ -56,12 +56,15 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
               <>
                 <button
                   onClick={() => toggleItem(item.path)}
-                  className={`flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
+                  className={`relative flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
                     isActive
-                      ? 'bg-brand-50 text-brand-500 font-semibold'
+                      ? 'text-brand-500 font-semibold'
                       : 'bg-transparent text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
                   }`}
                 >
+                  {isActive && (
+                    <span className="absolute bottom-0 left-4 h-0.5 w-8 rounded-full bg-brand-500" />
+                  )}
                   <span>{item.label}</span>
                   <ChevronDownIcon
                     className={`h-4 w-4 transition-transform duration-200 ${

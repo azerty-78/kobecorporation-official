@@ -76,12 +76,15 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
             >
               <button
                 onClick={() => setOpenDropdown(isOpen ? null : item.path)}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
+                className={`relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
                   location.pathname === item.path
-                    ? 'bg-brand-50 text-brand-500 font-semibold'
+                    ? 'text-brand-500 font-semibold'
                     : 'text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
                 }`}
               >
+                {location.pathname === item.path && (
+                  <span className="absolute bottom-0 left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-brand-500" />
+                )}
                 <span className="flex items-center gap-1.5">
                   {item.label}
                   <ChevronDownIcon
@@ -98,20 +101,6 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
                   style={{ zIndex: 50 }}
                 >
                   <div className="py-2">
-                    <NavLink
-                      to={item.path}
-                      onClick={() => setOpenDropdown(null)}
-                      className={({ isActive }) =>
-                        `block px-4 py-2 text-sm font-medium transition-colors duration-200 ${
-                          isActive
-                            ? 'bg-brand-50 text-brand-500 font-semibold'
-                            : 'text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
-                        }`
-                      }
-                    >
-                      {item.label} - {t('nav.overview') || 'Vue d\'ensemble'}
-                    </NavLink>
-                    <div className="my-1 h-px bg-neutral-200" />
                     {item.sections?.map((section) => (
                       <button
                         key={section.anchor}
@@ -133,14 +122,21 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
             key={item.path}
             to={item.path}
             className={({ isActive }) =>
-              `rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
+              `relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
                 isActive
-                  ? 'bg-brand-50 text-brand-500 font-semibold'
+                  ? 'text-brand-500 font-semibold'
                   : 'text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
               }`
             }
           >
-            {item.label}
+            {({ isActive }) => (
+              <>
+                {item.label}
+                {isActive && (
+                  <span className="absolute bottom-0 left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-brand-500" />
+                )}
+              </>
+            )}
           </NavLink>
         )
       })}
