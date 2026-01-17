@@ -582,7 +582,7 @@ function Services() {
                             {language === 'fr' ? 'Solution Professionnelle' : 'Professional Solution'}
                           </p>
                         </div>
-                      </Card>
+                      </div>
                     </div>
                   ))}
                 </div>
