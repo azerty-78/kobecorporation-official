@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
-import { NavItem } from '../../data/navigation'
+import type { NavItem } from '../../data/navigation'
 
 interface MobileNavigationMenuProps {
   items: NavItem[]

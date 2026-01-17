@@ -1,6 +1,6 @@
 import { useLanguage } from '../contexts/LanguageContext'
 
-export interface NavItem {
+export type NavItem = {
   label: string
   path: string
   sections?: { label: string; anchor: string }[]

@@ -2,12 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
-
-interface NavItem {
-  label: string
-  path: string
-  sections?: { label: string; anchor: string }[]
-}
+import type { NavItem } from '../../data/navigation'
 
 interface NavigationMenuProps {
   items: NavItem[]
