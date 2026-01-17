@@ -61,20 +61,19 @@ function SEO({
         metaKeywords.setAttribute('content', keywords)
       })
 
-      // Robots
+      // Robots - S'assurer que la balise est toujours présente avec la bonne valeur
       updates.push(() => {
         let metaRobots = document.querySelector('meta[name="robots"]')
+        if (!metaRobots) {
+          metaRobots = document.createElement('meta')
+          metaRobots.setAttribute('name', 'robots')
+          document.head.appendChild(metaRobots)
+        }
+        // Définir explicitement index, follow ou noindex, nofollow
         if (noindex) {
-          if (!metaRobots) {
-            metaRobots = document.createElement('meta')
-            metaRobots.setAttribute('name', 'robots')
-            document.head.appendChild(metaRobots)
-          }
           metaRobots.setAttribute('content', 'noindex, nofollow')
         } else {
-          if (metaRobots) {
-            metaRobots.remove()
-          }
+          metaRobots.setAttribute('content', 'index, follow')
         }
       })
 
