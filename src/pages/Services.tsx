@@ -749,7 +749,7 @@ function Services() {
               {language === 'fr' ? 'Commencer maintenant' : 'Get started now'}
             </Button>
           </div>
-        </div>
+        </Card>
       </div>
     </div>
     </>
