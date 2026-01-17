@@ -21,7 +21,7 @@ function ContactSection({ id = 'contact' }: ContactSectionProps) {
         </div>
         <a
           href="mailto:contact@kobecorporation.com"
-          className="inline-flex items-center gap-2 rounded-full bg-[rgb(31,41,55)] px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-[rgb(15,23,42)]"
+          className="inline-flex items-center gap-2 rounded-full bg-neutral-800 px-5 py-3 text-sm font-semibold text-white shadow-subtle transition-all duration-300 hover:-translate-y-0.5 hover:bg-neutral-900 hover:shadow-md focus:outline-none"
         >
           contact@kobecorporation.com
           <EnvelopeIcon className="h-4 w-4" />

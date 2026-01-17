@@ -1,6 +1,7 @@
 import { CheckBadgeIcon, ShieldCheckIcon, SparklesIcon } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { useScrollAnimation } from '../../hooks/useScrollAnimation'
+import { Card } from '../ui/Card'
 
 function MissionsSection() {
   const { language } = useLanguage()
@@ -72,32 +73,22 @@ function MissionsSection() {
             })}
           </ul>
         </div>
-        <div
-          className={`group relative overflow-hidden rounded-3xl px-8 py-10 text-white shadow-2xl transition-all duration-1000 hover:shadow-[0_0_40px_rgba(31,41,55,0.5)] ${
+        <Card
+          elevation="lg"
+          className={`group relative bg-neutral-800 px-8 py-10 text-white transition-all duration-1000 ${
             isVisible
               ? 'translate-x-0 opacity-100 scale-100'
               : 'translate-x-8 opacity-0 scale-95'
           }`}
-          style={{ backgroundColor: 'rgb(31, 41, 55)' }}
         >
-          {/* Gradient animé en arrière-plan */}
-          <div className="absolute inset-0 bg-gradient-to-br from-brand-500/20 via-transparent to-brand-400/10 opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
-          
-          {/* Particules animées */}
-          <div className="absolute inset-0 opacity-20">
-            <div className="absolute top-10 right-10 h-1 w-1 rounded-full bg-brand-300 animate-pulse" style={{ animationDelay: '0s' }} />
-            <div className="absolute bottom-20 left-10 h-1.5 w-1.5 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '1.5s' }} />
-            <div className="absolute top-1/2 right-20 h-1 w-1 rounded-full bg-brand-200 animate-pulse" style={{ animationDelay: '3s' }} />
-          </div>
-          
-          <div className="relative space-y-6">
+          <div className="space-y-6">
             <div className="flex items-center gap-3">
-              <div className="h-1 w-12 rounded-full bg-gradient-to-r from-brand-400 to-brand-300 transition-all duration-500 group-hover:w-16" />
-              <p className="font-semibold text-brand-100 transition-colors duration-300 group-hover:text-brand-50">
+              <div className="h-1 w-12 rounded-full bg-brand-400 transition-all duration-500 group-hover:w-16" />
+              <p className="font-semibold text-brand-100 transition-colors duration-300 group-hover:text-white">
                 {language === 'fr' ? 'Pourquoi KOBE Corporation' : 'Why KOBE Corporation'}
               </p>
             </div>
-            <p className="text-lg leading-relaxed text-slate-100 transition-colors duration-300 group-hover:text-white">
+            <p className="text-lg leading-relaxed text-neutral-200 transition-colors duration-300 group-hover:text-white">
               {language === 'fr'
                 ? 'Un partenaire de confiance, capable d\'aligner vision stratégique et exécution terrain, avec un accompagnement humain et réactif.'
                 : 'A trusted partner, capable of aligning strategic vision and field execution, with human and responsive support.'}
@@ -115,7 +106,7 @@ function MissionsSection() {
               ))}
             </div> */}
           </div>
-        </div>
+        </Card>
       </div>
     </section>
   )

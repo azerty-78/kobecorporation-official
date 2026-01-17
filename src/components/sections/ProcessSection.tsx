@@ -4,10 +4,12 @@ import {
   RocketLaunchIcon,
   ChartBarIcon,
   ArrowPathIcon,
+  ArrowRightIcon,
 } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { useScrollAnimation } from '../../hooks/useScrollAnimation'
 import { Card } from '../ui/Card'
+import { Button } from '../ui/Button'
 
 interface ProcessStep {
   icon: React.ComponentType<{ className?: string }>
@@ -108,14 +110,13 @@ function ProcessSection() {
         {/* Ligne de connexion animée (lg et plus seulement) */}
         <div className="absolute left-1/2 top-0 hidden h-full w-1 -translate-x-1/2 lg:block">
           {/* Ligne de base */}
-          <div className="absolute inset-0 bg-slate-200 opacity-30" />
+          <div className="absolute inset-0 bg-neutral-200 opacity-30" />
           
           {/* Ligne animée qui se remplit */}
           <div 
-            className="absolute top-0 left-0 w-full transition-all duration-1000"
+            className="absolute top-0 left-0 w-full bg-brand-500 transition-all duration-1000"
             style={{
               height: isVisible ? '100%' : '0%',
-              backgroundColor: 'rgb(31, 41, 55)',
               transitionDelay: '500ms',
             }}
           />
@@ -126,7 +127,7 @@ function ProcessSection() {
               {[...Array(3)].map((_, i) => (
                 <div
                   key={i}
-                  className="absolute left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-[rgb(31,41,55)] shadow-lg animate-pulse"
+                  className="absolute left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-brand-500 shadow-lg animate-pulse"
                   style={{
                     top: `${25 + i * 25}%`,
                     animationDelay: `${i * 0.5}s`,
@@ -156,7 +157,7 @@ function ProcessSection() {
               >
                 {/* Point de connexion - masqué sur mobile */}
                 <div
-                  className={`absolute left-1/2 top-1/2 z-10 hidden h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-white bg-[rgb(31,41,55)] text-white shadow-lg transition-all duration-500 group-hover/step:scale-125 group-hover/step:rotate-180 lg:flex ${
+                  className={`absolute left-1/2 top-1/2 z-10 hidden h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-white bg-brand-500 text-white shadow-lg transition-all duration-500 group-hover/step:scale-125 group-hover/step:rotate-180 lg:flex ${
                     stepVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
                   }`}
                   style={{ transitionDelay: `${index * 100 + 500}ms` }}
@@ -227,23 +228,15 @@ function ProcessSection() {
             ? 'Prêt à démarrer votre projet ?'
             : 'Ready to start your project?'}
         </p>
-        <a
-          href="/contact"
-          className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-[rgb(31,41,55)] px-8 py-4 text-sm font-semibold text-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:bg-[rgb(15,23,42)] hover:shadow-2xl hover:scale-105"
+        <Button
+          to="/contact"
+          variant="primary"
+          size="lg"
+          icon={<ArrowRightIcon className="h-5 w-5" />}
+          iconPosition="right"
         >
-          {/* Effet de brillance animé */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-          
-          <span className="relative z-10">{language === 'fr' ? 'Discutons de votre projet' : 'Let\'s discuss your project'}</span>
-          
-          {/* Flèche animée */}
-          <div className="relative z-10 flex items-center">
-            <div className="h-0.5 w-6 bg-white transition-all duration-300 group-hover:w-8" />
-            <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </div>
-        </a>
+          {language === 'fr' ? 'Discutons de votre projet' : 'Let\'s discuss your project'}
+        </Button>
       </div>
     </section>
   )

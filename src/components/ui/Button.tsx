@@ -36,7 +36,7 @@ export function Button({
     lg: 'px-8 py-4 text-base',
   }
 
-  const baseClasses = `inline-flex items-center gap-2 rounded-full font-semibold transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${variantClasses[variant]} ${sizeClasses[size]} ${className}`
+  const baseClasses = `inline-flex items-center gap-2 rounded-full font-semibold transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-0 focus:border-0 ${variantClasses[variant]} ${sizeClasses[size]} ${className}`
 
   const content = (
     <>
