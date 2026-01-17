@@ -190,7 +190,6 @@ function SEO({
           companyInfo.social.whatsapp,
         ],
         // Informations supplémentaires pour le SEO
-        foundingDate: companyInfo.year,
         numberOfEmployees: {
           '@type': 'QuantitativeValue',
           value: '1-10',
