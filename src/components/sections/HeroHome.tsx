@@ -15,17 +15,32 @@ function HeroHome() {
     <section
       ref={elementRef}
       id="hero"
-      className="relative overflow-hidden py-16 md:py-20 lg:py-24"
+      className="relative overflow-hidden pt-4 pb-8 md:pt-6 md:pb-12 lg:pt-8 lg:pb-16"
     >
-      {/* Enhanced Background decorative elements */}
+      {/* Modern Background with gradient mesh */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        {/* Animated gradient orbs */}
-        <div className="absolute -top-40 -right-40 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-brand-100/50 via-brand-50/40 to-transparent blur-3xl animate-pulse-soft" style={{ animationDuration: '4s' }} />
-        <div className="absolute -bottom-40 -left-40 h-[500px] w-[500px] rounded-full bg-gradient-to-tr from-accent-100/40 via-transparent to-transparent blur-3xl animate-pulse-soft" style={{ animationDuration: '5s', animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[400px] w-[400px] rounded-full bg-gradient-to-r from-brand-50/30 via-accent-50/20 to-transparent blur-3xl animate-pulse-soft" style={{ animationDuration: '6s', animationDelay: '2s' }} />
+        {/* Base gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white via-brand-50/30 to-accent-50/20" />
         
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20" />
+        {/* Animated gradient orbs - More refined */}
+        <div 
+          className="absolute -top-32 -right-32 h-[600px] w-[600px] rounded-full bg-gradient-to-br from-brand-200/40 via-brand-100/30 to-transparent blur-3xl animate-pulse-soft" 
+          style={{ animationDuration: '8s' }} 
+        />
+        <div 
+          className="absolute -bottom-32 -left-32 h-[600px] w-[600px] rounded-full bg-gradient-to-tr from-accent-200/35 via-accent-100/25 to-transparent blur-3xl animate-pulse-soft" 
+          style={{ animationDuration: '10s', animationDelay: '1.5s' }} 
+        />
+        <div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-gradient-to-r from-brand-100/25 via-accent-100/20 to-transparent blur-3xl animate-pulse-soft" 
+          style={{ animationDuration: '12s', animationDelay: '3s' }} 
+        />
+        
+        {/* Subtle mesh gradient overlay */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(10,122,255,0.08),_transparent_50%),radial-gradient(ellipse_at_bottom_right,_rgba(249,115,22,0.06),_transparent_50%)]" />
+        
+        {/* Subtle dot pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,_rgba(0,0,0,0.03)_1px,_transparent_0)] bg-[size:32px_32px] opacity-40" />
       </div>
 
       {/* Centered Content Container */}

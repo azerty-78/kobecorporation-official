@@ -19,9 +19,9 @@ function Home() {
         description={seo.description}
         keywords={seo.keywords}
       />
-    <div className="mx-auto flex max-w-7xl flex-col gap-20 px-4 py-16 sm:px-6 md:gap-24 md:py-24 lg:px-8">
-      {/* Hero Section - Plus d'espace en haut */}
-      <section id="hero" className="pt-4">
+    <div className="mx-auto flex max-w-7xl flex-col gap-20 px-4 pt-4 pb-8 sm:px-6 md:gap-24 md:pt-6 md:pb-12 lg:px-8">
+      {/* Hero Section */}
+      <section id="hero">
         <HeroHome />
       </section>
 
