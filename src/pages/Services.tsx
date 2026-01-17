@@ -199,14 +199,15 @@ function Services() {
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
       {/* Introduction avec animations */}
       {/* Hero Section améliorée avec animations */}
-      <div 
-        ref={introRef}
-        className={`group relative mb-20 overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
-          introVisible
-            ? 'translate-y-0 opacity-100'
-            : 'translate-y-8 opacity-0'
-        }`}
-      >
+      <section id="hero" className="mb-20">
+        <div 
+          ref={introRef}
+          className={`group relative overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
+            introVisible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-8 opacity-0'
+          }`}
+        >
         {/* Fond blanc pur */}
         <div className="absolute inset-0 bg-white" />
         
@@ -248,7 +249,8 @@ function Services() {
               : 'Complete and tailored technology solutions to transform your challenges into opportunities. Expertise, innovation and dedicated support for your success.'}
           </p>
         </div>
-      </div>
+        </div>
+      </section>
 
       {/* Services Détaillés avec animations */}
       <div className="space-y-32">
@@ -257,8 +259,17 @@ function Services() {
           const images = serviceImages[service.slug as keyof typeof serviceImages] || []
           const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.2 })
 
+          // Mapper les slugs vers les IDs pour la navigation
+          const sectionIdMap: { [key: string]: string } = {
+            'developpement-logiciel': 'development',
+            'hebergement-infrastructure': 'hosting',
+            'consultation-audit': 'consultation',
+            'formation-bootcamp': 'training',
+          }
+          const sectionId = sectionIdMap[service.slug] || service.slug
+
           return (
-            <section key={service.slug} ref={elementRef} className="scroll-mt-20">
+            <section key={service.slug} id={sectionId} ref={elementRef} className="scroll-mt-20">
               <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
                 {/* Contenu avec animations */}
                 <div className={`space-y-8 transition-all duration-1000 ${

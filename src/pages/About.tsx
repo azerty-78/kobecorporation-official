@@ -327,14 +327,15 @@ function About() {
       />
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
       {/* Hero Section améliorée avec animations */}
-      <div
-        ref={introRef}
-        className={`group relative mb-20 overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
-          introVisible
-            ? 'translate-y-0 opacity-100'
-            : 'translate-y-8 opacity-0'
-        }`}
-      >
+      <section id="hero" className="mb-20">
+        <div
+          ref={introRef}
+          className={`group relative overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
+            introVisible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-8 opacity-0'
+          }`}
+        >
         {/* Fond blanc pur */}
         <div className="absolute inset-0 bg-white" />
         
@@ -376,10 +377,11 @@ function About() {
               : 'Discover the story, values and vision that guide KOBE Corporation in its mission of technological transformation.'}
           </p>
         </div>
-      </div>
+        </div>
+      </section>
 
       {/* Histoire avec timeline verticale responsive */}
-      <section className="mb-24">
+      <section id="story" className="mb-24">
         {/* Timeline verticale responsive - masquée sur mobile, visible à partir de lg */}
         <div ref={historyRef} className="relative mx-auto max-w-4xl">
           {/* Ligne verticale centrale (lg et plus seulement) */}
@@ -462,7 +464,7 @@ function About() {
       </section>
 
       {/* Valeurs avec animations */}
-      <section className="mb-24">
+      <section id="values" className="mb-24">
         <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl md:p-12">
           {/* Ligne décorative */}
           <div className="absolute top-0 left-0 h-1 w-0 bg-[rgb(31,41,55)] transition-all duration-500 group-hover:w-full" />
@@ -479,7 +481,7 @@ function About() {
       </section>
 
       {/* Leadership avec animations et photo */}
-      <section className="mb-24">
+      <section id="team" className="mb-24">
         <div className="text-center">
           <h2 className="mb-4 font-display text-3xl text-ink md:text-4xl">
             {language === 'fr' ? 'Notre Équipe' : 'Our Team'}

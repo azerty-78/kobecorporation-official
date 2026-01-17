@@ -14,7 +14,7 @@ export function useNavigationItems(): NavItem[] {
       label: t('nav.home'),
       path: '/',
       sections: [
-        { label: language === 'fr' ? 'Accueil' : 'Home', anchor: 'top' },
+        { label: language === 'fr' ? 'Accueil' : 'Home', anchor: 'hero' },
         { label: language === 'fr' ? 'Services' : 'Services', anchor: 'services' },
         { label: language === 'fr' ? 'Programmes' : 'Programs', anchor: 'programs' },
         { label: language === 'fr' ? 'Missions' : 'Missions', anchor: 'missions' },
@@ -26,6 +26,7 @@ export function useNavigationItems(): NavItem[] {
       label: t('nav.services'),
       path: '/services',
       sections: [
+        { label: language === 'fr' ? 'Accueil' : 'Home', anchor: 'hero' },
         { label: language === 'fr' ? 'Développement Logiciel' : 'Software Development', anchor: 'development' },
         { label: language === 'fr' ? 'Hébergement' : 'Hosting', anchor: 'hosting' },
         { label: language === 'fr' ? 'Consultation' : 'Consultation', anchor: 'consultation' },
@@ -36,6 +37,7 @@ export function useNavigationItems(): NavItem[] {
       label: t('nav.programs'),
       path: '/programmes',
       sections: [
+        { label: language === 'fr' ? 'Accueil' : 'Home', anchor: 'hero' },
         { label: language === 'fr' ? 'Freelances' : 'Freelances', anchor: 'freelances' },
         { label: language === 'fr' ? 'Étudiants' : 'Students', anchor: 'students' },
         { label: language === 'fr' ? 'Open Source' : 'Open Source', anchor: 'opensource' },
@@ -46,6 +48,7 @@ export function useNavigationItems(): NavItem[] {
       label: t('nav.about'),
       path: '/about',
       sections: [
+        { label: language === 'fr' ? 'Accueil' : 'Home', anchor: 'hero' },
         { label: language === 'fr' ? 'Notre Histoire' : 'Our Story', anchor: 'story' },
         { label: language === 'fr' ? 'Équipe' : 'Team', anchor: 'team' },
         { label: language === 'fr' ? 'Valeurs' : 'Values', anchor: 'values' },

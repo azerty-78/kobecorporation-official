@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
 import type { NavItem } from '../../data/navigation'
@@ -12,6 +12,7 @@ interface NavigationMenuProps {
 export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
   const { t } = useLanguage()
   const location = useLocation()
+  const navigate = useNavigate()
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
 
@@ -33,48 +34,56 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
 
   const handleNavClick = (path: string, anchor?: string) => {
     if (anchor) {
-      // Si l'ancre est "top", scroll vers le haut
-      if (anchor === 'top') {
-        if (location.pathname === path) {
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-          })
-        } else {
-          window.location.href = path
-          setTimeout(() => {
+      // Si on est déjà sur la page, scroll vers la section
+      if (location.pathname === path) {
+        setTimeout(() => {
+          const element = document.getElementById(anchor)
+          if (element) {
+            const headerOffset = 80
+            const elementPosition = element.getBoundingClientRect().top
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
             window.scrollTo({
-              top: 0,
+              top: offsetPosition,
               behavior: 'smooth',
             })
-          }, 100)
-        }
+            // Mettre à jour l'URL avec le hash
+            window.history.replaceState(null, '', `${path}#${anchor}`)
+          }
+        }, 100)
       } else {
-        // Si on est déjà sur la page, scroll vers la section
-        if (location.pathname === path) {
-          setTimeout(() => {
-            const element = document.getElementById(anchor)
-            if (element) {
-              const headerOffset = 80
-              const elementPosition = element.getBoundingClientRect().top
-              const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+        // Sinon, naviguer puis scroll après chargement
+        navigate(`${path}#${anchor}`)
+        setTimeout(() => {
+          const element = document.getElementById(anchor)
+          if (element) {
+            const headerOffset = 80
+            const elementPosition = element.getBoundingClientRect().top
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
 
-              window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth',
-              })
-            }
-          }, 100)
-        } else {
-          // Sinon, naviguer puis scroll après chargement
-          window.location.href = `${path}#${anchor}`
-        }
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth',
+            })
+          }
+        }, 300)
       }
     } else {
       // Si pas d'ancre, naviguer vers la page
-      window.location.href = path
+      navigate(path)
     }
     setOpenDropdown(null)
+  }
+
+  const handleMainNavClick = (e: React.MouseEvent, item: NavItem) => {
+    // Si l'item a des sections, ouvrir le dropdown au lieu de naviguer
+    if (item.sections && item.sections.length > 0) {
+      e.preventDefault()
+      setOpenDropdown(openDropdown === item.path ? null : item.path)
+    } else {
+      // Sinon, naviguer normalement
+      navigate(item.path)
+    }
   }
 
   return (
