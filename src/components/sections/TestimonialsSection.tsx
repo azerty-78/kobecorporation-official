@@ -3,6 +3,7 @@ import { ChevronLeftIcon, ChevronRightIcon, StarIcon } from '@heroicons/react/24
 import { useLanguage } from '../../contexts/LanguageContext'
 import { testimonials } from '../../data/testimonials'
 import { useScrollAnimation } from '../../hooks/useScrollAnimation'
+import { Card } from '../ui/Card'
 
 function TestimonialsSection() {
   const { language } = useLanguage()
@@ -51,7 +52,7 @@ function TestimonialsSection() {
             ? 'Ce que disent nos clients'
             : 'What our clients say'}
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-slate-600">
+        <p className="mx-auto mt-4 max-w-2xl text-neutral-600">
           {language === 'fr'
             ? 'Découvrez les expériences de nos clients qui nous font confiance'
             : 'Discover the experiences of our clients who trust us'}
@@ -59,16 +60,14 @@ function TestimonialsSection() {
       </div>
 
       <div className="relative">
-        <div
-          className={`group glass-panel relative overflow-hidden rounded-3xl p-8 shadow-xl transition-all duration-1000 hover:shadow-2xl md:p-12 ${
+        <Card
+          elevation="lg"
+          className={`group relative p-8 md:p-12 ${
             isVisible
               ? 'translate-y-0 opacity-100 scale-100'
               : 'translate-y-8 opacity-0 scale-95'
           }`}
         >
-          {/* Gradient animé avec effet de brillance */}
-          <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-white to-brand-100/20 animate-gradient-shift" />
-          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/10 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
 
           <div className="relative">
             {/* Étoiles de notation avec animation */}
@@ -85,7 +84,7 @@ function TestimonialsSection() {
                     className={`h-6 w-6 transition-all duration-500 ${
                       i < currentTestimonial.rating
                         ? 'text-yellow-400 scale-110'
-                        : 'text-slate-300'
+                        : 'text-neutral-300'
                     }`}
                   />
                   {/* Effet de brillance sur les étoiles actives */}
@@ -100,7 +99,7 @@ function TestimonialsSection() {
 
             {/* Contenu du témoignage */}
             <blockquote
-              className="mb-10 text-center text-lg italic text-slate-700 transition-all duration-700 md:text-xl"
+              className="mb-10 text-center text-lg italic text-neutral-700 transition-all duration-700 md:text-xl"
               key={currentIndex}
             >
               <div className="relative">
@@ -139,7 +138,7 @@ function TestimonialsSection() {
                 <p className="font-semibold text-ink transition-colors duration-300 group-hover:text-brand-600">
                   {currentTestimonial.name}
                 </p>
-                <p className="mt-1 text-sm text-slate-600">
+                <p className="mt-1 text-sm text-neutral-600">
                   {language === 'fr'
                     ? currentTestimonial.role
                     : currentTestimonial.roleEn}
