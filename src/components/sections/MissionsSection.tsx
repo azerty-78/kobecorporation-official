@@ -10,7 +10,7 @@ function MissionsSection() {
     <section
       id="missions"
       ref={elementRef}
-      className="glass-panel rounded-3xl p-8 shadow-soft md:p-10"
+      className="rounded-2xl border border-neutral-200 bg-white p-8 shadow-card md:p-10"
     >
       <div className="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-center lg:gap-12">
         <div
@@ -26,12 +26,12 @@ function MissionsSection() {
           <h2 className="font-display text-3xl text-ink">
             {language === 'fr' ? 'Nos missions prioritaires' : 'Our priority missions'}
           </h2>
-          <p className="text-slate-600">
+          <p className="text-neutral-600">
             {language === 'fr'
               ? 'Donner du sens à vos projets en construisant des solutions robustes, inclusives et pérennes.'
               : 'Give meaning to your projects by building robust, inclusive and sustainable solutions.'}
           </p>
-          <ul className="space-y-3 text-slate-700">
+          <ul className="space-y-3 text-neutral-700">
             {[
               {
                 icon: ShieldCheckIcon,

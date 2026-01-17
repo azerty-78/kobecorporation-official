@@ -3,6 +3,9 @@ import { ArrowRightIcon, SparklesIcon } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { companyInfo } from '../../data/siteContent'
 import { useScrollAnimation } from '../../hooks/useScrollAnimation'
+import { Badge } from '../ui/Badge'
+import { Button } from '../ui/Button'
+import { Card } from '../ui/Card'
 
 function HeroHome() {
   const { language, t } = useLanguage()
@@ -21,12 +24,13 @@ function HeroHome() {
         }`}
       >
         <div
-          className={`group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-accent-50 px-4 py-1.5 text-xs font-semibold text-accent-600 shadow-subtle transition-all duration-300 delay-100 hover:bg-accent-100 hover:shadow-md hover:-translate-y-0.5 ${
+          className={`transition-all duration-300 delay-100 ${
             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
           }`}
         >
-          <SparklesIcon className="relative z-10 h-4 w-4 animate-pulse transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
-          <span className="relative z-10 transition-colors duration-300 group-hover:text-accent-700">{companyInfo.slogan}</span>
+          <Badge variant="accent" icon={<SparklesIcon className="h-4 w-4 animate-pulse" />}>
+            {companyInfo.slogan}
+          </Badge>
         </div>
         <h1
           className={`font-display text-4xl leading-tight text-ink transition-all duration-1000 delay-200 md:text-5xl ${
@@ -62,19 +66,20 @@ function HeroHome() {
               : 'translate-y-8 opacity-0'
           }`}
         >
-          <NavLink
+          <Button
             to="/services"
-            className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-brand-500 px-6 py-3.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:bg-brand-600 hover:shadow-lg"
+            variant="primary"
+            icon={<ArrowRightIcon className="h-4 w-4" />}
+            iconPosition="right"
           >
-            <span className="relative z-10">{t('home.hero.cta1')}</span>
-            <ArrowRightIcon className="relative z-10 h-4 w-4 transition-all duration-300 group-hover:translate-x-1 group-hover:scale-110" />
-          </NavLink>
-          <NavLink
+            {t('home.hero.cta1')}
+          </Button>
+          <Button
             to="/contact"
-            className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-neutral-200 bg-white px-6 py-3.5 text-sm font-semibold text-neutral-700 transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 hover:shadow-md"
+            variant="secondary"
           >
-            <span className="relative z-10">{t('home.hero.cta2')}</span>
-          </NavLink>
+            {t('home.hero.cta2')}
+          </Button>
         </div>
         {/* Statistiques masquées temporairement - entreprise en création */}
         {/* <div
@@ -94,8 +99,9 @@ function HeroHome() {
           ))}
         </div> */}
       </div>
-      <div
-        className={`group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white p-8 shadow-card transition-all duration-300 delay-700 hover:-translate-y-1 hover:border-brand-300 hover:shadow-card-hover ${
+      <Card
+        elevation="md"
+        className={`group relative transition-all duration-300 delay-700 ${
           isVisible
             ? 'translate-y-0 opacity-100 scale-100'
             : 'translate-y-8 opacity-0 scale-95'
@@ -114,7 +120,7 @@ function HeroHome() {
               : 'We create experiences and operations that put your teams and clients at the center. Our holistic approach combines strategy, design and technology to deliver measurable results.'}
           </p>
         </div>
-      </div>
+      </Card>
     </section>
   )
 }

@@ -8,17 +8,15 @@ import {
 } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { companyInfo } from '../../data/siteContent'
+import { NavigationMenu } from '../navigation/NavigationMenu'
+import { MobileNavigationMenu } from '../navigation/MobileNavigationMenu'
+import { useNavigationItems } from '../../data/navigation'
 import logoImage from '../../assets/logo/kobe_corp_logo.jpeg'
-
-const navLinkBase =
-  'rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 bg-transparent focus:outline-none focus:ring-2 focus:ring-brand-500/20'
-
-const activeClass = 'text-brand-500 font-semibold bg-brand-50'
-const inactiveClass = 'text-neutral-700 hover:text-brand-500 hover:bg-neutral-50'
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { language, setLanguage, t } = useLanguage()
+  const navItems = useNavigationItems()
 
   const toggleLanguage = () => {
     setLanguage(language === 'fr' ? 'en' : 'fr')
@@ -51,56 +49,9 @@ function Header() {
         </NavLink>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-1 lg:flex">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? activeClass : inactiveClass}`
-            }
-          >
-            {t('nav.home')}
-          </NavLink>
-          <NavLink
-            to="/services"
-            className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? activeClass : inactiveClass}`
-            }
-          >
-            {t('nav.services')}
-          </NavLink>
-          <NavLink
-            to="/programmes"
-            className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? activeClass : inactiveClass}`
-            }
-          >
-            {t('nav.programs')}
-          </NavLink>
-          <NavLink
-            to="/about"
-            className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? activeClass : inactiveClass}`
-            }
-          >
-            {t('nav.about')}
-          </NavLink>
-          <NavLink
-            to="/portfolio"
-            className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? activeClass : inactiveClass}`
-            }
-          >
-            {t('nav.portfolio')}
-          </NavLink>
-          <NavLink
-            to="/contact"
-            className={({ isActive }) =>
-              `${navLinkBase} ${isActive ? activeClass : inactiveClass}`
-            }
-          >
-            {t('nav.contact')}
-          </NavLink>
-        </nav>
+        <div className="hidden lg:block">
+          <NavigationMenu items={navItems} />
+        </div>
 
         {/* Desktop Actions */}
         <div className="hidden items-center gap-2 lg:flex">
@@ -154,97 +105,20 @@ function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="border-t border-neutral-200 bg-white backdrop-blur-md lg:hidden">
-          <nav className="mx-auto max-w-7xl space-y-1 px-4 py-4">
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                `block rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
-                  isActive
-                    ? 'bg-brand-50 text-brand-500 font-semibold'
-                    : 'bg-transparent text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
-                }`
-              }
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {t('nav.home')}
-            </NavLink>
-            <NavLink
-              to="/services"
-              className={({ isActive }) =>
-                `block rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
-                  isActive
-                    ? 'bg-brand-50 text-brand-500 font-semibold'
-                    : 'bg-transparent text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
-                }`
-              }
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {t('nav.services')}
-            </NavLink>
-            <NavLink
-              to="/programmes"
-              className={({ isActive }) =>
-                `block rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
-                  isActive
-                    ? 'bg-brand-50 text-brand-500 font-semibold'
-                    : 'bg-transparent text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
-                }`
-              }
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {t('nav.programs')}
-            </NavLink>
-            <NavLink
-              to="/about"
-              className={({ isActive }) =>
-                `block rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
-                  isActive
-                    ? 'bg-brand-50 text-brand-500 font-semibold'
-                    : 'bg-transparent text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
-                }`
-              }
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {t('nav.about')}
-            </NavLink>
-            <NavLink
-              to="/portfolio"
-              className={({ isActive }) =>
-                `block rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
-                  isActive
-                    ? 'bg-brand-50 text-brand-500 font-semibold'
-                    : 'bg-transparent text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
-                }`
-              }
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {t('nav.portfolio')}
-            </NavLink>
-            <NavLink
-              to="/contact"
-              className={({ isActive }) =>
-                `block rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
-                  isActive
-                    ? 'bg-brand-50 text-brand-500 font-semibold'
-                    : 'bg-transparent text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
-                }`
-              }
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {t('nav.contact')}
-            </NavLink>
+        <div className="border-t border-neutral-200 bg-white backdrop-blur-md lg:hidden" style={{ zIndex: 40 }}>
+          <div className="mx-auto max-w-7xl px-4 py-4">
+            <MobileNavigationMenu items={navItems} onClose={() => setMobileMenuOpen(false)} />
             <a
               href="https://ben-djibril.kobecorporation.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-500 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-brand-600 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-500/50"
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-500 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-brand-600 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-500/50"
               onClick={() => setMobileMenuOpen(false)}
             >
               {t('nav.chatWithBen')}
               <ArrowRightIcon className="h-4 w-4 text-white" />
             </a>
-          </nav>
+          </div>
       </div>
       )}
     </header>
