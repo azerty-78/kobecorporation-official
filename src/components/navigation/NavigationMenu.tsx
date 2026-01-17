@@ -110,6 +110,9 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
     }
   }
 
+  // Détecter si c'est un layout vertical (footer)
+  const isVertical = className.includes('flex-col')
+
   return (
     <nav className={`flex items-center gap-1 ${className}`}>
       {items.map((item) => {
@@ -122,19 +125,22 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
             <div
               key={item.path}
               ref={(el) => (dropdownRefs.current[item.path] = el)}
-              className="relative"
+              className={`relative ${isVertical ? 'w-full' : ''}`}
             >
-              <div className="relative inline-flex items-center">
+              <div className={`relative ${isVertical ? 'w-full' : 'inline-flex'} items-center`}>
                 <button
                   onClick={(e) => handleMainNavClick(e, item)}
-                  className={`relative inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none ${
+                  className={`relative ${isVertical ? 'w-full justify-between' : 'inline-flex'} flex items-center gap-1.5 ${isVertical ? 'rounded-lg px-3 py-2' : 'rounded-full px-4 py-2'} text-sm font-medium transition-all duration-200 focus:outline-none ${
                     isActive
                       ? 'text-brand-500 font-semibold'
                       : 'text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
                   }`}
                 >
-                  {isActive && (
+                  {isActive && !isVertical && (
                     <span className="absolute bottom-0 left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-brand-500" />
+                  )}
+                  {isActive && isVertical && (
+                    <span className="absolute bottom-0 left-3 h-0.5 w-8 rounded-full bg-brand-500" />
                   )}
                   {item.label}
                   <ChevronDownIcon
@@ -147,7 +153,7 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
 
               {isOpen && (
                 <div
-                  className="absolute top-full left-0 mt-2 min-w-[200px] rounded-xl bg-white shadow-card-hover z-50 animate-fadeInUp"
+                  className={`${isVertical ? 'relative mt-1 w-full' : 'absolute top-full left-0 mt-2'} ${isVertical ? 'min-w-full' : 'min-w-[200px]'} rounded-xl bg-white shadow-card-hover z-50 animate-fadeInUp`}
                   style={{ zIndex: 50 }}
                 >
                   <div className="py-2">
@@ -185,15 +191,18 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
           <button
             key={item.path}
             onClick={() => navigate(item.path)}
-            className={`relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none ${
+            className={`relative ${isVertical ? 'w-full text-left rounded-lg px-3 py-2' : 'rounded-full px-4 py-2'} text-sm font-medium transition-all duration-200 focus:outline-none ${
               isActive
                 ? 'text-brand-500 font-semibold'
                 : 'text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
             }`}
           >
             {item.label}
-            {isActive && (
+            {isActive && !isVertical && (
               <span className="absolute bottom-0 left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-brand-500" />
+            )}
+            {isActive && isVertical && (
+              <span className="absolute bottom-0 left-3 h-0.5 w-8 rounded-full bg-brand-500" />
             )}
           </button>
         )

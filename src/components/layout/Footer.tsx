@@ -21,7 +21,7 @@ function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
           {/* Colonne 1: À Propos */}
           <div className="lg:col-span-2">
-            <NavLink to="/" className="mb-4 inline-flex items-center gap-2 transition-transform duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg">
+            <NavLink to="/" className="mb-4 inline-flex items-center gap-2 transition-transform duration-200 hover:scale-105 focus:outline-none rounded-lg">
               <div className="flex h-12 w-12 items-center justify-center bg-transparent transition-all duration-200 hover:scale-105 p-1.5">
                 <img
                   src={logoImage}
@@ -46,7 +46,7 @@ function Footer() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
-                className="flex items-center gap-1.5 rounded-lg border border-neutral-200 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 shadow-subtle transition-all duration-200 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500/20"
+                className="flex items-center gap-1.5 rounded-lg border border-neutral-200 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 shadow-subtle transition-all duration-200 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 hover:shadow-md focus:outline-none"
                 aria-label="Changer de langue"
               >
                 <GlobeAltIcon className="h-4 w-4 text-neutral-600" />
@@ -60,80 +60,7 @@ function Footer() {
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-ink">
               {t('footer.quickLinks')}
             </h3>
-            <nav className="space-y-2">
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
-                    isActive
-                      ? 'text-brand-500 font-semibold'
-                      : 'text-neutral-600 hover:text-brand-500'
-                  }`
-                }
-              >
-                {t('nav.home')}
-              </NavLink>
-              <NavLink
-                to="/services"
-                className={({ isActive }) =>
-                  `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
-                    isActive
-                      ? 'text-brand-500 font-semibold'
-                      : 'text-neutral-600 hover:text-brand-500'
-                  }`
-                }
-              >
-                {t('nav.services')}
-              </NavLink>
-              <NavLink
-                to="/programmes"
-                className={({ isActive }) =>
-                  `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
-                    isActive
-                      ? 'text-brand-500 font-semibold'
-                      : 'text-neutral-600 hover:text-brand-500'
-                  }`
-                }
-              >
-                {t('nav.programs')}
-              </NavLink>
-              <NavLink
-                to="/about"
-                className={({ isActive }) =>
-                  `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
-                    isActive
-                      ? 'text-brand-500 font-semibold'
-                      : 'text-neutral-600 hover:text-brand-500'
-                  }`
-                }
-              >
-                {t('nav.about')}
-              </NavLink>
-              <NavLink
-                to="/portfolio"
-                className={({ isActive }) =>
-                  `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
-                    isActive
-                      ? 'text-brand-500 font-semibold'
-                      : 'text-neutral-600 hover:text-brand-500'
-                  }`
-                }
-              >
-                {t('nav.portfolio')}
-              </NavLink>
-              <NavLink
-                to="/contact"
-                className={({ isActive }) =>
-                  `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
-                    isActive
-                      ? 'text-brand-500 font-semibold'
-                      : 'text-neutral-600 hover:text-brand-500'
-                  }`
-                }
-              >
-                {t('nav.contact')}
-              </NavLink>
-            </nav>
+            <NavigationMenu items={navItems} className="flex-col items-start gap-2" />
           </div>
 
           {/* Colonne 3: Programmes */}
@@ -146,7 +73,7 @@ function Footer() {
                 <NavLink
                   key={programme.id}
                   to={`/programmes#${programme.id}`}
-                  className="block text-sm text-neutral-600 transition-all duration-200 hover:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded"
+                  className="block text-sm text-neutral-600 transition-all duration-200 hover:text-brand-500 focus:outline-none rounded"
                 >
                   {language === 'fr' ? programme.title : programme.titleEn}
                 </NavLink>
@@ -166,7 +93,7 @@ function Footer() {
                   {info.link ? (
                     <a
                       href={info.link}
-                      className="text-sm text-neutral-600 transition-colors duration-200 hover:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded"
+                      className="text-sm text-neutral-600 transition-colors duration-200 hover:text-brand-500 focus:outline-none rounded"
                     >
                       {info.value}
                     </a>
@@ -196,7 +123,7 @@ function Footer() {
                   href={companyInfo.social.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-white/20 bg-transparent text-[#25D366] transition-all duration-200 hover:scale-110 hover:border-[#25D366] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#25D366]/30"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-white/20 bg-transparent text-[#25D366] transition-all duration-200 hover:scale-110 hover:border-[#25D366] hover:shadow-lg focus:outline-none"
                   aria-label="WhatsApp"
                 >
                   <WhatsAppIcon className="h-6 w-6" />
@@ -205,7 +132,7 @@ function Footer() {
                   href={companyInfo.social.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-white/20 bg-transparent text-[#1877F2] transition-all duration-200 hover:scale-110 hover:border-[#1877F2] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#1877F2]/30"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-white/20 bg-transparent text-[#1877F2] transition-all duration-200 hover:scale-110 hover:border-[#1877F2] hover:shadow-lg focus:outline-none"
                   aria-label="Facebook"
                 >
                   <FacebookIcon className="h-6 w-6" />
@@ -214,7 +141,7 @@ function Footer() {
                   href={companyInfo.social.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-white/20 bg-transparent text-[#0A66C2] transition-all duration-200 hover:scale-110 hover:border-[#0A66C2] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#0A66C2]/30"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-white/20 bg-transparent text-[#0A66C2] transition-all duration-200 hover:scale-110 hover:border-[#0A66C2] hover:shadow-lg focus:outline-none"
                   aria-label="LinkedIn"
                 >
                   <LinkedInIcon className="h-6 w-6" />
@@ -223,7 +150,7 @@ function Footer() {
                   href={companyInfo.social.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-white/20 bg-transparent text-[#E4405F] transition-all duration-200 hover:scale-110 hover:border-[#E4405F] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#E4405F]/30"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-white/20 bg-transparent text-[#E4405F] transition-all duration-200 hover:scale-110 hover:border-[#E4405F] hover:shadow-lg focus:outline-none"
                   aria-label="Instagram"
                 >
                   <InstagramIcon className="h-6 w-6" />
@@ -235,25 +162,25 @@ function Footer() {
               <div className="flex flex-wrap gap-4">
                 <NavLink
                   to="/privacy"
-                  className="text-neutral-600 transition-colors duration-200 hover:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded"
+                  className="text-neutral-600 transition-colors duration-200 hover:text-brand-500 focus:outline-none rounded"
                 >
                   {t('footer.legal.privacy')}
                 </NavLink>
                 <NavLink
                   to="/legal"
-                  className="text-neutral-600 transition-colors duration-200 hover:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded"
+                  className="text-neutral-600 transition-colors duration-200 hover:text-brand-500 focus:outline-none rounded"
                 >
                   {t('footer.legal.terms')}
                 </NavLink>
                 <NavLink
                   to="/terms"
-                  className="text-neutral-600 transition-colors duration-200 hover:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded"
+                  className="text-neutral-600 transition-colors duration-200 hover:text-brand-500 focus:outline-none rounded"
                 >
                   {language === 'fr' ? 'CGU' : 'Terms'}
                 </NavLink>
                 <button
                   onClick={openSettings}
-                  className="text-neutral-600 transition-colors duration-200 hover:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded"
+                  className="text-neutral-600 transition-colors duration-200 hover:text-brand-500 focus:outline-none rounded"
                 >
                   {t('footer.legal.cookies')}
                 </button>
