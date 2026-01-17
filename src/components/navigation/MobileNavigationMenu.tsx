@@ -96,15 +96,25 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
                 </button>
                 {isOpen && (
                   <div className="ml-4 mt-1 space-y-1 border-l-2 border-neutral-200 pl-4">
-                    {item.sections?.map((section) => (
-                      <button
-                        key={section.anchor}
-                        onClick={() => handleNavClick(item.path, section.anchor)}
-                        className="block w-full rounded-lg px-3 py-2 text-left text-sm text-neutral-600 transition-colors duration-200 hover:bg-neutral-50 hover:text-brand-500"
-                      >
-                        {section.label}
-                      </button>
-                    ))}
+                    {item.sections?.map((section) => {
+                      // Vérifier si cette section est actuellement visible (basé sur le hash de l'URL)
+                      const currentHash = window.location.hash.replace('#', '')
+                      const isSectionActive = location.pathname === item.path && currentHash === section.anchor
+                      
+                      return (
+                        <button
+                          key={section.anchor}
+                          onClick={() => handleNavClick(item.path, section.anchor)}
+                          className={`block w-full rounded-lg px-3 py-2 text-left text-sm transition-colors duration-200 ${
+                            isSectionActive
+                              ? 'text-brand-500 font-semibold'
+                              : 'text-neutral-600 hover:bg-neutral-50 hover:text-brand-500'
+                          }`}
+                        >
+                          {section.label}
+                        </button>
+                      )
+                    })}
                   </div>
                 )}
               </>

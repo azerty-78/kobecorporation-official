@@ -9,7 +9,7 @@ function ProgramsPreview() {
   const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
 
   return (
-    <section id="programmes" ref={elementRef} className="space-y-10 md:space-y-12">
+    <section id="programs" ref={elementRef} className="space-y-10 md:space-y-12">
       <div
         className={`flex items-center justify-between gap-4 transition-all duration-1000 ${
           isVisible
