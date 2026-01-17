@@ -101,9 +101,9 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
               className="relative"
             >
               <div className="relative inline-flex items-center">
-                <NavLink
-                  to={item.path}
-                  className={`relative inline-flex items-center rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
+                <button
+                  onClick={(e) => handleMainNavClick(e, item)}
+                  className={`relative inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
                     isActive
                       ? 'text-brand-500 font-semibold'
                       : 'text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
@@ -113,16 +113,6 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
                     <span className="absolute bottom-0 left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-brand-500" />
                   )}
                   {item.label}
-                </NavLink>
-                <button
-                  onClick={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    setOpenDropdown(isOpen ? null : item.path)
-                  }}
-                  className="ml-1 inline-flex items-center p-1 rounded-full hover:bg-neutral-50 transition-colors"
-                  aria-label="Toggle menu"
-                >
                   <ChevronDownIcon
                     className={`h-4 w-4 transition-transform duration-200 ${
                       isOpen ? 'rotate-180' : ''
@@ -165,9 +155,9 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
 
         const isActive = location.pathname === item.path
         return (
-          <NavLink
+          <button
             key={item.path}
-            to={item.path}
+            onClick={() => navigate(item.path)}
             className={`relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
               isActive
                 ? 'text-brand-500 font-semibold'
@@ -178,7 +168,7 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
             {isActive && (
               <span className="absolute bottom-0 left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-brand-500" />
             )}
-          </NavLink>
+          </button>
         )
       })}
     </nav>
