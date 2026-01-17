@@ -17,30 +17,29 @@ function HeroHome() {
       id="hero"
       className="relative overflow-hidden pt-4 pb-8 md:pt-6 md:pb-12 lg:pt-8 lg:pb-16"
     >
-      {/* Modern Background with gradient mesh */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        {/* Base gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white via-brand-50/30 to-accent-50/20" />
+      {/* Modern Background with grid pattern and geometric shapes */}
+      <div className="absolute inset-0 -z-10 overflow-hidden bg-white">
+        {/* Subtle grid pattern - Similar to Laravel Bootcamp */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,122,255,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,122,255,0.08)_1px,transparent_1px)] bg-[size:40px_40px]" />
         
-        {/* Animated gradient orbs - More refined */}
-        <div 
-          className="absolute -top-32 -right-32 h-[600px] w-[600px] rounded-full bg-gradient-to-br from-brand-200/40 via-brand-100/30 to-transparent blur-3xl animate-pulse-soft" 
-          style={{ animationDuration: '8s' }} 
-        />
-        <div 
-          className="absolute -bottom-32 -left-32 h-[600px] w-[600px] rounded-full bg-gradient-to-tr from-accent-200/35 via-accent-100/25 to-transparent blur-3xl animate-pulse-soft" 
-          style={{ animationDuration: '10s', animationDelay: '1.5s' }} 
-        />
-        <div 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-gradient-to-r from-brand-100/25 via-accent-100/20 to-transparent blur-3xl animate-pulse-soft" 
-          style={{ animationDuration: '12s', animationDelay: '3s' }} 
-        />
+        {/* Geometric shapes - Rounded square */}
+        <div className="absolute top-20 right-20 h-32 w-32 rounded-2xl border-2 border-brand-200/40 opacity-60" style={{ transform: 'rotate(12deg)' }} />
         
-        {/* Subtle mesh gradient overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(10,122,255,0.08),_transparent_50%),radial-gradient(ellipse_at_bottom_right,_rgba(249,115,22,0.06),_transparent_50%)]" />
+        {/* Geometric shapes - Circle */}
+        <div className="absolute bottom-32 left-16 h-24 w-24 rounded-full border-2 border-brand-200/40 opacity-50" />
         
-        {/* Subtle dot pattern */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,_rgba(0,0,0,0.03)_1px,_transparent_0)] bg-[size:32px_32px] opacity-40" />
+        {/* Geometric shapes - Hexagon */}
+        <div className="absolute top-1/2 right-1/4 h-20 w-20 border-2 border-brand-200/35 opacity-45" style={{ 
+          clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+          transform: 'rotate(30deg)'
+        }} />
+        
+        {/* Additional small shapes for depth */}
+        <div className="absolute top-40 left-1/3 h-16 w-16 rounded-lg border-2 border-accent-200/30 opacity-40" style={{ transform: 'rotate(-15deg)' }} />
+        <div className="absolute bottom-40 right-1/3 h-12 w-12 rounded-full border-2 border-accent-200/30 opacity-35" />
+        
+        {/* Subtle gradient overlay for depth */}
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-brand-50/20 to-transparent" />
       </div>
 
       {/* Centered Content Container */}
