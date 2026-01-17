@@ -6,6 +6,7 @@ interface CardProps {
   hover?: boolean
   elevation?: 'none' | 'sm' | 'md' | 'lg'
   onClick?: () => void
+  style?: React.CSSProperties
 }
 
 export function Card({ 
@@ -13,7 +14,8 @@ export function Card({
   className = '', 
   hover = true,
   elevation = 'md',
-  onClick 
+  onClick,
+  style
 }: CardProps) {
   const elevationClasses = {
     none: 'shadow-none',
@@ -32,7 +34,8 @@ export function Card({
       onClick={onClick}
       style={{ 
         zIndex: elevation === 'lg' ? 20 : elevation === 'md' ? 10 : 1,
-        position: 'relative'
+        position: 'relative',
+        ...style
       }}
     >
       {children}
