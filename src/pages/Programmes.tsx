@@ -460,6 +460,10 @@ function Programmes() {
                         alt={`${language === 'fr' ? programme.title : programme.titleEn} - Image ${imgIndex + 1}`}
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                         loading="lazy"
+                        width={800}
+                        height={600}
+                        decoding="async"
+                        fetchPriority={imgIndex === 0 ? "high" : "low"}
                       />
 
                       {/* Badge sur l'image */}
