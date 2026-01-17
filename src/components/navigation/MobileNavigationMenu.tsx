@@ -22,23 +22,45 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
 
   const handleNavClick = (path: string, anchor?: string) => {
     if (anchor) {
-      if (location.pathname === path) {
-        setTimeout(() => {
-          const element = document.getElementById(anchor)
-          if (element) {
-            const headerOffset = 80
-            const elementPosition = element.getBoundingClientRect().top
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-
+      // Si l'ancre est "top", scroll vers le haut
+      if (anchor === 'top') {
+        if (location.pathname === path) {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+          })
+        } else {
+          window.location.href = path
+          setTimeout(() => {
             window.scrollTo({
-              top: offsetPosition,
+              top: 0,
               behavior: 'smooth',
             })
-          }
-        }, 100)
+          }, 100)
+        }
       } else {
-        window.location.href = `${path}#${anchor}`
+        // Si on est déjà sur la page, scroll vers la section
+        if (location.pathname === path) {
+          setTimeout(() => {
+            const element = document.getElementById(anchor)
+            if (element) {
+              const headerOffset = 80
+              const elementPosition = element.getBoundingClientRect().top
+              const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth',
+              })
+            }
+          }, 100)
+        } else {
+          window.location.href = `${path}#${anchor}`
+        }
       }
+    } else {
+      // Si pas d'ancre, naviguer vers la page
+      window.location.href = path
     }
     onClose()
   }

@@ -14,6 +14,7 @@ export function useNavigationItems(): NavItem[] {
       label: t('nav.home'),
       path: '/',
       sections: [
+        { label: language === 'fr' ? 'Accueil' : 'Home', anchor: 'top' },
         { label: language === 'fr' ? 'Services' : 'Services', anchor: 'services' },
         { label: language === 'fr' ? 'Programmes' : 'Programs', anchor: 'programs' },
         { label: language === 'fr' ? 'Missions' : 'Missions', anchor: 'missions' },
