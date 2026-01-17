@@ -6,11 +6,14 @@ import { useLanguage } from '../../contexts/LanguageContext'
 import { useCookies } from '../../contexts/CookieContext'
 import { companyInfo, contactInfo, programmes } from '../../data/siteContent'
 import { WhatsAppIcon, FacebookIcon, LinkedInIcon, InstagramIcon } from '../icons/SocialIcons'
+import { NavigationMenu } from '../navigation/NavigationMenu'
+import { useNavigationItems } from '../../data/navigation'
 import logoImage from '../../assets/logo/kobe_corp_logo.jpeg'
 
 function Footer() {
   const { language, setLanguage, t } = useLanguage()
   const { openSettings } = useCookies()
+  const navItems = useNavigationItems()
 
   return (
     <footer className="border-t border-neutral-200 bg-neutral-50 py-12">

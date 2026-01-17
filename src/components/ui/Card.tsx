@@ -30,7 +30,10 @@ export function Card({
     <div
       className={`rounded-2xl border border-neutral-200 bg-white p-6 ${elevationClasses[elevation]} ${hoverClasses} ${className}`}
       onClick={onClick}
-      style={{ zIndex: elevation === 'lg' ? 10 : elevation === 'md' ? 5 : 1 }}
+      style={{ 
+        zIndex: elevation === 'lg' ? 20 : elevation === 'md' ? 10 : 1,
+        position: 'relative'
+      }}
     >
       {children}
     </div>
