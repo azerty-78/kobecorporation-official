@@ -78,7 +78,7 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
               <>
                 <button
                   onClick={() => toggleItem(item.path)}
-                  className={`relative flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none ${
+                  className={`relative flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-0 focus:border-0 ${
                     isActive
                       ? 'text-brand-500 font-semibold'
                       : 'bg-transparent text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
@@ -110,7 +110,7 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
                         <button
                           key={section.anchor}
                           onClick={() => handleNavClick(item.path, section.anchor)}
-                          className={`block w-full rounded-lg px-3 py-2 text-left text-sm transition-colors duration-200 focus:outline-none ${
+                          className={`block w-full rounded-lg px-3 py-2 text-left text-sm transition-colors duration-200 focus:outline-none focus:ring-0 focus:border-0 ${
                             isSectionActive
                               ? 'text-brand-500 font-semibold'
                               : 'text-neutral-600 hover:bg-neutral-50 hover:text-brand-500'
@@ -132,7 +132,7 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
                   navigate(item.path)
                   onClose()
                 }}
-                className={`relative block w-full rounded-lg px-4 py-2.5 text-left text-sm font-medium transition-all duration-200 focus:outline-none ${
+                className={`relative block w-full rounded-lg px-4 py-2.5 text-left text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-0 focus:border-0 ${
                   isActive
                     ? 'text-brand-500 font-semibold'
                     : 'bg-transparent text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'

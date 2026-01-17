@@ -7,6 +7,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { useScrollAnimation } from '../../hooks/useScrollAnimation'
+import { Card } from '../ui/Card'
 
 interface ProcessStep {
   icon: React.ComponentType<{ className?: string }>
@@ -95,7 +96,7 @@ function ProcessSection() {
             ? 'Un Processus Structuré pour Votre Réussite'
             : 'A Structured Process for Your Success'}
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-slate-600">
+        <p className="mx-auto mt-4 max-w-2xl text-neutral-600">
           {language === 'fr'
             ? 'De la conception à la mise en production, nous vous accompagnons à chaque étape avec une méthodologie éprouvée et une communication transparente.'
             : 'From design to production, we accompany you at every step with proven methodology and transparent communication.'}
@@ -164,8 +165,9 @@ function ProcessSection() {
                 </div>
 
                 {/* Contenu */}
-                <div
-                  className={`group glass-panel relative w-full overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl lg:w-[calc(50%-40px)] md:p-8 ${
+                <Card
+                  elevation="md"
+                  className={`group relative w-full lg:w-[calc(50%-40px)] ${
                     stepVisible
                       ? 'translate-y-0 opacity-100'
                       : 'translate-y-8 opacity-0'
@@ -174,14 +176,6 @@ function ProcessSection() {
                     transitionDelay: `${index * 150}ms`,
                   }}
                 >
-                  {/* Gradient de fond animé */}
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${step.color} opacity-0 transition-opacity duration-500 group-hover:opacity-100`}
-                  />
-                  
-                  {/* Ligne décorative animée */}
-                  <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 via-brand-400 to-brand-300 transition-all duration-700 group-hover:w-full" />
-
                   <div className="relative">
                     <div className="mb-5 flex items-start gap-4">
                       <div className="relative">
@@ -207,13 +201,13 @@ function ProcessSection() {
                         </h3>
                       </div>
                     </div>
-                    <p className="leading-relaxed text-slate-600 transition-colors duration-300 group-hover:text-slate-700">
+                    <p className="leading-relaxed text-neutral-600 transition-colors duration-300 group-hover:text-neutral-700">
                       {language === 'fr'
                         ? step.description
                         : step.descriptionEn}
                     </p>
                   </div>
-                </div>
+                </Card>
               </div>
             )
           })}
@@ -228,7 +222,7 @@ function ProcessSection() {
             : 'translate-y-8 opacity-0'
         }`}
       >
-        <p className="mb-6 text-lg text-slate-600 transition-colors duration-300">
+        <p className="mb-6 text-lg text-neutral-600 transition-colors duration-300">
           {language === 'fr'
             ? 'Prêt à démarrer votre projet ?'
             : 'Ready to start your project?'}

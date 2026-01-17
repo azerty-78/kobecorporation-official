@@ -130,7 +130,7 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
               <div className={`relative ${isVertical ? 'w-full' : 'inline-flex'} items-center`}>
                 <button
                   onClick={(e) => handleMainNavClick(e, item)}
-                  className={`relative ${isVertical ? 'w-full justify-between' : 'inline-flex'} flex items-center gap-1.5 ${isVertical ? 'rounded-lg px-3 py-2' : 'rounded-full px-4 py-2'} text-sm font-medium transition-all duration-200 focus:outline-none ${
+                  className={`relative ${isVertical ? 'w-full justify-between' : 'inline-flex'} flex items-center gap-1.5 ${isVertical ? 'rounded-lg px-3 py-2' : 'rounded-full px-4 py-2'} text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-0 focus:border-0 ${
                     isActive
                       ? 'text-brand-500 font-semibold'
                       : 'text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
@@ -166,7 +166,7 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
                         <button
                           key={section.anchor}
                           onClick={(e) => handleNavClick(e, item.path, section.anchor)}
-                          className={`block w-full px-4 py-2 text-left text-sm transition-colors duration-200 focus:outline-none ${
+                          className={`block w-full px-4 py-2 text-left text-sm transition-colors duration-200 focus:outline-none focus:ring-0 focus:border-0 ${
                             isSectionActive
                               ? 'text-brand-500 font-semibold'
                               : 'text-neutral-600 hover:bg-neutral-50 hover:text-brand-500'
@@ -191,7 +191,7 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
           <button
             key={item.path}
             onClick={() => navigate(item.path)}
-            className={`relative ${isVertical ? 'w-full text-left rounded-lg px-3 py-2' : 'rounded-full px-4 py-2'} text-sm font-medium transition-all duration-200 focus:outline-none ${
+            className={`relative ${isVertical ? 'w-full text-left rounded-lg px-3 py-2' : 'rounded-full px-4 py-2'} text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-0 focus:border-0 ${
               isActive
                 ? 'text-brand-500 font-semibold'
                 : 'text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
