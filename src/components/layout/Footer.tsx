@@ -6,14 +6,14 @@ import { useLanguage } from '../../contexts/LanguageContext'
 import { useCookies } from '../../contexts/CookieContext'
 import { companyInfo, contactInfo, programmes } from '../../data/siteContent'
 import { WhatsAppIcon, FacebookIcon, LinkedInIcon, InstagramIcon } from '../icons/SocialIcons'
-import logoImage from '../../assets/logo/kobe_corp_logo-nbgpng.png'
+import logoImage from '../../assets/logo/kobe_corp_logo.jpeg'
 
 function Footer() {
   const { language, setLanguage, t } = useLanguage()
   const { openSettings } = useCookies()
 
   return (
-    <footer className="border-t border-white/10 py-12 backdrop-blur-md" style={{ backgroundColor: '#000000' }}>
+    <footer className="border-t border-neutral-200 bg-neutral-50 py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
           {/* Colonne 1: À Propos */}
@@ -27,15 +27,15 @@ function Footer() {
                 />
               </div>
               <div>
-                <p className="font-display text-lg font-semibold text-white">
+                <p className="font-display text-lg font-semibold text-ink">
                   {companyInfo.name}
                 </p>
               </div>
             </NavLink>
-            <p className="mb-2 text-sm font-semibold text-brand-400">
+            <p className="mb-2 text-sm font-semibold text-brand-500">
               {companyInfo.slogan}
             </p>
-            <p className="mb-4 text-sm leading-relaxed text-white">
+            <p className="mb-4 text-sm leading-relaxed text-neutral-600">
               {language === 'fr'
                 ? 'KOBE Corporation - Votre partenaire technologique pour transformer vos idées en solutions logicielles innovantes.'
                 : 'KOBE Corporation - Your technology partner to transform ideas into innovative software solutions.'}
@@ -43,18 +43,18 @@ function Footer() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
-                className="flex items-center gap-1.5 rounded-lg border-2 border-white/20 bg-transparent px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-all duration-200 hover:border-white/40 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-white/30"
+                className="flex items-center gap-1.5 rounded-lg border border-neutral-200 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 shadow-subtle transition-all duration-200 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500/20"
                 aria-label="Changer de langue"
               >
-                <GlobeAltIcon className="h-4 w-4 text-white" />
-                <span className="uppercase text-white">{language}</span>
+                <GlobeAltIcon className="h-4 w-4 text-neutral-600" />
+                <span className="uppercase text-neutral-700">{language}</span>
               </button>
             </div>
           </div>
 
           {/* Colonne 2: Navigation Rapide */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-white">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-ink">
               {t('footer.quickLinks')}
             </h3>
             <nav className="space-y-2">
@@ -63,8 +63,8 @@ function Footer() {
                 className={({ isActive }) =>
                   `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
                     isActive
-                      ? 'text-brand-400 font-semibold'
-                      : 'text-white hover:text-brand-400'
+                      ? 'text-brand-500 font-semibold'
+                      : 'text-neutral-600 hover:text-brand-500'
                   }`
                 }
               >
@@ -75,8 +75,8 @@ function Footer() {
                 className={({ isActive }) =>
                   `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
                     isActive
-                      ? 'text-brand-400 font-semibold'
-                      : 'text-white hover:text-brand-400'
+                      ? 'text-brand-500 font-semibold'
+                      : 'text-neutral-600 hover:text-brand-500'
                   }`
                 }
               >
@@ -87,8 +87,8 @@ function Footer() {
                 className={({ isActive }) =>
                   `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
                     isActive
-                      ? 'text-brand-400 font-semibold'
-                      : 'text-white hover:text-brand-400'
+                      ? 'text-brand-500 font-semibold'
+                      : 'text-neutral-600 hover:text-brand-500'
                   }`
                 }
               >
@@ -99,8 +99,8 @@ function Footer() {
                 className={({ isActive }) =>
                   `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
                     isActive
-                      ? 'text-brand-400 font-semibold'
-                      : 'text-white hover:text-brand-400'
+                      ? 'text-brand-500 font-semibold'
+                      : 'text-neutral-600 hover:text-brand-500'
                   }`
                 }
               >
@@ -111,8 +111,8 @@ function Footer() {
                 className={({ isActive }) =>
                   `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
                     isActive
-                      ? 'text-brand-400 font-semibold'
-                      : 'text-white hover:text-brand-400'
+                      ? 'text-brand-500 font-semibold'
+                      : 'text-neutral-600 hover:text-brand-500'
                   }`
                 }
               >
@@ -123,8 +123,8 @@ function Footer() {
                 className={({ isActive }) =>
                   `block text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 rounded ${
                     isActive
-                      ? 'text-brand-400 font-semibold'
-                      : 'text-white hover:text-brand-400'
+                      ? 'text-brand-500 font-semibold'
+                      : 'text-neutral-600 hover:text-brand-500'
                   }`
                 }
               >
@@ -135,7 +135,7 @@ function Footer() {
 
           {/* Colonne 3: Programmes */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-white">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-ink">
               {t('footer.programs')}
             </h3>
             <nav className="space-y-2">
@@ -143,7 +143,7 @@ function Footer() {
                 <NavLink
                   key={programme.id}
                   to={`/programmes#${programme.id}`}
-                  className="block text-sm text-white transition-all duration-200 hover:text-brand-400 focus:outline-none focus:ring-2 focus:ring-white/20 rounded"
+                  className="block text-sm text-neutral-600 transition-all duration-200 hover:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded"
                 >
                   {language === 'fr' ? programme.title : programme.titleEn}
                 </NavLink>
@@ -153,28 +153,28 @@ function Footer() {
 
           {/* Colonne 4: Contact */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-white">
+            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-ink">
               {t('nav.contact')}
             </h3>
             <div className="space-y-3">
               {contactInfo.map((info, index) => (
                 <div key={index} className="flex items-start gap-2">
-                  <div className="mt-0.5 text-brand-400">{info.icon}</div>
+                  <div className="mt-0.5 text-brand-500">{info.icon}</div>
                   {info.link ? (
                     <a
                       href={info.link}
-                      className="text-sm text-white transition-colors duration-200 hover:text-brand-400 focus:outline-none focus:ring-2 focus:ring-white/20 rounded"
+                      className="text-sm text-neutral-600 transition-colors duration-200 hover:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded"
                     >
                       {info.value}
                     </a>
                   ) : (
-                    <p className="text-sm text-white">
+                    <p className="text-sm text-neutral-600">
                       {info.value}
                     </p>
                   )}
                 </div>
               ))}
-              <p className="text-xs text-white">
+              <p className="text-xs text-neutral-500">
                 {t('footer.available247')}
               </p>
             </div>
@@ -185,7 +185,7 @@ function Footer() {
         <div className="mt-8 border-t border-white/10 pt-8">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
-              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-white">
+              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-ink">
                 {t('footer.followUs')}
               </h3>
               <div className="flex gap-3">
@@ -227,30 +227,30 @@ function Footer() {
                 </a>
               </div>
             </div>
-            <div className="text-sm text-white">
-              <p className="mb-2 font-medium text-white">{t('footer.copyright')}</p>
+            <div className="text-sm text-neutral-600">
+              <p className="mb-2 font-medium text-neutral-700">{t('footer.copyright')}</p>
               <div className="flex flex-wrap gap-4">
                 <NavLink
                   to="/privacy"
-                  className="text-white transition-colors duration-200 hover:text-brand-400 focus:outline-none focus:ring-2 focus:ring-white/20 rounded"
+                  className="text-neutral-600 transition-colors duration-200 hover:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded"
                 >
                   {t('footer.legal.privacy')}
                 </NavLink>
                 <NavLink
                   to="/legal"
-                  className="text-white transition-colors duration-200 hover:text-brand-400 focus:outline-none focus:ring-2 focus:ring-white/20 rounded"
+                  className="text-neutral-600 transition-colors duration-200 hover:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded"
                 >
                   {t('footer.legal.terms')}
                 </NavLink>
                 <NavLink
                   to="/terms"
-                  className="text-white transition-colors duration-200 hover:text-brand-400 focus:outline-none focus:ring-2 focus:ring-white/20 rounded"
+                  className="text-neutral-600 transition-colors duration-200 hover:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded"
                 >
                   {language === 'fr' ? 'CGU' : 'Terms'}
                 </NavLink>
                 <button
                   onClick={openSettings}
-                  className="text-white transition-colors duration-200 hover:text-brand-400 focus:outline-none focus:ring-2 focus:ring-white/20 rounded"
+                  className="text-neutral-600 transition-colors duration-200 hover:text-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded"
                 >
                   {t('footer.legal.cookies')}
                 </button>
