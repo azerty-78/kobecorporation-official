@@ -95,31 +95,20 @@ function HeroHome() {
         </div> */}
       </div>
       <div
-        className={`group glass-panel relative overflow-hidden rounded-3xl border border-slate-200 p-8 transition-all duration-1000 delay-700 hover:-translate-y-1 hover:border-brand-200 hover:shadow-2xl ${
+        className={`group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white p-8 shadow-card transition-all duration-300 delay-700 hover:-translate-y-1 hover:border-brand-300 hover:shadow-card-hover ${
           isVisible
             ? 'translate-y-0 opacity-100 scale-100'
             : 'translate-y-8 opacity-0 scale-95'
         }`}
       >
-        {/* Fond blanc avec effet au hover */}
-        <div className="absolute inset-0 bg-white transition-colors duration-300 group-hover:bg-brand-50/30" />
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
-        
-        {/* Particules animées en arrière-plan */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-10 left-10 h-2 w-2 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '0s' }} />
-          <div className="absolute top-20 right-20 h-1.5 w-1.5 rounded-full bg-brand-300 animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute bottom-20 left-20 h-2.5 w-2.5 rounded-full bg-brand-500 animate-pulse" style={{ animationDelay: '2s' }} />
-        </div>
-        
         <div className="relative space-y-5">
           <div className="flex items-center gap-3">
-            <div className="h-1 w-12 rounded-full bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-300 group-hover:w-16" />
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600 transition-colors duration-300 group-hover:text-brand-700">
+            <div className="h-1 w-12 rounded-full bg-gradient-to-r from-brand-500 to-brand-400 transition-all duration-300 group-hover:w-16" />
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-500 transition-colors duration-300 group-hover:text-brand-600">
               {language === 'fr' ? 'Notre mission' : 'Our Mission'}
             </p>
           </div>
-          <p className="text-lg leading-relaxed text-slate-700 transition-colors duration-300 group-hover:text-slate-800">
+          <p className="text-lg leading-relaxed text-neutral-600 transition-colors duration-300 group-hover:text-neutral-700">
             {language === 'fr'
               ? 'Nous créons des expériences et des opérations qui mettent vos équipes et vos clients au centre. Notre approche holistique combine stratégie, design et technologies pour livrer des résultats mesurables.'
               : 'We create experiences and operations that put your teams and clients at the center. Our holistic approach combines strategy, design and technology to deliver measurable results.'}
