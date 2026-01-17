@@ -104,23 +104,28 @@ function Header() {
       </div>
 
       {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="border-t border-neutral-200 bg-white backdrop-blur-md lg:hidden" style={{ zIndex: 40 }}>
-          <div className="mx-auto max-w-7xl px-4 py-4">
-            <MobileNavigationMenu items={navItems} onClose={() => setMobileMenuOpen(false)} />
-            <a
-              href="https://ben-djibril.kobecorporation.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-500 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-brand-600 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-500/50"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {t('nav.chatWithBen')}
-              <ArrowRightIcon className="h-4 w-4 text-white" />
-            </a>
-          </div>
+      <div
+        className={`border-t border-neutral-200 bg-white backdrop-blur-md lg:hidden transition-all duration-300 ease-in-out overflow-hidden ${
+          mobileMenuOpen
+            ? 'max-h-screen opacity-100'
+            : 'max-h-0 opacity-0 pointer-events-none'
+        }`}
+        style={{ zIndex: 40 }}
+      >
+        <div className="mx-auto max-w-7xl px-4 py-4">
+          <MobileNavigationMenu items={navItems} onClose={() => setMobileMenuOpen(false)} />
+          <a
+            href="https://ben-djibril.kobecorporation.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-500 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-brand-600 hover:shadow-lg focus:outline-none"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            {t('nav.chatWithBen')}
+            <ArrowRightIcon className="h-4 w-4 text-white" />
+          </a>
+        </div>
       </div>
-      )}
     </header>
   )
 }

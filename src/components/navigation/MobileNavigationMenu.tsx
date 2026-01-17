@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
@@ -14,6 +14,7 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
   const location = useLocation()
   const navigate = useNavigate()
   const [openItems, setOpenItems] = useState<string[]>([])
+  const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
 
   const toggleItem = (path: string) => {
     setOpenItems((prev) =>
@@ -77,7 +78,7 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
               <>
                 <button
                   onClick={() => toggleItem(item.path)}
-                  className={`relative flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
+                  className={`relative flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none ${
                     isActive
                       ? 'text-brand-500 font-semibold'
                       : 'bg-transparent text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
@@ -93,9 +94,14 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
                     }`}
                   />
                 </button>
-                {isOpen && (
-                  <div className="ml-4 mt-1 space-y-1 border-l-2 border-neutral-200 pl-4">
-                    {item.sections?.map((section) => {
+                <div
+                  ref={(el) => (sectionRefs.current[item.path] = el)}
+                  className={`ml-4 overflow-hidden border-l-2 border-neutral-200 pl-4 transition-all duration-300 ease-in-out ${
+                    isOpen ? 'max-h-[500px] opacity-100 mt-1' : 'max-h-0 opacity-0 mt-0'
+                  }`}
+                >
+                  <div className="space-y-1">
+                    {item.sections?.map((section, index) => {
                       // Vérifier si cette section est actuellement visible (basé sur le hash de l'URL)
                       const currentHash = window.location.hash.replace('#', '')
                       const isSectionActive = location.pathname === item.path && currentHash === section.anchor
@@ -104,18 +110,21 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
                         <button
                           key={section.anchor}
                           onClick={() => handleNavClick(item.path, section.anchor)}
-                          className={`block w-full rounded-lg px-3 py-2 text-left text-sm transition-colors duration-200 ${
+                          className={`block w-full rounded-lg px-3 py-2 text-left text-sm transition-colors duration-200 focus:outline-none ${
                             isSectionActive
                               ? 'text-brand-500 font-semibold'
                               : 'text-neutral-600 hover:bg-neutral-50 hover:text-brand-500'
                           }`}
+                          style={{
+                            animation: isOpen ? `slideInLeft 0.3s ease-out ${index * 0.05}s both` : 'none',
+                          }}
                         >
                           {section.label}
                         </button>
                       )
                     })}
                   </div>
-                )}
+                </div>
               </>
             ) : (
               <button
@@ -123,7 +132,7 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
                   navigate(item.path)
                   onClose()
                 }}
-                className={`relative block w-full rounded-lg px-4 py-2.5 text-left text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
+                className={`relative block w-full rounded-lg px-4 py-2.5 text-left text-sm font-medium transition-all duration-200 focus:outline-none ${
                   isActive
                     ? 'text-brand-500 font-semibold'
                     : 'bg-transparent text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'

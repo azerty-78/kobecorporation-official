@@ -147,11 +147,11 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
 
               {isOpen && (
                 <div
-                  className="absolute top-full left-0 mt-2 min-w-[200px] rounded-xl bg-white shadow-card-hover z-50"
+                  className="absolute top-full left-0 mt-2 min-w-[200px] rounded-xl bg-white shadow-card-hover z-50 animate-fadeInUp"
                   style={{ zIndex: 50 }}
                 >
                   <div className="py-2">
-                    {item.sections?.map((section) => {
+                    {item.sections?.map((section, index) => {
                       // Vérifier si cette section est actuellement visible (basé sur le hash de l'URL)
                       const currentHash = window.location.hash.replace('#', '')
                       const isSectionActive = location.pathname === item.path && currentHash === section.anchor
@@ -160,11 +160,14 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
                         <button
                           key={section.anchor}
                           onClick={(e) => handleNavClick(e, item.path, section.anchor)}
-                          className={`block w-full px-4 py-2 text-left text-sm transition-colors duration-200 ${
+                          className={`block w-full px-4 py-2 text-left text-sm transition-colors duration-200 focus:outline-none ${
                             isSectionActive
                               ? 'text-brand-500 font-semibold'
                               : 'text-neutral-600 hover:bg-neutral-50 hover:text-brand-500'
                           }`}
+                          style={{
+                            animation: `fadeInUp 0.3s ease-out ${index * 0.05}s both`,
+                          }}
                         >
                           {section.label}
                         </button>
@@ -182,7 +185,7 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
           <button
             key={item.path}
             onClick={() => navigate(item.path)}
-            className={`relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
+            className={`relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none ${
               isActive
                 ? 'text-brand-500 font-semibold'
                 : 'text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
