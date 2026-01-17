@@ -155,19 +155,19 @@ function TestimonialsSection() {
           {/* Boutons de navigation améliorés */}
           <button
             onClick={prevTestimonial}
-            className="group/btn absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-3 shadow-xl backdrop-blur-sm transition-all duration-300 hover:bg-white hover:scale-125 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 active:scale-95"
+            className="group/btn absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-3 shadow-xl backdrop-blur-sm transition-all duration-300 hover:bg-white hover:scale-125 hover:shadow-2xl focus:outline-none focus:ring-0 focus:border-0 active:scale-95"
             aria-label={language === 'fr' ? 'Témoignage précédent' : 'Previous testimonial'}
           >
             <ChevronLeftIcon className="h-6 w-6 text-ink transition-transform duration-300 group-hover/btn:-translate-x-1" />
           </button>
           <button
             onClick={nextTestimonial}
-            className="group/btn absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-3 shadow-xl backdrop-blur-sm transition-all duration-300 hover:bg-white hover:scale-125 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 active:scale-95"
+            className="group/btn absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-3 shadow-xl backdrop-blur-sm transition-all duration-300 hover:bg-white hover:scale-125 hover:shadow-2xl focus:outline-none focus:ring-0 focus:border-0 active:scale-95"
             aria-label={language === 'fr' ? 'Témoignage suivant' : 'Next testimonial'}
           >
             <ChevronRightIcon className="h-6 w-6 text-ink transition-transform duration-300 group-hover/btn:translate-x-1" />
           </button>
-        </div>
+        </Card>
 
         {/* Indicateurs de pagination améliorés */}
         <div className="mt-8 flex justify-center gap-2.5">
@@ -175,10 +175,10 @@ function TestimonialsSection() {
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`group relative rounded-full transition-all duration-500 hover:scale-125 active:scale-95 ${
+              className={`group relative rounded-full transition-all duration-500 hover:scale-125 active:scale-95 focus:outline-none focus:ring-0 focus:border-0 ${
                 index === currentIndex
                   ? 'h-3 w-10 bg-gradient-to-r from-brand-500 to-brand-600 shadow-lg'
-                  : 'h-2.5 w-2.5 bg-slate-300 hover:bg-brand-400 hover:w-3 hover:h-3'
+                  : 'h-2.5 w-2.5 bg-neutral-300 hover:bg-brand-400 hover:w-3 hover:h-3'
               }`}
               aria-label={`${language === 'fr' ? 'Témoignage' : 'Testimonial'} ${index + 1}`}
             >

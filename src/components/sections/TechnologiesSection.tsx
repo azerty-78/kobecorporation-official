@@ -1,6 +1,7 @@
 import { useLanguage } from '../../contexts/LanguageContext'
 import { technologies } from '../../data/siteContent'
 import { useScrollAnimation } from '../../hooks/useScrollAnimation'
+import { Card } from '../ui/Card'
 
 function TechnologiesSection() {
   const { language } = useLanguage()
@@ -58,7 +59,7 @@ function TechnologiesSection() {
             ? 'Notre Stack Technologique'
             : 'Our Technology Stack'}
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-slate-600">
+        <p className="mx-auto mt-4 max-w-2xl text-neutral-600">
           {language === 'fr'
             ? 'Les technologies modernes que nous maîtrisons pour créer vos solutions'
             : 'Modern technologies we master to create your solutions'}
