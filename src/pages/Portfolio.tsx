@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import SEO from '../components/SEO'
 import { getSEOData } from '../data/seoData'
+import { Card } from '../components/ui/Card'
+import { Button } from '../components/ui/Button'
 
 // Types de projets (à remplir avec de vrais projets plus tard)
 const projectCategories = [
@@ -70,7 +72,7 @@ function Portfolio() {
             {language === 'fr' ? 'Nos Réalisations' : 'Our Achievements'}
           </h1>
           
-          <p className="mx-auto max-w-3xl text-lg leading-relaxed text-slate-600">
+          <p className="mx-auto max-w-3xl text-lg leading-relaxed text-neutral-600">
             {language === 'fr'
               ? 'Découvrez les projets sur lesquels nous avons travaillé'
               : 'Discover the projects we have worked on'}
@@ -106,7 +108,7 @@ function Portfolio() {
               {/* Image placeholder */}
               <div className="relative h-48 bg-gradient-to-br from-brand-500/20 to-brand-600/20">
                 <div className="flex h-full items-center justify-center">
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm text-neutral-500">
                     {language === 'fr' ? 'Image à venir' : 'Image coming soon'}
                   </p>
                 </div>
@@ -117,7 +119,7 @@ function Portfolio() {
                 <h3 className="mb-2 font-display text-xl text-ink">
                   {language === 'fr' ? project.name : project.nameEn}
                 </h3>
-                <p className="mb-4 text-sm text-slate-600">
+                <p className="mb-4 text-sm text-neutral-600">
                   {language === 'fr'
                     ? project.description
                     : project.descriptionEn}
@@ -143,7 +145,7 @@ function Portfolio() {
       ) : (
         <div className="text-center">
           <div className="glass-panel mx-auto max-w-md rounded-3xl p-12">
-            <p className="text-slate-600">
+            <p className="text-neutral-600">
               {language === 'fr'
                 ? 'Aucun projet dans cette catégorie pour le moment.'
                 : 'No projects in this category at the moment.'}
@@ -160,7 +162,7 @@ function Portfolio() {
               ? 'Votre Projet Est le Prochain ?'
               : 'Is Your Project Next?'}
           </h2>
-          <p className="mb-8 text-slate-600">
+          <p className="mb-8 text-neutral-600">
             {language === 'fr'
               ? 'Discutons de votre idée et transformons-la en réalité.'
               : 'Let\'s discuss your idea and turn it into reality.'}

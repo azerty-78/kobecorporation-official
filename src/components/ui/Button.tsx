@@ -8,6 +8,8 @@ interface ButtonProps {
   to?: string
   href?: string
   onClick?: () => void
+  type?: 'button' | 'submit' | 'reset'
+  disabled?: boolean
   className?: string
   icon?: ReactNode
   iconPosition?: 'left' | 'right'
@@ -20,6 +22,8 @@ export function Button({
   to,
   href,
   onClick,
+  type = 'button',
+  disabled = false,
   className = '',
   icon,
   iconPosition = 'right',
@@ -36,7 +40,8 @@ export function Button({
     lg: 'px-8 py-4 text-base',
   }
 
-  const baseClasses = `inline-flex items-center gap-2 rounded-full font-semibold transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-0 focus:border-0 ${variantClasses[variant]} ${sizeClasses[size]} ${className}`
+  const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed hover:translate-y-0 hover:scale-100' : ''
+  const baseClasses = `inline-flex items-center gap-2 rounded-full font-semibold transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-0 focus:border-0 ${variantClasses[variant]} ${sizeClasses[size]} ${disabledClasses} ${className}`
 
   const content = (
     <>
@@ -63,7 +68,7 @@ export function Button({
   }
 
   return (
-    <button onClick={onClick} className={baseClasses}>
+    <button type={type} onClick={onClick} disabled={disabled} className={baseClasses}>
       {content}
     </button>
   )

@@ -13,34 +13,36 @@ import {
 } from '@heroicons/react/24/outline'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import { WhatsAppIcon, FacebookIcon, LinkedInIcon, InstagramIcon } from '../components/icons/SocialIcons'
+import { Card } from '../components/ui/Card'
+import { Button } from '../components/ui/Button'
 
 // Composant pour les informations de contact
 function ContactInfoCard({ info, index, language }: { info: any; index: number; language: 'fr' | 'en' }) {
   const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
   
   return (
-    <div
+    <Card
       ref={elementRef}
-      className={`group glass-panel relative overflow-hidden flex items-start gap-3 rounded-2xl p-5 transition-all duration-700 hover:-translate-y-1 hover:shadow-xl ${
+      elevation="md"
+      className={`group flex items-start gap-3 ${
         isVisible
           ? 'translate-y-0 opacity-100'
           : 'translate-y-8 opacity-0'
       }`}
       style={{ transitionDelay: `${index * 100}ms` }}
     >
-      <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-      <div className="relative flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-brand-50 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
+      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-brand-50 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
         {info.icon}
       </div>
       <div className="flex-1">
-        <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+        <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-neutral-500">
           {language === 'fr' ? info.label : info.labelEn}
         </p>
         {info.link ? (
           <a
             href={info.link}
-            className="text-sm font-semibold text-ink transition-colors duration-300 hover:text-brand-600"
+            className="text-sm font-semibold text-ink transition-colors duration-300 hover:text-brand-600 focus:outline-none"
+            aria-label={language === 'fr' ? `Contact ${info.label}` : `Contact ${info.labelEn}`}
           >
             {info.value}
           </a>
@@ -50,7 +52,7 @@ function ContactInfoCard({ info, index, language }: { info: any; index: number; 
           </p>
         )}
       </div>
-    </div>
+    </Card>
   )
 }
 
@@ -64,7 +66,7 @@ function FAQItem({ faq, index, isOpen, onToggle }: { faq: { question: string; an
       className={`group/faq relative overflow-hidden rounded-xl border-2 transition-all duration-500 ${
         isOpen
           ? 'border-brand-300 bg-gradient-to-br from-brand-50/80 to-white shadow-lg'
-          : 'border-slate-200 bg-white hover:border-brand-200 hover:shadow-md'
+          : 'border-neutral-200 bg-white hover:border-brand-200 hover:shadow-md'
       } ${
         isVisible
           ? 'translate-y-0 opacity-100'
@@ -100,10 +102,10 @@ function FAQItem({ faq, index, isOpen, onToggle }: { faq: { question: string; an
           </h4>
         </div>
         <div className={`flex-shrink-0 rounded-lg p-1 transition-all duration-300 ${
-          isOpen ? 'bg-brand-100 rotate-180' : 'bg-white border border-slate-200 group-hover/faq:bg-brand-50'
+          isOpen ? 'bg-brand-100 rotate-180' : 'bg-white border border-neutral-200 group-hover/faq:bg-brand-50'
         }`}>
           <ChevronDownIcon className={`h-5 w-5 transition-colors duration-300 ${
-            isOpen ? 'text-brand-600' : 'text-slate-600'
+            isOpen ? 'text-brand-600' : 'text-neutral-600'
           }`} />
         </div>
       </button>
@@ -113,7 +115,7 @@ function FAQItem({ faq, index, isOpen, onToggle }: { faq: { question: string; an
         isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
       }`}>
         <div className="px-4 pb-4 pt-0">
-          <p className="text-sm leading-relaxed text-slate-600">
+          <p className="text-sm leading-relaxed text-neutral-600">
             {faq.answer}
           </p>
         </div>
@@ -324,7 +326,7 @@ function Contact() {
         
         <div className="relative space-y-6">
           <div
-            className={`group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-md transition-all duration-700 delay-100 hover:border-brand-300 hover:shadow-lg hover:-translate-y-0.5 ${
+            className={`group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-neutral-200 bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-md transition-all duration-700 delay-100 hover:border-brand-300 hover:shadow-lg hover:-translate-y-0.5 ${
               introVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
@@ -343,7 +345,7 @@ function Contact() {
           </h1>
           
           <p
-            className={`mx-auto max-w-3xl text-lg leading-relaxed text-slate-600 transition-all duration-1000 delay-300 ${
+            className={`mx-auto max-w-3xl text-lg leading-relaxed text-neutral-600 transition-all duration-1000 delay-300 ${
               introVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`}
           >
@@ -358,9 +360,7 @@ function Contact() {
       <div className="grid gap-12 lg:grid-cols-3 mb-16">
         {/* Formulaire de Contact amélioré - Prend plus d'espace */}
         <div className="lg:col-span-2">
-          <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 shadow-xl transition-all duration-700 hover:shadow-2xl md:p-10">
-            {/* Fond blanc pur */}
-            <div className="absolute inset-0 bg-white" />
+          <Card elevation="lg" className="group relative p-8 md:p-10">
 
             <div className="relative">
               <h2 className="mb-6 font-display text-2xl text-ink md:text-3xl">
@@ -421,7 +421,7 @@ function Contact() {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-slate-300"
+                      className="w-full rounded-xl border-2 border-neutral-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-neutral-300"
                       placeholder={language === 'fr' ? 'Votre nom' : 'Your name'}
                     />
                   </div>
@@ -439,7 +439,7 @@ function Contact() {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-slate-300"
+                      className="w-full rounded-xl border-2 border-neutral-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-neutral-300"
                       placeholder="votre@email.com"
                     />
                   </div>
@@ -459,7 +459,7 @@ function Contact() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-slate-300"
+                      className="w-full rounded-xl border-2 border-neutral-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-neutral-300"
                       placeholder="+237 XXX XXX XXX"
                     />
                   </div>
@@ -476,7 +476,7 @@ function Contact() {
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-slate-300"
+                      className="w-full rounded-xl border-2 border-neutral-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-neutral-300"
                       placeholder={language === 'fr' ? 'Nom de votre entreprise' : 'Company name'}
                     />
                   </div>
@@ -495,7 +495,7 @@ function Contact() {
                       name="projectType"
                       value={formData.projectType}
                       onChange={handleChange}
-                      className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-slate-300"
+                      className="w-full rounded-xl border-2 border-neutral-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-neutral-300"
                     >
                       <option value="">
                         {language === 'fr' ? 'Sélectionner...' : 'Select...'}
@@ -519,7 +519,7 @@ function Contact() {
                       name="budget"
                       value={formData.budget}
                       onChange={handleChange}
-                      className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-slate-300"
+                      className="w-full rounded-xl border-2 border-neutral-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-neutral-300"
                     >
                       <option value="">
                         {language === 'fr' ? 'Sélectionner...' : 'Select...'}
@@ -547,7 +547,7 @@ function Contact() {
                     rows={6}
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-slate-300 resize-none"
+                    className="w-full rounded-xl border-2 border-neutral-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-neutral-300 resize-none"
                     placeholder={language === 'fr' ? 'Décrivez votre projet...' : 'Describe your project...'}
                   />
                 </div>
@@ -568,17 +568,17 @@ function Contact() {
                       id="attachment"
                       name="attachment"
                       onChange={handleFileChange}
-                      className="w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-slate-300 file:mr-4 file:rounded-lg file:border-0 file:bg-brand-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-brand-600 hover:file:bg-brand-100"
+                      className="w-full rounded-xl border-2 border-neutral-200 bg-white px-4 py-3 text-sm text-ink transition-all duration-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 group-hover/field:border-neutral-300 file:mr-4 file:rounded-lg file:border-0 file:bg-brand-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-brand-600 hover:file:bg-brand-100"
                     />
                     {formData.attachment && (
-                      <p className="mt-2 text-xs text-slate-600">
+                      <p className="mt-2 text-xs text-neutral-600">
                         {language === 'fr' ? 'Fichier sélectionné :' : 'Selected file:'} {formData.attachment.name}
                       </p>
                     )}
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                <div className="flex items-start gap-3 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
                   <input
                     type="checkbox"
                     id="consent"
@@ -586,11 +586,11 @@ function Contact() {
                     required
                     checked={formData.consent}
                     onChange={handleChange}
-                    className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-500 transition-all duration-300 focus:ring-2 focus:ring-brand-500/20"
+                    className="mt-1 h-4 w-4 rounded border-neutral-300 text-brand-500 transition-all duration-300 focus:ring-2 focus:ring-brand-500/20"
                   />
                   <label
                     htmlFor="consent"
-                    className="text-sm leading-relaxed text-slate-600"
+                    className="text-sm leading-relaxed text-neutral-600"
                   >
                     {language === 'fr' ? (
                       <>
@@ -603,31 +603,27 @@ function Contact() {
                   </label>
                 </div>
 
-                <button
+                <Button
                   type="submit"
+                  variant="primary"
+                  size="lg"
+                  className="w-full"
                   disabled={isSubmitting}
-                  className="group/btn relative w-full overflow-hidden rounded-full bg-[rgb(31,41,55)] px-8 py-4 text-sm font-semibold text-white shadow-xl transition-all duration-500 hover:-translate-y-1 hover:scale-105 hover:bg-[rgb(15,23,42)] hover:shadow-2xl disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:scale-100 disabled:hover:bg-[rgb(31,41,55)]"
+                  icon={!isSubmitting ? <RocketLaunchIcon className="h-4 w-4" /> : undefined}
+                  iconPosition="right"
                 >
-                  {/* Effet de brillance animé */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000" />
-                  
-                  <span className="relative z-10 flex items-center justify-center gap-2">
-                    {isSubmitting ? (
-                      <>
-                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                        {language === 'fr' ? 'Envoi en cours...' : 'Sending...'}
-                      </>
-                    ) : (
-                      <>
-                        {language === 'fr' ? 'Envoyer le message' : 'Send message'}
-                        <RocketLaunchIcon className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
-                      </>
-                    )}
-                  </span>
-                </button>
+                  {isSubmitting ? (
+                    <>
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                      {language === 'fr' ? 'Envoi en cours...' : 'Sending...'}
+                    </>
+                  ) : (
+                    language === 'fr' ? 'Envoyer le message' : 'Send message'
+                  )}
+                </Button>
               </form>
             </div>
-          </div>
+          </Card>
         </div>
 
         {/* Informations de Contact avec animations - Colonne droite */}
@@ -692,11 +688,7 @@ function Contact() {
 
       {/* FAQ Interactive avec accordéon - En bas verticalement sur grands écrans */}
       <section className="mt-16">
-        <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 shadow-xl transition-all duration-700 hover:shadow-2xl md:p-12">
-          {/* Gradient animé */}
-          <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-white to-brand-100/30 animate-gradient-shift" />
-          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/10 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
-          
+        <Card elevation="lg" className="group relative p-8 md:p-12">
           <div className="relative">
             <div className="mb-8 flex items-center gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-lg">
@@ -708,7 +700,7 @@ function Contact() {
             </div>
             <FAQAccordion language={language} />
           </div>
-        </div>
+        </Card>
       </section>
     </div>
     </>
