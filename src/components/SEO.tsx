@@ -89,11 +89,14 @@ function SEO({
         linkCanonical.setAttribute('href', url)
       })
 
-      // Open Graph - batch creation
+      // Open Graph - batch creation (amélioré)
       const ogTags = [
         { property: 'og:title', content: fullTitle },
         { property: 'og:description', content: description },
         { property: 'og:image', content: image },
+        { property: 'og:image:width', content: '1200' },
+        { property: 'og:image:height', content: '630' },
+        { property: 'og:image:alt', content: `${companyInfo.name} - ${description.substring(0, 100)}` },
         { property: 'og:url', content: url },
         { property: 'og:type', content: type },
         { property: 'og:site_name', content: companyInfo.name },
@@ -186,6 +189,16 @@ function SEO({
           companyInfo.social.instagram,
           companyInfo.social.whatsapp,
         ],
+        // Informations supplémentaires pour le SEO
+        foundingDate: companyInfo.year,
+        numberOfEmployees: {
+          '@type': 'QuantitativeValue',
+          value: '1-10',
+        },
+        areaServed: {
+          '@type': 'Country',
+          name: 'Cameroun',
+        },
         founder: {
           '@type': 'Person',
           name: companyInfo.founder,
