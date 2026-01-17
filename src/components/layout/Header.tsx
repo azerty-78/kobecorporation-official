@@ -12,6 +12,7 @@ import { NavigationMenu } from '../navigation/NavigationMenu'
 import { MobileNavigationMenu } from '../navigation/MobileNavigationMenu'
 import { useNavigationItems } from '../../data/navigation'
 import logoImage from '../../assets/logo/kobe_corp_logo.jpeg'
+import { OptimizedImage } from '../OptimizedImage'
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -32,9 +33,12 @@ function Header() {
           onClick={() => setMobileMenuOpen(false)}
         >
           <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-transparent transition-all duration-200 hover:scale-105 p-1 sm:h-12 sm:w-12">
-            <img
+            <OptimizedImage
               src={logoImage}
-              alt={`${companyInfo.name} Logo`}
+              alt={`${companyInfo.name} - ${companyInfo.slogan}`}
+              width={48}
+              height={48}
+              priority="high"
               className="h-full w-full rounded-lg object-contain"
             />
           </div>
@@ -71,6 +75,7 @@ function Header() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-brand-600 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-500/50"
+            aria-label={language === 'fr' ? 'Discuter avec Ben Djibril' : 'Chat with Ben Djibril'}
           >
             {t('nav.chatWithBen')}
             <ArrowRightIcon className="h-4 w-4 text-white" />
@@ -120,6 +125,7 @@ function Header() {
             rel="noopener noreferrer"
             className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-500 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-brand-600 hover:shadow-lg focus:outline-none"
             onClick={() => setMobileMenuOpen(false)}
+            aria-label={language === 'fr' ? 'Discuter avec Ben Djibril' : 'Chat with Ben Djibril'}
           >
             {t('nav.chatWithBen')}
             <ArrowRightIcon className="h-4 w-4 text-white" />

@@ -135,6 +135,9 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
                       ? 'text-brand-500 font-semibold'
                       : 'text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
                   }`}
+                  aria-label={item.sections ? `${item.label} - ${t('nav.showSections') || 'Show sections'}` : item.label}
+                  aria-expanded={item.sections ? openDropdown === item.path : undefined}
+                  aria-haspopup={item.sections ? 'true' : undefined}
                 >
                   {isActive && !isVertical && (
                     <span className="absolute bottom-0 left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-brand-500" />
@@ -174,6 +177,7 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
                           style={{
                             animation: `fadeInUp 0.3s ease-out ${index * 0.05}s both`,
                           }}
+                          aria-label={`${item.label} - ${section.label}`}
                         >
                           {section.label}
                         </button>
@@ -196,6 +200,7 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
                 ? 'text-brand-500 font-semibold'
                 : 'text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
             }`}
+            aria-label={item.label}
           >
             {item.label}
             {isActive && !isVertical && (

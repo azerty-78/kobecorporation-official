@@ -18,6 +18,7 @@ import SEO from '../components/SEO'
 import { getSEOData } from '../data/seoData'
 import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
+import { OptimizedImage } from '../components/OptimizedImage'
 
 // Images professionnelles pour chaque service (2 par service)
 const serviceImages = {
@@ -564,15 +565,13 @@ function Services() {
                       <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 z-10" />
                       
                       {/* Image */}
-                      <img
+                      <OptimizedImage
                         src={imageUrl}
-                        alt={`${detail.title} - Image ${imgIndex + 1}`}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        loading="lazy"
+                        alt={`${detail.title} - ${language === 'fr' ? 'Illustration' : 'Illustration'} ${imgIndex + 1}`}
                         width={800}
                         height={600}
-                        decoding="async"
-                        fetchPriority={imgIndex === 0 ? "high" : "low"}
+                        priority={imgIndex === 0 ? "high" : "low"}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                       
                       {/* Badge sur l'image */}

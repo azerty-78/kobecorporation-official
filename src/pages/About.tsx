@@ -22,6 +22,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import benDjibrilPhoto from '../assets/people/ben-djibril-official-with-glass-nbg.png'
+import { OptimizedImage } from '../components/OptimizedImage'
 
 // Composant pour les milestones de l'histoire
 function HistoryMilestone({ milestone, index }: { milestone: any; index: number }) {
@@ -502,9 +503,12 @@ function About() {
             <div className="relative mx-auto mb-6 inline-block">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-brand-400/30 to-brand-600/30 blur-2xl opacity-50 animate-pulse" />
               <div className="relative overflow-hidden rounded-full border-4 border-white shadow-2xl transition-all duration-500 group-hover:scale-105 group-hover:rotate-3">
-                <img
+                <OptimizedImage
                   src={benDjibrilPhoto}
-                  alt={companyInfo.founder}
+                  alt={`${companyInfo.founder} - ${language === 'fr' ? 'PDG et Fondateur de' : 'CEO and Founder of'} ${companyInfo.name}`}
+                  width={192}
+                  height={192}
+                  priority="high"
                   className="h-40 w-40 object-cover md:h-48 md:w-48"
                   style={{ objectPosition: 'center 15%', objectFit: 'cover' }}
                 />

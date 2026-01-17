@@ -83,6 +83,9 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
                       ? 'text-brand-500 font-semibold'
                       : 'bg-transparent text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
                   }`}
+                  aria-label={`${item.label} - ${isOpen ? 'Close' : 'Open'} sections`}
+                  aria-expanded={isOpen}
+                  aria-haspopup="true"
                 >
                   {isActive && (
                     <span className="absolute bottom-0 left-4 h-0.5 w-8 rounded-full bg-brand-500" />
@@ -118,6 +121,7 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
                           style={{
                             animation: isOpen ? `slideInLeft 0.3s ease-out ${index * 0.05}s both` : 'none',
                           }}
+                          aria-label={`${item.label} - ${section.label}`}
                         >
                           {section.label}
                         </button>
@@ -137,6 +141,7 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
                     ? 'text-brand-500 font-semibold'
                     : 'bg-transparent text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
                 }`}
+                aria-label={item.label}
               >
                 {item.label}
                 {isActive && (

@@ -9,6 +9,7 @@ import { WhatsAppIcon, FacebookIcon, LinkedInIcon, InstagramIcon } from '../icon
 import { NavigationMenu } from '../navigation/NavigationMenu'
 import { useNavigationItems } from '../../data/navigation'
 import logoImage from '../../assets/logo/kobe_corp_logo.jpeg'
+import { OptimizedImage } from '../OptimizedImage'
 
 function Footer() {
   const { language, setLanguage, t } = useLanguage()
@@ -23,9 +24,12 @@ function Footer() {
           <div className="lg:col-span-2">
             <NavLink to="/" className="mb-4 inline-flex items-center gap-2 transition-transform duration-200 hover:scale-105 focus:outline-none rounded-lg">
               <div className="flex h-12 w-12 items-center justify-center bg-transparent transition-all duration-200 hover:scale-105 p-1.5">
-                <img
+                <OptimizedImage
                   src={logoImage}
-                  alt={`${companyInfo.name} Logo`}
+                  alt={`${companyInfo.name} - ${companyInfo.slogan}`}
+                  width={48}
+                  height={48}
+                  priority="high"
                   className="h-full w-full rounded-lg object-contain"
                 />
               </div>
@@ -44,14 +48,14 @@ function Footer() {
                 : 'KOBE Corporation - Your technology partner to transform ideas into innovative software solutions.'}
             </p>
             <div className="flex items-center gap-3">
-              <button
-                onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
-                className="flex items-center gap-1.5 rounded-lg border border-neutral-200 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 shadow-subtle transition-all duration-200 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 hover:shadow-md focus:outline-none"
-                aria-label="Changer de langue"
-              >
-                <GlobeAltIcon className="h-4 w-4 text-neutral-600" />
-                <span className="uppercase text-neutral-700">{language}</span>
-              </button>
+                <button
+                  onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
+                  className="flex items-center gap-1.5 rounded-lg border border-neutral-200 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 shadow-subtle transition-all duration-200 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 hover:shadow-md focus:outline-none"
+                  aria-label={language === 'fr' ? 'Changer de langue vers anglais' : 'Switch language to French'}
+                >
+                  <GlobeAltIcon className="h-4 w-4 text-neutral-600" />
+                  <span className="uppercase text-neutral-700">{language}</span>
+                </button>
             </div>
           </div>
 
@@ -181,6 +185,7 @@ function Footer() {
                 <button
                   onClick={openSettings}
                   className="text-neutral-600 transition-colors duration-200 hover:text-brand-500 focus:outline-none rounded"
+                  aria-label={language === 'fr' ? 'Gérer les préférences de cookies' : 'Manage cookie preferences'}
                 >
                   {t('footer.legal.cookies')}
                 </button>

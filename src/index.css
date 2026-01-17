@@ -171,3 +171,44 @@ nav a:focus-visible {
   box-shadow: none !important;
   border: none !important;
 }
+
+/* Optimisation des animations avec will-change */
+.animate-fadeInUp,
+.animate-slideInLeft {
+  will-change: transform, opacity;
+}
+
+/* Respecter prefers-reduced-motion pour l'accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-fadeInUp,
+  .animate-slideInLeft,
+  .animate-pulse,
+  .animate-pulse-soft {
+    animation: none !important;
+  }
+}
+
+/* Optimisation des transitions avec transform et opacity */
+.transition-transform,
+.transition-opacity,
+.transition-all {
+  will-change: transform, opacity;
+}
+
+/* Amélioration des contrastes pour WCAG AA */
+.text-neutral-600 {
+  color: #525252; /* Amélioration du contraste pour WCAG AA */
+}
+
+.text-neutral-700 {
+  color: #404040; /* Amélioration du contraste pour WCAG AA */
+}
