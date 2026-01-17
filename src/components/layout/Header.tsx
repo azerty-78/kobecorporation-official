@@ -116,7 +116,7 @@ function Header() {
 
           {/* CTA Button */}
           <a
-            href="https://www.ben-djibril.kobecorporation.com"
+            href="https://ben-djibril.kobecorporation.com"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-[rgb(31,41,55)] px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:bg-[rgb(15,23,42)] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50"
@@ -235,7 +235,7 @@ function Header() {
               {t('nav.contact')}
             </NavLink>
             <a
-              href="https://www.ben-djibril.kobecorporation.com"
+              href="https://ben-djibril.kobecorporation.com"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[rgb(31,41,55)] px-4 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:bg-[rgb(15,23,42)] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50"
