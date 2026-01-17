@@ -39,6 +39,8 @@ export function OptimizedImage({
     // Précharger l'image si elle est prioritaire
     if (priority === 'high' && src) {
       const img = new Image()
+      img.onload = () => setIsLoaded(true)
+      img.onerror = () => setError(true)
       img.src = src
     }
   }, [src, priority])
@@ -52,7 +54,7 @@ export function OptimizedImage({
       loading={loading}
       decoding="async"
       fetchPriority={fetchPriority}
-      className={`${className} ${!isLoaded && !error ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
+      className={`${className} ${!isLoaded && !error ? 'opacity-0 bg-neutral-100' : 'opacity-100'} transition-opacity duration-300`}
       onLoad={() => setIsLoaded(true)}
       onError={() => setError(true)}
       {...props}

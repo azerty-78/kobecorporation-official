@@ -15,7 +15,7 @@ function HeroHome() {
     <section
       ref={elementRef}
       id="hero"
-      className="relative overflow-hidden"
+      className="relative overflow-hidden py-12 md:py-16 lg:py-20"
     >
       {/* Background decorative elements */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
@@ -23,26 +23,28 @@ function HeroHome() {
         <div className="absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-gradient-to-tr from-accent-100/30 via-transparent to-transparent blur-3xl" />
       </div>
 
-      <div className="grid gap-12 md:grid-cols-[1.2fr_1fr] md:items-center lg:gap-16">
-        {/* Left Column - Main Content */}
-        <div className="relative z-10 space-y-8">
-          {/* Badge with enhanced animation */}
+      {/* Centered Content Container */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl text-center">
+          {/* Badge in Card with enhanced animation */}
           <div
-            className={`transform transition-all duration-700 ease-out ${
+            className={`mb-6 flex justify-center transition-all duration-700 ease-out ${
               isVisible
                 ? 'translate-y-0 opacity-100 scale-100'
                 : 'translate-y-6 opacity-0 scale-95'
             }`}
             style={{ transitionDelay: '100ms' }}
           >
-            <Badge variant="accent" icon={<SparklesIcon className="h-4 w-4 animate-pulse" />}>
-              {companyInfo.slogan}
-            </Badge>
+            <Card elevation="md" className="inline-block p-2">
+              <Badge variant="primary" icon={<SparklesIcon className="h-4 w-4 animate-pulse" />}>
+                {companyInfo.slogan}
+              </Badge>
+            </Card>
           </div>
 
-          {/* Main Title with gradient effect */}
+          {/* Main Title with gradient effect - Centered */}
           <h1
-            className={`font-display text-4xl leading-[1.1] text-ink transition-all duration-1000 ease-out md:text-5xl lg:text-6xl ${
+            className={`mb-6 font-display text-4xl leading-[1.1] text-ink transition-all duration-1000 ease-out md:text-5xl lg:text-6xl ${
               isVisible
                 ? 'translate-y-0 opacity-100'
                 : 'translate-y-10 opacity-0'
@@ -54,9 +56,9 @@ function HeroHome() {
             </span>
           </h1>
 
-          {/* Subtitle with refined typography */}
+          {/* Subtitle with refined typography - Centered */}
           <p
-            className={`max-w-2xl text-lg leading-relaxed text-neutral-600 transition-all duration-1000 ease-out md:text-xl ${
+            className={`mx-auto mb-4 max-w-3xl text-lg leading-relaxed text-neutral-700 transition-all duration-1000 ease-out md:text-xl ${
               isVisible
                 ? 'translate-y-0 opacity-100'
                 : 'translate-y-8 opacity-0'
@@ -66,9 +68,9 @@ function HeroHome() {
             {t('home.hero.subtitle')}
           </p>
 
-          {/* Description */}
+          {/* Description - Centered */}
           <p
-            className={`max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${
+            className={`mx-auto mb-8 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${
               isVisible
                 ? 'translate-y-0 opacity-100'
                 : 'translate-y-8 opacity-0'
@@ -78,9 +80,9 @@ function HeroHome() {
             {t('home.hero.description')}
           </p>
 
-          {/* CTA Buttons with enhanced hover effects */}
+          {/* CTA Buttons - Centered with enhanced hover effects */}
           <div
-            className={`flex flex-wrap gap-4 pt-2 transition-all duration-1000 ease-out ${
+            className={`mb-12 flex flex-wrap justify-center gap-4 transition-all duration-1000 ease-out ${
               isVisible
                 ? 'translate-y-0 opacity-100'
                 : 'translate-y-8 opacity-0'
@@ -109,50 +111,55 @@ function HeroHome() {
           </div>
         </div>
 
-        {/* Right Column - Mission Card with enhanced design */}
-        <Card
-          elevation="lg"
-          className={`group relative overflow-hidden transition-all duration-700 ease-out ${
-            isVisible
-              ? 'translate-y-0 opacity-100 scale-100 rotate-0'
-              : 'translate-y-12 opacity-0 scale-95 -rotate-1'
-          }`}
-          style={{ transitionDelay: '800ms' }}
-        >
-          {/* Decorative gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-brand-50/50 via-transparent to-accent-50/30 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-          
-          {/* Content */}
-          <div className="relative z-10 space-y-6">
-            {/* Header with animated line */}
-            <div className="flex items-center gap-4">
-              <div className="relative h-1.5 w-16 overflow-hidden rounded-full bg-gradient-to-r from-brand-500 via-brand-400 to-brand-300">
-                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/60 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
+        {/* Mission Card - Centered below content */}
+        <div className="mx-auto max-w-3xl">
+          <Card
+            elevation="lg"
+            className={`group relative overflow-hidden transition-all duration-700 ease-out ${
+              isVisible
+                ? 'translate-y-0 opacity-100 scale-100 rotate-0'
+                : 'translate-y-12 opacity-0 scale-95 -rotate-1'
+            }`}
+            style={{ transitionDelay: '800ms' }}
+          >
+            {/* Decorative gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-50/50 via-transparent to-accent-50/30 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            
+            {/* Content */}
+            <div className="relative z-10 space-y-6 p-8 text-center md:p-10">
+              {/* Header with animated line - Centered */}
+              <div className="flex items-center justify-center gap-4">
+                <div className="relative h-1.5 w-16 overflow-hidden rounded-full bg-gradient-to-r from-brand-500 via-brand-400 to-brand-300">
+                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/60 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
+                </div>
+                <p className="text-sm font-bold uppercase tracking-[0.25em] text-brand-600 transition-colors duration-300 group-hover:text-brand-700">
+                  {language === 'fr' ? 'Notre mission' : 'Our Mission'}
+                </p>
+                <div className="relative h-1.5 w-16 overflow-hidden rounded-full bg-gradient-to-r from-brand-500 via-brand-400 to-brand-300">
+                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/60 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
+                </div>
               </div>
-              <p className="text-sm font-bold uppercase tracking-[0.25em] text-brand-600 transition-colors duration-300 group-hover:text-brand-700">
-                {language === 'fr' ? 'Notre mission' : 'Our Mission'}
+
+              {/* Mission text with improved readability - Centered */}
+              <p className="mx-auto max-w-2xl text-lg leading-relaxed text-neutral-700 transition-colors duration-300 group-hover:text-neutral-800 md:text-xl">
+                {language === 'fr'
+                  ? 'Nous créons des expériences et des opérations qui mettent vos équipes et vos clients au centre. Notre approche holistique combine stratégie, design et technologies pour livrer des résultats mesurables.'
+                  : 'We create experiences and operations that put your teams and clients at the center. Our holistic approach combines strategy, design and technology to deliver measurable results.'}
               </p>
-            </div>
 
-            {/* Mission text with improved readability */}
-            <p className="text-lg leading-relaxed text-neutral-700 transition-colors duration-300 group-hover:text-neutral-800 md:text-xl">
-              {language === 'fr'
-                ? 'Nous créons des expériences et des opérations qui mettent vos équipes et vos clients au centre. Notre approche holistique combine stratégie, design et technologies pour livrer des résultats mesurables.'
-                : 'We create experiences and operations that put your teams and clients at the center. Our holistic approach combines strategy, design and technology to deliver measurable results.'}
-            </p>
-
-            {/* Decorative elements */}
-            <div className="flex gap-2 pt-2">
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="h-1 flex-1 rounded-full bg-gradient-to-r from-brand-400 to-brand-500 opacity-30 transition-all duration-500 group-hover:opacity-60"
-                  style={{ transitionDelay: `${i * 100}ms` }}
-                />
-              ))}
+              {/* Decorative elements - Centered */}
+              <div className="flex justify-center gap-2 pt-2">
+                {[1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="h-1 w-12 rounded-full bg-gradient-to-r from-brand-400 to-brand-500 opacity-30 transition-all duration-500 group-hover:opacity-60"
+                    style={{ transitionDelay: `${i * 100}ms` }}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        </Card>
+          </Card>
+        </div>
       </div>
     </section>
   )
