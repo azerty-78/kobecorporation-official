@@ -264,19 +264,24 @@ function Programmes() {
               className="scroll-mt-20"
             >
               <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
-                {/* Contenu avec animations */}
+                {/* Contenu avec animations variées */}
                 <div
                   className={`space-y-8 transition-all duration-1000 ${
                     isVisible
                       ? 'translate-x-0 opacity-100'
                       : index % 2 === 0
-                      ? '-translate-x-8 opacity-0'
-                      : 'translate-x-8 opacity-0'
+                      ? '-translate-x-12 opacity-0 scale-95'
+                      : 'translate-x-12 opacity-0 scale-95'
                   } ${index % 2 === 1 ? 'lg:order-2' : ''}`}
                 >
-                  {/* Badge */}
-                  <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-50 to-brand-100 px-4 py-2 text-xs font-semibold text-brand-600 shadow-sm transition-all duration-300 hover:shadow-md">
-                    <div className="transition-transform duration-300 hover:rotate-12">
+                  {/* Badge avec animation de bounce */}
+                  <div 
+                    className={`inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-50 to-brand-100 px-4 py-2 text-xs font-semibold text-brand-600 shadow-sm transition-all duration-500 hover:shadow-md hover:scale-105 ${
+                      isVisible ? 'translate-y-0 opacity-100 scale-100 rotate-0' : 'translate-y-6 opacity-0 scale-90 rotate-3'
+                    }`}
+                    style={{ transitionDelay: '100ms' }}
+                  >
+                    <div className="transition-transform duration-300 hover:rotate-12 hover:scale-110">
                       {programme.icon}
                     </div>
                     <span>
@@ -284,18 +289,33 @@ function Programmes() {
                     </span>
                   </div>
 
-                  {/* Titre */}
-                  <h2 className="font-display text-3xl leading-tight text-ink transition-all duration-1000 delay-100 md:text-4xl lg:text-5xl">
+                  {/* Titre avec animation de fade et scale */}
+                  <h2 
+                    className={`font-display text-3xl leading-tight text-ink transition-all duration-1000 ease-out md:text-4xl lg:text-5xl ${
+                      isVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-8 opacity-0 scale-95'
+                    }`}
+                    style={{ transitionDelay: '200ms' }}
+                  >
                     {language === 'fr' ? programme.title : programme.titleEn}
                   </h2>
 
-                  {/* Slogan */}
-                  <p className="text-xl font-semibold text-brand-600 transition-all duration-1000 delay-200">
+                  {/* Slogan avec animation de slide */}
+                  <p 
+                    className={`text-xl font-semibold text-brand-600 transition-all duration-1000 ease-out ${
+                      isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
+                    }`}
+                    style={{ transitionDelay: '300ms' }}
+                  >
                     {language === 'fr' ? programme.slogan : programme.sloganEn}
                   </p>
 
-                  {/* Description */}
-                  <p className="text-lg leading-relaxed text-neutral-600 transition-all duration-1000 delay-300">
+                  {/* Description avec animation de fade */}
+                  <p 
+                    className={`text-lg leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${
+                      isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
+                    }`}
+                    style={{ transitionDelay: '400ms' }}
+                  >
                     {language === 'fr'
                       ? programme.description
                       : programme.descriptionEn}
@@ -320,8 +340,16 @@ function Programmes() {
                     </div>
                   )} */}
 
-                  {/* Features */}
-                  <Card elevation="md" className="transition-all duration-1000 delay-500">
+                  {/* Features avec animation staggered */}
+                  <Card 
+                    elevation="md" 
+                    className={`transition-all duration-700 ${
+                      isVisible 
+                        ? 'translate-y-0 opacity-100 scale-100' 
+                        : 'translate-y-10 opacity-0 scale-95'
+                    }`}
+                    style={{ transitionDelay: '500ms' }}
+                  >
                     <div className="mb-4 flex items-center gap-3">
                       <StarIcon className="h-6 w-6 text-brand-500" />
                       <h3 className="font-semibold text-ink">
@@ -335,9 +363,14 @@ function Programmes() {
                       )?.map((benefit, idx) => (
                         <div
                           key={idx}
-                          className="group flex items-start gap-3 transition-all duration-300 hover:translate-x-1"
+                          className={`group flex items-start gap-3 transition-all duration-500 hover:translate-x-1 ${
+                            isVisible 
+                              ? 'translate-x-0 opacity-100' 
+                              : 'translate-x-6 opacity-0'
+                          }`}
+                          style={{ transitionDelay: `${600 + idx * 100}ms` }}
                         >
-                          <CheckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-500 transition-transform duration-300 group-hover:scale-110" />
+                          <CheckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-500 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
                           <span className="text-sm leading-relaxed text-neutral-700">
                             {benefit}
                           </span>
@@ -431,36 +464,42 @@ function Programmes() {
                   </div>
                 </div>
 
-                {/* Images avec animations */}
+                {/* Images avec animations variées */}
                 <div
                   className={`space-y-6 transition-all duration-1000 ${
                     isVisible
                       ? 'translate-x-0 opacity-100'
                       : index % 2 === 0
-                      ? 'translate-x-8 opacity-0'
-                      : '-translate-x-8 opacity-0'
+                      ? 'translate-x-12 opacity-0 scale-95'
+                      : '-translate-x-12 opacity-0 scale-95'
                   } ${index % 2 === 1 ? 'lg:order-1' : ''}`}
-                  style={{ transitionDelay: '200ms' }}
+                  style={{ transitionDelay: '600ms' }}
                 >
                   {images.map((imageUrl, imgIndex) => (
                     <div
                       key={imgIndex}
-                      className={`group relative overflow-hidden rounded-3xl transition-all duration-700 hover:shadow-2xl ${
+                      className={`group relative overflow-hidden rounded-3xl transition-all duration-700 hover:shadow-2xl hover:-translate-y-2 ${
                         imgIndex === 0 ? 'lg:h-80' : 'lg:h-72'
+                      } ${
+                        isVisible 
+                          ? 'translate-y-0 opacity-100 scale-100 rotate-0' 
+                          : imgIndex % 2 === 0 
+                            ? 'translate-y-12 opacity-0 scale-90 rotate-3' 
+                            : 'translate-y-12 opacity-0 scale-90 -rotate-3'
                       }`}
-                      style={{ transitionDelay: `${300 + imgIndex * 100}ms` }}
+                      style={{ transitionDelay: `${700 + imgIndex * 200}ms` }}
                     >
                       {/* Gradient overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 z-10" />
 
-                      {/* Image */}
+                      {/* Image avec animation de zoom améliorée */}
                       <OptimizedImage
                         src={imageUrl}
                         alt={`${language === 'fr' ? programme.title : programme.titleEn} - ${language === 'fr' ? 'Illustration' : 'Illustration'} ${imgIndex + 1}`}
                         width={800}
                         height={600}
                         priority={imgIndex === 0 ? "high" : "low"}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-115 group-hover:rotate-1"
                       />
 
                       {/* Badge sur l'image */}
