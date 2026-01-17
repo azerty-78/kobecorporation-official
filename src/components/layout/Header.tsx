@@ -33,11 +33,11 @@ function Header() {
           className="flex min-w-0 flex-1 items-center gap-2 transition-transform duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg"
           onClick={() => setMobileMenuOpen(false)}
         >
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-transparent transition-all duration-200 hover:scale-105 p-1 sm:h-10 sm:w-10">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-transparent transition-all duration-200 hover:scale-105 p-1 sm:h-12 sm:w-12">
             <img
               src={logoImage}
               alt={`${companyInfo.name} Logo`}
-              className="h-full w-full object-contain"
+              className="h-full w-full rounded-lg object-contain"
             />
           </div>
           <div className="min-w-0 flex-1">

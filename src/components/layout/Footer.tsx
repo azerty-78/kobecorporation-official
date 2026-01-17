@@ -19,11 +19,11 @@ function Footer() {
           {/* Colonne 1: À Propos */}
           <div className="lg:col-span-2">
             <NavLink to="/" className="mb-4 inline-flex items-center gap-2 transition-transform duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-transparent transition-all duration-200 hover:scale-105 p-1.5">
+              <div className="flex h-12 w-12 items-center justify-center bg-transparent transition-all duration-200 hover:scale-105 p-1.5">
                 <img
                   src={logoImage}
                   alt={`${companyInfo.name} Logo`}
-                  className="h-full w-full object-contain"
+                  className="h-full w-full rounded-lg object-contain"
                 />
               </div>
               <div>
