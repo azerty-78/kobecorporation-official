@@ -15,45 +15,46 @@ function HeroHome() {
     <section
       ref={elementRef}
       id="hero"
-      className="relative overflow-hidden py-12 md:py-16 lg:py-20"
+      className="relative overflow-hidden py-16 md:py-20 lg:py-24"
     >
-      {/* Background decorative elements */}
+      {/* Enhanced Background decorative elements */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-40 -right-40 h-96 w-96 rounded-full bg-gradient-to-br from-brand-100/40 via-brand-50/30 to-transparent blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-gradient-to-tr from-accent-100/30 via-transparent to-transparent blur-3xl" />
+        {/* Animated gradient orbs */}
+        <div className="absolute -top-40 -right-40 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-brand-100/50 via-brand-50/40 to-transparent blur-3xl animate-pulse-soft" style={{ animationDuration: '4s' }} />
+        <div className="absolute -bottom-40 -left-40 h-[500px] w-[500px] rounded-full bg-gradient-to-tr from-accent-100/40 via-transparent to-transparent blur-3xl animate-pulse-soft" style={{ animationDuration: '5s', animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[400px] w-[400px] rounded-full bg-gradient-to-r from-brand-50/30 via-accent-50/20 to-transparent blur-3xl animate-pulse-soft" style={{ animationDuration: '6s', animationDelay: '2s' }} />
+        
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20" />
       </div>
 
       {/* Centered Content Container */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          {/* Badge in Card with enhanced animation */}
+          {/* Badge with enhanced animation */}
           <div
-            className={`mb-6 flex justify-center transition-all duration-700 ease-out ${
+            className={`mb-8 flex justify-center transition-all duration-800 ease-out ${
               isVisible
                 ? 'translate-y-0 opacity-100 scale-100'
-                : 'translate-y-6 opacity-0 scale-95'
+                : 'translate-y-8 opacity-0 scale-90'
             }`}
-            style={{ transitionDelay: '100ms' }}
+            style={{ transitionDelay: '150ms' }}
           >
-            <Card elevation="md" className="inline-block p-2">
-              <Badge variant="primary" icon={<SparklesIcon className="h-4 w-4 animate-pulse" />}>
-                {companyInfo.slogan}
-              </Badge>
-            </Card>
+            <Badge variant="primary" icon={<SparklesIcon className="h-4 w-4 animate-pulse" />}>
+              {companyInfo.slogan}
+            </Badge>
           </div>
 
-          {/* Main Title with gradient effect - Centered */}
+          {/* Main Title - Centered with black text */}
           <h1
             className={`mb-6 font-display text-4xl leading-[1.1] text-ink transition-all duration-1000 ease-out md:text-5xl lg:text-6xl ${
               isVisible
                 ? 'translate-y-0 opacity-100'
-                : 'translate-y-10 opacity-0'
+                : 'translate-y-12 opacity-0'
             }`}
-            style={{ transitionDelay: '200ms' }}
+            style={{ transitionDelay: '300ms' }}
           >
-            <span className="block bg-gradient-to-r from-ink via-ink to-brand-600 bg-clip-text text-transparent">
-              {t('home.hero.title')}
-            </span>
+            {t('home.hero.title')}
           </h1>
 
           {/* Subtitle with refined typography - Centered */}
@@ -61,33 +62,33 @@ function HeroHome() {
             className={`mx-auto mb-4 max-w-3xl text-lg leading-relaxed text-neutral-700 transition-all duration-1000 ease-out md:text-xl ${
               isVisible
                 ? 'translate-y-0 opacity-100'
-                : 'translate-y-8 opacity-0'
+                : 'translate-y-10 opacity-0'
             }`}
-            style={{ transitionDelay: '350ms' }}
+            style={{ transitionDelay: '450ms' }}
           >
             {t('home.hero.subtitle')}
           </p>
 
           {/* Description - Centered */}
           <p
-            className={`mx-auto mb-8 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${
+            className={`mx-auto mb-10 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${
               isVisible
                 ? 'translate-y-0 opacity-100'
-                : 'translate-y-8 opacity-0'
+                : 'translate-y-10 opacity-0'
             }`}
-            style={{ transitionDelay: '500ms' }}
+            style={{ transitionDelay: '600ms' }}
           >
             {t('home.hero.description')}
           </p>
 
           {/* CTA Buttons - Centered with enhanced hover effects */}
           <div
-            className={`mb-12 flex flex-wrap justify-center gap-4 transition-all duration-1000 ease-out ${
+            className={`mb-16 flex flex-wrap justify-center gap-4 transition-all duration-1000 ease-out ${
               isVisible
                 ? 'translate-y-0 opacity-100'
-                : 'translate-y-8 opacity-0'
+                : 'translate-y-10 opacity-0'
             }`}
-            style={{ transitionDelay: '650ms' }}
+            style={{ transitionDelay: '750ms' }}
           >
             <Button
               to="/services"
@@ -115,12 +116,12 @@ function HeroHome() {
         <div className="mx-auto max-w-3xl">
           <Card
             elevation="lg"
-            className={`group relative overflow-hidden transition-all duration-700 ease-out ${
+            className={`group relative overflow-hidden transition-all duration-1000 ease-out ${
               isVisible
                 ? 'translate-y-0 opacity-100 scale-100 rotate-0'
-                : 'translate-y-12 opacity-0 scale-95 -rotate-1'
+                : 'translate-y-16 opacity-0 scale-90 -rotate-2'
             }`}
-            style={{ transitionDelay: '800ms' }}
+            style={{ transitionDelay: '900ms' }}
           >
             {/* Decorative gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-brand-50/50 via-transparent to-accent-50/30 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
