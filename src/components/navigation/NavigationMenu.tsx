@@ -117,25 +117,20 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
           )
         }
 
+        const isActive = location.pathname === item.path
         return (
           <NavLink
             key={item.path}
             to={item.path}
-            className={({ isActive }) =>
-              `relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
-                isActive
-                  ? 'text-brand-500 font-semibold'
-                  : 'text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
-              }`
-            }
+            className={`relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
+              isActive
+                ? 'text-brand-500 font-semibold'
+                : 'text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
+            }`}
           >
-            {({ isActive }) => (
-              <>
-                {item.label}
-                {isActive && (
-                  <span className="absolute bottom-0 left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-brand-500" />
-                )}
-              </>
+            {item.label}
+            {isActive && (
+              <span className="absolute bottom-0 left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-brand-500" />
             )}
           </NavLink>
         )

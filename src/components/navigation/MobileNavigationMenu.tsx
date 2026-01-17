@@ -74,19 +74,6 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
                 </button>
                 {isOpen && (
                   <div className="ml-4 mt-1 space-y-1 border-l-2 border-neutral-200 pl-4">
-                    <NavLink
-                      to={item.path}
-                      onClick={() => handleNavClick(item.path)}
-                      className={({ isActive }) =>
-                        `block rounded-lg px-3 py-2 text-sm transition-colors duration-200 ${
-                          isActive
-                            ? 'bg-brand-50 text-brand-500 font-semibold'
-                            : 'text-neutral-600 hover:bg-neutral-50 hover:text-brand-500'
-                        }`
-                      }
-                    >
-                      {item.label} - {t('nav.overview')}
-                    </NavLink>
                     {item.sections?.map((section) => (
                       <button
                         key={section.anchor}
@@ -103,15 +90,16 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
               <NavLink
                 to={item.path}
                 onClick={() => handleNavClick(item.path)}
-                className={({ isActive }) =>
-                  `block rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
-                    isActive
-                      ? 'bg-brand-50 text-brand-500 font-semibold'
-                      : 'bg-transparent text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
-                  }`
-                }
+                className={`relative block rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
+                  isActive
+                    ? 'text-brand-500 font-semibold'
+                    : 'bg-transparent text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
+                }`}
               >
                 {item.label}
+                {isActive && (
+                  <span className="absolute bottom-0 left-4 h-0.5 w-8 rounded-full bg-brand-500" />
+                )}
               </NavLink>
             )}
           </div>
