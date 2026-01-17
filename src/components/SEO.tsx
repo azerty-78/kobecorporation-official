@@ -37,7 +37,6 @@ function SEO({
       document.title = fullTitle
 
       // Batch toutes les manipulations DOM pour réduire les reflows
-      const fragment = document.createDocumentFragment()
       const updates: Array<() => void> = []
 
       // Meta description
