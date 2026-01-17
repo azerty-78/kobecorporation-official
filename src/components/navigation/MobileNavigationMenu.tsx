@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
 import type { NavItem } from '../../data/navigation'
@@ -12,6 +12,7 @@ interface MobileNavigationMenuProps {
 export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuProps) {
   const { t } = useLanguage()
   const location = useLocation()
+  const navigate = useNavigate()
   const [openItems, setOpenItems] = useState<string[]>([])
 
   const toggleItem = (path: string) => {
@@ -22,45 +23,43 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
 
   const handleNavClick = (path: string, anchor?: string) => {
     if (anchor) {
-      // Si l'ancre est "top", scroll vers le haut
-      if (anchor === 'top') {
-        if (location.pathname === path) {
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-          })
-        } else {
-          window.location.href = path
-          setTimeout(() => {
+      // Si on est déjà sur la page, scroll vers la section
+      if (location.pathname === path) {
+        setTimeout(() => {
+          const element = document.getElementById(anchor)
+          if (element) {
+            const headerOffset = 80
+            const elementPosition = element.getBoundingClientRect().top
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
             window.scrollTo({
-              top: 0,
+              top: offsetPosition,
               behavior: 'smooth',
             })
-          }, 100)
-        }
+            // Mettre à jour l'URL avec le hash
+            window.history.replaceState(null, '', `${path}#${anchor}`)
+          }
+        }, 100)
       } else {
-        // Si on est déjà sur la page, scroll vers la section
-        if (location.pathname === path) {
-          setTimeout(() => {
-            const element = document.getElementById(anchor)
-            if (element) {
-              const headerOffset = 80
-              const elementPosition = element.getBoundingClientRect().top
-              const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+        // Sinon, naviguer puis scroll après chargement
+        navigate(`${path}#${anchor}`)
+        setTimeout(() => {
+          const element = document.getElementById(anchor)
+          if (element) {
+            const headerOffset = 80
+            const elementPosition = element.getBoundingClientRect().top
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
 
-              window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth',
-              })
-            }
-          }, 100)
-        } else {
-          window.location.href = `${path}#${anchor}`
-        }
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth',
+            })
+          }
+        }, 300)
       }
     } else {
       // Si pas d'ancre, naviguer vers la page
-      window.location.href = path
+      navigate(path)
     }
     onClose()
   }
@@ -119,10 +118,12 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
                 )}
               </>
             ) : (
-              <NavLink
-                to={item.path}
-                onClick={() => handleNavClick(item.path)}
-                className={`relative block rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
+              <button
+                onClick={() => {
+                  navigate(item.path)
+                  onClose()
+                }}
+                className={`relative block w-full rounded-lg px-4 py-2.5 text-left text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
                   isActive
                     ? 'text-brand-500 font-semibold'
                     : 'bg-transparent text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
@@ -132,7 +133,7 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
                 {isActive && (
                   <span className="absolute bottom-0 left-4 h-0.5 w-8 rounded-full bg-brand-500" />
                 )}
-              </NavLink>
+              </button>
             )}
           </div>
         )
