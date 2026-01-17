@@ -16,23 +16,59 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
 
+  // Gérer le scroll vers les sections après navigation
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '')
+    if (hash) {
+      setTimeout(() => {
+        const element = document.getElementById(hash)
+        if (element) {
+          const headerOffset = 80
+          const elementPosition = element.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth',
+          })
+        }
+      }, 100)
+    }
+  }, [location.pathname, location.hash])
+
+  // Gérer la fermeture du dropdown en cliquant en dehors
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node
+      let clickedInside = false
+
       Object.keys(dropdownRefs.current).forEach((key) => {
-        if (
-          dropdownRefs.current[key] &&
-          !dropdownRefs.current[key]?.contains(event.target as Node)
-        ) {
-          setOpenDropdown(null)
+        if (dropdownRefs.current[key]?.contains(target)) {
+          clickedInside = true
         }
       })
+
+      if (!clickedInside && openDropdown) {
+        setOpenDropdown(null)
+      }
     }
 
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+    if (openDropdown) {
+      // Petit délai pour éviter que le clic qui ouvre le dropdown ne le ferme immédiatement
+      setTimeout(() => {
+        document.addEventListener('mousedown', handleClickOutside)
+      }, 100)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [openDropdown])
 
-  const handleNavClick = (path: string, anchor?: string) => {
+  const handleNavClick = (e: React.MouseEvent, path: string, anchor?: string) => {
+    e.preventDefault()
+    e.stopPropagation()
+    
+    // Fermer le dropdown
+    setOpenDropdown(null)
+    
     if (anchor) {
       // Si on est déjà sur la page, scroll vers la section
       if (location.pathname === path) {
@@ -52,33 +88,21 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
           }
         }, 100)
       } else {
-        // Sinon, naviguer puis scroll après chargement
+        // Sinon, naviguer avec le hash - le useEffect gérera le scroll
         navigate(`${path}#${anchor}`)
-        setTimeout(() => {
-          const element = document.getElementById(anchor)
-          if (element) {
-            const headerOffset = 80
-            const elementPosition = element.getBoundingClientRect().top
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-
-            window.scrollTo({
-              top: offsetPosition,
-              behavior: 'smooth',
-            })
-          }
-        }, 300)
       }
     } else {
       // Si pas d'ancre, naviguer vers la page
       navigate(path)
     }
-    setOpenDropdown(null)
   }
 
   const handleMainNavClick = (e: React.MouseEvent, item: NavItem) => {
-    // Si l'item a des sections, ouvrir le dropdown au lieu de naviguer
+    e.preventDefault()
+    e.stopPropagation()
+    
+    // Si l'item a des sections, toggle le dropdown
     if (item.sections && item.sections.length > 0) {
-      e.preventDefault()
       setOpenDropdown(openDropdown === item.path ? null : item.path)
     } else {
       // Sinon, naviguer normalement
@@ -103,7 +127,7 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
               <div className="relative inline-flex items-center">
                 <button
                   onClick={(e) => handleMainNavClick(e, item)}
-                  className={`relative inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
+                  className={`relative inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none ${
                     isActive
                       ? 'text-brand-500 font-semibold'
                       : 'text-neutral-700 hover:bg-neutral-50 hover:text-brand-500'
@@ -135,7 +159,7 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
                       return (
                         <button
                           key={section.anchor}
-                          onClick={() => handleNavClick(item.path, section.anchor)}
+                          onClick={(e) => handleNavClick(e, item.path, section.anchor)}
                           className={`block w-full px-4 py-2 text-left text-sm transition-colors duration-200 ${
                             isSectionActive
                               ? 'text-brand-500 font-semibold'
