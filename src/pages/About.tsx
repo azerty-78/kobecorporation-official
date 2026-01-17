@@ -312,7 +312,7 @@ function About() {
 
   // Liens sociaux de Ben Djibril
   const benDjibrilSocial = {
-    website: 'https://www.ben-djibril.kobecorporation.com',
+    website: 'https://ben-djibril.kobecorporation.com',
     linkedin: 'https://www.linkedin.com/in/Ben-Djibril',
     x: 'https://x.com/le_bendji',
     github: 'https://github.com/azerty-78',
@@ -549,7 +549,7 @@ function About() {
                 className="group/link inline-flex items-center gap-2 rounded-full bg-brand-50 px-4 py-2 text-sm font-semibold text-brand-600 transition-all duration-300 hover:bg-brand-100 hover:shadow-md"
               >
                 <LinkIcon className="h-4 w-4 transition-transform duration-300 group-hover/link:scale-110" />
-                <span>www.ben-djibril.kobecorporation.com</span>
+                <span>ben-djibril.kobecorporation.com</span>
                 <svg
                   className="h-3 w-3 transition-transform duration-300 group-hover/link:translate-x-1"
                   fill="none"

@@ -12,15 +12,24 @@ export default defineConfig({
     // Optimisation CSS pour garantir des couleurs identiques
     cssCodeSplit: true,
     cssMinify: 'esbuild', // Utiliser esbuild pour la minification CSS (plus fiable)
-    // Optimisation des assets
+    // Optimisation des assets et code splitting
     rollupOptions: {
       output: {
         // Organisation des fichiers générés
         assetFileNames: 'assets/[name].[hash].[ext]',
         chunkFileNames: 'assets/[name].[hash].js',
         entryFileNames: 'assets/[name].[hash].js',
+        // Optimisation du code splitting
+        manualChunks: {
+          // Séparer les dépendances vendor
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          // Séparer les icônes (peuvent être volumineuses)
+          'icons': ['@heroicons/react'],
+        },
       },
     },
+    // Réduire la taille des chunks
+    chunkSizeWarningLimit: 1000,
     // Désactiver la sourcemap en production pour éviter les différences
     sourcemap: false,
   },
