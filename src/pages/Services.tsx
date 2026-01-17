@@ -667,20 +667,15 @@ function Services() {
                   </div>
 
                   {/* Contenu */}
-                  <div
-                    className={`group Card relative w-full overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl lg:w-[calc(50%-40px)] md:p-8 ${
+                  <Card
+                    elevation="md"
+                    className={`group relative w-full lg:w-[calc(50%-40px)] ${
                       isVisible
                         ? 'translate-y-0 opacity-100'
                         : 'translate-y-8 opacity-0'
                     }`}
                     style={{ transitionDelay: `${index * 150}ms` }}
                   >
-                    {/* Ligne décorative animée */}
-                    <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-700 group-hover:w-full" />
-                    
-                    {/* Gradient au hover */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                    
                     <div className="relative">
                       <div className="mb-4 flex items-center gap-4">
                         {/* Badge numéro d'étape */}
@@ -699,13 +694,13 @@ function Services() {
                             {language === 'fr' ? step.title : step.titleEn}
                           </h3>
                         </div>
-                      </Card>
+                      </div>
                       
                       <p className="text-sm leading-relaxed text-neutral-600 md:text-base">
                         {language === 'fr' ? step.description : step.descriptionEn}
                       </p>
                     </div>
-                  </div>
+                  </Card>
                 </div>
               )
             })}

@@ -251,7 +251,7 @@ function QualityStepCard({ item, index }: { item: any; index: number }) {
       }`}
       style={{ transitionDelay: `${index * 150}ms` }}
     >
-      <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-[rgb(31,41,55)] text-white shadow-lg transition-all duration-500 group-hover/step:scale-110 group-hover/step:rotate-6 group-hover/step:bg-[rgb(15,23,42)]">
+      <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-500 text-white shadow-lg transition-all duration-500 group-hover/step:scale-110 group-hover/step:rotate-6 group-hover/step:bg-brand-600">
         <span className="font-display text-2xl font-bold">{item.step}</span>
       </div>
       <h3 className="mb-2 font-semibold text-ink transition-colors duration-300 group-hover/step:text-brand-600">
@@ -402,9 +402,9 @@ function About() {
             {/* Particules animées le long de la ligne */}
             {historyVisible && (
               <>
-                <div className="absolute left-1/2 top-[25%] h-3 w-3 -translate-x-1/2 rounded-full bg-[rgb(31,41,55)] shadow-lg animate-pulse" style={{ animationDelay: '0.5s' }} />
-                <div className="absolute left-1/2 top-[50%] h-3 w-3 -translate-x-1/2 rounded-full bg-[rgb(31,41,55)] shadow-lg animate-pulse" style={{ animationDelay: '1s' }} />
-                <div className="absolute left-1/2 top-[75%] h-3 w-3 -translate-x-1/2 rounded-full bg-[rgb(31,41,55)] shadow-lg animate-pulse" style={{ animationDelay: '1.5s' }} />
+                <div className="absolute left-1/2 top-[25%] h-3 w-3 -translate-x-1/2 rounded-full bg-brand-500 shadow-lg animate-pulse" style={{ animationDelay: '0.5s' }} />
+                <div className="absolute left-1/2 top-[50%] h-3 w-3 -translate-x-1/2 rounded-full bg-brand-500 shadow-lg animate-pulse" style={{ animationDelay: '1s' }} />
+                <div className="absolute left-1/2 top-[75%] h-3 w-3 -translate-x-1/2 rounded-full bg-brand-500 shadow-lg animate-pulse" style={{ animationDelay: '1.5s' }} />
               </>
             )}
           </div>
@@ -467,7 +467,7 @@ function About() {
       <section id="values" className="mb-24">
         <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl md:p-12">
           {/* Ligne décorative */}
-          <div className="absolute top-0 left-0 h-1 w-0 bg-[rgb(31,41,55)] transition-all duration-500 group-hover:w-full" />
+          <div className="absolute top-0 left-0 h-1 w-0 bg-brand-500 transition-all duration-500 group-hover:w-full" />
           
           <h2 className="mb-8 font-display text-3xl text-ink md:text-4xl">
             {language === 'fr' ? 'Nos Valeurs' : 'Our Values'}

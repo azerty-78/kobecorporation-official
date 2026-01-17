@@ -3,6 +3,7 @@ import { XMarkIcon, Cog6ToothIcon, CheckIcon } from '@heroicons/react/24/outline
 import { useCookies } from '../contexts/CookieContext'
 import type { CookiePreferences } from '../contexts/CookieContext'
 import { useLanguage } from '../contexts/LanguageContext'
+import { Button } from './ui/Button'
 
 function CookieConsent() {
   const { language } = useLanguage()
@@ -24,7 +25,7 @@ function CookieConsent() {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-[100] animate-slide-up max-h-[90vh] overflow-y-auto">
       <div className="mx-auto max-w-7xl px-3 py-3 sm:px-4 sm:py-4 lg:px-8">
-        <div className="glass-panel relative overflow-hidden rounded-2xl border-2 border-slate-200 bg-white p-4 shadow-2xl sm:p-6 md:p-8">
+        <div className="glass-panel relative overflow-hidden rounded-2xl border-2 border-neutral-200 bg-white p-4 shadow-2xl sm:p-6 md:p-8">
           {/* Bouton fermer */}
           <button
             onClick={closeSettings}
@@ -54,20 +55,20 @@ function CookieConsent() {
               </div>
 
               <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3">
-                <button
+                <Button
                   onClick={acceptAll}
-                  className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[rgb(31,41,55)] px-4 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[rgb(15,23,42)] hover:shadow-lg sm:flex-1 sm:max-w-none"
+                  variant="primary"
+                  size="sm"
+                  className="sm:flex-1 sm:max-w-none"
+                  icon={<CheckIcon className="h-4 w-4" />}
+                  iconPosition="left"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-                  <CheckIcon className="relative z-10 h-4 w-4" />
-                  <span className="relative z-10">
-                    {language === 'fr' ? 'Tout accepter' : 'Accept All'}
-                  </span>
-                </button>
+                  {language === 'fr' ? 'Tout accepter' : 'Accept All'}
+                </Button>
 
                 <button
                   onClick={() => setShowDetails(true)}
-                  className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border-2 border-slate-200 bg-white px-4 py-2.5 text-xs sm:text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 hover:shadow-md sm:flex-1 sm:max-w-none"
+                  className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border-2 border-neutral-200 bg-white px-4 py-2.5 text-xs sm:text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 hover:shadow-md sm:flex-1 sm:max-w-none"
                 >
                   <Cog6ToothIcon className="h-4 w-4" />
                   <span>
@@ -77,7 +78,7 @@ function CookieConsent() {
 
                 <button
                   onClick={rejectAll}
-                  className="rounded-full border-2 border-slate-200 bg-white px-4 py-2.5 text-xs sm:text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md sm:flex-1 sm:max-w-none"
+                  className="rounded-full border-2 border-neutral-200 bg-white px-4 py-2.5 text-xs sm:text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md sm:flex-1 sm:max-w-none"
                 >
                   {language === 'fr' ? 'Tout refuser' : 'Reject All'}
                 </button>
@@ -99,7 +100,7 @@ function CookieConsent() {
 
               <div className="space-y-3 sm:space-y-4">
                 {/* Cookies nécessaires */}
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 sm:p-4">
+                <div className="rounded-xl border border-neutral-200 bg-slate-50 p-3 sm:p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="mb-1.5 flex flex-wrap items-center gap-2">
@@ -123,7 +124,7 @@ function CookieConsent() {
                 </div>
 
                 {/* Cookies de préférences */}
-                <div className="rounded-xl border border-slate-200 bg-white p-3 sm:p-4 transition-colors hover:border-brand-200 hover:bg-brand-50/30">
+                <div className="rounded-xl border border-neutral-200 bg-white p-3 sm:p-4 transition-colors hover:border-brand-200 hover:bg-brand-50/30">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
                       <h4 className="mb-1.5 text-sm sm:text-base font-semibold text-ink">
@@ -152,7 +153,7 @@ function CookieConsent() {
                 </div>
 
                 {/* Cookies analytiques */}
-                <div className="rounded-xl border border-slate-200 bg-white p-3 sm:p-4 transition-colors hover:border-brand-200 hover:bg-brand-50/30">
+                <div className="rounded-xl border border-neutral-200 bg-white p-3 sm:p-4 transition-colors hover:border-brand-200 hover:bg-brand-50/30">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
                       <h4 className="mb-1.5 text-sm sm:text-base font-semibold text-ink">
@@ -181,7 +182,7 @@ function CookieConsent() {
                 </div>
 
                 {/* Cookies marketing */}
-                <div className="rounded-xl border border-slate-200 bg-white p-3 sm:p-4 transition-colors hover:border-brand-200 hover:bg-brand-50/30">
+                <div className="rounded-xl border border-neutral-200 bg-white p-3 sm:p-4 transition-colors hover:border-brand-200 hover:bg-brand-50/30">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
                       <h4 className="mb-1.5 text-sm sm:text-base font-semibold text-ink">
@@ -210,21 +211,21 @@ function CookieConsent() {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 border-t border-slate-200 pt-3 sm:pt-4">
-                <button
+              <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 border-t border-neutral-200 pt-3 sm:pt-4">
+                <Button
                   onClick={handleSave}
-                  className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[rgb(31,41,55)] px-4 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[rgb(15,23,42)] hover:shadow-lg sm:flex-1"
+                  variant="primary"
+                  size="sm"
+                  className="sm:flex-1"
+                  icon={<CheckIcon className="h-4 w-4" />}
+                  iconPosition="left"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-                  <CheckIcon className="relative z-10 h-4 w-4" />
-                  <span className="relative z-10">
-                    {language === 'fr' ? 'Enregistrer' : 'Save'}
-                  </span>
-                </button>
+                  {language === 'fr' ? 'Enregistrer' : 'Save'}
+                </Button>
 
                 <button
                   onClick={() => setShowDetails(false)}
-                  className="rounded-full border-2 border-slate-200 bg-white px-4 py-2.5 text-xs sm:text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md sm:flex-1"
+                  className="rounded-full border-2 border-neutral-200 bg-white px-4 py-2.5 text-xs sm:text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md sm:flex-1"
                 >
                   {language === 'fr' ? 'Retour' : 'Back'}
                 </button>
