@@ -11,7 +11,6 @@ import {
   ClockIcon,
   UserGroupIcon,
   RocketLaunchIcon,
-  SparklesIcon,
 } from '@heroicons/react/24/outline'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import SEO from '../components/SEO'

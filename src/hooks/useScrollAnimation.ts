@@ -34,7 +34,7 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
     }
 
     // Optimisation: utiliser un délai pour éviter de multiples vérifications
-    let timeoutId: NodeJS.Timeout | null = null
+    let timeoutId: ReturnType<typeof setTimeout> | null = null
 
     const observer = new IntersectionObserver(
       ([entry]) => {
