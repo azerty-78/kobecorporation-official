@@ -3,6 +3,7 @@ import { ChevronLeftIcon, ChevronRightIcon, StarIcon } from '@heroicons/react/24
 import { useLanguage } from '../../contexts/LanguageContext'
 import { testimonials } from '../../data/testimonials'
 import { useScrollAnimation } from '../../hooks/useScrollAnimation'
+import { Card } from '../ui/Card'
 
 function TestimonialsSection() {
   const { language } = useLanguage()
@@ -51,7 +52,7 @@ function TestimonialsSection() {
             ? 'Ce que disent nos clients'
             : 'What our clients say'}
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-slate-600">
+        <p className="mx-auto mt-4 max-w-2xl text-neutral-600">
           {language === 'fr'
             ? 'Découvrez les expériences de nos clients qui nous font confiance'
             : 'Discover the experiences of our clients who trust us'}
@@ -59,16 +60,14 @@ function TestimonialsSection() {
       </div>
 
       <div className="relative">
-        <div
-          className={`group glass-panel relative overflow-hidden rounded-3xl p-8 shadow-xl transition-all duration-1000 hover:shadow-2xl md:p-12 ${
+        <Card
+          elevation="lg"
+          className={`group relative p-8 md:p-12 ${
             isVisible
               ? 'translate-y-0 opacity-100 scale-100'
               : 'translate-y-8 opacity-0 scale-95'
           }`}
         >
-          {/* Gradient animé avec effet de brillance */}
-          <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-white to-brand-100/20 animate-gradient-shift" />
-          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/10 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
 
           <div className="relative">
             {/* Étoiles de notation avec animation */}
@@ -85,7 +84,7 @@ function TestimonialsSection() {
                     className={`h-6 w-6 transition-all duration-500 ${
                       i < currentTestimonial.rating
                         ? 'text-yellow-400 scale-110'
-                        : 'text-slate-300'
+                        : 'text-neutral-300'
                     }`}
                   />
                   {/* Effet de brillance sur les étoiles actives */}
@@ -100,7 +99,7 @@ function TestimonialsSection() {
 
             {/* Contenu du témoignage */}
             <blockquote
-              className="mb-10 text-center text-lg italic text-slate-700 transition-all duration-700 md:text-xl"
+              className="mb-10 text-center text-lg italic text-neutral-700 transition-all duration-700 md:text-xl"
               key={currentIndex}
             >
               <div className="relative">
@@ -139,7 +138,7 @@ function TestimonialsSection() {
                 <p className="font-semibold text-ink transition-colors duration-300 group-hover:text-brand-600">
                   {currentTestimonial.name}
                 </p>
-                <p className="mt-1 text-sm text-slate-600">
+                <p className="mt-1 text-sm text-neutral-600">
                   {language === 'fr'
                     ? currentTestimonial.role
                     : currentTestimonial.roleEn}
@@ -156,19 +155,19 @@ function TestimonialsSection() {
           {/* Boutons de navigation améliorés */}
           <button
             onClick={prevTestimonial}
-            className="group/btn absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-3 shadow-xl backdrop-blur-sm transition-all duration-300 hover:bg-white hover:scale-125 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 active:scale-95"
+            className="group/btn absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-3 shadow-xl backdrop-blur-sm transition-all duration-300 hover:bg-white hover:scale-125 hover:shadow-2xl focus:outline-none focus:ring-0 focus:border-0 active:scale-95"
             aria-label={language === 'fr' ? 'Témoignage précédent' : 'Previous testimonial'}
           >
             <ChevronLeftIcon className="h-6 w-6 text-ink transition-transform duration-300 group-hover/btn:-translate-x-1" />
           </button>
           <button
             onClick={nextTestimonial}
-            className="group/btn absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-3 shadow-xl backdrop-blur-sm transition-all duration-300 hover:bg-white hover:scale-125 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 active:scale-95"
+            className="group/btn absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-3 shadow-xl backdrop-blur-sm transition-all duration-300 hover:bg-white hover:scale-125 hover:shadow-2xl focus:outline-none focus:ring-0 focus:border-0 active:scale-95"
             aria-label={language === 'fr' ? 'Témoignage suivant' : 'Next testimonial'}
           >
             <ChevronRightIcon className="h-6 w-6 text-ink transition-transform duration-300 group-hover/btn:translate-x-1" />
           </button>
-        </div>
+        </Card>
 
         {/* Indicateurs de pagination améliorés */}
         <div className="mt-8 flex justify-center gap-2.5">
@@ -176,12 +175,12 @@ function TestimonialsSection() {
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`group relative rounded-full transition-all duration-500 hover:scale-125 active:scale-95 ${
+              className={`group relative rounded-full transition-all duration-500 hover:scale-125 active:scale-95 focus:outline-none focus:ring-0 focus:border-0 ${
                 index === currentIndex
                   ? 'h-3 w-10 bg-gradient-to-r from-brand-500 to-brand-600 shadow-lg'
-                  : 'h-2.5 w-2.5 bg-slate-300 hover:bg-brand-400 hover:w-3 hover:h-3'
+                  : 'h-2.5 w-2.5 bg-neutral-300 hover:bg-brand-400 hover:w-3 hover:h-3'
               }`}
-              aria-label={`${language === 'fr' ? 'Témoignage' : 'Testimonial'} ${index + 1}`}
+              aria-label={language === 'fr' ? `Afficher le témoignage ${index + 1}` : `Show testimonial ${index + 1}`}
             >
               {/* Effet de brillance sur l'indicateur actif */}
               {index === currentIndex && (

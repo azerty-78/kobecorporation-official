@@ -22,6 +22,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import benDjibrilPhoto from '../assets/people/ben-djibril-official-with-glass-nbg.png'
+import { OptimizedImage } from '../components/OptimizedImage'
 
 // Composant pour les milestones de l'histoire
 function HistoryMilestone({ milestone, index }: { milestone: any; index: number }) {
@@ -37,7 +38,7 @@ function HistoryMilestone({ milestone, index }: { milestone: any; index: number 
     >
       {/* Point de connexion - masqué sur mobile */}
       <div
-        className={`absolute left-1/2 top-1/2 z-10 hidden h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-white bg-[rgb(31,41,55)] text-white shadow-lg transition-all duration-500 group-hover/step:scale-125 group-hover/step:rotate-180 lg:flex ${
+        className={`absolute left-1/2 top-1/2 z-10 hidden h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-white bg-brand-500 text-white shadow-lg transition-all duration-500 group-hover/step:scale-125 group-hover/step:rotate-180 lg:flex ${
           isVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
         }`}
         style={{ transitionDelay: `${index * 100 + 500}ms` }}
@@ -55,14 +56,14 @@ function HistoryMilestone({ milestone, index }: { milestone: any; index: number 
         style={{ transitionDelay: `${index * 150 + 300}ms` }}
       >
         {/* Ligne décorative */}
-        <div className="absolute top-0 left-0 h-1 w-0 bg-[rgb(31,41,55)] transition-all duration-500 group-hover/step:w-full" />
+        <div className="absolute top-0 left-0 h-1 w-0 bg-brand-500 transition-all duration-500 group-hover/step:w-full" />
         
         {/* Gradient au hover */}
         <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover/step:opacity-100" />
         
         <div className="relative">
           {/* Badge année */}
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-neutral-100 px-3 py-1 text-xs font-bold text-neutral-700">
             <ClockIcon className="h-3 w-3" />
             <span>{milestone.year}</span>
           </div>
@@ -77,7 +78,7 @@ function HistoryMilestone({ milestone, index }: { milestone: any; index: number 
           <h3 className="mb-2 font-display text-xl font-semibold text-ink transition-colors duration-300 group-hover/step:text-brand-600">
             {milestone.title}
           </h3>
-          <p className="text-sm leading-relaxed text-slate-600">
+          <p className="text-sm leading-relaxed text-neutral-600">
             {milestone.description}
           </p>
         </div>
@@ -106,7 +107,7 @@ function ValeurCard({ valeur, index, language }: { valeur: any; index: number; l
       <h4 className="mb-2 font-semibold text-ink">
         {language === 'fr' ? valeur.title : valeur.titleEn}
       </h4>
-      <p className="text-sm text-slate-600">
+      <p className="text-sm text-neutral-600">
         {language === 'fr' ? valeur.text : valeur.textEn}
       </p>
     </div>
@@ -136,7 +137,7 @@ function DifferentiateurCard({ item, index }: { item: any; index: number }) {
         <h3 className="mb-2 font-semibold text-ink transition-colors duration-300 group-hover:text-brand-600">
           {item.title}
         </h3>
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-neutral-600">
           {item.text}
         </p>
       </div>
@@ -169,7 +170,7 @@ function GuaranteeCard({ item, index }: { item: any; index: number }) {
         <h3 className="mb-3 font-semibold text-lg text-ink transition-colors duration-300 group-hover:text-brand-600">
           {item.title}
         </h3>
-        <p className="text-sm leading-relaxed text-slate-600">
+        <p className="text-sm leading-relaxed text-neutral-600">
           {item.description}
         </p>
       </div>
@@ -200,7 +201,7 @@ function ProgramCard({ item, index }: { item: any; index: number }) {
         <h3 className="mb-2 font-semibold text-ink transition-colors duration-300 group-hover:text-brand-600">
           {item.title}
         </h3>
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-neutral-600">
           {item.description}
         </p>
       </div>
@@ -229,7 +230,7 @@ function EngagementCard({ item, index }: { item: any; index: number }) {
         <h3 className="mb-2 font-semibold text-ink">
           {item.title}
         </h3>
-        <p className="text-sm leading-relaxed text-slate-600">
+        <p className="text-sm leading-relaxed text-neutral-600">
           {item.description}
         </p>
       </div>
@@ -251,13 +252,13 @@ function QualityStepCard({ item, index }: { item: any; index: number }) {
       }`}
       style={{ transitionDelay: `${index * 150}ms` }}
     >
-      <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-[rgb(31,41,55)] text-white shadow-lg transition-all duration-500 group-hover/step:scale-110 group-hover/step:rotate-6 group-hover/step:bg-[rgb(15,23,42)]">
+      <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-500 text-white shadow-lg transition-all duration-500 group-hover/step:scale-110 group-hover/step:rotate-6 group-hover/step:bg-brand-600">
         <span className="font-display text-2xl font-bold">{item.step}</span>
       </div>
       <h3 className="mb-2 font-semibold text-ink transition-colors duration-300 group-hover/step:text-brand-600">
         {item.title}
       </h3>
-      <p className="text-sm text-slate-600">
+      <p className="text-sm text-neutral-600">
         {item.description}
       </p>
     </div>
@@ -327,14 +328,15 @@ function About() {
       />
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
       {/* Hero Section améliorée avec animations */}
-      <div
-        ref={introRef}
-        className={`group relative mb-20 overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
-          introVisible
-            ? 'translate-y-0 opacity-100'
-            : 'translate-y-8 opacity-0'
-        }`}
-      >
+      <section id="hero" className="mb-20">
+        <div
+          ref={introRef}
+          className={`group relative overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
+            introVisible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-8 opacity-0'
+          }`}
+        >
         {/* Fond blanc pur */}
         <div className="absolute inset-0 bg-white" />
         
@@ -367,7 +369,7 @@ function About() {
           </h1>
           
           <p
-            className={`mx-auto max-w-3xl text-lg leading-relaxed text-slate-600 transition-all duration-1000 delay-300 ${
+            className={`mx-auto max-w-3xl text-lg leading-relaxed text-neutral-600 transition-all duration-1000 delay-300 ${
               introVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`}
           >
@@ -376,23 +378,24 @@ function About() {
               : 'Discover the story, values and vision that guide KOBE Corporation in its mission of technological transformation.'}
           </p>
         </div>
-      </div>
+        </div>
+      </section>
 
       {/* Histoire avec timeline verticale responsive */}
-      <section className="mb-24">
+      <section id="story" className="mb-24">
         {/* Timeline verticale responsive - masquée sur mobile, visible à partir de lg */}
         <div ref={historyRef} className="relative mx-auto max-w-4xl">
           {/* Ligne verticale centrale (lg et plus seulement) */}
           <div className="absolute left-1/2 top-0 hidden h-full w-1 -translate-x-1/2 lg:block">
             {/* Ligne de base */}
-            <div className="absolute inset-0 bg-slate-200 opacity-30" />
+            <div className="absolute inset-0 bg-neutral-200 opacity-30" />
             
             {/* Ligne animée qui se remplit */}
             <div 
               className="absolute top-0 left-0 w-full transition-all duration-2000"
               style={{
                 height: historyVisible ? '100%' : '0%',
-                backgroundColor: 'rgb(31, 41, 55)',
+                backgroundColor: '#0a7aff', // bg-brand-500
                 transitionDelay: '300ms',
               }}
             />
@@ -400,9 +403,9 @@ function About() {
             {/* Particules animées le long de la ligne */}
             {historyVisible && (
               <>
-                <div className="absolute left-1/2 top-[25%] h-3 w-3 -translate-x-1/2 rounded-full bg-[rgb(31,41,55)] shadow-lg animate-pulse" style={{ animationDelay: '0.5s' }} />
-                <div className="absolute left-1/2 top-[50%] h-3 w-3 -translate-x-1/2 rounded-full bg-[rgb(31,41,55)] shadow-lg animate-pulse" style={{ animationDelay: '1s' }} />
-                <div className="absolute left-1/2 top-[75%] h-3 w-3 -translate-x-1/2 rounded-full bg-[rgb(31,41,55)] shadow-lg animate-pulse" style={{ animationDelay: '1.5s' }} />
+                <div className="absolute left-1/2 top-[25%] h-3 w-3 -translate-x-1/2 rounded-full bg-brand-500 shadow-lg animate-pulse" style={{ animationDelay: '0.5s' }} />
+                <div className="absolute left-1/2 top-[50%] h-3 w-3 -translate-x-1/2 rounded-full bg-brand-500 shadow-lg animate-pulse" style={{ animationDelay: '1s' }} />
+                <div className="absolute left-1/2 top-[75%] h-3 w-3 -translate-x-1/2 rounded-full bg-brand-500 shadow-lg animate-pulse" style={{ animationDelay: '1.5s' }} />
               </>
             )}
           </div>
@@ -462,10 +465,10 @@ function About() {
       </section>
 
       {/* Valeurs avec animations */}
-      <section className="mb-24">
+      <section id="values" className="mb-24">
         <div className="group glass-panel relative overflow-hidden rounded-3xl p-8 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl md:p-12">
           {/* Ligne décorative */}
-          <div className="absolute top-0 left-0 h-1 w-0 bg-[rgb(31,41,55)] transition-all duration-500 group-hover:w-full" />
+          <div className="absolute top-0 left-0 h-1 w-0 bg-brand-500 transition-all duration-500 group-hover:w-full" />
           
           <h2 className="mb-8 font-display text-3xl text-ink md:text-4xl">
             {language === 'fr' ? 'Nos Valeurs' : 'Our Values'}
@@ -479,12 +482,12 @@ function About() {
       </section>
 
       {/* Leadership avec animations et photo */}
-      <section className="mb-24">
+      <section id="team" className="mb-24">
         <div className="text-center">
           <h2 className="mb-4 font-display text-3xl text-ink md:text-4xl">
             {language === 'fr' ? 'Notre Équipe' : 'Our Team'}
           </h2>
-          <p className="mb-12 text-slate-600">
+          <p className="mb-12 text-neutral-600">
             {language === 'fr'
               ? 'Rencontrez les personnes qui font de KOBE Corporation ce qu\'elle est'
               : 'Meet the people who make KOBE Corporation what it is'}
@@ -500,9 +503,12 @@ function About() {
             <div className="relative mx-auto mb-6 inline-block">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-brand-400/30 to-brand-600/30 blur-2xl opacity-50 animate-pulse" />
               <div className="relative overflow-hidden rounded-full border-4 border-white shadow-2xl transition-all duration-500 group-hover:scale-105 group-hover:rotate-3">
-                <img
+                <OptimizedImage
                   src={benDjibrilPhoto}
-                  alt={companyInfo.founder}
+                  alt={`${companyInfo.founder} - ${language === 'fr' ? 'PDG et Fondateur de' : 'CEO and Founder of'} ${companyInfo.name}`}
+                  width={192}
+                  height={192}
+                  priority="high"
                   className="h-40 w-40 object-cover md:h-48 md:w-48"
                   style={{ objectPosition: 'center 15%', objectFit: 'cover' }}
                 />
@@ -515,7 +521,7 @@ function About() {
             <p className="mb-6 text-lg font-semibold text-brand-600">
               {language === 'fr' ? 'PDG & Fondateur' : 'CEO & Founder'}
             </p>
-            <p className="mb-8 text-slate-600">
+            <p className="mb-8 text-neutral-600">
               {language === 'fr' ? (
                 <>
                   {companyInfo.founder} est un développeur full-stack spécialisé en Kotlin, KMP 
@@ -581,7 +587,7 @@ function About() {
                 href={benDjibrilSocial.x}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/social flex h-12 w-12 items-center justify-center rounded-full bg-slate-900/10 text-slate-900 transition-all duration-300 hover:scale-110 hover:bg-slate-900 hover:text-white hover:shadow-lg"
+                className="group/social flex h-12 w-12 items-center justify-center rounded-full bg-neutral-900/10 text-slate-900 transition-all duration-300 hover:scale-110 hover:bg-neutral-900 hover:text-white hover:shadow-lg"
                 aria-label="X (Twitter)"
               >
                 <XIcon className="h-6 w-6 transition-transform duration-300 group-hover/social:scale-110" />
@@ -590,7 +596,7 @@ function About() {
                 href={benDjibrilSocial.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/social flex h-12 w-12 items-center justify-center rounded-full bg-slate-800/10 text-slate-800 transition-all duration-300 hover:scale-110 hover:bg-slate-800 hover:text-white hover:shadow-lg"
+                className="group/social flex h-12 w-12 items-center justify-center rounded-full bg-neutral-800/10 text-slate-800 transition-all duration-300 hover:scale-110 hover:bg-neutral-800 hover:text-white hover:shadow-lg"
                 aria-label="GitHub"
               >
                 <GitHubIcon className="h-6 w-6 transition-transform duration-300 group-hover/social:scale-110" />
@@ -692,7 +698,7 @@ function About() {
           <h2 className="mb-4 font-display text-3xl text-ink md:text-4xl">
             {language === 'fr' ? 'Nos Garanties & Engagements' : 'Our Guarantees & Commitments'}
           </h2>
-          <p className="mx-auto max-w-2xl text-slate-600">
+          <p className="mx-auto max-w-2xl text-neutral-600">
             {language === 'fr'
               ? 'Des engagements concrets pour votre tranquillité d\'esprit'
               : 'Concrete commitments for your peace of mind'}
@@ -760,7 +766,7 @@ function About() {
               <h2 className="mb-4 font-display text-3xl text-ink md:text-4xl">
                 {language === 'fr' ? 'Notre Processus Qualité' : 'Our Quality Process'}
               </h2>
-              <p className="mx-auto max-w-2xl text-slate-600">
+              <p className="mx-auto max-w-2xl text-neutral-600">
                 {language === 'fr'
                   ? 'Un processus rigoureux pour garantir l\'excellence à chaque étape'
                   : 'A rigorous process to ensure excellence at every step'}
@@ -811,7 +817,7 @@ function About() {
           <h2 className="mb-4 font-display text-3xl text-ink md:text-4xl">
             {language === 'fr' ? 'Ce qui nous rend uniques' : 'What makes us unique'}
           </h2>
-          <p className="mx-auto max-w-2xl text-slate-600">
+          <p className="mx-auto max-w-2xl text-neutral-600">
             {language === 'fr'
               ? 'Quatre programmes innovants qui transforment l\'écosystème tech africain'
               : 'Four innovative programs that transform the African tech ecosystem'}
@@ -865,7 +871,7 @@ function About() {
               <h2 className="mb-4 font-display text-3xl text-ink md:text-4xl">
                 {language === 'fr' ? 'Notre Engagement Client' : 'Our Client Commitment'}
               </h2>
-              <p className="mx-auto max-w-2xl text-slate-600">
+              <p className="mx-auto max-w-2xl text-neutral-600">
                 {language === 'fr'
                   ? 'Des promesses que nous tenons pour chaque projet'
                   : 'Promises we keep for every project'}
@@ -924,7 +930,7 @@ function About() {
               </h2>
               <div className="mb-6 flex items-center justify-center gap-3">
                 <MapPinIcon className="h-6 w-6 text-brand-500" />
-                <p className="text-lg text-slate-700">
+                <p className="text-lg text-neutral-700">
                   {companyInfo.address.full}
                 </p>
               </div>
@@ -950,7 +956,7 @@ function About() {
                 <h3 className="font-semibold text-ink">
                   {language === 'fr' ? 'Adresse' : 'Address'}
                 </h3>
-                <div className="space-y-2 text-slate-600">
+                <div className="space-y-2 text-neutral-600">
                   <p>{companyInfo.address.street}</p>
                   <p>{companyInfo.address.city}</p>
                   <p>{companyInfo.address.region}</p>
@@ -961,7 +967,7 @@ function About() {
                 <h3 className="font-semibold text-ink">
                   {language === 'fr' ? 'Zone de service' : 'Service area'}
                 </h3>
-                <div className="space-y-2 text-slate-600">
+                <div className="space-y-2 text-neutral-600">
                   <p className="flex items-center gap-2">
                     <CheckBadgeIcon className="h-5 w-5 text-brand-500" />
                     {language === 'fr' ? 'Cameroun (principal)' : 'Cameroon (main)'}

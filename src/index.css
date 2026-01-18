@@ -23,18 +23,7 @@ body {
   min-height: 100vh;
 }
 
-.glass-panel {
-  background: rgba(255, 255, 255, 1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(226, 232, 240, 1);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.02);
-  transition: all 0.3s ease;
-}
-
-.glass-panel:hover {
-  border-color: rgba(59, 130, 246, 0.3);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(59, 130, 246, 0.1);
-}
+/* Cards épurées - Utiliser les classes Tailwind shadow-card et shadow-card-hover */
 
 /* Formes organiques pour le background */
 .organic-bg {
@@ -112,9 +101,114 @@ a,
   animation: slide-up 0.5s ease-out;
 }
 
-/* Focus visible amélioré */
+/* Focus visible amélioré - Retiré pour les boutons de navigation */
 *:focus-visible {
   outline: 2px solid rgba(59, 130, 246, 0.5);
   outline-offset: 2px;
   border-radius: 0.25rem;
+}
+
+/* Animations pour les menus de navigation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+/* Retirer DÉFINITIVEMENT le focus ring et les borders pour les boutons de navigation */
+nav button,
+nav a,
+nav [role="button"] {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+nav button:focus,
+nav button:focus-visible,
+nav button:active,
+nav a:focus,
+nav a:focus-visible,
+nav a:active,
+nav [role="button"]:focus,
+nav [role="button"]:focus-visible,
+nav [role="button"]:active {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  ring: none !important;
+  outline-offset: 0 !important;
+}
+
+/* Spécifique pour les composants de navigation */
+nav button:focus-visible,
+nav a:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Optimisation des animations avec will-change */
+.animate-fadeInUp,
+.animate-slideInLeft {
+  will-change: transform, opacity;
+}
+
+/* Respecter prefers-reduced-motion pour l'accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-fadeInUp,
+  .animate-slideInLeft,
+  .animate-pulse,
+  .animate-pulse-soft {
+    animation: none !important;
+  }
+}
+
+/* Optimisation des transitions avec transform et opacity */
+.transition-transform,
+.transition-opacity,
+.transition-all {
+  will-change: transform, opacity;
+}
+
+/* Amélioration des contrastes pour WCAG AA */
+.text-neutral-600 {
+  color: #525252; /* Amélioration du contraste pour WCAG AA */
+}
+
+.text-neutral-700 {
+  color: #404040; /* Amélioration du contraste pour WCAG AA */
 }

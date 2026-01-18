@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
-import { NavLink } from 'react-router-dom'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import SEO from '../components/SEO'
 import { getSEOData } from '../data/seoData'
+import { Card } from '../components/ui/Card'
+import { Button } from '../components/ui/Button'
+import { Badge } from '../components/ui/Badge'
 
 // Types de projets (à remplir avec de vrais projets plus tard)
 const projectCategories = [
@@ -46,37 +48,27 @@ function Portfolio() {
         keywords={seo.keywords}
       />
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
-      {/* Hero Section améliorée avec animations */}
-      <div className="group relative mb-16 overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl md:p-16">
-        {/* Fond blanc pur */}
-        <div className="absolute inset-0 bg-white" />
-        
-        {/* Particules animées */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-10 left-10 h-2 w-2 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '0s' }} />
-          <div className="absolute top-20 right-20 h-1.5 w-1.5 rounded-full bg-brand-300 animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute bottom-20 left-20 h-2.5 w-2.5 rounded-full bg-brand-500 animate-pulse" style={{ animationDelay: '2s' }} />
-          <div className="absolute bottom-10 right-10 h-1 w-1 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '3s' }} />
-        </div>
-        
-        <div className="relative space-y-4">
-          <div className="group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-md transition-all duration-300 hover:border-brand-300 hover:shadow-lg hover:-translate-y-0.5">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-50/50 to-transparent translate-x-[-100%] group-hover/badge:translate-x-[100%] transition-transform duration-1000" />
-            <div className="absolute inset-0 bg-brand-50/50 opacity-0 transition-opacity duration-300 group-hover/badge:opacity-100" />
-            <span className="relative z-10 uppercase tracking-[0.2em] transition-colors duration-300 group-hover/badge:text-brand-700">{language === 'fr' ? 'Portfolio' : 'Portfolio'}</span>
+      {/* Hero Section améliorée avec Card */}
+      <Card elevation="lg" className="mb-16 overflow-hidden p-12 text-center md:p-16">
+        <div className="relative space-y-6">
+          {/* Badge avec Badge component */}
+          <div className="flex justify-center">
+            <Badge variant="accent">
+              {language === 'fr' ? 'Portfolio' : 'Portfolio'}
+            </Badge>
           </div>
           
           <h1 className="font-display text-4xl leading-tight text-ink md:text-5xl lg:text-6xl">
             {language === 'fr' ? 'Nos Réalisations' : 'Our Achievements'}
           </h1>
           
-          <p className="mx-auto max-w-3xl text-lg leading-relaxed text-slate-600">
+          <p className="mx-auto max-w-3xl text-lg leading-relaxed text-neutral-700 md:text-xl">
             {language === 'fr'
               ? 'Découvrez les projets sur lesquels nous avons travaillé'
               : 'Discover the projects we have worked on'}
           </p>
         </div>
-      </div>
+      </Card>
 
       {/* Filtres */}
       <div className="mb-12 flex flex-wrap justify-center gap-3">
@@ -84,11 +76,12 @@ function Portfolio() {
           <button
             key={category.id}
             onClick={() => setSelectedCategory(category.id)}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+            className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 focus:outline-none focus:ring-0 focus:border-0 ${
               selectedCategory === category.id
-                ? 'bg-[rgb(31,41,55)] text-white shadow-soft'
-                : 'border border-slate-200 bg-white text-slate-700 hover:border-brand-300 hover:text-brand-600'
+                ? 'bg-brand-500 text-white shadow-md hover:bg-brand-600 hover:shadow-lg hover:-translate-y-0.5'
+                : 'border border-neutral-200 bg-white text-neutral-700 shadow-subtle hover:border-brand-300 hover:bg-brand-50 hover:text-brand-600 hover:shadow-md hover:-translate-y-0.5'
             }`}
+            aria-label={language === 'fr' ? `Filtrer par ${category.label}` : `Filter by ${category.labelEn}`}
           >
             {language === 'fr' ? category.label : category.labelEn}
           </button>
@@ -99,14 +92,16 @@ function Portfolio() {
       {filteredProjects.length > 0 ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredProjects.map((project) => (
-            <div
+            <Card
               key={project.id}
-              className="glass-panel group overflow-hidden rounded-2xl transition hover:-translate-y-1"
+              elevation="md"
+              className="group"
             >
               {/* Image placeholder */}
-              <div className="relative h-48 bg-gradient-to-br from-brand-500/20 to-brand-600/20">
+              <div className="relative h-48 overflow-hidden rounded-t-2xl bg-gradient-to-br from-brand-50 via-brand-100/50 to-accent-50">
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-brand-600/5" />
                 <div className="flex h-full items-center justify-center">
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm font-medium text-neutral-600">
                     {language === 'fr' ? 'Image à venir' : 'Image coming soon'}
                   </p>
                 </div>
@@ -117,7 +112,7 @@ function Portfolio() {
                 <h3 className="mb-2 font-display text-xl text-ink">
                   {language === 'fr' ? project.name : project.nameEn}
                 </h3>
-                <p className="mb-4 text-sm text-slate-600">
+                <p className="mb-4 text-sm text-neutral-600">
                   {language === 'fr'
                     ? project.description
                     : project.descriptionEn}
@@ -126,53 +121,63 @@ function Portfolio() {
                   {project.technologies.map((tech, idx) => (
                     <span
                       key={idx}
-                      className="rounded-full bg-brand-50 px-2 py-1 text-xs font-medium text-brand-600"
+                      className="rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-600 shadow-subtle transition-colors duration-200 hover:bg-brand-100"
                     >
                       {tech}
                     </span>
                   ))}
                 </div>
-                <button className="inline-flex items-center gap-1 text-sm font-semibold text-brand-600 transition hover:gap-2">
-                  {language === 'fr' ? 'Voir le projet' : 'View project'}
-                  <ArrowRightIcon className="h-4 w-4" />
+                <button 
+                  className="group/btn inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600 transition-all duration-200 hover:gap-2 hover:text-brand-700"
+                  aria-label={language === 'fr' ? `Voir le projet ${project.name}` : `View project ${project.nameEn}`}
+                >
+                  <span>{language === 'fr' ? 'Voir le projet' : 'View project'}</span>
+                  <ArrowRightIcon className="h-4 w-4 transition-transform duration-200 group-hover/btn:translate-x-1" />
                 </button>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       ) : (
         <div className="text-center">
-          <div className="glass-panel mx-auto max-w-md rounded-3xl p-12">
-            <p className="text-slate-600">
+          <Card elevation="md" className="mx-auto max-w-md p-12">
+            <p className="text-lg text-neutral-700">
               {language === 'fr'
                 ? 'Aucun projet dans cette catégorie pour le moment.'
                 : 'No projects in this category at the moment.'}
             </p>
-          </div>
+          </Card>
         </div>
       )}
 
       {/* CTA */}
       <div className="mt-24 text-center">
-        <div className="glass-panel mx-auto max-w-3xl rounded-3xl p-8 md:p-12">
-          <h2 className="mb-4 font-display text-3xl text-ink">
-            {language === 'fr'
-              ? 'Votre Projet Est le Prochain ?'
-              : 'Is Your Project Next?'}
-          </h2>
-          <p className="mb-8 text-slate-600">
-            {language === 'fr'
-              ? 'Discutons de votre idée et transformons-la en réalité.'
-              : 'Let\'s discuss your idea and turn it into reality.'}
-          </p>
-          <NavLink
-            to="/contact"
-            className="inline-flex items-center gap-2 rounded-full bg-[rgb(31,41,55)] px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-[rgb(15,23,42)]"
-          >
-            {language === 'fr' ? 'Discutons de votre idée' : 'Let\'s discuss your idea'}
-            <ArrowRightIcon className="h-4 w-4" />
-          </NavLink>
-        </div>
+        <Card elevation="lg" className="group relative mx-auto max-w-3xl overflow-hidden p-8 md:p-12">
+          {/* Decorative gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-50/50 via-transparent to-accent-50/30 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+          
+          <div className="relative z-10">
+            <h2 className="mb-4 font-display text-3xl text-ink md:text-4xl">
+              {language === 'fr'
+                ? 'Votre Projet Est le Prochain ?'
+                : 'Is Your Project Next?'}
+            </h2>
+            <p className="mb-8 text-lg leading-relaxed text-neutral-700">
+              {language === 'fr'
+                ? 'Discutons de votre idée et transformons-la en réalité.'
+                : 'Let\'s discuss your idea and turn it into reality.'}
+            </p>
+            <Button
+              to="/contact"
+              variant="primary"
+              size="lg"
+              icon={<ArrowRightIcon className="h-5 w-5" />}
+              iconPosition="right"
+            >
+              {language === 'fr' ? 'Discutons de votre idée' : 'Let\'s discuss your idea'}
+            </Button>
+          </div>
+        </Card>
       </div>
     </div>
     </>

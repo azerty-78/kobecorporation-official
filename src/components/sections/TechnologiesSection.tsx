@@ -1,6 +1,7 @@
 import { useLanguage } from '../../contexts/LanguageContext'
 import { technologies } from '../../data/siteContent'
 import { useScrollAnimation } from '../../hooks/useScrollAnimation'
+import { Card } from '../ui/Card'
 
 function TechnologiesSection() {
   const { language } = useLanguage()
@@ -58,7 +59,7 @@ function TechnologiesSection() {
             ? 'Notre Stack Technologique'
             : 'Our Technology Stack'}
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-slate-600">
+        <p className="mx-auto mt-4 max-w-2xl text-neutral-600">
           {language === 'fr'
             ? 'Les technologies modernes que nous maîtrisons pour créer vos solutions'
             : 'Modern technologies we master to create your solutions'}
@@ -67,9 +68,10 @@ function TechnologiesSection() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {techCategories.map((category, categoryIndex) => (
-          <div
+          <Card
             key={category.title}
-            className={`glass-panel group relative overflow-hidden rounded-2xl p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl ${
+            elevation="md"
+            className={`group relative ${
               isVisible
                 ? 'translate-y-0 opacity-100'
                 : 'translate-y-8 opacity-0'
@@ -78,10 +80,6 @@ function TechnologiesSection() {
               transitionDelay: `${categoryIndex * 100}ms`,
             }}
           >
-            {/* Gradient de fond */}
-            <div
-              className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 transition-opacity duration-300 group-hover:opacity-100`}
-            />
 
             <div className="relative">
               <h3 className="mb-4 text-lg font-semibold text-ink">
@@ -105,7 +103,7 @@ function TechnologiesSection() {
                 ))}
               </div>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
 
@@ -117,7 +115,7 @@ function TechnologiesSection() {
             : 'translate-y-8 opacity-0'
         }`}
       >
-        <div className="glass-panel rounded-3xl p-8">
+        <Card elevation="md" className="p-8">
           <h3 className="mb-6 text-center text-xl font-semibold text-ink">
             {language === 'fr'
               ? 'Toutes nos technologies'
@@ -140,7 +138,7 @@ function TechnologiesSection() {
               </span>
             ))}
           </div>
-        </div>
+        </Card>
       </div>
     </section>
   )

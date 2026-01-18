@@ -1,6 +1,5 @@
 import { useLanguage } from '../contexts/LanguageContext'
 import { services, process } from '../data/siteContent'
-import { NavLink } from 'react-router-dom'
 import {
   CodeBracketIcon,
   ServerIcon,
@@ -16,6 +15,9 @@ import {
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import SEO from '../components/SEO'
 import { getSEOData } from '../data/seoData'
+import { Card } from '../components/ui/Card'
+import { Button } from '../components/ui/Button'
+import { OptimizedImage } from '../components/OptimizedImage'
 
 // Images professionnelles pour chaque service (2 par service)
 const serviceImages = {
@@ -199,14 +201,15 @@ function Services() {
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
       {/* Introduction avec animations */}
       {/* Hero Section améliorée avec animations */}
-      <div 
-        ref={introRef}
-        className={`group relative mb-20 overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
-          introVisible
-            ? 'translate-y-0 opacity-100'
-            : 'translate-y-8 opacity-0'
-        }`}
-      >
+      <section id="hero" className="mb-20">
+        <div 
+          ref={introRef}
+          className={`group relative overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
+            introVisible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-8 opacity-0'
+          }`}
+        >
         {/* Fond blanc pur */}
         <div className="absolute inset-0 bg-white" />
         
@@ -220,7 +223,7 @@ function Services() {
         
         <div className="relative space-y-6">
           <div
-            className={`group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-md transition-all duration-700 delay-100 hover:border-brand-300 hover:shadow-lg hover:-translate-y-0.5 ${
+            className={`group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-neutral-200 bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-md transition-all duration-700 delay-100 hover:border-brand-300 hover:shadow-lg hover:-translate-y-0.5 ${
               introVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
             }`}
           >
@@ -239,7 +242,7 @@ function Services() {
           </h1>
           
           <p
-            className={`mx-auto max-w-3xl text-lg leading-relaxed text-slate-600 transition-all duration-1000 delay-300 ${
+            className={`mx-auto max-w-3xl text-lg leading-relaxed text-neutral-600 transition-all duration-1000 delay-300 ${
               introVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`}
           >
@@ -248,7 +251,8 @@ function Services() {
               : 'Complete and tailored technology solutions to transform your challenges into opportunities. Expertise, innovation and dedicated support for your success.'}
           </p>
         </div>
-      </div>
+        </div>
+      </section>
 
       {/* Services Détaillés avec animations */}
       <div className="space-y-32">
@@ -257,44 +261,76 @@ function Services() {
           const images = serviceImages[service.slug as keyof typeof serviceImages] || []
           const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.2 })
 
+          // Mapper les slugs vers les IDs pour la navigation
+          const sectionIdMap: { [key: string]: string } = {
+            'developpement-logiciel': 'development',
+            'hebergement-infrastructure': 'hosting',
+            'consultation-audit': 'consultation',
+            'formation-bootcamp': 'training',
+          }
+          const sectionId = sectionIdMap[service.slug] || service.slug
+
           return (
-            <section key={service.slug} ref={elementRef} className="scroll-mt-20">
+            <section key={service.slug} id={sectionId} ref={elementRef} className="scroll-mt-20">
               <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
-                {/* Contenu avec animations */}
+                {/* Contenu avec animations variées */}
                 <div className={`space-y-8 transition-all duration-1000 ${
                   isVisible
                     ? 'translate-x-0 opacity-100'
-                    : index % 2 === 0 ? '-translate-x-8 opacity-0' : 'translate-x-8 opacity-0'
+                    : index % 2 === 0 ? '-translate-x-12 opacity-0 scale-95' : 'translate-x-12 opacity-0 scale-95'
                 } ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
-                  {/* Badge */}
-                  <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-50 to-brand-100 px-4 py-2 text-xs font-semibold text-brand-600 shadow-sm transition-all duration-300 hover:shadow-md">
-                    <div className="transition-transform duration-300 hover:rotate-12">
+                  {/* Badge avec animation de bounce */}
+                  <div 
+                    className={`inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-50 to-brand-100 px-4 py-2 text-xs font-semibold text-brand-600 shadow-sm transition-all duration-500 hover:shadow-md hover:scale-105 ${
+                      isVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-6 opacity-0 scale-90'
+                    }`}
+                    style={{ transitionDelay: '100ms' }}
+                  >
+                    <div className="transition-transform duration-300 hover:rotate-12 hover:scale-110">
                       {service.icon}
                     </div>
                     <span>{language === 'fr' ? service.title : service.titleEn}</span>
                   </div>
 
-                  {/* Titre */}
-                  <h2 className="font-display text-3xl leading-tight text-ink transition-all duration-1000 delay-100 md:text-4xl lg:text-5xl">
+                  {/* Titre avec animation de fade et scale */}
+                  <h2 
+                    className={`font-display text-3xl leading-tight text-ink transition-all duration-1000 ease-out md:text-4xl lg:text-5xl ${
+                      isVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-8 opacity-0 scale-95'
+                    }`}
+                    style={{ transitionDelay: '200ms' }}
+                  >
                     {detail.title}
                   </h2>
 
-                  {/* Description */}
-                  <p className="text-lg leading-relaxed text-slate-600 transition-all duration-1000 delay-200">
+                  {/* Description avec animation de slide */}
+                  <p 
+                    className={`text-lg leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${
+                      isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
+                    }`}
+                    style={{ transitionDelay: '300ms' }}
+                  >
                     {detail.description}
                   </p>
 
                   {/* Contenu spécifique selon le service */}
                   {service.slug === 'developpement-logiciel' && (
-                    <div className="space-y-6 transition-all duration-1000 delay-300">
+                    <div 
+                      className={`space-y-6 transition-all duration-1000 ${
+                        isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+                      }`}
+                      style={{ transitionDelay: '400ms' }}
+                    >
                       {detail.sections?.map((section, idx) => (
-                        <div 
-                          key={idx} 
-                          className="group glass-panel relative overflow-hidden rounded-2xl p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl"
+                        <Card
+                          key={idx}
+                          elevation="md"
+                          className={`group transition-all duration-700 ${
+                            isVisible 
+                              ? 'translate-y-0 opacity-100 scale-100' 
+                              : 'translate-y-10 opacity-0 scale-95'
+                          }`}
+                          style={{ transitionDelay: `${500 + idx * 150}ms` }}
                         >
-                          {/* Ligne décorative */}
-                          <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-500 group-hover:w-full" />
-                          
                           <div className="flex items-start gap-4">
                             <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-brand-50 transition-all duration-300 group-hover:scale-110 group-hover:bg-brand-100">
                               {section.icon}
@@ -303,16 +339,24 @@ function Services() {
                               <h3 className="mb-2 font-semibold text-ink transition-colors duration-300 group-hover:text-brand-600">
                                 {section.subtitle}
                               </h3>
-                              <p className="text-sm leading-relaxed text-slate-600">
+                              <p className="text-sm leading-relaxed text-neutral-600">
                                 {section.content}
                               </p>
                             </div>
                           </div>
-                        </div>
+                        </Card>
                       ))}
                       
                       {/* Garanties */}
-                      <div className="glass-panel rounded-2xl p-6 transition-all duration-1000 delay-400">
+                      <Card 
+                        elevation="md" 
+                        className={`transition-all duration-700 ${
+                          isVisible 
+                            ? 'translate-y-0 opacity-100 scale-100' 
+                            : 'translate-y-10 opacity-0 scale-95'
+                        }`}
+                        style={{ transitionDelay: `${800 + (detail.sections?.length || 0) * 150}ms` }}
+                      >
                         <div className="mb-4 flex items-center gap-3">
                           <ShieldCheckIcon className="h-6 w-6 text-brand-500" />
                           <h3 className="font-semibold text-ink">
@@ -321,19 +365,27 @@ function Services() {
                         </div>
                         <div className="grid gap-3 sm:grid-cols-2">
                           {detail.guarantees?.map((guarantee, idx) => (
-                            <div key={idx} className="flex items-start gap-2">
-                              <CheckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-500" />
-                              <span className="text-sm text-slate-600">{guarantee}</span>
+                            <div 
+                              key={idx} 
+                              className={`group flex items-start gap-2 transition-all duration-500 hover:translate-x-1 ${
+                                isVisible 
+                                  ? 'translate-x-0 opacity-100' 
+                                  : 'translate-x-6 opacity-0'
+                              }`}
+                              style={{ transitionDelay: `${900 + idx * 100}ms` }}
+                            >
+                              <CheckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-500 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
+                              <span className="text-sm text-neutral-600">{guarantee}</span>
                             </div>
                           ))}
                         </div>
-                      </div>
+                      </Card>
                     </div>
                   )}
 
                   {service.slug === 'hebergement-infrastructure' && (
                     <div className="space-y-6 transition-all duration-1000 delay-300">
-                      <div className="glass-panel rounded-2xl p-6">
+                      <Card elevation="md">
                         <div className="mb-4 flex items-center gap-3">
                           <ShieldCheckIcon className="h-6 w-6 text-brand-500" />
                           <h3 className="font-semibold text-ink">
@@ -344,13 +396,13 @@ function Services() {
                           {detail.features?.map((feature, idx) => (
                             <div key={idx} className="flex items-start gap-2">
                               <CheckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-500" />
-                              <span className="text-sm text-slate-600">{feature}</span>
+                              <span className="text-sm text-neutral-600">{feature}</span>
                             </div>
                           ))}
                         </div>
-                      </div>
+                      </Card>
                       
-                      <div className="glass-panel rounded-2xl p-6">
+                      <Card elevation="md">
                         <h3 className="mb-4 font-semibold text-ink">
                           {language === 'fr' ? 'Plans d\'hébergement' : 'Hosting Plans'}
                         </h3>
@@ -358,7 +410,7 @@ function Services() {
                           {detail.plans?.map((plan, idx) => (
                             <div
                               key={idx}
-                              className="group relative overflow-hidden rounded-xl border-2 border-slate-200 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-lg"
+                              className="group relative overflow-hidden rounded-xl border-2 border-neutral-200 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-lg"
                             >
                               {/* Gradient au hover */}
                               <div className="absolute inset-0 bg-gradient-to-br from-brand-50/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
@@ -367,13 +419,13 @@ function Services() {
                                 <p className="mb-1 font-display text-xl font-semibold text-ink">
                                   {plan.name}
                                 </p>
-                                <p className="mb-3 text-xs text-slate-500">
+                                <p className="mb-3 text-xs text-neutral-500">
                                   {plan.desc}
                                 </p>
                                 {plan.features && (
                                   <ul className="space-y-1">
                                     {plan.features.map((feat, i) => (
-                                      <li key={i} className="flex items-center gap-1.5 text-xs text-slate-600">
+                                      <li key={i} className="flex items-center gap-1.5 text-xs text-neutral-600">
                                         <div className="h-1 w-1 rounded-full bg-brand-500" />
                                         {feat}
                                       </li>
@@ -384,10 +436,10 @@ function Services() {
                             </div>
                           ))}
                         </div>
-                      </div>
+                      </Card>
                       
                       {/* Garanties */}
-                      <div className="glass-panel rounded-2xl p-6">
+                      <Card elevation="md">
                         <div className="mb-4 flex items-center gap-3">
                           <ShieldCheckIcon className="h-6 w-6 text-brand-500" />
                           <h3 className="font-semibold text-ink">
@@ -396,19 +448,27 @@ function Services() {
                         </div>
                         <div className="grid gap-3 sm:grid-cols-2">
                           {detail.guarantees?.map((guarantee, idx) => (
-                            <div key={idx} className="flex items-start gap-2">
-                              <CheckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-500" />
-                              <span className="text-sm text-slate-600">{guarantee}</span>
+                            <div 
+                              key={idx} 
+                              className={`group flex items-start gap-2 transition-all duration-500 hover:translate-x-1 ${
+                                isVisible 
+                                  ? 'translate-x-0 opacity-100' 
+                                  : 'translate-x-6 opacity-0'
+                              }`}
+                              style={{ transitionDelay: `${900 + idx * 100}ms` }}
+                            >
+                              <CheckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-500 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
+                              <span className="text-sm text-neutral-600">{guarantee}</span>
                             </div>
                           ))}
                         </div>
-                      </div>
+                      </Card>
                     </div>
                   )}
 
                   {service.slug === 'consultation-audit' && (
                     <div className="space-y-6 transition-all duration-1000 delay-300">
-                      <div className="glass-panel rounded-2xl p-6">
+                      <Card elevation="md">
                         <div className="mb-4 flex items-center gap-3">
                           <ChartBarIcon className="h-6 w-6 text-brand-500" />
                           <h3 className="font-semibold text-ink">
@@ -419,13 +479,13 @@ function Services() {
                           {detail.services?.map((item, idx) => (
                             <div key={idx} className="flex items-start gap-2">
                               <CheckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-500" />
-                              <span className="text-sm text-slate-600">{item}</span>
+                              <span className="text-sm text-neutral-600">{item}</span>
                             </div>
                           ))}
                         </div>
-                      </div>
+                      </Card>
                       
-                      <div className="glass-panel rounded-2xl p-6">
+                      <Card elevation="md">
                         <div className="mb-4 flex items-center gap-3">
                           <RocketLaunchIcon className="h-6 w-6 text-brand-500" />
                           <h3 className="font-semibold text-ink">
@@ -436,14 +496,14 @@ function Services() {
                           {detail.deliverables?.map((deliverable, idx) => (
                             <div key={idx} className="flex items-start gap-2">
                               <CheckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-500" />
-                              <span className="text-sm text-slate-600">{deliverable}</span>
+                              <span className="text-sm text-neutral-600">{deliverable}</span>
                             </div>
                           ))}
                         </div>
-                      </div>
+                      </Card>
                       
                       {/* Garanties */}
-                      <div className="glass-panel rounded-2xl p-6">
+                      <Card elevation="md">
                         <div className="mb-4 flex items-center gap-3">
                           <ShieldCheckIcon className="h-6 w-6 text-brand-500" />
                           <h3 className="font-semibold text-ink">
@@ -452,19 +512,27 @@ function Services() {
                         </div>
                         <div className="grid gap-3 sm:grid-cols-2">
                           {detail.guarantees?.map((guarantee, idx) => (
-                            <div key={idx} className="flex items-start gap-2">
-                              <CheckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-500" />
-                              <span className="text-sm text-slate-600">{guarantee}</span>
+                            <div 
+                              key={idx} 
+                              className={`group flex items-start gap-2 transition-all duration-500 hover:translate-x-1 ${
+                                isVisible 
+                                  ? 'translate-x-0 opacity-100' 
+                                  : 'translate-x-6 opacity-0'
+                              }`}
+                              style={{ transitionDelay: `${900 + idx * 100}ms` }}
+                            >
+                              <CheckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-500 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
+                              <span className="text-sm text-neutral-600">{guarantee}</span>
                             </div>
                           ))}
                         </div>
-                      </div>
+                      </Card>
                     </div>
                   )}
 
                   {service.slug === 'formation-bootcamp' && (
                     <div className="space-y-6 transition-all duration-1000 delay-300">
-                      <div className="glass-panel rounded-2xl p-6">
+                      <Card elevation="md">
                         <div className="mb-4 flex items-center gap-3">
                           <AcademicCapIcon className="h-6 w-6 text-brand-500" />
                           <h3 className="font-semibold text-ink">
@@ -475,13 +543,13 @@ function Services() {
                           {detail.programs?.map((program, idx) => (
                             <div key={idx} className="flex items-start gap-2">
                               <CheckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-500" />
-                              <span className="text-sm text-slate-600">{program}</span>
+                              <span className="text-sm text-neutral-600">{program}</span>
                             </div>
                           ))}
                         </div>
-                      </div>
+                      </Card>
                       
-                      <div className="glass-panel rounded-2xl p-6">
+                      <Card elevation="md">
                         <div className="mb-4 flex items-center gap-3">
                           <ClockIcon className="h-6 w-6 text-brand-500" />
                           <h3 className="font-semibold text-ink">
@@ -492,14 +560,14 @@ function Services() {
                           {detail.formats?.map((format, idx) => (
                             <div key={idx} className="flex items-start gap-2">
                               <CheckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-500" />
-                              <span className="text-sm text-slate-600">{format}</span>
+                              <span className="text-sm text-neutral-600">{format}</span>
                             </div>
                           ))}
                         </div>
-                      </div>
+                      </Card>
                       
                       {/* Garanties */}
-                      <div className="glass-panel rounded-2xl p-6">
+                      <Card elevation="md">
                         <div className="mb-4 flex items-center gap-3">
                           <ShieldCheckIcon className="h-6 w-6 text-brand-500" />
                           <h3 className="font-semibold text-ink">
@@ -508,61 +576,72 @@ function Services() {
                         </div>
                         <div className="grid gap-3 sm:grid-cols-2">
                           {detail.guarantees?.map((guarantee, idx) => (
-                            <div key={idx} className="flex items-start gap-2">
-                              <CheckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-500" />
-                              <span className="text-sm text-slate-600">{guarantee}</span>
+                            <div 
+                              key={idx} 
+                              className={`group flex items-start gap-2 transition-all duration-500 hover:translate-x-1 ${
+                                isVisible 
+                                  ? 'translate-x-0 opacity-100' 
+                                  : 'translate-x-6 opacity-0'
+                              }`}
+                              style={{ transitionDelay: `${900 + idx * 100}ms` }}
+                            >
+                              <CheckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-500 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
+                              <span className="text-sm text-neutral-600">{guarantee}</span>
                             </div>
                           ))}
                         </div>
-                      </div>
+                      </Card>
                     </div>
                   )}
 
                   {/* CTA pour ce service */}
                   <div className="pt-4 transition-all duration-1000 delay-500">
-                    <NavLink
+                    <Button
                       to="/contact"
-                      className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-[rgb(31,41,55)] px-6 py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-[rgb(15,23,42)] hover:shadow-xl"
+                      variant="primary"
+                      size="md"
+                      icon={<ArrowRightIcon className="h-4 w-4" />}
+                      iconPosition="right"
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-                      <span className="relative z-10">
-                        {language === 'fr' ? 'Discuter de ce service' : 'Discuss this service'}
-                      </span>
-                      <ArrowRightIcon className="relative z-10 h-4 w-4 transition-all duration-300 group-hover:translate-x-1 group-hover:scale-110" />
-                    </NavLink>
+                      {language === 'fr' ? 'Discuter de ce service' : 'Discuss this service'}
+                    </Button>
                   </div>
                 </div>
 
-                {/* Images avec animations */}
+                {/* Images avec animations variées */}
                 <div
                   className={`space-y-6 transition-all duration-1000 ${
                     isVisible
                       ? 'translate-x-0 opacity-100'
-                      : index % 2 === 0 ? 'translate-x-8 opacity-0' : '-translate-x-8 opacity-0'
+                      : index % 2 === 0 ? 'translate-x-12 opacity-0 scale-95' : '-translate-x-12 opacity-0 scale-95'
                   } ${index % 2 === 1 ? 'lg:order-1' : ''}`}
-                  style={{ transitionDelay: '200ms' }}
+                  style={{ transitionDelay: '600ms' }}
                 >
                   {images.map((imageUrl, imgIndex) => (
                     <div
                       key={imgIndex}
-                      className={`group relative overflow-hidden rounded-3xl transition-all duration-700 hover:shadow-2xl ${
+                      className={`group relative overflow-hidden rounded-3xl transition-all duration-700 hover:shadow-2xl hover:-translate-y-2 ${
                         imgIndex === 0 ? 'lg:h-80' : 'lg:h-72'
+                      } ${
+                        isVisible 
+                          ? 'translate-y-0 opacity-100 scale-100 rotate-0' 
+                          : imgIndex % 2 === 0 
+                            ? 'translate-y-12 opacity-0 scale-90 rotate-2' 
+                            : 'translate-y-12 opacity-0 scale-90 -rotate-2'
                       }`}
-                      style={{ transitionDelay: `${300 + imgIndex * 100}ms` }}
+                      style={{ transitionDelay: `${700 + imgIndex * 200}ms` }}
                     >
                       {/* Gradient overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 z-10" />
                       
-                      {/* Image */}
-                      <img
+                      {/* Image avec animation de zoom */}
+                      <OptimizedImage
                         src={imageUrl}
-                        alt={`${detail.title} - Image ${imgIndex + 1}`}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        loading="lazy"
+                        alt={`${detail.title} - ${language === 'fr' ? 'Illustration' : 'Illustration'} ${imgIndex + 1}`}
                         width={800}
                         height={600}
-                        decoding="async"
-                        fetchPriority={imgIndex === 0 ? "high" : "low"}
+                        priority={imgIndex === 0 ? "high" : "low"}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-115 group-hover:rotate-1"
                       />
                       
                       {/* Badge sur l'image */}
@@ -592,7 +671,7 @@ function Services() {
           <h2 className="mb-4 font-display text-3xl text-ink md:text-4xl">
             {language === 'fr' ? 'Notre Méthodologie' : 'Our Methodology'}
           </h2>
-          <p className="mx-auto max-w-2xl text-slate-600">
+          <p className="mx-auto max-w-2xl text-neutral-600">
             {language === 'fr'
               ? 'Un processus structuré et éprouvé pour garantir le succès de votre projet à chaque étape'
               : 'A structured and proven process to ensure your project success at every step'}
@@ -604,14 +683,14 @@ function Services() {
           {/* Ligne verticale centrale (lg et plus seulement) */}
           <div className="absolute left-1/2 top-0 hidden h-full w-1 -translate-x-1/2 lg:block">
             {/* Ligne de base */}
-            <div className="absolute inset-0 bg-slate-200 opacity-30" />
+            <div className="absolute inset-0 bg-neutral-200 opacity-30" />
             
             {/* Ligne animée qui se remplit */}
             <div 
               className="absolute top-0 left-0 w-full transition-all duration-2000"
               style={{
                 height: '100%',
-                backgroundColor: 'rgb(31, 41, 55)',
+                backgroundColor: '#0a7aff', // bg-brand-500
                 transitionDelay: '300ms',
               }}
             />
@@ -620,7 +699,7 @@ function Services() {
             {process.map((_, i) => (
               <div
                 key={i}
-                className="absolute left-1/2 h-4 w-4 -translate-x-1/2 rounded-full bg-[rgb(31,41,55)] shadow-lg animate-pulse"
+                className="absolute left-1/2 h-4 w-4 -translate-x-1/2 rounded-full bg-brand-500 shadow-lg animate-pulse"
                 style={{
                   top: `${(i / (process.length - 1)) * 100}%`,
                   animationDelay: `${i * 0.3}s`,
@@ -648,7 +727,7 @@ function Services() {
                 >
                   {/* Point de connexion - masqué sur mobile */}
                   <div
-                    className={`absolute left-1/2 top-1/2 z-10 hidden h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-white bg-[rgb(31,41,55)] text-white shadow-lg transition-all duration-500 group-hover/step:scale-125 group-hover/step:rotate-180 lg:flex ${
+                    className={`absolute left-1/2 top-1/2 z-10 hidden h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-white bg-brand-500 text-white shadow-lg transition-all duration-500 group-hover/step:scale-125 group-hover/step:rotate-180 lg:flex ${
                       isVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
                     }`}
                     style={{ transitionDelay: `${index * 100 + 500}ms` }}
@@ -657,26 +736,21 @@ function Services() {
                   </div>
 
                   {/* Contenu */}
-                  <div
-                    className={`group glass-panel relative w-full overflow-hidden rounded-2xl p-6 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl lg:w-[calc(50%-40px)] md:p-8 ${
+                  <Card
+                    elevation="md"
+                    className={`group relative w-full lg:w-[calc(50%-40px)] ${
                       isVisible
                         ? 'translate-y-0 opacity-100'
                         : 'translate-y-8 opacity-0'
                     }`}
                     style={{ transitionDelay: `${index * 150}ms` }}
                   >
-                    {/* Ligne décorative animée */}
-                    <div className="absolute top-0 left-0 h-1 w-0 bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-700 group-hover:w-full" />
-                    
-                    {/* Gradient au hover */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                    
                     <div className="relative">
                       <div className="mb-4 flex items-center gap-4">
                         {/* Badge numéro d'étape */}
                         <div className="relative">
                           <div className="absolute inset-0 rounded-2xl bg-brand-400/30 blur-xl opacity-0 transition-opacity duration-500 group-hover:opacity-50" />
-                          <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-[rgb(31,41,55)] text-white shadow-xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-[rgb(15,23,42)]">
+                          <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-500 text-white shadow-xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-brand-600">
                             <span className="font-display text-2xl font-bold">{step.step}</span>
                           </div>
                         </div>
@@ -691,11 +765,11 @@ function Services() {
                         </div>
                       </div>
                       
-                      <p className="text-sm leading-relaxed text-slate-600 md:text-base">
+                      <p className="text-sm leading-relaxed text-neutral-600 md:text-base">
                         {language === 'fr' ? step.description : step.descriptionEn}
                       </p>
                     </div>
-                  </div>
+                  </Card>
                 </div>
               )
             })}
@@ -705,7 +779,7 @@ function Services() {
 
       {/* CTA Final amélioré */}
       <div className="mt-32">
-        <div className="group glass-panel relative mx-auto max-w-4xl overflow-hidden rounded-3xl p-10 shadow-xl transition-all duration-700 hover:shadow-2xl md:p-16">
+        <Card elevation="lg" className="group relative mx-auto max-w-4xl p-10 md:p-16">
           {/* Gradient animé */}
           <div className="absolute inset-0 bg-white" />
           <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-brand-200/20 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
@@ -728,30 +802,23 @@ function Services() {
                 ? 'Prêt à Démarrer Votre Projet ?'
                 : 'Ready to Start Your Project?'}
             </h2>
-            <p className="mb-10 text-lg leading-relaxed text-slate-600">
+            <p className="mb-10 text-lg leading-relaxed text-neutral-600">
               {language === 'fr'
                 ? 'Contactez-nous dès aujourd\'hui pour discuter de vos besoins. Notre équipe d\'experts est prête à vous accompagner dans votre transformation digitale.'
                 : 'Contact us today to discuss your needs. Our team of experts is ready to accompany you in your digital transformation.'}
             </p>
             
-            <NavLink
+            <Button
               to="/contact"
-              className="group/cta relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-[rgb(31,41,55)] px-8 py-4 text-sm font-semibold text-white shadow-xl transition-all duration-500 hover:-translate-y-1 hover:scale-105 hover:bg-[rgb(15,23,42)] hover:shadow-2xl"
+              variant="primary"
+              size="lg"
+              icon={<ArrowRightIcon className="h-5 w-5" />}
+              iconPosition="right"
             >
-              {/* Effet de brillance animé */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover/cta:translate-x-[100%] transition-transform duration-1000" />
-              
-              <span className="relative z-10">
-                {language === 'fr' ? 'Commencer maintenant' : 'Get started now'}
-              </span>
-              
-              <div className="relative z-10 flex items-center">
-                <div className="h-0.5 w-0 bg-white transition-all duration-300 group-hover/cta:w-6" />
-                <ArrowRightIcon className="h-5 w-5 transition-all duration-300 group-hover/cta:translate-x-2 group-hover/cta:scale-110" />
-              </div>
-            </NavLink>
+              {language === 'fr' ? 'Commencer maintenant' : 'Get started now'}
+            </Button>
           </div>
-        </div>
+        </Card>
       </div>
     </div>
     </>

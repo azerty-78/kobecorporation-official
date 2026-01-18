@@ -14,6 +14,7 @@ export const translations = {
       contact: 'Contact',
       startProject: 'Démarrer un Projet',
       chatWithBen: 'Discuter avec Ben Djibril',
+      overview: 'Vue d\'ensemble',
     },
     // Home Page
     home: {
@@ -98,6 +99,7 @@ export const translations = {
       contact: 'Contact',
       startProject: 'Start a Project',
       chatWithBen: 'Chat with Ben Djibril',
+      overview: 'Overview',
     },
     // Home Page
     home: {

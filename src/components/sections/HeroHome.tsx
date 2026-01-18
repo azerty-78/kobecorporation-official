@@ -1,141 +1,178 @@
-import { NavLink } from 'react-router-dom'
 import { ArrowRightIcon, SparklesIcon } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { companyInfo } from '../../data/siteContent'
 import { useScrollAnimation } from '../../hooks/useScrollAnimation'
+import { Badge } from '../ui/Badge'
+import { Button } from '../ui/Button'
+import { Card } from '../ui/Card'
 
 function HeroHome() {
   const { language, t } = useLanguage()
-  const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.2 })
+  const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
 
   return (
     <section
       ref={elementRef}
-      className="grid gap-12 md:grid-cols-[1.2fr_1fr] md:items-center lg:gap-16"
+      id="hero"
+      className="relative overflow-hidden pt-4 pb-8 md:pt-6 md:pb-12 lg:pt-8 lg:pb-16"
     >
-      <div
-        className={`space-y-6 transition-all duration-1000 ${
-          isVisible
-            ? 'translate-y-0 opacity-100'
-            : 'translate-y-8 opacity-0'
-        }`}
-      >
-        <div
-          className={`group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-md transition-all duration-700 delay-100 hover:border-brand-300 hover:shadow-lg hover:-translate-y-0.5 ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-          }`}
-        >
-          {/* Effet de brillance animé */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-50/50 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-          
-          {/* Effet de fond au hover */}
-          <div className="absolute inset-0 bg-brand-50/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-          
-          <SparklesIcon className="relative z-10 h-4 w-4 animate-pulse transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
-          <span className="relative z-10 transition-colors duration-300 group-hover:text-brand-700">{companyInfo.slogan}</span>
-        </div>
-        <h1
-          className={`font-display text-4xl leading-tight text-ink transition-all duration-1000 delay-200 md:text-5xl ${
-            isVisible
-              ? 'translate-y-0 opacity-100'
-              : 'translate-y-8 opacity-0'
-          }`}
-        >
-          {t('home.hero.title')}
-        </h1>
-        <p
-          className={`max-w-2xl text-lg text-slate-600 transition-all duration-1000 delay-300 ${
-            isVisible
-              ? 'translate-y-0 opacity-100'
-              : 'translate-y-8 opacity-0'
-          }`}
-        >
-          {t('home.hero.subtitle')}
-        </p>
-        <p
-          className={`max-w-2xl text-slate-600 transition-all duration-1000 delay-400 ${
-            isVisible
-              ? 'translate-y-0 opacity-100'
-              : 'translate-y-8 opacity-0'
-          }`}
-        >
-          {t('home.hero.description')}
-        </p>
-        <div
-          className={`flex flex-wrap gap-3 transition-all duration-1000 delay-500 ${
-            isVisible
-              ? 'translate-y-0 opacity-100'
-              : 'translate-y-8 opacity-0'
-          }`}
-        >
-          <NavLink
-            to="/services"
-            className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-[rgb(31,41,55)] px-6 py-3.5 text-sm font-semibold text-white shadow-soft transition-all duration-300 hover:-translate-y-1 hover:bg-[rgb(15,23,42)] hover:shadow-xl"
-          >
-            {/* Effet de brillance au hover */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-            
-            <span className="relative z-10">{t('home.hero.cta1')}</span>
-            <ArrowRightIcon className="relative z-10 h-4 w-4 transition-all duration-300 group-hover:translate-x-1 group-hover:scale-110" />
-          </NavLink>
-          <NavLink
-            to="/contact"
-            className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border-2 border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-800 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 hover:shadow-lg"
-          >
-            {/* Effet de brillance au hover */}
-            <div className="absolute inset-0 bg-gradient-to-r from-brand-50/50 via-brand-100/50 to-brand-50/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            
-            <span className="relative z-10">{t('home.hero.cta2')}</span>
-          </NavLink>
-        </div>
-        {/* Statistiques masquées temporairement - entreprise en création */}
-        {/* <div
-          className={`flex flex-wrap gap-6 pt-4 transition-all duration-1000 delay-600 ${
-            isVisible
-              ? 'translate-y-0 opacity-100'
-              : 'translate-y-8 opacity-0'
-          }`}
-        >
-          {chiffres.map((item, index) => (
-            <StatCounter
-              key={index}
-              item={item}
-              isActive={isVisible}
-              language={language}
-            />
-          ))}
-        </div> */}
+      {/* Modern Background with grid pattern and geometric shapes */}
+      <div className="absolute inset-0 -z-10 overflow-hidden bg-white">
+        {/* Subtle grid pattern - Similar to Laravel Bootcamp - More visible */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,122,255,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,122,255,0.12)_1px,transparent_1px)] bg-[size:40px_40px]" />
+        
+        {/* Geometric shapes - Rounded square - More visible */}
+        <div className="absolute top-20 right-20 h-32 w-32 rounded-2xl border-2 border-brand-300/60" style={{ transform: 'rotate(12deg)' }} />
+        
+        {/* Geometric shapes - Circle - More visible */}
+        <div className="absolute bottom-32 left-16 h-24 w-24 rounded-full border-2 border-brand-300/55" />
+        
+        {/* Geometric shapes - Hexagon - More visible */}
+        <div className="absolute top-1/2 right-1/4 h-20 w-20 border-2 border-brand-300/50" style={{ 
+          clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+          transform: 'rotate(30deg)'
+        }} />
+        
+        {/* Additional small shapes for depth - More visible */}
+        <div className="absolute top-40 left-1/3 h-16 w-16 rounded-lg border-2 border-accent-300/50" style={{ transform: 'rotate(-15deg)' }} />
+        <div className="absolute bottom-40 right-1/3 h-12 w-12 rounded-full border-2 border-accent-300/45" />
+        
+        {/* Subtle gradient overlay for depth */}
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-brand-50/15 to-transparent" />
       </div>
-      <div
-        className={`group glass-panel relative overflow-hidden rounded-3xl border border-slate-200 p-8 transition-all duration-1000 delay-700 hover:-translate-y-1 hover:border-brand-200 hover:shadow-2xl ${
-          isVisible
-            ? 'translate-y-0 opacity-100 scale-100'
-            : 'translate-y-8 opacity-0 scale-95'
-        }`}
-      >
-        {/* Fond blanc avec effet au hover */}
-        <div className="absolute inset-0 bg-white transition-colors duration-300 group-hover:bg-brand-50/30" />
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 via-transparent to-brand-100/10 opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
-        
-        {/* Particules animées en arrière-plan */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-10 left-10 h-2 w-2 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '0s' }} />
-          <div className="absolute top-20 right-20 h-1.5 w-1.5 rounded-full bg-brand-300 animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute bottom-20 left-20 h-2.5 w-2.5 rounded-full bg-brand-500 animate-pulse" style={{ animationDelay: '2s' }} />
-        </div>
-        
-        <div className="relative space-y-5">
-          <div className="flex items-center gap-3">
-            <div className="h-1 w-12 rounded-full bg-gradient-to-r from-brand-500 to-brand-300 transition-all duration-300 group-hover:w-16" />
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600 transition-colors duration-300 group-hover:text-brand-700">
-              {language === 'fr' ? 'Notre mission' : 'Our Mission'}
-            </p>
+
+      {/* Centered Content Container */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl text-center">
+          {/* Badge with enhanced animation */}
+          <div
+            className={`mb-8 flex justify-center transition-all duration-800 ease-out ${
+              isVisible
+                ? 'translate-y-0 opacity-100 scale-100'
+                : 'translate-y-8 opacity-0 scale-90'
+            }`}
+            style={{ transitionDelay: '150ms' }}
+          >
+            <Badge variant="primary" icon={<SparklesIcon className="h-4 w-4 animate-pulse" />}>
+              {companyInfo.slogan}
+            </Badge>
           </div>
-          <p className="text-lg leading-relaxed text-slate-700 transition-colors duration-300 group-hover:text-slate-800">
-            {language === 'fr'
-              ? 'Nous créons des expériences et des opérations qui mettent vos équipes et vos clients au centre. Notre approche holistique combine stratégie, design et technologies pour livrer des résultats mesurables.'
-              : 'We create experiences and operations that put your teams and clients at the center. Our holistic approach combines strategy, design and technology to deliver measurable results.'}
+
+          {/* Main Title - Centered with black text */}
+          <h1
+            className={`mb-6 font-display text-4xl leading-[1.1] text-ink transition-all duration-1000 ease-out md:text-5xl lg:text-6xl ${
+              isVisible
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-12 opacity-0'
+            }`}
+            style={{ transitionDelay: '300ms' }}
+          >
+            {t('home.hero.title')}
+          </h1>
+
+          {/* Subtitle with refined typography - Centered */}
+          <p
+            className={`mx-auto mb-4 max-w-3xl text-lg leading-relaxed text-neutral-700 transition-all duration-1000 ease-out md:text-xl ${
+              isVisible
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-10 opacity-0'
+            }`}
+            style={{ transitionDelay: '450ms' }}
+          >
+            {t('home.hero.subtitle')}
           </p>
+
+          {/* Description - Centered */}
+          <p
+            className={`mx-auto mb-10 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${
+              isVisible
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-10 opacity-0'
+            }`}
+            style={{ transitionDelay: '600ms' }}
+          >
+            {t('home.hero.description')}
+          </p>
+
+          {/* CTA Buttons - Centered with enhanced hover effects */}
+          <div
+            className={`mb-16 flex flex-wrap justify-center gap-4 transition-all duration-1000 ease-out ${
+              isVisible
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-10 opacity-0'
+            }`}
+            style={{ transitionDelay: '750ms' }}
+          >
+            <Button
+              to="/services"
+              variant="primary"
+              size="lg"
+              icon={<ArrowRightIcon className="h-5 w-5" />}
+              iconPosition="right"
+              className="group/btn relative overflow-hidden"
+            >
+              <span className="relative z-10">{t('home.hero.cta1')}</span>
+              <span className="absolute inset-0 bg-gradient-to-r from-brand-600 to-brand-500 opacity-0 transition-opacity duration-300 group-hover/btn:opacity-100" />
+            </Button>
+            <Button
+              to="/contact"
+              variant="secondary"
+              size="lg"
+              className="group/btn"
+            >
+              {t('home.hero.cta2')}
+            </Button>
+          </div>
+        </div>
+
+        {/* Mission Card - Centered below content */}
+        <div className="mx-auto max-w-3xl">
+          <Card
+            elevation="lg"
+            className={`group relative overflow-hidden transition-all duration-1000 ease-out ${
+              isVisible
+                ? 'translate-y-0 opacity-100 scale-100 rotate-0'
+                : 'translate-y-16 opacity-0 scale-90 -rotate-2'
+            }`}
+            style={{ transitionDelay: '900ms' }}
+          >
+            {/* Decorative gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-50/50 via-transparent to-accent-50/30 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            
+            {/* Content */}
+            <div className="relative z-10 space-y-6 p-8 text-center md:p-10">
+              {/* Header with animated line - Centered */}
+              <div className="flex items-center justify-center gap-4">
+                <div className="relative h-1.5 w-16 overflow-hidden rounded-full bg-gradient-to-r from-brand-500 via-brand-400 to-brand-300">
+                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/60 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
+                </div>
+                <p className="text-sm font-bold uppercase tracking-[0.25em] text-brand-600 transition-colors duration-300 group-hover:text-brand-700">
+                  {language === 'fr' ? 'Notre mission' : 'Our Mission'}
+                </p>
+                <div className="relative h-1.5 w-16 overflow-hidden rounded-full bg-gradient-to-r from-brand-500 via-brand-400 to-brand-300">
+                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/60 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
+                </div>
+              </div>
+
+              {/* Mission text with improved readability - Centered */}
+              <p className="mx-auto max-w-2xl text-lg leading-relaxed text-neutral-700 transition-colors duration-300 group-hover:text-neutral-800 md:text-xl">
+                {language === 'fr'
+                  ? 'Nous créons des expériences et des opérations qui mettent vos équipes et vos clients au centre. Notre approche holistique combine stratégie, design et technologies pour livrer des résultats mesurables.'
+                  : 'We create experiences and operations that put your teams and clients at the center. Our holistic approach combines strategy, design and technology to deliver measurable results.'}
+              </p>
+
+              {/* Decorative elements - Centered */}
+              <div className="flex justify-center gap-2 pt-2">
+                {[1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="h-1 w-12 rounded-full bg-gradient-to-r from-brand-400 to-brand-500 opacity-30 transition-all duration-500 group-hover:opacity-60"
+                    style={{ transitionDelay: `${i * 100}ms` }}
+                  />
+                ))}
+              </div>
+            </div>
+          </Card>
         </div>
       </div>
     </section>
