@@ -177,13 +177,10 @@ function TestimonialsSection() {
               onClick={() => setCurrentIndex(index)}
               className={`group relative rounded-full transition-all duration-500 hover:scale-125 active:scale-95 focus:outline-none focus:ring-0 focus:border-0 ${
                 index === currentIndex
-              }`}
-              aria-label={language === 'fr' ? `Afficher le témoignage ${index + 1}` : `Show testimonial ${index + 1}`}
-            >
                   ? 'h-3 w-10 bg-gradient-to-r from-brand-500 to-brand-600 shadow-lg'
                   : 'h-2.5 w-2.5 bg-neutral-300 hover:bg-brand-400 hover:w-3 hover:h-3'
               }`}
-              aria-label={`${language === 'fr' ? 'Témoignage' : 'Testimonial'} ${index + 1}`}
+              aria-label={language === 'fr' ? `Afficher le témoignage ${index + 1}` : `Show testimonial ${index + 1}`}
             >
               {/* Effet de brillance sur l'indicateur actif */}
               {index === currentIndex && (

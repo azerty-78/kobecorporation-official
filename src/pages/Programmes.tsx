@@ -560,7 +560,7 @@ function Programmes() {
               {language === 'fr' ? 'Nous contacter' : 'Contact us'}
             </Button>
           </div>
-        </div>
+        </Card>
       </div>
     </div>
     </>
