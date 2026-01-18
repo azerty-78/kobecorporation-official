@@ -139,6 +139,39 @@ a,
   animation: slideInLeft 0.3s ease-out;
 }
 
+/* Classes standardisées pour les animations de page */
+.animate-page-enter {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+.animate-page-enter-hidden {
+  transform: translateY(16px);
+  opacity: 0;
+}
+
+.animate-page-enter-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Sur mobile, animations plus courtes */
+@media (max-width: 1023px) {
+  .animate-page-enter {
+    transition-duration: 0.4s;
+  }
+}
+
+@media (max-width: 767px) {
+  .animate-page-enter {
+    transition-duration: 0.3s;
+  }
+  
+  .animate-page-enter-hidden {
+    transform: translateY(8px);
+  }
+}
+
 /* Retirer DÉFINITIVEMENT le focus ring et les borders pour les boutons de navigation */
 nav button,
 nav a,
@@ -204,6 +237,74 @@ nav a:focus-visible {
   will-change: transform, opacity;
 }
 
+/* Optimisation pour mobile : réduire les durées d'animation et simplifier */
+@media (max-width: 1023px) {
+  /* Réduire les durées de transition sur mobile/tablette */
+  button,
+  a,
+  [role="button"],
+  .transition-all,
+  .transition-transform,
+  .transition-opacity {
+    transition-duration: 0.2s !important;
+  }
+
+  /* Simplifier les animations sur mobile */
+  .animate-fadeInUp,
+  .animate-slideInLeft {
+    animation-duration: 0.25s !important;
+  }
+
+  /* Désactiver certaines animations complexes sur mobile pour améliorer les performances */
+  .animate-gradient-shift {
+    animation: none !important;
+  }
+
+  /* Utiliser transform et opacity pour de meilleures performances sur mobile */
+  * {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    perspective: 1000;
+  }
+
+  /* Optimiser les rendus sur mobile */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
+  }
+}
+
+/* Optimisation spécifique pour smartphones */
+@media (max-width: 767px) {
+  /* Encore plus de simplification pour les smartphones */
+  button,
+  a,
+  [role="button"] {
+    transition-duration: 0.15s !important;
+  }
+
+  .animate-fadeInUp,
+  .animate-slideInLeft {
+    animation-duration: 0.2s !important;
+  }
+
+  /* Désactiver will-change sur mobile pour économiser la mémoire */
+  .animate-fadeInUp,
+  .animate-slideInLeft {
+    will-change: auto;
+  }
+
+  .transition-transform,
+  .transition-opacity,
+  .transition-all {
+    will-change: auto;
+  }
+}
+
 /* Amélioration des contrastes pour WCAG AA */
 .text-neutral-600 {
   color: #525252; /* Amélioration du contraste pour WCAG AA */
@@ -211,4 +312,17 @@ nav a:focus-visible {
 
 .text-neutral-700 {
   color: #404040; /* Amélioration du contraste pour WCAG AA */
+}
+
+/* Amélioration des performances avec contain */
+.contain-layout {
+  contain: layout;
+}
+
+.contain-paint {
+  contain: paint;
+}
+
+.contain-strict {
+  contain: strict;
 }

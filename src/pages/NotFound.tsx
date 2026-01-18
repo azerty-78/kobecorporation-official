@@ -19,10 +19,10 @@ function NotFound() {
       <Card
         ref={elementRef}
         elevation="lg"
-        className={`group relative w-full p-12 text-center md:p-16 ${
+        className={`group relative w-full p-12 text-center md:p-16 animate-page-enter ${
           isVisible
-            ? 'translate-y-0 opacity-100'
-            : 'translate-y-8 opacity-0'
+            ? 'animate-page-enter-visible'
+            : 'animate-page-enter-hidden'
         }`}
       >
         <div className="relative space-y-6">

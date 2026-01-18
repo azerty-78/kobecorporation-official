@@ -110,12 +110,15 @@ function Header() {
 
       {/* Mobile Menu */}
       <div
-        className={`border-t border-neutral-200 bg-white backdrop-blur-md lg:hidden transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`border-t border-neutral-200 bg-white backdrop-blur-md lg:hidden transition-all duration-200 ease-in-out overflow-hidden ${
           mobileMenuOpen
             ? 'max-h-screen opacity-100'
             : 'max-h-0 opacity-0 pointer-events-none'
         }`}
-        style={{ zIndex: 40 }}
+        style={{ 
+          zIndex: 40,
+          willChange: 'max-height, opacity',
+        }}
       >
         <div className="mx-auto max-w-7xl px-4 py-4">
           <MobileNavigationMenu items={navItems} onClose={() => setMobileMenuOpen(false)} />

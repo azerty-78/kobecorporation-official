@@ -5,13 +5,16 @@ import './index.css'
 import App from './App.tsx'
 import { LanguageProvider } from './contexts/LanguageContext'
 import { CookieProvider } from './contexts/CookieContext'
+import { NavigationProvider } from './contexts/NavigationContext'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <CookieProvider>
         <LanguageProvider>
-          <App />
+          <NavigationProvider>
+            <App />
+          </NavigationProvider>
         </LanguageProvider>
       </CookieProvider>
     </BrowserRouter>

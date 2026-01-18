@@ -331,10 +331,10 @@ function About() {
       <section id="hero" className="mb-20">
         <div
           ref={introRef}
-          className={`group relative overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
+          className={`group relative overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl md:p-16 animate-page-enter ${
             introVisible
-              ? 'translate-y-0 opacity-100'
-              : 'translate-y-8 opacity-0'
+              ? 'animate-page-enter-visible'
+              : 'animate-page-enter-hidden'
           }`}
         >
         {/* Fond blanc pur */}

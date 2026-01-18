@@ -305,14 +305,15 @@ function Contact() {
       />
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
       {/* Hero Section améliorée avec animations */}
-      <div
-        ref={introRef}
-        className={`group relative mb-20 overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
-          introVisible
-            ? 'translate-y-0 opacity-100'
-            : 'translate-y-8 opacity-0'
-        }`}
-      >
+      <section id="hero" className="mb-20">
+        <div
+          ref={introRef}
+          className={`group relative overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl md:p-16 animate-page-enter ${
+            introVisible
+              ? 'animate-page-enter-visible'
+              : 'animate-page-enter-hidden'
+          }`}
+        >
         {/* Fond blanc pur */}
         <div className="absolute inset-0 bg-white" />
         
@@ -326,8 +327,8 @@ function Contact() {
         
         <div className="relative space-y-6">
           <div
-            className={`group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-neutral-200 bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-md transition-all duration-700 delay-100 hover:border-brand-300 hover:shadow-lg hover:-translate-y-0.5 ${
-              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+            className={`group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-neutral-200 bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-md transition-all duration-300 hover:border-brand-300 hover:shadow-lg hover:-translate-y-0.5 ${
+              introVisible ? 'opacity-100' : 'opacity-0'
             }`}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-50/50 to-transparent translate-x-[-100%] group-hover/badge:translate-x-[100%] transition-transform duration-1000" />
@@ -337,16 +338,16 @@ function Contact() {
           </div>
           
           <h1
-            className={`font-display text-4xl leading-tight text-ink transition-all duration-1000 delay-200 md:text-5xl lg:text-6xl ${
-              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+            className={`font-display text-4xl leading-tight text-ink transition-opacity duration-300 delay-100 md:text-5xl lg:text-6xl ${
+              introVisible ? 'opacity-100' : 'opacity-0'
             }`}
           >
             {language === 'fr' ? 'Contactez-Nous' : 'Contact Us'}
           </h1>
           
           <p
-            className={`mx-auto max-w-3xl text-lg leading-relaxed text-neutral-600 transition-all duration-1000 delay-300 ${
-              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+            className={`mx-auto max-w-3xl text-lg leading-relaxed text-neutral-600 transition-opacity duration-300 delay-200 ${
+              introVisible ? 'opacity-100' : 'opacity-0'
             }`}
           >
             {language === 'fr'
@@ -354,7 +355,7 @@ function Contact() {
               : 'We are available 24/7 to meet your needs. Let\'s discuss your project and discover how we can support you.'}
           </p>
         </div>
-      </div>
+      </section>
 
       {/* Layout principal : Formulaire + Informations */}
       <div className="grid gap-12 lg:grid-cols-3 mb-16">

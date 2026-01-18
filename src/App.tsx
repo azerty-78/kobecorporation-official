@@ -4,6 +4,8 @@ import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
 import ScrollToTop from './components/ScrollToTop'
 import CookieConsent from './components/CookieConsent'
+import { PageLoader } from './components/PageLoader'
+import { useNavigation } from './contexts/NavigationContext'
 
 // Lazy loading des pages pour améliorer le code splitting
 const Home = lazy(() => import('./pages/Home'))
@@ -17,9 +19,12 @@ const Legal = lazy(() => import('./pages/Legal'))
 const Terms = lazy(() => import('./pages/Terms'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
-function App() {
+function AppContent() {
+  const { isNavigating } = useNavigation()
+
   return (
     <div className="min-h-screen bg-white">
+      <PageLoader isLoading={isNavigating} />
       <ScrollToTop />
       <Header />
       <main className="flex-1">
@@ -47,6 +52,10 @@ function App() {
       <CookieConsent />
     </div>
   )
+}
+
+function App() {
+  return <AppContent />
 }
 
 export default App
