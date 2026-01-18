@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { NavLink } from 'react-router-dom'
 import {
   GlobeAltIcon,
@@ -11,7 +12,7 @@ import { useNavigationItems } from '../../data/navigation'
 import logoImage from '../../assets/logo/kobe_corp_logo.jpeg'
 import { OptimizedImage } from '../OptimizedImage'
 
-function Footer() {
+const Footer = memo(function Footer() {
   const { language, setLanguage, t } = useLanguage()
   const { openSettings } = useCookies()
   const navItems = useNavigationItems()
@@ -196,6 +197,6 @@ function Footer() {
       </div>
     </footer>
   )
-}
+})
 
 export default Footer

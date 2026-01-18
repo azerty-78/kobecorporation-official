@@ -355,6 +355,7 @@ function Contact() {
               : 'We are available 24/7 to meet your needs. Let\'s discuss your project and discover how we can support you.'}
           </p>
         </div>
+        </div>
       </section>
 
       {/* Layout principal : Formulaire + Informations */}

@@ -38,11 +38,9 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
     // Démarrer le chargement lors du changement de route
     setIsNavigating(true)
 
-    // Vérifier si la page est complètement prête
+    // Vérifier si la page est complètement prête (version optimisée)
     const checkPageReady = (): boolean => {
-      checkCountRef.current++
-      
-      // Vérifier que le DOM est stable (pas de mutations en cours)
+      // Vérifier que le DOM est stable
       const main = document.querySelector('main')
       if (!main) {
         return false
@@ -58,18 +56,18 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
         const isRendered = rect.height > 0 && rect.width > 0
         
         // Vérifier que la page est scrollée au top (ou presque)
-        // On accepte un petit écart car le scroll peut prendre un moment
-        const isAtTop = window.scrollY <= 120
+        // Tolérance plus large pour détection plus rapide
+        const isAtTop = window.scrollY <= 150
         
         // Vérifier que le hero est visible (pas trop bas)
-        const isHeroVisible = rect.top <= 200
+        const isHeroVisible = rect.top <= 250
         
         return isRendered && isAtTop && isHeroVisible
       } else {
         // Si pas de section hero, vérifier juste que la page est en haut
         // et que le main a du contenu
         const mainHasContent = main.children.length > 0
-        const isAtTop = window.scrollY <= 100
+        const isAtTop = window.scrollY <= 150
         
         return mainHasContent && isAtTop
       }
@@ -86,15 +84,25 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
     }
 
     // Vérifier périodiquement avec un délai progressif
-    const checkDelay = 50
-    const maxChecks = 30 // Maximum 1.5 secondes (30 * 50ms)
+    // Réduire les délais pour un affichage plus rapide
+    const checkDelay = 30
+    const maxChecks = 20 // Maximum 0.6 secondes (20 * 30ms)
+
+    // Vérifier immédiatement d'abord (optimisation)
+    requestAnimationFrame(() => {
+      if (checkPageReady() && checkCountRef.current < 3) {
+        checkCountRef.current = 3
+        stopLoading()
+        return
+      }
+    })
 
     intervalRef.current = setInterval(() => {
       checkCountRef.current++
       
       if (checkPageReady()) {
-        // Vérifier au moins 2 fois pour s'assurer que la page est stable
-        if (checkCountRef.current >= 2) {
+        // Vérifier au moins 1 fois pour s'assurer que la page est stable
+        if (checkCountRef.current >= 1) {
           clearInterval(intervalRef.current!)
           intervalRef.current = null
           stopLoading()
@@ -110,14 +118,14 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
       }
     }, checkDelay)
 
-    // Timeout de sécurité : arrêter le chargement après un délai maximum
+    // Timeout de sécurité : arrêter le chargement après un délai maximum (réduit)
     timeoutRef.current = setTimeout(() => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current)
         intervalRef.current = null
       }
       setIsNavigating(false)
-    }, 2000) // Maximum 2 secondes de chargement
+    }, 800) // Maximum 0.8 seconde de chargement (réduit de 2s)
 
     // Cleanup
     return () => {

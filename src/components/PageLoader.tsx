@@ -12,19 +12,17 @@ export function PageLoader({ isLoading, onComplete }: PageLoaderProps) {
   useEffect(() => {
     if (isLoading) {
       setShouldRender(true)
-      // Petit délai pour permettre le rendu avant l'animation
+      // Affichage immédiat pour réactivité
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          setIsVisible(true)
-        })
+        setIsVisible(true)
       })
     } else {
       setIsVisible(false)
-      // Attendre la fin de l'animation avant de retirer du DOM
+      // Réduire le délai de retrait du DOM pour affichage plus rapide
       const timer = setTimeout(() => {
         setShouldRender(false)
         onComplete?.()
-      }, 300)
+      }, 200) // Réduit de 300ms à 200ms
       return () => clearTimeout(timer)
     }
   }, [isLoading, onComplete])

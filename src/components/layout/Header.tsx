@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import { NavLink } from 'react-router-dom'
 import {
   ArrowRightIcon,
@@ -14,7 +14,7 @@ import { useNavigationItems } from '../../data/navigation'
 import logoImage from '../../assets/logo/kobe_corp_logo.jpeg'
 import { OptimizedImage } from '../OptimizedImage'
 
-function Header() {
+const Header = memo(function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { language, setLanguage, t } = useLanguage()
   const navItems = useNavigationItems()
@@ -137,6 +137,6 @@ function Header() {
       </div>
     </header>
   )
-}
+})
 
 export default Header

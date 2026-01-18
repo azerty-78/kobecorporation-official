@@ -14,10 +14,18 @@ function HeroHome() {
     <section
       ref={elementRef}
       id="hero"
-      className="relative overflow-hidden pt-4 pb-8 md:pt-6 md:pb-12 lg:pt-8 lg:pb-16 min-h-[600px] lg:min-h-[700px]"
+      className="relative overflow-hidden pt-4 pb-8 md:pt-6 md:pb-12 lg:pt-8 lg:pb-16 min-h-[600px] lg:min-h-[700px] xl:min-h-[800px]"
+      style={{ isolation: 'isolate' }}
     >
       {/* Modern Background with grid pattern and geometric shapes */}
-      <div className="absolute inset-0 overflow-hidden bg-white" style={{ zIndex: 0 }}>
+      <div 
+        className="absolute inset-0 overflow-hidden bg-white" 
+        style={{ 
+          zIndex: 0,
+          willChange: 'transform',
+        }}
+        aria-hidden="true"
+      >
         {/* Subtle grid pattern - Similar to Laravel Bootcamp - More visible */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,122,255,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,122,255,0.15)_1px,transparent_1px)] bg-[size:40px_40px]" />
         
