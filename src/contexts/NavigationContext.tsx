@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, useEffect, ReactNode, useRef } from 'react'
+import { createContext, useContext, useState, useEffect, useRef } from 'react'
+import type { ReactNode } from 'react'
 import { useLocation } from 'react-router-dom'
 
 interface NavigationContextType {
@@ -11,8 +12,8 @@ const NavigationContext = createContext<NavigationContextType | undefined>(undef
 export function NavigationProvider({ children }: { children: ReactNode }) {
   const [isNavigating, setIsNavigating] = useState(false)
   const location = useLocation()
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const checkCountRef = useRef(0)
   const previousPathname = useRef(location.pathname)
 

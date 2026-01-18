@@ -205,7 +205,7 @@ function Services() {
       <section
         ref={introRef}
         id="hero"
-        className="relative overflow-hidden pt-4 pb-8 md:pt-6 md:pb-12 lg:pt-8 lg:pb-16 min-h-[600px] lg:min-h-[700px] xl:min-h-[800px] mb-20"
+        className="relative overflow-hidden pt-4 pb-6 md:pt-6 md:pb-8 lg:pt-8 lg:pb-10 min-h-[450px] lg:min-h-[500px] xl:min-h-[550px] mb-20"
         style={{ isolation: 'isolate' }}
       >
         {/* Modern Background with grid pattern and geometric shapes */}
@@ -302,7 +302,7 @@ function Services() {
 
             {/* Description */}
             <p
-              className={`mx-auto mb-10 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${
+              className={`mx-auto mb-6 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${
                 introVisible
                   ? 'translate-y-0 opacity-100'
                   : 'translate-y-10 opacity-0'

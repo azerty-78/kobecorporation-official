@@ -54,7 +54,7 @@ function Portfolio() {
       <section
         ref={introRef}
         id="hero"
-        className="relative overflow-hidden pt-4 pb-8 md:pt-6 md:pb-12 lg:pt-8 lg:pb-16 min-h-[600px] lg:min-h-[700px] xl:min-h-[800px] mb-20"
+        className="relative overflow-hidden pt-4 pb-6 md:pt-6 md:pb-8 lg:pt-8 lg:pb-10 min-h-[450px] lg:min-h-[500px] xl:min-h-[550px] mb-20"
         style={{ isolation: 'isolate' }}
       >
         {/* Modern Background with grid pattern and geometric shapes */}
@@ -91,7 +91,7 @@ function Portfolio() {
                 ? 'Découvrez les projets innovants et les solutions technologiques que nous avons développées pour nos clients.'
                 : 'Discover the innovative projects and technology solutions we have developed for our clients.'}
             </p>
-            <p className={`mx-auto mb-10 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${introVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '600ms' }}>
+            <p className={`mx-auto mb-6 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${introVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '600ms' }}>
               {language === 'fr'
                 ? 'Chaque projet raconte une histoire de transformation numérique, d\'innovation et d\'excellence. Explorez nos réalisations dans le développement web, mobile, les solutions d\'entreprise et les projets open source qui démontrent notre expertise et notre passion pour la technologie.'
                 : 'Each project tells a story of digital transformation, innovation and excellence. Explore our achievements in web development, mobile, enterprise solutions and open source projects that demonstrate our expertise and passion for technology.'}

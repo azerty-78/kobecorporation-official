@@ -332,7 +332,7 @@ function About() {
       <section
         ref={introRef}
         id="hero"
-        className="relative overflow-hidden pt-4 pb-8 md:pt-6 md:pb-12 lg:pt-8 lg:pb-16 min-h-[600px] lg:min-h-[700px] xl:min-h-[800px] mb-20"
+        className="relative overflow-hidden pt-4 pb-6 md:pt-6 md:pb-8 lg:pt-8 lg:pb-10 min-h-[450px] lg:min-h-[500px] xl:min-h-[550px] mb-20"
         style={{ isolation: 'isolate' }}
       >
         {/* Modern Background with grid pattern and geometric shapes */}
@@ -369,7 +369,7 @@ function About() {
                 ? 'Découvrez l\'histoire, les valeurs et la vision qui guident KOBE Corporation dans sa mission de transformation technologique et d\'innovation.'
                 : 'Discover the story, values and vision that guide KOBE Corporation in its mission of technological transformation and innovation.'}
             </p>
-            <p className={`mx-auto mb-10 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${introVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '600ms' }}>
+            <p className={`mx-auto mb-6 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${introVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '600ms' }}>
               {language === 'fr'
                 ? 'Nous sommes une entreprise passionnée par l\'excellence technologique et l\'accompagnement humain. Depuis notre création, nous nous engageons à créer des solutions qui transforment les entreprises et enrichissent les carrières des développeurs. Notre approche holistique combine expertise technique, vision stratégique et valeurs humaines pour livrer des résultats exceptionnels.'
                 : 'We are a company passionate about technological excellence and human support. Since our creation, we have been committed to creating solutions that transform businesses and enrich developers\' careers. Our holistic approach combines technical expertise, strategic vision and human values to deliver exceptional results.'}

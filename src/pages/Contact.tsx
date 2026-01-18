@@ -309,7 +309,7 @@ function Contact() {
       <section
         ref={introRef}
         id="hero"
-        className="relative overflow-hidden pt-4 pb-8 md:pt-6 md:pb-12 lg:pt-8 lg:pb-16 min-h-[600px] lg:min-h-[700px] xl:min-h-[800px] mb-20"
+        className="relative overflow-hidden pt-4 pb-6 md:pt-6 md:pb-8 lg:pt-8 lg:pb-10 min-h-[450px] lg:min-h-[500px] xl:min-h-[550px] mb-20"
         style={{ isolation: 'isolate' }}
       >
         {/* Modern Background with grid pattern and geometric shapes */}
@@ -346,7 +346,7 @@ function Contact() {
                 ? 'Nous sommes disponibles 24/7 pour répondre à vos besoins et transformer vos idées en réalité.'
                 : 'We are available 24/7 to meet your needs and transform your ideas into reality.'}
             </p>
-            <p className={`mx-auto mb-10 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${introVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '600ms' }}>
+            <p className={`mx-auto mb-6 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${introVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '600ms' }}>
               {language === 'fr'
                 ? 'Discutons de votre projet, explorons vos besoins et découvrons ensemble comment nous pouvons vous accompagner vers le succès. Notre équipe d\'experts est prête à écouter vos défis et à proposer des solutions sur mesure qui correspondent à vos objectifs.'
                 : 'Let\'s discuss your project, explore your needs and discover together how we can support you towards success. Our team of experts is ready to listen to your challenges and propose tailor-made solutions that match your objectives.'}

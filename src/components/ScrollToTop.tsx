@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 function ScrollToTop() {
   const { pathname, hash } = useLocation()
   const previousPathname = useRef(pathname)
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     // Nettoyer les timeouts précédents

@@ -197,7 +197,7 @@ function Programmes() {
       <section
         ref={introRef}
         id="hero"
-        className="relative overflow-hidden pt-4 pb-8 md:pt-6 md:pb-12 lg:pt-8 lg:pb-16 min-h-[600px] lg:min-h-[700px] xl:min-h-[800px] mb-20"
+        className="relative overflow-hidden pt-4 pb-6 md:pt-6 md:pb-8 lg:pt-8 lg:pb-10 min-h-[450px] lg:min-h-[500px] xl:min-h-[550px] mb-20"
         style={{ isolation: 'isolate' }}
       >
         {/* Modern Background with grid pattern and geometric shapes */}
@@ -236,7 +236,7 @@ function Programmes() {
             </p>
 
             {/* Description enriched */}
-            <p className={`mx-auto mb-10 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${introVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '600ms' }}>
+            <p className={`mx-auto mb-6 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${introVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '600ms' }}>
               {language === 'fr'
                 ? 'Que vous soyez freelance, étudiant ou développeur open source, découvrez des opportunités qui transforment votre carrière. Formation pratique, mentorat personnalisé et accompagnement professionnel pour votre réussite.'
                 : 'Whether you\'re a freelancer, student or open source developer, discover opportunities that transform your career. Practical training, personalized mentoring and professional support for your success.'}
