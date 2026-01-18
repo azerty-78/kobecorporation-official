@@ -29,21 +29,51 @@ function HeroHome() {
         {/* Subtle grid pattern - Similar to Laravel Bootcamp - More visible */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,122,255,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,122,255,0.15)_1px,transparent_1px)] bg-[size:40px_40px]" />
         
-        {/* Geometric shapes - Rounded square - More visible */}
-        <div className="absolute top-20 right-20 h-32 w-32 rounded-2xl border-2 border-brand-300/70" style={{ transform: 'rotate(12deg)' }} />
+        {/* Geometric shapes - Rounded square - Animated floating */}
+        <div 
+          className="absolute top-20 right-20 h-32 w-32 rounded-2xl border-2 border-brand-300/70 animate-float-shape" 
+          style={{ 
+            animationDelay: '0s',
+            willChange: 'transform',
+          }} 
+        />
         
-        {/* Geometric shapes - Circle - More visible */}
-        <div className="absolute bottom-32 left-16 h-24 w-24 rounded-full border-2 border-brand-300/65" />
+        {/* Geometric shapes - Circle - Animated gentle float */}
+        <div 
+          className="absolute bottom-32 left-16 h-24 w-24 rounded-full border-2 border-brand-300/65 animate-float-gentle animate-pulse-border" 
+          style={{ 
+            animationDelay: '1s',
+            willChange: 'transform, opacity',
+          }} 
+        />
         
-        {/* Geometric shapes - Hexagon - More visible */}
-        <div className="absolute top-1/2 right-1/4 h-20 w-20 border-2 border-brand-300/60" style={{ 
-          clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-          transform: 'rotate(30deg)'
-        }} />
+        {/* Geometric shapes - Hexagon - Animated slow rotation */}
+        <div 
+          className="absolute top-1/2 right-1/4 h-20 w-20 border-2 border-brand-300/60 animate-rotate-slow" 
+          style={{ 
+            clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+            transformOrigin: 'center',
+            animationDelay: '2s',
+            willChange: 'transform',
+          }} 
+        />
         
-        {/* Additional small shapes for depth - More visible */}
-        <div className="absolute top-40 left-1/3 h-16 w-16 rounded-lg border-2 border-accent-300/60" style={{ transform: 'rotate(-15deg)' }} />
-        <div className="absolute bottom-40 right-1/3 h-12 w-12 rounded-full border-2 border-accent-300/55" />
+        {/* Additional small shapes for depth - Animated */}
+        <div 
+          className="absolute top-40 left-1/3 h-16 w-16 rounded-lg border-2 border-accent-300/60 animate-float-shape" 
+          style={{ 
+            transform: 'rotate(-15deg)',
+            animationDelay: '0.5s',
+            willChange: 'transform',
+          }} 
+        />
+        <div 
+          className="absolute bottom-40 right-1/3 h-12 w-12 rounded-full border-2 border-accent-300/55 animate-float-gentle animate-pulse-border" 
+          style={{ 
+            animationDelay: '1.5s',
+            willChange: 'transform, opacity',
+          }} 
+        />
         
         {/* Subtle gradient overlay for depth */}
         <div className="absolute inset-0 bg-gradient-to-br from-transparent via-brand-50/20 to-transparent" />
