@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
-import { NavLink } from 'react-router-dom'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import SEO from '../components/SEO'
 import { getSEOData } from '../data/seoData'

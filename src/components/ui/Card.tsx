@@ -1,4 +1,5 @@
-import { ReactNode } from 'react'
+import { forwardRef } from 'react'
+import type { ReactNode } from 'react'
 
 interface CardProps {
   children: ReactNode
@@ -9,14 +10,14 @@ interface CardProps {
   style?: React.CSSProperties
 }
 
-export function Card({ 
+export const Card = forwardRef<HTMLDivElement, CardProps>(({ 
   children, 
   className = '', 
   hover = true,
   elevation = 'md',
   onClick,
   style
-}: CardProps) {
+}, ref) => {
   const elevationClasses = {
     none: 'shadow-none',
     sm: 'shadow-subtle',
@@ -30,6 +31,7 @@ export function Card({
 
   return (
     <div
+      ref={ref}
       className={`rounded-2xl border border-neutral-200 bg-white p-6 ${elevationClasses[elevation]} ${hoverClasses} ${className}`}
       onClick={onClick}
       style={{ 
@@ -41,4 +43,6 @@ export function Card({
       {children}
     </div>
   )
-}
+})
+
+Card.displayName = 'Card'

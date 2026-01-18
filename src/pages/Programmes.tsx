@@ -8,7 +8,6 @@ import {
   ShieldCheckIcon,
   StarIcon,
 } from '@heroicons/react/24/outline'
-import { NavLink } from 'react-router-dom'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import SEO from '../components/SEO'
 import { getSEOData } from '../data/seoData'

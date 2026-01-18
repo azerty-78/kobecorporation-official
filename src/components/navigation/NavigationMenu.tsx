@@ -124,7 +124,9 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
           return (
             <div
               key={item.path}
-              ref={(el) => (dropdownRefs.current[item.path] = el)}
+              ref={(el) => {
+                dropdownRefs.current[item.path] = el
+              }}
               className={`relative ${isVertical ? 'w-full' : ''}`}
             >
               <div className={`relative ${isVertical ? 'w-full' : 'inline-flex'} items-center`}>

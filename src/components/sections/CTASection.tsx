@@ -1,4 +1,3 @@
-import { NavLink } from 'react-router-dom'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { useScrollAnimation } from '../../hooks/useScrollAnimation'

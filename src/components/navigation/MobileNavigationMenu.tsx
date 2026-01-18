@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
@@ -10,7 +10,6 @@ interface MobileNavigationMenuProps {
 }
 
 export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuProps) {
-  const { t } = useLanguage()
   const location = useLocation()
   const navigate = useNavigate()
   const [openItems, setOpenItems] = useState<string[]>([])
@@ -98,7 +97,9 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
                   />
                 </button>
                 <div
-                  ref={(el) => (sectionRefs.current[item.path] = el)}
+                  ref={(el) => {
+                    sectionRefs.current[item.path] = el
+                  }}
                   className={`ml-4 overflow-hidden border-l-2 border-neutral-200 pl-4 transition-all duration-300 ease-in-out ${
                     isOpen ? 'max-h-[500px] opacity-100 mt-1' : 'max-h-0 opacity-0 mt-0'
                   }`}
