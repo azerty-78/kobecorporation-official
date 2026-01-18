@@ -13,10 +13,10 @@ function CTASection() {
     <section ref={elementRef}>
       <Card
         elevation="md"
-        className={`group relative mx-auto max-w-3xl p-10 text-center md:p-16 ${
+        className={`group relative mx-auto max-w-3xl p-10 text-center md:p-16 animate-page-enter ${
           isVisible
-            ? 'translate-y-0 opacity-100 scale-100'
-            : 'translate-y-8 opacity-0 scale-95'
+            ? 'animate-page-enter-visible'
+            : 'animate-page-enter-hidden'
         }`}
       >
         {/* Badge décoratif avec orange accent */}

@@ -21,46 +21,38 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
   }
 
   const handleNavClick = (path: string, anchor?: string) => {
+    // Fermer le menu immédiatement pour une meilleure UX
+    onClose()
+    
     if (anchor) {
       // Si on est déjà sur la page, scroll vers la section
       if (location.pathname === path) {
-        setTimeout(() => {
-          const element = document.getElementById(anchor)
-          if (element) {
-            const headerOffset = 80
-            const elementPosition = element.getBoundingClientRect().top
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            const element = document.getElementById(anchor)
+            if (element) {
+              const headerOffset = 80
+              const elementPosition = element.getBoundingClientRect().top
+              const offsetPosition = elementPosition + window.pageYOffset - headerOffset
 
-            window.scrollTo({
-              top: offsetPosition,
-              behavior: 'smooth',
-            })
-            // Mettre à jour l'URL avec le hash
-            window.history.replaceState(null, '', `${path}#${anchor}`)
-          }
-        }, 100)
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth',
+              })
+              // Mettre à jour l'URL avec le hash
+              window.history.replaceState(null, '', `${path}#${anchor}`)
+            }
+          })
+        })
       } else {
         // Sinon, naviguer puis scroll après chargement
         navigate(`${path}#${anchor}`)
-        setTimeout(() => {
-          const element = document.getElementById(anchor)
-          if (element) {
-            const headerOffset = 80
-            const elementPosition = element.getBoundingClientRect().top
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-
-            window.scrollTo({
-              top: offsetPosition,
-              behavior: 'smooth',
-            })
-          }
-        }, 300)
+        // Le ScrollToTop et NavigationContext géreront le scroll
       }
     } else {
       // Si pas d'ancre, naviguer vers la page
       navigate(path)
     }
-    onClose()
   }
 
   return (
@@ -99,9 +91,12 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
                   ref={(el) => {
                     sectionRefs.current[item.path] = el
                   }}
-                  className={`ml-4 overflow-hidden border-l-2 border-neutral-200 pl-4 transition-all duration-300 ease-in-out ${
+                  className={`ml-4 overflow-hidden border-l-2 border-neutral-200 pl-4 transition-all duration-200 ease-in-out ${
                     isOpen ? 'max-h-[500px] opacity-100 mt-1' : 'max-h-0 opacity-0 mt-0'
                   }`}
+                  style={{
+                    willChange: 'max-height, opacity',
+                  }}
                 >
                   <div className="space-y-1">
                     {item.sections?.map((section, index) => {
@@ -113,13 +108,14 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
                         <button
                           key={section.anchor}
                           onClick={() => handleNavClick(item.path, section.anchor)}
-                          className={`block w-full rounded-lg px-3 py-2 text-left text-sm transition-colors duration-200 focus:outline-none focus:ring-0 focus:border-0 ${
+                          className={`block w-full rounded-lg px-3 py-2 text-left text-sm transition-colors duration-150 focus:outline-none focus:ring-0 focus:border-0 ${
                             isSectionActive
                               ? 'text-brand-500 font-semibold'
                               : 'text-neutral-600 hover:bg-neutral-50 hover:text-brand-500'
                           }`}
                           style={{
-                            animation: isOpen ? `slideInLeft 0.3s ease-out ${index * 0.05}s both` : 'none',
+                            animation: isOpen ? `slideInLeft 0.2s ease-out ${index * 0.03}s both` : 'none',
+                            willChange: isOpen ? 'transform, opacity' : 'auto',
                           }}
                           aria-label={`${item.label} - ${section.label}`}
                         >

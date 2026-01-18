@@ -30,7 +30,8 @@
 **/values.dev.yaml
 **/build
 **/dist
-**/setup-front
+**/setup-front/*
+!**/setup-front/nginx.conf
 LICENSE
 README.md
 *.md

@@ -16,25 +16,8 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
 
-  // Gérer le scroll vers les sections après navigation
-  useEffect(() => {
-    const hash = window.location.hash.replace('#', '')
-    if (hash) {
-      setTimeout(() => {
-        const element = document.getElementById(hash)
-        if (element) {
-          const headerOffset = 80
-          const elementPosition = element.getBoundingClientRect().top
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth',
-          })
-        }
-      }, 100)
-    }
-  }, [location.pathname, location.hash])
+  // Note: Le scroll vers les sections est géré par ScrollToTop
+  // On ne gère plus le scroll ici pour éviter les conflits
 
   // Gérer la fermeture du dropdown en cliquant en dehors
   useEffect(() => {

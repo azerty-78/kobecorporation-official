@@ -17,6 +17,7 @@ import SEO from '../components/SEO'
 import { getSEOData } from '../data/seoData'
 import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
+import { Badge } from '../components/ui/Badge'
 import { OptimizedImage } from '../components/OptimizedImage'
 
 // Images professionnelles pour chaque service (2 par service)
@@ -199,58 +200,119 @@ function Services() {
         keywords={seo.keywords}
       />
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
-      {/* Introduction avec animations */}
-      {/* Hero Section améliorée avec animations */}
-      <section id="hero" className="mb-20">
+      {/* Hero Section avec le même design que Home */}
+      <section
+        ref={introRef}
+        id="hero"
+        className="relative overflow-hidden pt-4 pb-6 md:pt-6 md:pb-8 lg:pt-8 lg:pb-10 min-h-[450px] lg:min-h-[500px] xl:min-h-[550px] mb-20"
+        style={{ isolation: 'isolate' }}
+      >
+        {/* Modern Background with grid pattern and geometric shapes */}
         <div 
-          ref={introRef}
-          className={`group relative overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl transition-all duration-1000 md:p-16 ${
-            introVisible
-              ? 'translate-y-0 opacity-100'
-              : 'translate-y-8 opacity-0'
-          }`}
+          className="absolute inset-0 overflow-hidden bg-white" 
+          style={{ 
+            zIndex: 0,
+            willChange: 'transform',
+          }}
+          aria-hidden="true"
         >
-        {/* Fond blanc pur */}
-        <div className="absolute inset-0 bg-white" />
-        
-        {/* Particules animées */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-10 left-10 h-2 w-2 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '0s' }} />
-          <div className="absolute top-20 right-20 h-1.5 w-1.5 rounded-full bg-brand-300 animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute bottom-20 left-20 h-2.5 w-2.5 rounded-full bg-brand-500 animate-pulse" style={{ animationDelay: '2s' }} />
-          <div className="absolute bottom-10 right-10 h-1 w-1 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '3s' }} />
+          {/* Subtle grid pattern */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,122,255,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,122,255,0.15)_1px,transparent_1px)] bg-[size:40px_40px]" />
+          
+          {/* Geometric shapes - Rounded square - Animated floating */}
+          <div 
+            className="absolute top-20 right-20 h-32 w-32 rounded-2xl border-2 border-brand-300/70 animate-float-shape" 
+            style={{ animationDelay: '0s', willChange: 'transform' }} 
+          />
+          
+          {/* Geometric shapes - Circle - Animated gentle float */}
+          <div 
+            className="absolute bottom-32 left-16 h-24 w-24 rounded-full border-2 border-brand-300/65 animate-float-gentle animate-pulse-border" 
+            style={{ animationDelay: '1s', willChange: 'transform, opacity' }} 
+          />
+          
+          {/* Geometric shapes - Hexagon - Animated slow rotation */}
+          <div 
+            className="absolute top-1/2 right-1/4 h-20 w-20 border-2 border-brand-300/60 animate-rotate-slow" 
+            style={{ 
+              clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+              transformOrigin: 'center',
+              animationDelay: '2s',
+              willChange: 'transform',
+            }} 
+          />
+          
+          {/* Additional small shapes for depth - Animated */}
+          <div 
+            className="absolute top-40 left-1/3 h-16 w-16 rounded-lg border-2 border-accent-300/60 animate-float-shape" 
+            style={{ transform: 'rotate(-15deg)', animationDelay: '0.5s', willChange: 'transform' }} 
+          />
+          <div 
+            className="absolute bottom-40 right-1/3 h-12 w-12 rounded-full border-2 border-accent-300/55 animate-float-gentle animate-pulse-border" 
+            style={{ animationDelay: '1.5s', willChange: 'transform, opacity' }} 
+          />
+          
+          {/* Subtle gradient overlay for depth */}
+          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-brand-50/20 to-transparent" />
         </div>
-        
-        <div className="relative space-y-6">
-          <div
-            className={`group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-neutral-200 bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-md transition-all duration-700 delay-100 hover:border-brand-300 hover:shadow-lg hover:-translate-y-0.5 ${
-              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-            }`}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-50/50 to-transparent translate-x-[-100%] group-hover/badge:translate-x-[100%] transition-transform duration-1000" />
-            <div className="absolute inset-0 bg-brand-50/50 opacity-0 transition-opacity duration-300 group-hover/badge:opacity-100" />
-            <ClockIcon className="relative z-10 h-4 w-4 animate-pulse transition-transform duration-300 group-hover/badge:rotate-12 group-hover/badge:scale-110" />
-            <span className="relative z-10 transition-colors duration-300 group-hover/badge:text-brand-700">{language === 'fr' ? 'Services' : 'Services'}</span>
+
+        {/* Centered Content Container */}
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-4xl text-center">
+            {/* Badge with enhanced animation */}
+            <div
+              className={`mb-8 flex justify-center transition-all duration-800 ease-out ${
+                introVisible
+                  ? 'translate-y-0 opacity-100 scale-100'
+                  : 'translate-y-8 opacity-0 scale-90'
+              }`}
+              style={{ transitionDelay: '150ms' }}
+            >
+              <Badge variant="primary" icon={<ClockIcon className="h-4 w-4 animate-pulse" />}>
+                {language === 'fr' ? 'Services Professionnels' : 'Professional Services'}
+              </Badge>
+            </div>
+
+            {/* Main Title */}
+            <h1
+              className={`mb-6 font-display text-4xl leading-[1.1] text-ink transition-all duration-1000 ease-out md:text-5xl lg:text-6xl ${
+                introVisible
+                  ? 'translate-y-0 opacity-100'
+                  : 'translate-y-12 opacity-0'
+              }`}
+              style={{ transitionDelay: '300ms' }}
+            >
+              {language === 'fr' ? 'Nos Services' : 'Our Services'}
+            </h1>
+
+            {/* Subtitle */}
+            <p
+              className={`mx-auto mb-4 max-w-3xl text-lg leading-relaxed text-neutral-700 transition-all duration-1000 ease-out md:text-xl ${
+                introVisible
+                  ? 'translate-y-0 opacity-100'
+                  : 'translate-y-10 opacity-0'
+              }`}
+              style={{ transitionDelay: '450ms' }}
+            >
+              {language === 'fr'
+                ? 'Des solutions technologiques complètes et sur mesure pour transformer vos défis en opportunités de croissance.'
+                : 'Complete and tailored technology solutions to transform your challenges into growth opportunities.'}
+            </p>
+
+            {/* Description */}
+            <p
+              className={`mx-auto mb-6 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${
+                introVisible
+                  ? 'translate-y-0 opacity-100'
+                  : 'translate-y-10 opacity-0'
+              }`}
+              style={{ transitionDelay: '600ms' }}
+            >
+              {language === 'fr'
+                ? 'Expertise, innovation et accompagnement dédié pour votre réussite. Nous combinons stratégie, design et technologies de pointe pour livrer des résultats mesurables et durables.'
+                : 'Expertise, innovation and dedicated support for your success. We combine strategy, design and cutting-edge technologies to deliver measurable and sustainable results.'}
+            </p>
           </div>
-          
-          <h1
-            className={`font-display text-4xl leading-tight text-ink transition-all duration-1000 delay-200 md:text-5xl lg:text-6xl ${
-              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-            }`}
-          >
-            {language === 'fr' ? 'Nos Services' : 'Our Services'}
-          </h1>
-          
-          <p
-            className={`mx-auto max-w-3xl text-lg leading-relaxed text-neutral-600 transition-all duration-1000 delay-300 ${
-              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-            }`}
-          >
-            {language === 'fr'
-              ? 'Des solutions technologiques complètes et sur mesure pour transformer vos défis en opportunités. Expertise, innovation et accompagnement dédié pour votre réussite.'
-              : 'Complete and tailored technology solutions to transform your challenges into opportunities. Expertise, innovation and dedicated support for your success.'}
-          </p>
-        </div>
         </div>
       </section>
 

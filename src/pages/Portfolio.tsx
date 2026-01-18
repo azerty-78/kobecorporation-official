@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
-import { ArrowRightIcon } from '@heroicons/react/24/outline'
+import { ArrowRightIcon, SparklesIcon } from '@heroicons/react/24/outline'
 import SEO from '../components/SEO'
 import { getSEOData } from '../data/seoData'
 import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { Badge } from '../components/ui/Badge'
+import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
 // Types de projets (à remplir avec de vrais projets plus tard)
 const projectCategories = [
@@ -34,6 +35,7 @@ function Portfolio() {
   const { language } = useLanguage()
   const [selectedCategory, setSelectedCategory] = useState('all')
   const seo = getSEOData('/portfolio', language)
+  const { elementRef: introRef, isVisible: introVisible } = useScrollAnimation({ threshold: 0.2 })
 
   const filteredProjects =
     selectedCategory === 'all'
@@ -48,27 +50,55 @@ function Portfolio() {
         keywords={seo.keywords}
       />
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
-      {/* Hero Section améliorée avec Card */}
-      <Card elevation="lg" className="mb-16 overflow-hidden p-12 text-center md:p-16">
-        <div className="relative space-y-6">
-          {/* Badge avec Badge component */}
-          <div className="flex justify-center">
-            <Badge variant="accent">
-              {language === 'fr' ? 'Portfolio' : 'Portfolio'}
-            </Badge>
-          </div>
+      {/* Hero Section avec le même design que Home */}
+      <section
+        ref={introRef}
+        id="hero"
+        className="relative overflow-hidden pt-4 pb-6 md:pt-6 md:pb-8 lg:pt-8 lg:pb-10 min-h-[450px] lg:min-h-[500px] xl:min-h-[550px] mb-20"
+        style={{ isolation: 'isolate' }}
+      >
+        {/* Modern Background with grid pattern and geometric shapes */}
+        <div 
+          className="absolute inset-0 overflow-hidden bg-white" 
+          style={{ zIndex: 0, willChange: 'transform' }}
+          aria-hidden="true"
+        >
+          {/* Subtle grid pattern */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,122,255,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,122,255,0.15)_1px,transparent_1px)] bg-[size:40px_40px]" />
           
-          <h1 className="font-display text-4xl leading-tight text-ink md:text-5xl lg:text-6xl">
-            {language === 'fr' ? 'Nos Réalisations' : 'Our Achievements'}
-          </h1>
-          
-          <p className="mx-auto max-w-3xl text-lg leading-relaxed text-neutral-700 md:text-xl">
-            {language === 'fr'
-              ? 'Découvrez les projets sur lesquels nous avons travaillé'
-              : 'Discover the projects we have worked on'}
-          </p>
+          {/* Geometric shapes - Same as Home */}
+          <div className="absolute top-20 right-20 h-32 w-32 rounded-2xl border-2 border-brand-300/70 animate-float-shape" style={{ animationDelay: '0s', willChange: 'transform' }} />
+          <div className="absolute bottom-32 left-16 h-24 w-24 rounded-full border-2 border-brand-300/65 animate-float-gentle animate-pulse-border" style={{ animationDelay: '1s', willChange: 'transform, opacity' }} />
+          <div className="absolute top-1/2 right-1/4 h-20 w-20 border-2 border-brand-300/60 animate-rotate-slow" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)', transformOrigin: 'center', animationDelay: '2s', willChange: 'transform' }} />
+          <div className="absolute top-40 left-1/3 h-16 w-16 rounded-lg border-2 border-accent-300/60 animate-float-shape" style={{ transform: 'rotate(-15deg)', animationDelay: '0.5s', willChange: 'transform' }} />
+          <div className="absolute bottom-40 right-1/3 h-12 w-12 rounded-full border-2 border-accent-300/55 animate-float-gentle animate-pulse-border" style={{ animationDelay: '1.5s', willChange: 'transform, opacity' }} />
+          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-brand-50/20 to-transparent" />
         </div>
-      </Card>
+
+        {/* Content */}
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className={`mb-8 flex justify-center transition-all duration-800 ease-out ${introVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-8 opacity-0 scale-90'}`} style={{ transitionDelay: '150ms' }}>
+              <Badge variant="primary" icon={<SparklesIcon className="h-4 w-4 animate-pulse" />}>
+                {language === 'fr' ? 'Nos Réalisations' : 'Our Achievements'}
+              </Badge>
+            </div>
+            <h1 className={`mb-6 font-display text-4xl leading-[1.1] text-ink transition-all duration-1000 ease-out md:text-5xl lg:text-6xl ${introVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`} style={{ transitionDelay: '300ms' }}>
+              {language === 'fr' ? 'Nos Réalisations' : 'Our Achievements'}
+            </h1>
+            <p className={`mx-auto mb-4 max-w-3xl text-lg leading-relaxed text-neutral-700 transition-all duration-1000 ease-out md:text-xl ${introVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '450ms' }}>
+              {language === 'fr'
+                ? 'Découvrez les projets innovants et les solutions technologiques que nous avons développées pour nos clients.'
+                : 'Discover the innovative projects and technology solutions we have developed for our clients.'}
+            </p>
+            <p className={`mx-auto mb-6 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${introVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '600ms' }}>
+              {language === 'fr'
+                ? 'Chaque projet raconte une histoire de transformation numérique, d\'innovation et d\'excellence. Explorez nos réalisations dans le développement web, mobile, les solutions d\'entreprise et les projets open source qui démontrent notre expertise et notre passion pour la technologie.'
+                : 'Each project tells a story of digital transformation, innovation and excellence. Explore our achievements in web development, mobile, enterprise solutions and open source projects that demonstrate our expertise and passion for technology.'}
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* Filtres */}
       <div className="mb-12 flex flex-wrap justify-center gap-3">
