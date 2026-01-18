@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
-import { useLanguage } from '../../contexts/LanguageContext'
 import type { NavItem } from '../../data/navigation'
 
 interface MobileNavigationMenuProps {
