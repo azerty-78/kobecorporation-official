@@ -15,6 +15,7 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import { WhatsAppIcon, FacebookIcon, LinkedInIcon, InstagramIcon } from '../components/icons/SocialIcons'
 import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
+import { Badge } from '../components/ui/Badge'
 
 // Composant pour les informations de contact
 function ContactInfoCard({ info, index, language }: { info: any; index: number; language: 'fr' | 'en' }) {
@@ -304,57 +305,53 @@ function Contact() {
         keywords={seo.keywords}
       />
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
-      {/* Hero Section améliorée avec animations */}
-      <section id="hero" className="mb-20">
-        <div
-          ref={introRef}
-          className={`group relative overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl md:p-16 animate-page-enter ${
-            introVisible
-              ? 'animate-page-enter-visible'
-              : 'animate-page-enter-hidden'
-          }`}
+      {/* Hero Section avec le même design que Home */}
+      <section
+        ref={introRef}
+        id="hero"
+        className="relative overflow-hidden pt-4 pb-8 md:pt-6 md:pb-12 lg:pt-8 lg:pb-16 min-h-[600px] lg:min-h-[700px] xl:min-h-[800px] mb-20"
+        style={{ isolation: 'isolate' }}
+      >
+        {/* Modern Background with grid pattern and geometric shapes */}
+        <div 
+          className="absolute inset-0 overflow-hidden bg-white" 
+          style={{ zIndex: 0, willChange: 'transform' }}
+          aria-hidden="true"
         >
-        {/* Fond blanc pur */}
-        <div className="absolute inset-0 bg-white" />
-        
-        {/* Particules animées */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-10 left-10 h-2 w-2 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '0s' }} />
-          <div className="absolute top-20 right-20 h-1.5 w-1.5 rounded-full bg-brand-300 animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute bottom-20 left-20 h-2.5 w-2.5 rounded-full bg-brand-500 animate-pulse" style={{ animationDelay: '2s' }} />
-          <div className="absolute bottom-10 right-10 h-1 w-1 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '3s' }} />
+          {/* Subtle grid pattern */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,122,255,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,122,255,0.15)_1px,transparent_1px)] bg-[size:40px_40px]" />
+          
+          {/* Geometric shapes - Same as Home */}
+          <div className="absolute top-20 right-20 h-32 w-32 rounded-2xl border-2 border-brand-300/70 animate-float-shape" style={{ animationDelay: '0s', willChange: 'transform' }} />
+          <div className="absolute bottom-32 left-16 h-24 w-24 rounded-full border-2 border-brand-300/65 animate-float-gentle animate-pulse-border" style={{ animationDelay: '1s', willChange: 'transform, opacity' }} />
+          <div className="absolute top-1/2 right-1/4 h-20 w-20 border-2 border-brand-300/60 animate-rotate-slow" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)', transformOrigin: 'center', animationDelay: '2s', willChange: 'transform' }} />
+          <div className="absolute top-40 left-1/3 h-16 w-16 rounded-lg border-2 border-accent-300/60 animate-float-shape" style={{ transform: 'rotate(-15deg)', animationDelay: '0.5s', willChange: 'transform' }} />
+          <div className="absolute bottom-40 right-1/3 h-12 w-12 rounded-full border-2 border-accent-300/55 animate-float-gentle animate-pulse-border" style={{ animationDelay: '1.5s', willChange: 'transform, opacity' }} />
+          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-brand-50/20 to-transparent" />
         </div>
-        
-        <div className="relative space-y-6">
-          <div
-            className={`group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-neutral-200 bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-md transition-all duration-300 hover:border-brand-300 hover:shadow-lg hover:-translate-y-0.5 ${
-              introVisible ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-50/50 to-transparent translate-x-[-100%] group-hover/badge:translate-x-[100%] transition-transform duration-1000" />
-            <div className="absolute inset-0 bg-brand-50/50 opacity-0 transition-opacity duration-300 group-hover/badge:opacity-100" />
-            <RocketLaunchIcon className="relative z-10 h-4 w-4 animate-pulse transition-transform duration-300 group-hover/badge:rotate-12 group-hover/badge:scale-110" />
-            <span className="relative z-10 transition-colors duration-300 group-hover/badge:text-brand-700">{language === 'fr' ? 'Contact' : 'Contact'}</span>
+
+        {/* Content */}
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className={`mb-8 flex justify-center transition-all duration-800 ease-out ${introVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-8 opacity-0 scale-90'}`} style={{ transitionDelay: '150ms' }}>
+              <Badge variant="primary" icon={<RocketLaunchIcon className="h-4 w-4 animate-pulse" />}>
+                {language === 'fr' ? 'Contactez-Nous' : 'Contact Us'}
+              </Badge>
+            </div>
+            <h1 className={`mb-6 font-display text-4xl leading-[1.1] text-ink transition-all duration-1000 ease-out md:text-5xl lg:text-6xl ${introVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`} style={{ transitionDelay: '300ms' }}>
+              {language === 'fr' ? 'Contactez-Nous' : 'Contact Us'}
+            </h1>
+            <p className={`mx-auto mb-4 max-w-3xl text-lg leading-relaxed text-neutral-700 transition-all duration-1000 ease-out md:text-xl ${introVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '450ms' }}>
+              {language === 'fr'
+                ? 'Nous sommes disponibles 24/7 pour répondre à vos besoins et transformer vos idées en réalité.'
+                : 'We are available 24/7 to meet your needs and transform your ideas into reality.'}
+            </p>
+            <p className={`mx-auto mb-10 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${introVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '600ms' }}>
+              {language === 'fr'
+                ? 'Discutons de votre projet, explorons vos besoins et découvrons ensemble comment nous pouvons vous accompagner vers le succès. Notre équipe d\'experts est prête à écouter vos défis et à proposer des solutions sur mesure qui correspondent à vos objectifs.'
+                : 'Let\'s discuss your project, explore your needs and discover together how we can support you towards success. Our team of experts is ready to listen to your challenges and propose tailor-made solutions that match your objectives.'}
+            </p>
           </div>
-          
-          <h1
-            className={`font-display text-4xl leading-tight text-ink transition-opacity duration-300 delay-100 md:text-5xl lg:text-6xl ${
-              introVisible ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            {language === 'fr' ? 'Contactez-Nous' : 'Contact Us'}
-          </h1>
-          
-          <p
-            className={`mx-auto max-w-3xl text-lg leading-relaxed text-neutral-600 transition-opacity duration-300 delay-200 ${
-              introVisible ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            {language === 'fr'
-              ? 'Nous sommes disponibles 24/7 pour répondre à vos besoins. Discutons de votre projet et découvrons comment nous pouvons vous accompagner.'
-              : 'We are available 24/7 to meet your needs. Let\'s discuss your project and discover how we can support you.'}
-          </p>
-        </div>
         </div>
       </section>
 

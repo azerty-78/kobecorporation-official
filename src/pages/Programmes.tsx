@@ -13,6 +13,7 @@ import SEO from '../components/SEO'
 import { getSEOData } from '../data/seoData'
 import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
+import { Badge } from '../components/ui/Badge'
 import { OptimizedImage } from '../components/OptimizedImage'
 
 // Images professionnelles pour chaque programme (2 par programme)
@@ -192,59 +193,55 @@ function Programmes() {
         keywords={seo.keywords}
       />
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
-      {/* Hero Section améliorée avec animations */}
-      <section id="hero" className="mb-20">
-        <div
-          ref={introRef}
-          className={`group relative overflow-hidden rounded-3xl bg-white p-12 text-center shadow-xl md:p-16 animate-page-enter ${
-            introVisible
-              ? 'animate-page-enter-visible'
-              : 'animate-page-enter-hidden'
-          }`}
+      {/* Hero Section avec le même design que Home */}
+      <section
+        ref={introRef}
+        id="hero"
+        className="relative overflow-hidden pt-4 pb-8 md:pt-6 md:pb-12 lg:pt-8 lg:pb-16 min-h-[600px] lg:min-h-[700px] xl:min-h-[800px] mb-20"
+        style={{ isolation: 'isolate' }}
+      >
+        {/* Modern Background with grid pattern and geometric shapes */}
+        <div 
+          className="absolute inset-0 overflow-hidden bg-white" 
+          style={{ zIndex: 0, willChange: 'transform' }}
+          aria-hidden="true"
         >
-        {/* Fond blanc pur */}
-        <div className="absolute inset-0 bg-white" />
-        
-        {/* Particules animées */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-10 left-10 h-2 w-2 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '0s' }} />
-          <div className="absolute top-20 right-20 h-1.5 w-1.5 rounded-full bg-brand-300 animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute bottom-20 left-20 h-2.5 w-2.5 rounded-full bg-brand-500 animate-pulse" style={{ animationDelay: '2s' }} />
-          <div className="absolute bottom-10 right-10 h-1 w-1 rounded-full bg-brand-400 animate-pulse" style={{ animationDelay: '3s' }} />
+          {/* Subtle grid pattern */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,122,255,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,122,255,0.15)_1px,transparent_1px)] bg-[size:40px_40px]" />
+          
+          {/* Geometric shapes - Same as Home */}
+          <div className="absolute top-20 right-20 h-32 w-32 rounded-2xl border-2 border-brand-300/70 animate-float-shape" style={{ animationDelay: '0s', willChange: 'transform' }} />
+          <div className="absolute bottom-32 left-16 h-24 w-24 rounded-full border-2 border-brand-300/65 animate-float-gentle animate-pulse-border" style={{ animationDelay: '1s', willChange: 'transform, opacity' }} />
+          <div className="absolute top-1/2 right-1/4 h-20 w-20 border-2 border-brand-300/60 animate-rotate-slow" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)', transformOrigin: 'center', animationDelay: '2s', willChange: 'transform' }} />
+          <div className="absolute top-40 left-1/3 h-16 w-16 rounded-lg border-2 border-accent-300/60 animate-float-shape" style={{ transform: 'rotate(-15deg)', animationDelay: '0.5s', willChange: 'transform' }} />
+          <div className="absolute bottom-40 right-1/3 h-12 w-12 rounded-full border-2 border-accent-300/55 animate-float-gentle animate-pulse-border" style={{ animationDelay: '1.5s', willChange: 'transform, opacity' }} />
+          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-brand-50/20 to-transparent" />
         </div>
-        
-        <div className="relative space-y-6">
-          <div
-            className={`group/badge relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-neutral-200 bg-white px-4 py-1.5 text-xs font-semibold text-brand-600 shadow-md transition-all duration-700 delay-100 hover:border-brand-300 hover:shadow-lg hover:-translate-y-0.5 ${
-              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-            }`}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-brand-50/50 to-transparent translate-x-[-100%] group-hover/badge:translate-x-[100%] transition-transform duration-1000" />
-            <div className="absolute inset-0 bg-brand-50/50 opacity-0 transition-opacity duration-300 group-hover/badge:opacity-100" />
-            <RocketLaunchIcon className="relative z-10 h-4 w-4 animate-pulse transition-transform duration-300 group-hover/badge:rotate-12 group-hover/badge:scale-110" />
-            <span className="relative z-10 transition-colors duration-300 group-hover/badge:text-brand-700">{language === 'fr' ? 'Nos Programmes' : 'Our Programs'}</span>
+
+        {/* Content */}
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className={`mb-8 flex justify-center transition-all duration-800 ease-out ${introVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-8 opacity-0 scale-90'}`} style={{ transitionDelay: '150ms' }}>
+              <Badge variant="primary" icon={<RocketLaunchIcon className="h-4 w-4 animate-pulse" />}>
+                {language === 'fr' ? 'Programmes de Formation' : 'Training Programs'}
+              </Badge>
+            </div>
+            <h1 className={`mb-6 font-display text-4xl leading-[1.1] text-ink transition-all duration-1000 ease-out md:text-5xl lg:text-6xl ${introVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`} style={{ transitionDelay: '300ms' }}>
+              {language === 'fr' ? 'Nos Programmes de Développement' : 'Our Development Programs'}
+            </h1>
+            <p className={`mx-auto mb-4 max-w-3xl text-lg leading-relaxed text-neutral-700 transition-all duration-1000 ease-out md:text-xl ${introVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '450ms' }}>
+              {language === 'fr'
+                ? 'Rejoignez une communauté dynamique de développeurs passionnés et accédez à des programmes de formation d\'excellence.'
+                : 'Join a dynamic community of passionate developers and access excellence training programs.'}
+            </p>
+
+            {/* Description enriched */}
+            <p className={`mx-auto mb-10 max-w-2xl text-base leading-relaxed text-neutral-600 transition-all duration-1000 ease-out ${introVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '600ms' }}>
+              {language === 'fr'
+                ? 'Que vous soyez freelance, étudiant ou développeur open source, découvrez des opportunités qui transforment votre carrière. Formation pratique, mentorat personnalisé et accompagnement professionnel pour votre réussite.'
+                : 'Whether you\'re a freelancer, student or open source developer, discover opportunities that transform your career. Practical training, personalized mentoring and professional support for your success.'}
+            </p>
           </div>
-          
-          <h1
-            className={`font-display text-4xl leading-tight text-ink transition-all duration-1000 delay-200 md:text-5xl lg:text-6xl ${
-              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-            }`}
-          >
-            {language === 'fr'
-              ? 'Nos Programmes de Développement'
-              : 'Our Development Programs'}
-          </h1>
-          
-          <p
-            className={`mx-auto max-w-3xl text-lg leading-relaxed text-neutral-600 transition-all duration-1000 delay-300 ${
-              introVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-            }`}
-          >
-            {language === 'fr'
-              ? 'Rejoignez une communauté dynamique de développeurs passionnés. Que vous soyez freelance, étudiant ou développeur open source, découvrez des opportunités qui transforment votre carrière.'
-              : 'Join a dynamic community of passionate developers. Whether you\'re a freelancer, student or open source developer, discover opportunities that transform your career.'}
-          </p>
-        </div>
         </div>
       </section>
 
