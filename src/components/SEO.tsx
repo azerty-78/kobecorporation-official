@@ -23,7 +23,7 @@ const defaultDescription = 'KOBE Corporation - Build Your Own Legacy. Votre part
  * - Normalise les trailing slashes (supprime sauf pour la home)
  * - Redirige /home vers /
  */
-function normalizeCanonicalUrl(pathname: string, search: string, customCanonical?: string): string {
+function normalizeCanonicalUrl(pathname: string, customCanonical?: string): string {
   // Si une URL canonique personnalisée est fournie, l'utiliser
   if (customCanonical) {
     // S'assurer qu'elle utilise www.kobecorporation.com
@@ -61,7 +61,7 @@ function SEO({
 }: SEOProps) {
   const location = useLocation()
   const fullTitle = title ? `${title} | ${companyInfo.name}` : `${companyInfo.name} - ${companyInfo.slogan}`
-  const url = normalizeCanonicalUrl(location.pathname, location.search, canonical)
+  const url = normalizeCanonicalUrl(location.pathname, canonical)
 
   useEffect(() => {
     // Utiliser requestIdleCallback pour décaler les manipulations DOM non critiques
