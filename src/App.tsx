@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
@@ -35,7 +35,8 @@ function AppContent() {
         }>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
+          {/* Redirection de /home vers / pour éviter les duplications SEO */}
+          <Route path="/home" element={<Navigate to="/" replace />} />
           <Route path="/services" element={<Services />} />
           <Route path="/programmes" element={<Programmes />} />
           <Route path="/about" element={<About />} />

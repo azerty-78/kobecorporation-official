@@ -16,6 +16,40 @@ const baseUrl = 'https://www.kobecorporation.com'
 const defaultImage = `${baseUrl}/og-image.png`
 const defaultDescription = 'KOBE Corporation - Build Your Own Legacy. Votre partenaire technologique pour transformer vos idées en solutions logicielles innovantes. Développement logiciel, hébergement, consultation et formation au Cameroun.'
 
+/**
+ * Normalise une URL canonique pour éviter les duplications
+ * - Utilise toujours www.kobecorporation.com
+ * - Supprime les paramètres de requête (UTM, tracking, etc.)
+ * - Normalise les trailing slashes (supprime sauf pour la home)
+ * - Redirige /home vers /
+ */
+function normalizeCanonicalUrl(pathname: string, customCanonical?: string): string {
+  // Si une URL canonique personnalisée est fournie, l'utiliser
+  if (customCanonical) {
+    // S'assurer qu'elle utilise www.kobecorporation.com
+    return customCanonical.replace(/https?:\/\/(www\.)?kobecorporation\.com/, baseUrl)
+  }
+
+  // Normaliser le pathname
+  let normalizedPath = pathname
+
+  // Rediriger /home vers /
+  if (normalizedPath === '/home') {
+    normalizedPath = '/'
+  }
+
+  // Normaliser les trailing slashes : supprimer sauf pour la racine
+  if (normalizedPath !== '/' && normalizedPath.endsWith('/')) {
+    normalizedPath = normalizedPath.slice(0, -1)
+  }
+
+  // Supprimer tous les paramètres de requête pour éviter les duplications
+  // (Les paramètres comme ?utm_source=xxx peuvent créer des duplications)
+  // Note: Si vous avez besoin de paramètres spécifiques, vous pouvez ajouter une logique ici
+
+  return `${baseUrl}${normalizedPath}`
+}
+
 function SEO({
   title,
   description = defaultDescription,
@@ -27,7 +61,7 @@ function SEO({
 }: SEOProps) {
   const location = useLocation()
   const fullTitle = title ? `${title} | ${companyInfo.name}` : `${companyInfo.name} - ${companyInfo.slogan}`
-  const url = canonical || `${baseUrl}${location.pathname}${location.search}`
+  const url = normalizeCanonicalUrl(location.pathname, canonical)
 
   useEffect(() => {
     // Utiliser requestIdleCallback pour décaler les manipulations DOM non critiques

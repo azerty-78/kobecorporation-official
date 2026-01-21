@@ -56,6 +56,15 @@ server {
     access_log /var/log/nginx/ben-djibril_access.log main;
     error_log /var/log/nginx/ben-djibril_error.log warn;
 
+    # Redirection /home vers / pour éviter les duplications SEO
+    location = /home {
+        return 301 https://ben-djibril.kobecorporation.com/;
+    }
+
+    location = /home/ {
+        return 301 https://ben-djibril.kobecorporation.com/;
+    }
+
     # Proxy vers l'application
     location / {
         proxy_pass http://ben_djibril_backend;
