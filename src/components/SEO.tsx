@@ -193,7 +193,7 @@ function SEO({
         url: baseUrl,
         logo: {
           '@type': 'ImageObject',
-          url: `${baseUrl}/logo.png`,
+          url: `${baseUrl}/logo-nom.jpeg`,
           width: 512,
           height: 512,
         },
