@@ -27,6 +27,7 @@ export function useNavigationItems(): NavItem[] {
       path: '/services',
       sections: [
         { label: language === 'fr' ? 'Accueil' : 'Home', anchor: 'hero' },
+        { label: language === 'fr' ? 'Forfaits SaaS' : 'SaaS Plans', anchor: 'forfait-saas' },
         { label: language === 'fr' ? 'Développement Logiciel' : 'Software Development', anchor: 'development' },
         { label: language === 'fr' ? 'Hébergement' : 'Hosting', anchor: 'hosting' },
         { label: language === 'fr' ? 'Consultation' : 'Consultation', anchor: 'consultation' },
