@@ -425,8 +425,6 @@ jobs:
       
       # Étape 6: Build Docker Image (le contexte "." existe maintenant)
       - name: 🔨 Build Docker Image
-        env:
-          DOCKER_BUILDKIT: 0
         run: |
           # Vérifier que le login fonctionne
           echo "Vérification de l'authentification DockerHub..."
@@ -590,7 +588,7 @@ jobs:
       
       - name: 🐳 Check & Setup Docker on Server
         run: |
-          ssh -o StrictHostKeyChecking=no -p ${{ secrets.VPS_PORT || 22 }} \
+          ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=60 -o TCPKeepAlive=yes -p ${{ secrets.VPS_PORT || 22 }} \
             ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} << 'DOCKER_SETUP'
           set -e
           
@@ -758,14 +756,19 @@ jobs:
       - name: 🔧 Configure SSH
         run: |
           mkdir -p ~/.ssh
-          cat >> ~/.ssh/config << EOF
+          cat > ~/.ssh/config << EOF
           Host vps-deploy
             HostName ${{ secrets.VPS_HOST }}
             User ${{ secrets.VPS_USERNAME }}
             Port ${{ secrets.VPS_PORT || 22 }}
             StrictHostKeyChecking no
             UserKnownHostsFile=/dev/null
+            ServerAliveInterval 30
+            ServerAliveCountMax 60
+            TCPKeepAlive yes
+            ConnectionAttempts 3
           EOF
+          chmod 600 ~/.ssh/config
           ssh-keyscan -p ${{ secrets.VPS_PORT || 22 }} -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
       
       - name: 🧹 Clean old deployment files
@@ -778,10 +781,14 @@ jobs:
             Port ${{ secrets.VPS_PORT || 22 }}
             StrictHostKeyChecking no
             UserKnownHostsFile=/dev/null
+            ServerAliveInterval 30
+            ServerAliveCountMax 60
+            TCPKeepAlive yes
+            ConnectionAttempts 3
           EOF
           chmod 600 ~/.ssh/config
           
-          ssh -F ~/.ssh/config vps-deploy << 'EOF'
+          ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=60 -o TCPKeepAlive=yes -F ~/.ssh/config vps-deploy << 'EOF'
             set -e
             
             echo "🧹 Nettoyage des anciens fichiers de déploiement..."
@@ -820,7 +827,7 @@ jobs:
             --include="nginx.conf" \
             --include=".env" \
             --include="compose.yaml" \
-            -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.VPS_PORT || 22 }}" \
+            -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ServerAliveCountMax=60 -o TCPKeepAlive=yes -p ${{ secrets.VPS_PORT || 22 }}" \
             .deploy/setup-front/ \
             ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:~/kobe-corporation/setup-front/
           
@@ -829,7 +836,7 @@ jobs:
           
           if [ -f ".deploy/package.json" ]; then
             rsync -avz \
-              -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.VPS_PORT || 22 }}" \
+              -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ServerAliveCountMax=60 -o TCPKeepAlive=yes -p ${{ secrets.VPS_PORT || 22 }}" \
               .deploy/package.json \
               ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:~/kobe-corporation/
           else
@@ -839,7 +846,7 @@ jobs:
           
           if [ -f ".deploy/package-lock.json" ]; then
             rsync -avz \
-              -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.VPS_PORT || 22 }}" \
+              -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ServerAliveCountMax=60 -o TCPKeepAlive=yes -p ${{ secrets.VPS_PORT || 22 }}" \
               .deploy/package-lock.json \
               ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:~/kobe-corporation/
           fi
@@ -847,7 +854,7 @@ jobs:
           for file in index.html vite.config.ts tsconfig.json tsconfig.app.json tsconfig.node.json tailwind.config.js postcss.config.js eslint.config.js; do
             if [ -f ".deploy/$file" ]; then
               rsync -avz \
-                -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.VPS_PORT || 22 }}" \
+                -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ServerAliveCountMax=60 -o TCPKeepAlive=yes -p ${{ secrets.VPS_PORT || 22 }}" \
                 .deploy/$file \
                 ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:~/kobe-corporation/
             fi
@@ -855,7 +862,7 @@ jobs:
           
           if [ -d ".deploy/src" ]; then
             rsync -avz \
-              -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.VPS_PORT || 22 }}" \
+              -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ServerAliveCountMax=60 -o TCPKeepAlive=yes -p ${{ secrets.VPS_PORT || 22 }}" \
               .deploy/src/ \
               ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:~/kobe-corporation/src/
           else
@@ -865,7 +872,7 @@ jobs:
           
           if [ -d ".deploy/public" ]; then
             rsync -avz \
-              -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.VPS_PORT || 22 }}" \
+              -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ServerAliveCountMax=60 -o TCPKeepAlive=yes -p ${{ secrets.VPS_PORT || 22 }}" \
               .deploy/public/ \
               ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:~/kobe-corporation/public/
           else
@@ -878,13 +885,13 @@ jobs:
             echo "📋 Copie des configurations Nginx pour blogpress-nginx..."
             
             # Créer le répertoire sur le serveur si nécessaire
-            ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.VPS_PORT || 22 }} \
+            ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ServerAliveCountMax=60 -o TCPKeepAlive=yes -p ${{ secrets.VPS_PORT || 22 }} \
               ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} \
               "mkdir -p ~/kobe-corporation/setup-kobe-proxy/conf.d" || true
             
             # Copier les fichiers
             rsync -avz \
-              -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ secrets.VPS_PORT || 22 }}" \
+              -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ServerAliveCountMax=60 -o TCPKeepAlive=yes -p ${{ secrets.VPS_PORT || 22 }}" \
               .deploy/setup-kobe-proxy/conf.d/ \
               ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:~/kobe-corporation/setup-kobe-proxy/conf.d/
             echo "✅ Configurations Nginx copiées"
@@ -895,7 +902,7 @@ jobs:
           echo "✅ Tous les fichiers ont été copiés vers le serveur"
           
           # Vérifier les fichiers
-          ssh -o StrictHostKeyChecking=no -p ${{ secrets.VPS_PORT || 22 }} \
+          ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=60 -o TCPKeepAlive=yes -p ${{ secrets.VPS_PORT || 22 }} \
             ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} << 'VERIFY_FILES'
           set -e
           
@@ -959,6 +966,7 @@ jobs:
           VERIFY_FILES
       
       - name: 🐳 Deploy Docker Containers
+        timeout-minutes: 30
         run: |
           mkdir -p ~/.ssh
           cat > ~/.ssh/config << EOF
@@ -968,10 +976,14 @@ jobs:
             Port ${{ secrets.VPS_PORT || 22 }}
             StrictHostKeyChecking no
             UserKnownHostsFile=/dev/null
+            ServerAliveInterval 30
+            ServerAliveCountMax 60
+            TCPKeepAlive yes
+            ConnectionAttempts 3
           EOF
           chmod 600 ~/.ssh/config
           
-          ssh -F ~/.ssh/config vps-deploy << 'DEPLOY_DOCKER'
+          ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=60 -o TCPKeepAlive=yes -F ~/.ssh/config vps-deploy << 'DEPLOY_DOCKER'
           set -e
           
           get_docker_cmd() {
@@ -1052,9 +1064,8 @@ jobs:
             exit 1
           fi
           
-          # Désactiver BuildKit pour éviter l'appel à auth.docker.io (TLS timeout sur certains VPS)
-          export DOCKER_BUILDKIT=0
-          export COMPOSE_DOCKER_CLI_BUILD=0
+          # BuildKit activé (rapide) — la directive "# syntax=" a été supprimée du Dockerfile,
+          # donc BuildKit ne contacte plus Docker Hub pour résoudre le parser.
           
           echo ""
           echo "🔨 Build et démarrage des conteneurs..."
@@ -1114,10 +1125,14 @@ jobs:
             Port ${{ secrets.VPS_PORT || 22 }}
             StrictHostKeyChecking no
             UserKnownHostsFile=/dev/null
+            ServerAliveInterval 30
+            ServerAliveCountMax 60
+            TCPKeepAlive yes
+            ConnectionAttempts 3
           EOF
           chmod 600 ~/.ssh/config
           
-          ssh -F ~/.ssh/config vps-deploy << 'VERIFY'
+          ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=60 -o TCPKeepAlive=yes -F ~/.ssh/config vps-deploy << 'VERIFY'
           set -e
           
           get_docker_cmd() {
@@ -1197,10 +1212,14 @@ jobs:
             Port ${{ secrets.VPS_PORT || 22 }}
             StrictHostKeyChecking no
             UserKnownHostsFile=/dev/null
+            ServerAliveInterval 30
+            ServerAliveCountMax 60
+            TCPKeepAlive yes
+            ConnectionAttempts 3
           EOF
           chmod 600 ~/.ssh/config
           
-          ssh -F ~/.ssh/config vps-deploy << 'SSL_SETUP'
+          ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=60 -o TCPKeepAlive=yes -F ~/.ssh/config vps-deploy << 'SSL_SETUP'
           set -e
           
           CERTBOT_CONTAINER="blogpress-certbot"
