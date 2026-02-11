@@ -82,7 +82,9 @@ body {
 button,
 a,
 [role="button"] {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: transform, opacity, color, background-color, border-color, box-shadow;
+  transition-duration: 0.25s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Animation pour la bannière de cookies */
@@ -328,12 +330,7 @@ nav a:focus-visible {
   }
 }
 
-/* Optimisation des transitions avec transform et opacity */
-.transition-transform,
-.transition-opacity,
-.transition-all {
-  will-change: transform, opacity;
-}
+/* Eviter l'usage global de will-change pour ne pas saturer le GPU/mémoire */
 
 /* Optimisation pour mobile : réduire les durées d'animation et simplifier */
 @media (max-width: 1023px) {
@@ -356,16 +353,6 @@ nav a:focus-visible {
   /* Désactiver certaines animations complexes sur mobile pour améliorer les performances */
   .animate-gradient-shift {
     animation: none !important;
-  }
-
-  /* Utiliser transform et opacity pour de meilleures performances sur mobile */
-  * {
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-perspective: 1000;
-    perspective: 1000;
   }
 
   /* Optimiser les rendus sur mobile */

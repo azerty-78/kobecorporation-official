@@ -27,10 +27,13 @@ function AppContent() {
       <PageLoader isLoading={isNavigating} />
       <ScrollToTop />
       <Header />
-      <main className="flex-1">
+      <main className={`flex-1 transition-opacity duration-300 ${isNavigating ? 'opacity-[0.985]' : 'opacity-100'}`}>
         <Suspense fallback={
-          <div className="flex min-h-screen items-center justify-center">
-            <div className="h-12 w-12 animate-spin rounded-full border-4 border-brand-500 border-t-transparent"></div>
+          <div className="pointer-events-none fixed inset-0 z-[95] flex items-center justify-center bg-gradient-to-b from-white/55 via-white/35 to-white/55 backdrop-blur-[1px]">
+            <div className="flex flex-col items-center gap-3 rounded-2xl border border-white/70 bg-white/80 px-6 py-5 shadow-soft">
+              <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand-200 border-t-brand-500" />
+              <p className="text-sm font-medium text-neutral-600">Chargement...</p>
+            </div>
           </div>
         }>
         <Routes>

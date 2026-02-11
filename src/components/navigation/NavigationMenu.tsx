@@ -83,6 +83,13 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
   const handleMainNavClick = (e: React.MouseEvent, item: NavItem) => {
     e.preventDefault()
     e.stopPropagation()
+
+    // Pour la page Services, un clic principal renvoie toujours vers #hero
+    // afin d'éviter de rester bloqué sur une sous-section comme #forfait-saas.
+    if (item.path === '/services') {
+      handleNavClick(e, '/services', 'hero')
+      return
+    }
     
     // Si l'item a des sections, toggle le dropdown
     if (item.sections && item.sections.length > 0) {

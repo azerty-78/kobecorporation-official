@@ -11,8 +11,8 @@ interface UseScrollAnimationOptions {
 
 export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
   const {
-    threshold = 0.1,
-    rootMargin = '0px 0px -100px 0px',
+    threshold = 0.08,
+    rootMargin = '0px 0px -60px 0px',
     triggerOnce = true,
     disableOnMobile = false,
     delay = 0,
@@ -33,50 +33,37 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
       return
     }
 
-    // Optimisation: utiliser un délai pour éviter de multiples vérifications
-    let timeoutId: ReturnType<typeof setTimeout> | null = null
-
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Utiliser requestAnimationFrame pour optimiser les performances
-        if (timeoutId) {
-          clearTimeout(timeoutId)
-        }
-        
-        timeoutId = setTimeout(() => {
-          requestAnimationFrame(() => {
-            if (entry.isIntersecting) {
-              if (delay > 0) {
-                setTimeout(() => {
-                  setIsVisible(true)
-                  if (triggerOnce) {
-                    observer.unobserve(element)
-                  }
-                }, delay)
-              } else {
+        requestAnimationFrame(() => {
+          if (entry.isIntersecting) {
+            if (delay > 0) {
+              setTimeout(() => {
                 setIsVisible(true)
                 if (triggerOnce) {
                   observer.unobserve(element)
                 }
+              }, delay)
+            } else {
+              setIsVisible(true)
+              if (triggerOnce) {
+                observer.unobserve(element)
               }
-            } else if (!triggerOnce) {
-              setIsVisible(false)
             }
-          })
-        }, isMobile ? 50 : 0) // Délai plus court sur mobile
+          } else if (!triggerOnce) {
+            setIsVisible(false)
+          }
+        })
       },
       {
-        threshold: isMobile ? Math.max(threshold, 0.05) : threshold, // Threshold plus bas sur mobile
-        rootMargin: isMobile ? '0px 0px -50px 0px' : rootMargin, // Marge réduite sur mobile
+        threshold: isMobile ? Math.max(threshold, 0.05) : threshold,
+        rootMargin: isMobile ? '0px 0px -40px 0px' : rootMargin,
       }
     )
 
     observer.observe(element)
 
     return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId)
-      }
       if (element) {
         observer.unobserve(element)
       }

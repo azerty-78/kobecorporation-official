@@ -11,18 +11,21 @@ export function PageLoader({ isLoading, onComplete }: PageLoaderProps) {
 
   useEffect(() => {
     if (isLoading) {
-      setShouldRender(true)
-      // Affichage immédiat pour réactivité
-      requestAnimationFrame(() => {
-        setIsVisible(true)
-      })
+      // Petit délai pour éviter les flashes sur navigations très rapides
+      const showTimer = setTimeout(() => {
+        setShouldRender(true)
+        requestAnimationFrame(() => {
+          setIsVisible(true)
+        })
+      }, 80)
+      return () => clearTimeout(showTimer)
     } else {
       setIsVisible(false)
-      // Réduire le délai de retrait du DOM pour affichage plus rapide
+      // Masquer légèrement après le fade-out pour une sortie douce
       const timer = setTimeout(() => {
         setShouldRender(false)
         onComplete?.()
-      }, 200) // Réduit de 300ms à 200ms
+      }, 180)
       return () => clearTimeout(timer)
     }
   }, [isLoading, onComplete])
@@ -31,7 +34,7 @@ export function PageLoader({ isLoading, onComplete }: PageLoaderProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-[100] flex items-center justify-center bg-white transition-opacity duration-300 ${
+      className={`fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-b from-white/55 via-white/35 to-white/55 backdrop-blur-[1px] transition-opacity duration-300 ${
         isVisible ? 'opacity-100' : 'opacity-0'
       }`}
       style={{
@@ -42,7 +45,7 @@ export function PageLoader({ isLoading, onComplete }: PageLoaderProps) {
       aria-hidden={!isLoading}
       aria-label="Chargement de la page"
     >
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-4 rounded-2xl border border-white/70 bg-white/80 px-6 py-5 shadow-soft">
         {/* Spinner principal */}
         <div className="relative h-16 w-16">
           <div
