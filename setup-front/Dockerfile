@@ -1,6 +1,5 @@
-# syntax=docker/dockerfile:1
-
 # Stage 1: Build de l'application
+# (Pas de directive syntax= pour éviter d'appeler Docker Hub sur le serveur de déploiement)
 ARG NODE_VERSION=22.13.1
 
 # Variables d'environnement pour le build (Vite les nécessite au moment du build)

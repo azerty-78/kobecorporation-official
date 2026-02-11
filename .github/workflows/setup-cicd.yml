@@ -1052,6 +1052,10 @@ jobs:
             exit 1
           fi
           
+          # Désactiver BuildKit pour éviter l'appel à auth.docker.io (TLS timeout sur certains VPS)
+          export DOCKER_BUILDKIT=0
+          export COMPOSE_DOCKER_CLI_BUILD=0
+          
           echo ""
           echo "🔨 Build et démarrage des conteneurs..."
           if echo "$COMPOSE_CMD" | grep -q "docker compose"; then
