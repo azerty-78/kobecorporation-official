@@ -1,9 +1,6 @@
 services:
   web:
-    build:
-      context: ..
-      dockerfile: setup-front/Dockerfile
-    image: kobecorporation-web:latest
+    image: azerty78/kobecorporation-web:latest
     container_name: kobecorporation-web
     restart: unless-stopped
     # Ne pas exposer de port sur l'hôte (le reverse proxy blogpress-nginx gère les ports 80/443)
