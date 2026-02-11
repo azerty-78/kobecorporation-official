@@ -33,7 +33,11 @@ export function OptimizedImage({
   const fetchPriority = priority === 'high' ? 'high' : priority === 'low' ? 'low' : undefined
 
   // Déterminer loading
-  const loading = priority === 'high' ? 'eager' : 'lazy'
+  // - high: image critique (au-dessus de la ligne de flottaison)
+  // - low: image non critique
+  // - auto: laisser le navigateur décider pour éviter le lazy forcé
+  const loading = priority === 'high' ? 'eager' : priority === 'low' ? 'lazy' : undefined
+  const decoding = priority === 'high' ? 'sync' : 'async'
 
   useEffect(() => {
     // Précharger l'image si elle est prioritaire
@@ -52,7 +56,7 @@ export function OptimizedImage({
       width={width}
       height={height}
       loading={loading}
-      decoding="async"
+      decoding={decoding}
       fetchPriority={fetchPriority}
       className={`${className} ${!isLoaded && !error ? 'opacity-0 bg-neutral-100' : 'opacity-100'} transition-opacity duration-300`}
       onLoad={() => setIsLoaded(true)}

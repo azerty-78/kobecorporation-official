@@ -31,7 +31,7 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
           requestAnimationFrame(() => {
             const element = document.getElementById(anchor)
             if (element) {
-              const headerOffset = 80
+              const headerOffset = 120
               const elementPosition = element.getBoundingClientRect().top
               const offsetPosition = elementPosition + window.pageYOffset - headerOffset
 
@@ -67,7 +67,15 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
             {hasSections ? (
               <>
                 <button
-                  onClick={() => toggleItem(item.path)}
+                  onClick={() => {
+                    // Pour la page Services, un clic principal renvoie toujours vers #hero
+                    // afin d'éviter de rester sur #forfait-saas.
+                    if (item.path === '/services') {
+                      handleNavClick('/services', 'hero')
+                      return
+                    }
+                    toggleItem(item.path)
+                  }}
                   className={`relative flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-0 focus:border-0 ${
                     isActive
                       ? 'text-brand-500 font-semibold'
