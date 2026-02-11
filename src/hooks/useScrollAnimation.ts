@@ -22,13 +22,16 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
   const [isVisible, setIsVisible] = useState(false)
   const elementRef = useRef<HTMLDivElement>(null)
   const isMobile = deviceType === 'mobile' || deviceType === 'tablet'
+  const isLowPerfMode =
+    typeof document !== 'undefined' &&
+    document.documentElement.classList.contains('low-perf-mode')
 
   useEffect(() => {
     const element = elementRef.current
     if (!element) return
 
-    // Sur mobile, si désactivé, rendre visible immédiatement
-    if (isMobile && disableOnMobile) {
+    // Sur mobile ou mode basse performance, rendre visible immédiatement
+    if ((isMobile && disableOnMobile) || (isMobile && isLowPerfMode)) {
       setIsVisible(true)
       return
     }
@@ -68,7 +71,7 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
         observer.unobserve(element)
       }
     }
-  }, [threshold, rootMargin, triggerOnce, disableOnMobile, delay, isMobile])
+  }, [threshold, rootMargin, triggerOnce, disableOnMobile, delay, isMobile, isLowPerfMode])
 
   return { elementRef, isVisible }
 }

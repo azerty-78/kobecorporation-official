@@ -390,6 +390,32 @@ nav a:focus-visible {
   }
 }
 
+/* Mode performance (appareils modestes / data saver / réseau lent) */
+.low-perf-mode .animate-float-shape,
+.low-perf-mode .animate-rotate-slow,
+.low-perf-mode .animate-pulse-border,
+.low-perf-mode .animate-float-gentle,
+.low-perf-mode .animate-gradient-shift,
+.low-perf-mode .animate-pulse-soft,
+.low-perf-mode .animate-spin {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+}
+
+.low-perf-mode .transition-all,
+.low-perf-mode .transition-transform,
+.low-perf-mode .transition-opacity {
+  transition-duration: 0.16s !important;
+}
+
+.low-perf-mode .glass-panel {
+  backdrop-filter: none !important;
+}
+
+.low-perf-mode [class*='backdrop-blur'] {
+  backdrop-filter: none !important;
+}
+
 /* Amélioration des contrastes pour WCAG AA */
 .text-neutral-600 {
   color: #525252; /* Amélioration du contraste pour WCAG AA */

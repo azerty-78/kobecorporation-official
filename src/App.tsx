@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
 import ScrollToTop from './components/ScrollToTop'
@@ -21,6 +21,27 @@ const NotFound = lazy(() => import('./pages/NotFound'))
 
 function AppContent() {
   const { isNavigating } = useNavigation()
+
+  useEffect(() => {
+    const nav = navigator as Navigator & {
+      connection?: { saveData?: boolean; effectiveType?: string }
+      deviceMemory?: number
+    }
+
+    const cpuCores = nav.hardwareConcurrency ?? 8
+    const ramGb = nav.deviceMemory ?? 8
+    const saveData = nav.connection?.saveData === true
+    const networkType = nav.connection?.effectiveType ?? ''
+    const slowNetwork = networkType.includes('2g')
+
+    const isLowPerfDevice = cpuCores <= 4 || ramGb <= 4 || saveData || slowNetwork
+
+    document.documentElement.classList.toggle('low-perf-mode', isLowPerfDevice)
+
+    return () => {
+      document.documentElement.classList.remove('low-perf-mode')
+    }
+  }, [])
 
   return (
     <div className="min-h-screen bg-white">
