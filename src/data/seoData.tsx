@@ -13,14 +13,14 @@ export const seoData = {
   },
   services: {
     fr: {
-      title: 'Nos Services - Développement Logiciel & Hébergement',
-      description: 'Découvrez nos services : développement logiciel sur mesure, hébergement sécurisé, consultation IT et formation. Solutions adaptées aux particuliers, PME et grandes entreprises au Cameroun.',
-      keywords: 'services développement logiciel, développement web Cameroun, développement mobile, hébergement applications, consultation IT, formation développeurs, PME Cameroun',
+      title: 'Nos Services & Forfaits SaaS - Développement, Hébergement, Consultation',
+      description: 'Découvrez nos services technologiques et nos forfaits SaaS (Pro, Good Deal, Ultra) : développement logiciel sur mesure, hébergement cloud sécurisé, consultation IT et formation au Cameroun.',
+      keywords: 'forfaits SaaS Cameroun, pricing SaaS KOBE Corporation, services développement logiciel, développement web Cameroun, hébergement cloud sécurisé, consultation IT, formation développeurs, PME Cameroun',
     },
     en: {
-      title: 'Our Services - Software Development & Hosting',
-      description: 'Discover our services: custom software development, secure hosting, IT consulting and training. Solutions tailored for individuals, SMEs and large enterprises in Cameroon.',
-      keywords: 'software development services, web development Cameroon, mobile development, application hosting, IT consulting, developer training, SMEs Cameroon',
+      title: 'Our Services & SaaS Plans - Development, Hosting, Consulting',
+      description: 'Discover our technology services and SaaS plans (Pro, Good Deal, Ultra): custom software development, secure cloud hosting, IT consulting and training in Cameroon.',
+      keywords: 'SaaS plans Cameroon, KOBE Corporation pricing, software development services, web development Cameroon, secure cloud hosting, IT consulting, developer training, SMEs Cameroon',
     },
   },
   programmes: {
@@ -62,13 +62,13 @@ export const seoData = {
   contact: {
     fr: {
       title: 'Contact - Parlons de Votre Projet',
-      description: 'Contactez KOBE Corporation pour discuter de votre projet. Disponible 24/7. Email, téléphone et formulaire de contact. Basé à Yaoundé, Cameroun.',
-      keywords: 'contact KOBE Corporation, devis développement logiciel, consultation gratuite, Yaoundé Cameroun, téléphone entreprise, email contact',
+      description: 'Contactez KOBE Corporation pour votre projet logiciel ou SaaS. FAQ complète, formulaire, email et téléphone. Disponible 24/7 depuis Yaoundé, Cameroun.',
+      keywords: 'contact KOBE Corporation, devis développement logiciel, consultation gratuite, FAQ services IT, forfaits SaaS Cameroun, Yaoundé Cameroun, téléphone entreprise, email contact',
     },
     en: {
       title: 'Contact - Let\'s Talk About Your Project',
-      description: 'Contact KOBE Corporation to discuss your project. Available 24/7. Email, phone and contact form. Based in Yaoundé, Cameroon.',
-      keywords: 'contact KOBE Corporation, software development quote, free consultation, Yaoundé Cameroon, business phone, contact email',
+      description: 'Contact KOBE Corporation for your software or SaaS project. Full FAQ, contact form, email and phone. Available 24/7 from Yaoundé, Cameroon.',
+      keywords: 'contact KOBE Corporation, software development quote, free consultation, IT services FAQ, SaaS plans Cameroon, Yaoundé Cameroon, business phone, contact email',
     },
   },
   privacy: {

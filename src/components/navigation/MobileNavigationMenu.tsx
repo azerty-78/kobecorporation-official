@@ -31,7 +31,7 @@ export function MobileNavigationMenu({ items, onClose }: MobileNavigationMenuPro
           requestAnimationFrame(() => {
             const element = document.getElementById(anchor)
             if (element) {
-              const headerOffset = 80
+              const headerOffset = 120
               const elementPosition = element.getBoundingClientRect().top
               const offsetPosition = elementPosition + window.pageYOffset - headerOffset
 

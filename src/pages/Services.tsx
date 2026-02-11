@@ -45,6 +45,66 @@ function Services() {
   const { language } = useLanguage()
   const { elementRef: introRef, isVisible: introVisible } = useScrollAnimation({ threshold: 0.2 })
   const seo = getSEOData('/services', language)
+  const servicesStructuredData = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'OfferCatalog',
+      name: language === 'fr' ? 'Forfaits SaaS KOBE Corporation' : 'KOBE Corporation SaaS Plans',
+      url: 'https://www.kobecorporation.com/services#forfait-saas',
+      itemListElement: [
+        {
+          '@type': 'Offer',
+          name: 'Pro',
+          price: '27700',
+          priceCurrency: 'XAF',
+          url: 'https://pricing.kobecorporation.com',
+          availability: 'https://schema.org/InStock',
+        },
+        {
+          '@type': 'Offer',
+          name: 'Good Deal',
+          price: '15500',
+          priceCurrency: 'XAF',
+          url: 'https://pricing.kobecorporation.com',
+          availability: 'https://schema.org/InStock',
+        },
+        {
+          '@type': 'Offer',
+          name: 'Ultra',
+          price: '40900',
+          priceCurrency: 'XAF',
+          url: 'https://pricing.kobecorporation.com',
+          availability: 'https://schema.org/InStock',
+        },
+      ],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: language === 'fr' ? 'Où voir tous les détails des forfaits SaaS ?' : 'Where can I see full SaaS plan details?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: language === 'fr'
+              ? 'Tous les détails des offres Pro, Good Deal et Ultra sont disponibles sur la page https://pricing.kobecorporation.com.'
+              : 'Full details for Pro, Good Deal and Ultra plans are available at https://pricing.kobecorporation.com.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: language === 'fr' ? 'Les prix affichés sont-ils mensuels ?' : 'Are the displayed prices monthly?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: language === 'fr'
+              ? 'Oui, les prix affichés sur la section Forfait SaaS sont mensuels et hors taxes.'
+              : 'Yes, prices shown in the SaaS plans section are monthly and tax excluded.',
+          },
+        },
+      ],
+    },
+  ]
 
   const serviceDetails = [
     {
@@ -199,6 +259,7 @@ function Services() {
         title={seo.title}
         description={seo.description}
         keywords={seo.keywords}
+        structuredData={servicesStructuredData}
       />
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
       {/* Hero Section avec le même design que Home */}

@@ -1,32 +1,78 @@
-import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { HandThumbUpIcon as HandThumbUpSolid } from '@heroicons/react/24/solid'
+import { CheckIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { useScrollAnimation } from '../../hooks/useScrollAnimation'
 import { pricingPlans, type PricingPlan } from '../../data/pricingPlans'
 import { Button } from '../ui/Button'
 
 const FEATURE_LIMIT = 3
+const PRICING_PAGE_URL = 'https://pricing.kobecorporation.com'
 
-function getPlanAccent(plan: PricingPlan) {
+function getCardEntryAnimation(index: number, isVisible: boolean) {
+  if (isVisible) {
+    return 'translate-y-0 translate-x-0 opacity-100 scale-100 rotate-0'
+  }
+
+  if (index % 3 === 0) {
+    return '-translate-x-10 translate-y-6 opacity-0 scale-95 -rotate-1'
+  }
+
+  if (index % 3 === 1) {
+    return 'translate-y-10 opacity-0 scale-95'
+  }
+
+  return 'translate-x-10 translate-y-6 opacity-0 scale-95 rotate-1'
+}
+
+function getPlanTone(plan: PricingPlan) {
   if (plan.highlighted) {
     return {
-      topBar: 'bg-success-500',
-      priceBg: 'bg-success-500',
+      card:
+        'border-brand-300 bg-gradient-to-b from-brand-50/60 via-white to-white shadow-[0_18px_50px_-20px_rgba(10,122,255,0.45)] ring-1 ring-brand-300/40',
+      badge: 'bg-brand-500 text-white',
+      priceBox: 'bg-brand-500 text-white',
+      checkIcon: 'text-brand-500',
     }
   }
 
-  if (plan.id === 'ultra') {
-    return {
-      topBar: 'bg-brand-700',
-      priceBg: 'bg-brand-700',
-    }
-  }
-
-  // Plan Pro par défaut
   return {
-    topBar: 'bg-ink',
-    priceBg: 'bg-ink',
+    card:
+      'border-neutral-200 bg-white shadow-card hover:border-brand-300 hover:shadow-card-hover',
+    badge: 'bg-brand-100 text-brand-700',
+    priceBox: 'bg-brand-700 text-white',
+    checkIcon: 'text-brand-500',
   }
+}
+
+function PricingFeatureList({
+  plan,
+  t,
+  checkIconClass,
+}: {
+  plan: PricingPlan
+  t: (path: string) => string
+  checkIconClass: string
+}) {
+  const visibleFeatures = plan.features.slice(0, FEATURE_LIMIT)
+
+  return (
+    <ul className="space-y-2.5">
+      {visibleFeatures.map((feature, i) => {
+        const label = t(`pricing.features.${feature.text}`)
+        return (
+          <li key={i} className="flex items-start gap-2.5">
+            <CheckIcon className={`mt-0.5 h-5 w-5 flex-shrink-0 ${checkIconClass}`} />
+            <span
+              className={`text-sm leading-snug text-neutral-600 ${
+                feature.bold ? 'font-semibold text-ink' : ''
+              }`}
+            >
+              {label}
+            </span>
+          </li>
+        )
+      })}
+    </ul>
+  )
 }
 
 function PricingCard({
@@ -44,56 +90,46 @@ function PricingCard({
   const description = t(`pricing.plans.${plan.descriptionKey}`)
   const strikethrough = t(`pricing.plans.${plan.strikethroughKey}`)
   const isHighlighted = plan.highlighted
-  const visibleFeatures = plan.features.slice(0, FEATURE_LIMIT)
-  const accent = getPlanAccent(plan)
+  const tone = getPlanTone(plan)
+
+  const entryAnimationClass = getCardEntryAnimation(index, isVisible)
 
   return (
     <a
-      href="https://pricing.kobecorporation.com"
+      href={PRICING_PAGE_URL}
       target="_blank"
       rel="noopener noreferrer"
       className={`block rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
-        isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-      } transition-all duration-700`}
+        entryAnimationClass
+      } transition-all duration-1000 ease-out`}
       style={{ transitionDelay: `${index * 120}ms` }}
     >
       <div
-        className={`relative flex h-full flex-col overflow-hidden rounded-2xl border-2 bg-white ${
-          isHighlighted
-            ? 'border-success-500/40 shadow-[0_20px_60px_-15px_rgba(16,185,129,0.25)] ring-2 ring-success-500/20'
-            : 'border-neutral-200 shadow-card hover:border-brand-300 hover:shadow-card-hover'
-        } transition-all duration-700`}
+        className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border-2 transition-all duration-500 hover:-translate-y-1.5 ${tone.card}`}
       >
-        {/* Barre d'accent en haut de la carte */}
-        <div className={`h-1 w-full ${accent.topBar}`} />
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-500/0 via-transparent to-brand-500/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-        {/* Badge "Good Deal" sur le plan mis en avant */}
-        {isHighlighted && (
-          <div className="absolute right-4 top-4 z-10 flex items-center gap-1.5 rounded-full bg-success-500 px-3 py-1.5 text-xs font-semibold text-white shadow-md">
-            <HandThumbUpSolid className="h-4 w-4" />
-            <span># {t('pricing.goodDealLabel')}</span>
+        <div className="relative flex flex-1 flex-col p-5 sm:p-6">
+          <div className="mb-4 flex items-start justify-between gap-3">
+            <h3 className="font-display text-xl font-bold text-ink sm:text-2xl">
+              # {name}
+            </h3>
+            {isHighlighted && (
+              <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${tone.badge}`}>
+                # {t('pricing.goodDealLabel')}
+              </span>
+            )}
           </div>
-        )}
-
-        <div className="flex flex-1 flex-col p-5 sm:p-6">
-          {/* En-tête */}
-          <h3 className="mb-1 font-display text-xl font-bold text-ink sm:text-2xl">
-            # {name}
-          </h3>
           <p className="mb-4 text-sm leading-relaxed text-neutral-600">
             {description}
           </p>
 
-          {/* Prix barré */}
           <p className="mb-2 text-sm text-neutral-400 line-through">
             {strikethrough} {t('pricing.annualPayment')}
           </p>
 
-          {/* Prix actuel */}
           <div
-            className={`mb-5 inline-flex w-fit items-baseline gap-1 rounded-lg px-4 py-2.5 ${
-              accent.priceBg
-            }`}
+            className={`mb-5 inline-flex w-fit items-baseline gap-1 rounded-xl px-4 py-2.5 shadow-md ${tone.priceBox}`}
           >
             <span className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
               {plan.price} f
@@ -103,35 +139,15 @@ function PricingCard({
             </span>
           </div>
 
-          {/* Liste "Ce qui est inclus" (3 avantages clés) */}
           <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-ink">
             {t('pricing.included')}
           </h4>
-          <ul className="space-y-2.5">
-            {visibleFeatures.map((feature, i) => {
-              const label = t(`pricing.features.${feature.text}`)
-              return (
-                <li key={i} className="flex items-start gap-2.5">
-                  {feature.included ? (
-                    <CheckIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-success-500" />
-                  ) : (
-                    <XMarkIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-neutral-400" />
-                  )}
-                  <span
-                    className={`text-sm leading-snug text-neutral-600 ${
-                      feature.bold ? 'font-semibold text-ink' : ''
-                    }`}
-                  >
-                    {label}
-                  </span>
-                </li>
-              )
-            })}
-          </ul>
+          <PricingFeatureList plan={plan} t={t} checkIconClass={tone.checkIcon} />
 
-          <p className="mt-4 text-xs font-medium text-brand-600 underline underline-offset-4">
-            {t('pricing.redirectCta')}
-          </p>
+          <div className="mt-5 flex items-center gap-2 text-xs font-semibold text-brand-600">
+            <ArrowTopRightOnSquareIcon className="h-4 w-4" />
+            <span>{t('pricing.redirectCta')}</span>
+          </div>
         </div>
       </div>
     </a>
@@ -146,8 +162,19 @@ export function SaaSPricing() {
     <section
       id="forfait-saas"
       ref={elementRef}
-      className="scroll-mt-32 py-16 md:py-20"
+      className="relative scroll-mt-40 py-16 md:py-20"
     >
+      <div
+        className={`pointer-events-none absolute inset-0 -z-10 transition-opacity duration-1000 ${
+          isVisible ? 'opacity-100' : 'opacity-0'
+        }`}
+        aria-hidden="true"
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(10,122,255,0.10),transparent_55%)]" />
+        <div className="absolute left-0 top-1/4 h-44 w-44 rounded-full border border-brand-200/60" />
+        <div className="absolute right-8 bottom-12 h-32 w-32 rounded-2xl border border-brand-200/50" />
+      </div>
+
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* En-tête de section */}
         <div className="mb-12 text-center">
@@ -186,7 +213,7 @@ export function SaaSPricing() {
               {t('pricing.redirectText')}
             </span>
             <Button
-              href="https://pricing.kobecorporation.com"
+              href={PRICING_PAGE_URL}
               variant="primary"
               size="sm"
             >

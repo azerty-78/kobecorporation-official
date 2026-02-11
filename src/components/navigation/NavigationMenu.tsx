@@ -58,7 +58,7 @@ export function NavigationMenu({ items, className = '' }: NavigationMenuProps) {
         setTimeout(() => {
           const element = document.getElementById(anchor)
           if (element) {
-            const headerOffset = 80
+            const headerOffset = 120
             const elementPosition = element.getBoundingClientRect().top
             const offsetPosition = elementPosition + window.pageYOffset - headerOffset
 

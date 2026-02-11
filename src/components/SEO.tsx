@@ -10,6 +10,7 @@ interface SEOProps {
   type?: string
   noindex?: boolean
   canonical?: string
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>
 }
 
 const baseUrl = 'https://www.kobecorporation.com'
@@ -58,6 +59,7 @@ function SEO({
   type = 'website',
   noindex = false,
   canonical,
+  structuredData,
 }: SEOProps) {
   const location = useLocation()
   const fullTitle = title ? `${title} | ${companyInfo.name}` : `${companyInfo.name} - ${companyInfo.slogan}`
@@ -181,7 +183,7 @@ function SEO({
     // Schema.org JSON-LD - Créer les schémas améliorés
     const createSchemas = () => {
       // Supprimer les anciens schémas
-      const existingSchemas = document.querySelectorAll('script[type="application/ld+json"]')
+      const existingSchemas = document.querySelectorAll('script[type="application/ld+json"][data-kobe-seo="true"]')
       existingSchemas.forEach(schema => schema.remove())
 
       // Schema Organization (amélioré)
@@ -261,10 +263,17 @@ function SEO({
       }
 
       // Ajouter les schémas
-      const schemas = [organizationSchema, websiteSchema]
+      const pageSchemas = structuredData
+        ? Array.isArray(structuredData)
+          ? structuredData
+          : [structuredData]
+        : []
+
+      const schemas = [organizationSchema, websiteSchema, ...pageSchemas]
       schemas.forEach(schema => {
         const schemaScript = document.createElement('script')
         schemaScript.type = 'application/ld+json'
+        schemaScript.setAttribute('data-kobe-seo', 'true')
         schemaScript.textContent = JSON.stringify(schema)
         document.head.appendChild(schemaScript)
       })
@@ -277,7 +286,7 @@ function SEO({
       // Fallback pour les navigateurs qui ne supportent pas requestIdleCallback
       setTimeout(createSchemas, 0)
     }
-  }, [fullTitle, description, keywords, image, type, noindex, url])
+  }, [fullTitle, description, keywords, image, type, noindex, url, structuredData])
 
   return null
 }

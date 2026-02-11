@@ -126,10 +126,18 @@ function FAQItem({ faq, index, isOpen, onToggle }: { faq: { question: string; an
 }
 
 // Composant FAQ avec accordéon
-function FAQAccordion({ language }: { language: 'fr' | 'en' }) {
-  const [openIndex, setOpenIndex] = useState<number | null>(0)
+type FAQEntry = { question: string; answer: string }
 
-  const faqs = [
+function getContactFaqs(language: 'fr' | 'en'): FAQEntry[] {
+  return [
+    {
+      question: language === 'fr'
+        ? 'Où puis-je consulter tous les détails des forfaits SaaS ?'
+        : 'Where can I find full details about SaaS plans?',
+      answer: language === 'fr'
+        ? 'Vous pouvez consulter la page dédiée https://pricing.kobecorporation.com pour voir les fonctionnalités complètes, les options et les conditions des forfaits Pro, Good Deal et Ultra.'
+        : 'You can visit https://pricing.kobecorporation.com to view full features, options and terms for Pro, Good Deal and Ultra plans.',
+    },
     {
       question: language === 'fr' 
         ? 'Quel est votre délai de réponse ?'
@@ -195,6 +203,10 @@ function FAQAccordion({ language }: { language: 'fr' | 'en' }) {
         : 'We accept bank transfers, Mobile Money (Orange Money, MTN Mobile Money), PayPal and bank cards. Payments can be spread out according to the project.',
     },
   ]
+}
+
+function FAQAccordion({ faqs }: { faqs: FAQEntry[] }) {
+  const [openIndex, setOpenIndex] = useState<number | null>(0)
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index)
@@ -219,6 +231,34 @@ function Contact() {
   const { language } = useLanguage()
   const { elementRef: introRef, isVisible: introVisible } = useScrollAnimation({ threshold: 0.2 })
   const seo = getSEOData('/contact', language)
+  const faqs = getContactFaqs(language)
+  const contactStructuredData = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ContactPage',
+      name: language === 'fr' ? 'Contact KOBE Corporation' : 'KOBE Corporation Contact',
+      url: 'https://www.kobecorporation.com/contact',
+      description: seo.description,
+      inLanguage: language,
+      about: {
+        '@type': 'Organization',
+        name: companyInfo.name,
+        url: 'https://www.kobecorporation.com',
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer,
+        },
+      })),
+    },
+  ]
   
   const [formData, setFormData] = useState({
     name: '',
@@ -303,6 +343,7 @@ function Contact() {
         title={seo.title}
         description={seo.description}
         keywords={seo.keywords}
+        structuredData={contactStructuredData}
       />
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
       {/* Hero Section avec le même design que Home */}
@@ -697,7 +738,7 @@ function Contact() {
                 {language === 'fr' ? 'Questions Fréquentes' : 'Frequently Asked Questions'}
               </h2>
             </div>
-            <FAQAccordion language={language} />
+            <FAQAccordion faqs={faqs} />
           </div>
         </Card>
       </section>
