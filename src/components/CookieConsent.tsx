@@ -23,9 +23,9 @@ function CookieConsent() {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[100] animate-slide-up max-h-[90vh] overflow-y-auto">
-      <div className="mx-auto max-w-7xl px-3 py-3 sm:px-4 sm:py-4 lg:px-8">
-        <div className="glass-panel relative overflow-hidden rounded-2xl border-2 border-neutral-200 bg-white p-4 shadow-2xl sm:p-6 md:p-8">
+    <div className="fixed inset-x-0 bottom-0 z-[100] max-h-[90vh] overflow-y-auto bg-gradient-to-t from-black/40 via-black/10 to-transparent backdrop-blur-sm animate-slide-up">
+      <div className="mx-auto max-w-7xl px-3 py-4 sm:px-4 sm:py-5 lg:px-8">
+        <div className="glass-panel relative overflow-hidden rounded-3xl border border-white/70 bg-white/90 p-4 shadow-[0_28px_80px_rgba(15,23,42,0.45)] ring-1 ring-black/5 sm:p-6 md:p-8">
           {/* Bouton fermer */}
           <button
             onClick={closeSettings}
@@ -39,14 +39,15 @@ function CookieConsent() {
             // Vue principale
             <div className="space-y-4 pr-8 sm:pr-12">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-brand-50">
-                  <Cog6ToothIcon className="h-5 w-5 sm:h-6 sm:w-6 text-brand-600" />
+                <div className="relative flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-tr from-brand-500/15 via-brand-500/5 to-brand-300/30 shadow-[0_10px_30px_rgba(15,23,42,0.25)] ring-1 ring-white/60 backdrop-blur-sm">
+                  <div className="absolute inset-0 rounded-2xl bg-radial from-white/70 via-transparent to-transparent opacity-80 pointer-events-none" />
+                  <Cog6ToothIcon className="relative h-5 w-5 sm:h-6 sm:w-6 text-brand-600" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="mb-2 font-display text-base sm:text-lg font-semibold text-ink">
+                  <h3 className="mb-1.5 font-display text-sm sm:text-base font-semibold tracking-wide text-ink/90 uppercase">
                     {language === 'fr' ? 'Gestion des Cookies' : 'Cookie Management'}
                   </h3>
-                  <p className="text-xs sm:text-sm leading-relaxed text-slate-600">
+                  <p className="text-xs sm:text-[0.9rem] leading-relaxed text-slate-600/90">
                     {language === 'fr'
                       ? 'Nous utilisons des cookies pour améliorer votre expérience, sauvegarder vos préférences et analyser le trafic. Vous pouvez accepter tous les cookies, les refuser ou personnaliser vos préférences.'
                       : 'We use cookies to improve your experience, save your preferences and analyze traffic. You can accept all cookies, reject them or customize your preferences.'}
