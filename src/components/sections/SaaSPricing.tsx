@@ -5,6 +5,30 @@ import { useScrollAnimation } from '../../hooks/useScrollAnimation'
 import { pricingPlans, type PricingPlan } from '../../data/pricingPlans'
 import { Button } from '../ui/Button'
 
+const FEATURE_LIMIT = 3
+
+function getPlanAccent(plan: PricingPlan) {
+  if (plan.highlighted) {
+    return {
+      topBar: 'bg-success-500',
+      priceBg: 'bg-success-500',
+    }
+  }
+
+  if (plan.id === 'ultra') {
+    return {
+      topBar: 'bg-brand-700',
+      priceBg: 'bg-brand-700',
+    }
+  }
+
+  // Plan Pro par défaut
+  return {
+    topBar: 'bg-ink',
+    priceBg: 'bg-ink',
+  }
+}
+
 function PricingCard({
   plan,
   t,
@@ -20,7 +44,8 @@ function PricingCard({
   const description = t(`pricing.plans.${plan.descriptionKey}`)
   const strikethrough = t(`pricing.plans.${plan.strikethroughKey}`)
   const isHighlighted = plan.highlighted
-  const visibleFeatures = plan.features.slice(0, 3)
+  const visibleFeatures = plan.features.slice(0, FEATURE_LIMIT)
+  const accent = getPlanAccent(plan)
 
   return (
     <a
@@ -39,6 +64,9 @@ function PricingCard({
             : 'border-neutral-200 shadow-card hover:border-brand-300 hover:shadow-card-hover'
         } transition-all duration-700`}
       >
+        {/* Barre d'accent en haut de la carte */}
+        <div className={`h-1 w-full ${accent.topBar}`} />
+
         {/* Badge "Good Deal" sur le plan mis en avant */}
         {isHighlighted && (
           <div className="absolute right-4 top-4 z-10 flex items-center gap-1.5 rounded-full bg-success-500 px-3 py-1.5 text-xs font-semibold text-white shadow-md">
@@ -64,7 +92,7 @@ function PricingCard({
           {/* Prix actuel */}
           <div
             className={`mb-5 inline-flex w-fit items-baseline gap-1 rounded-lg px-4 py-2.5 ${
-              isHighlighted ? 'bg-success-500 text-white' : 'bg-ink text-white'
+              accent.priceBg
             }`}
           >
             <span className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
@@ -118,7 +146,7 @@ export function SaaSPricing() {
     <section
       id="forfait-saas"
       ref={elementRef}
-      className="scroll-mt-20 py-16 md:py-20"
+      className="scroll-mt-32 py-16 md:py-20"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* En-tête de section */}
