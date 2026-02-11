@@ -294,7 +294,7 @@ jobs:
           # Recréer buildx/activity comme FICHIER avec un timestamp valide
           # (buildx attend un RFC3339 dans ce fichier, pas un fichier vide ni un dossier)
           mkdir -p ~/.docker/buildx
-          echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" > ~/.docker/buildx/activity
+          printf '%s' "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" > ~/.docker/buildx/activity
           
           # Recréer la structure de contextes correctement
           mkdir -p ~/.docker/contexts/meta
@@ -435,10 +435,10 @@ jobs:
           # (buildx crée parfois un dossier au lieu d'un fichier après login/metadata)
           if [ -d "$HOME/.docker/buildx/activity" ]; then
             rm -rf "$HOME/.docker/buildx/activity"
-            echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" > "$HOME/.docker/buildx/activity"
+            printf '%s' "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" > "$HOME/.docker/buildx/activity"
             echo "✅ Corrigé: buildx/activity (dossier → fichier avec timestamp)"
           elif [ -f "$HOME/.docker/buildx/activity" ] && [ ! -s "$HOME/.docker/buildx/activity" ]; then
-            echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" > "$HOME/.docker/buildx/activity"
+            printf '%s' "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" > "$HOME/.docker/buildx/activity"
             echo "✅ Corrigé: buildx/activity (fichier vide → timestamp)"
           fi
           
@@ -531,7 +531,7 @@ jobs:
           # Recréer buildx/activity comme FICHIER avec un timestamp valide
           # (buildx attend un RFC3339 dans ce fichier, pas un fichier vide ni un dossier)
           mkdir -p ~/.docker/buildx
-          echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" > ~/.docker/buildx/activity
+          printf '%s' "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" > ~/.docker/buildx/activity
           
           # Recréer la structure de contextes correctement
           mkdir -p ~/.docker/contexts/meta
