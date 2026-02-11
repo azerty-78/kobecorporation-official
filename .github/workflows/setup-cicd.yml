@@ -291,6 +291,10 @@ jobs:
           rm -rf ~/.docker/buildx 2>/dev/null || true
           rm -rf ~/.docker/contexts 2>/dev/null || true
           
+          # Recréer buildx/activity comme FICHIER (corrige le bug "is a directory")
+          mkdir -p ~/.docker/buildx
+          touch ~/.docker/buildx/activity
+          
           # Recréer la structure de contextes correctement
           mkdir -p ~/.docker/contexts/meta
           
@@ -426,6 +430,14 @@ jobs:
       # Étape 6: Build Docker Image (le contexte "." existe maintenant)
       - name: 🔨 Build Docker Image
         run: |
+          # Corriger le bug buildx "activity is a directory"
+          # (buildx crée parfois un dossier au lieu d'un fichier après login/metadata)
+          if [ -d "$HOME/.docker/buildx/activity" ]; then
+            rm -rf "$HOME/.docker/buildx/activity"
+            touch "$HOME/.docker/buildx/activity"
+            echo "✅ Corrigé: buildx/activity (dossier → fichier)"
+          fi
+          
           # Vérifier que le login fonctionne
           echo "Vérification de l'authentification DockerHub..."
           docker info | grep -i "username" || echo "⚠️ Pas de username dans docker info (peut être normal)"
@@ -511,6 +523,10 @@ jobs:
           # Supprimer buildx et contextes corrompus
           rm -rf ~/.docker/buildx 2>/dev/null || true
           rm -rf ~/.docker/contexts 2>/dev/null || true
+          
+          # Recréer buildx/activity comme FICHIER (corrige le bug "is a directory")
+          mkdir -p ~/.docker/buildx
+          touch ~/.docker/buildx/activity
           
           # Recréer la structure de contextes correctement
           mkdir -p ~/.docker/contexts/meta
