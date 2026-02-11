@@ -19,6 +19,7 @@ import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { Badge } from '../components/ui/Badge'
 import { OptimizedImage } from '../components/OptimizedImage'
+import { SaaSPricing } from '../components/sections/SaaSPricing'
 
 // Images professionnelles pour chaque service (2 par service)
 const serviceImages = {
@@ -315,6 +316,9 @@ function Services() {
           </div>
         </div>
       </section>
+
+      {/* Forfait SaaS - Tarification */}
+      <SaaSPricing />
 
       {/* Services Détaillés avec animations */}
       <div className="space-y-32">
