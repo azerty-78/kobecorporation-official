@@ -9,7 +9,6 @@ import { companyInfo, contactInfo, programmes } from '../../data/siteContent'
 import { WhatsAppIcon, FacebookIcon, LinkedInIcon, InstagramIcon } from '../icons/SocialIcons'
 import { NavigationMenu } from '../navigation/NavigationMenu'
 import { useNavigationItems } from '../../data/navigation'
-import logoImage from '../../assets/logo/kobe_corp_logo.jpeg'
 import { OptimizedImage } from '../OptimizedImage'
 
 const Footer = memo(function Footer() {
@@ -26,7 +25,7 @@ const Footer = memo(function Footer() {
             <NavLink to="/" className="mb-4 inline-flex items-center gap-2 transition-transform duration-200 hover:scale-105 focus:outline-none rounded-lg">
               <div className="flex h-12 w-12 items-center justify-center bg-transparent transition-all duration-200 hover:scale-105 p-1.5">
                 <OptimizedImage
-                  src={logoImage}
+                  src="/logo-nom.jpeg"
                   alt={`${companyInfo.name} - ${companyInfo.slogan}`}
                   width={48}
                   height={48}

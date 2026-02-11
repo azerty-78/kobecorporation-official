@@ -11,7 +11,6 @@ import { companyInfo } from '../../data/siteContent'
 import { NavigationMenu } from '../navigation/NavigationMenu'
 import { MobileNavigationMenu } from '../navigation/MobileNavigationMenu'
 import { useNavigationItems } from '../../data/navigation'
-import logoImage from '../../assets/logo/kobe_corp_logo.jpeg'
 import { OptimizedImage } from '../OptimizedImage'
 
 const Header = memo(function Header() {
@@ -34,7 +33,7 @@ const Header = memo(function Header() {
         >
           <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-transparent transition-all duration-200 hover:scale-105 p-1 sm:h-12 sm:w-12">
             <OptimizedImage
-              src={logoImage}
+              src="/logo-nom.jpeg"
               alt={`${companyInfo.name} - ${companyInfo.slogan}`}
               width={48}
               height={48}
