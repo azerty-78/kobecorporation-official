@@ -1,5 +1,5 @@
 # Stage 1: Build de l'application
-# (Pas de directive syntax= pour éviter d'appeler Docker Hub sur le serveur de déploiement)
+# bookworm-slim (pas Alpine) : Playwright/Chromium nécessite une base Debian.
 ARG NODE_VERSION=22.13.1
 
 # Variables d'environnement pour le build (Vite les nécessite au moment du build)
@@ -8,16 +8,24 @@ ARG VITE_EMAILJS_SERVICE_ID
 ARG VITE_EMAILJS_CONTACT_TEMPLATE_ID
 ARG VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID
 
-FROM node:${NODE_VERSION}-alpine AS builder
+FROM node:${NODE_VERSION}-bookworm-slim AS builder
 
 WORKDIR /app
+
+# Dépendances système minimales pour npm + Chromium Playwright
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
 
 # Copier les fichiers de dépendances
 COPY package.json package-lock.json ./
 
-# Installer les dépendances (y compris devDependencies pour le build)
-# Configurer npm pour des timeouts plus longs et retry automatique
+# Installer les dépendances (y compris devDependencies pour le build + prerender)
+# postinstall installe Chromium Playwright
 RUN npm ci --legacy-peer-deps --no-audit
+
+# Dépendances OS requises par Chromium (Playwright)
+RUN npx playwright install-deps chromium
 
 # Copier le code source
 COPY . .
@@ -28,15 +36,18 @@ ENV VITE_EMAILJS_SERVICE_ID=${VITE_EMAILJS_SERVICE_ID}
 ENV VITE_EMAILJS_CONTACT_TEMPLATE_ID=${VITE_EMAILJS_CONTACT_TEMPLATE_ID}
 ENV VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID=${VITE_EMAILJS_NEWSLETTER_TEMPLATE_ID}
 
-# Définir NODE_ENV explicitement pour garantir un build de production identique
+# NODE_ENV=production après npm ci pour ne pas exclure les devDependencies
 ENV NODE_ENV=production
 
 # Nettoyer les caches pour garantir un build propre et identique
 RUN rm -rf node_modules/.cache .vite dist || true
 
-# Construire l'application pour la production
-# Utiliser --mode production pour garantir un build identique à la production locale
-RUN npm run build -- --mode production
+# tsc + sitemap + vite (mode production) + prerender Playwright
+# (ne pas utiliser `npm run build -- --mode production` : les args iraient au mauvais binaire)
+RUN npx tsc -b \
+  && node scripts/generate-sitemap.mjs \
+  && npx vite build --mode production \
+  && node scripts/prerender.mjs
 
 # Stage 2: Serveur nginx pour la production
 FROM nginx:alpine AS production

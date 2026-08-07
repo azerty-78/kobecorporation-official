@@ -8,6 +8,8 @@ import CookieConsent from './components/CookieConsent'
 import { PageLoader } from './components/PageLoader'
 import { useNavigation } from './contexts/NavigationContext'
 import { getPreferredLocale, isSupportedLocale, localizePath } from './utils/locale'
+import { LOCALIZED_PAGE_SEGMENTS } from './config/localizedRoutes'
+import type { LocalizedPageSegment } from './config/localizedRoutes'
 
 const Home = lazy(() => import('./pages/Home'))
 const Services = lazy(() => import('./pages/Services'))
@@ -19,6 +21,17 @@ const Privacy = lazy(() => import('./pages/Privacy'))
 const Legal = lazy(() => import('./pages/Legal'))
 const Terms = lazy(() => import('./pages/Terms'))
 const NotFound = lazy(() => import('./pages/NotFound'))
+
+const pageElements: Record<LocalizedPageSegment, ReactNode> = {
+  services: <Services />,
+  programmes: <Programmes />,
+  about: <About />,
+  portfolio: <Portfolio />,
+  contact: <Contact />,
+  privacy: <Privacy />,
+  legal: <Legal />,
+  terms: <Terms />,
+}
 
 function LocaleGuard({ children }: { children: ReactNode }) {
   const { lang } = useParams<{ lang: string }>()
@@ -52,27 +65,15 @@ function HomeLangRedirect() {
   return <Navigate to={`/${lang || getPreferredLocale()}`} replace />
 }
 
-const localizedPages: Array<{ path: string; element: ReactNode }> = [
-  { path: 'services', element: <Services /> },
-  { path: 'programmes', element: <Programmes /> },
-  { path: 'about', element: <About /> },
-  { path: 'portfolio', element: <Portfolio /> },
-  { path: 'contact', element: <Contact /> },
-  { path: 'privacy', element: <Privacy /> },
-  { path: 'legal', element: <Legal /> },
-  { path: 'terms', element: <Terms /> },
-]
+const localizedPages: Array<{ path: LocalizedPageSegment; element: ReactNode }> =
+  LOCALIZED_PAGE_SEGMENTS.map((path) => ({
+    path,
+    element: pageElements[path],
+  }))
 
 const legacyPaths = [
   '/home',
-  '/services',
-  '/programmes',
-  '/about',
-  '/portfolio',
-  '/contact',
-  '/privacy',
-  '/legal',
-  '/terms',
+  ...LOCALIZED_PAGE_SEGMENTS.map((segment) => `/${segment}`),
 ]
 
 function AppContent() {
