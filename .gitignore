@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Variantes générées par scripts/optimize-images.mjs (originaux conservés)
+public/**/*.webp
+public/**/*.avif
+src/assets/**/*.webp
+src/assets/**/*.avif
+
 # Secrets — ne jamais committer
 setup-front/.env
 .env

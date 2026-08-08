@@ -19,6 +19,8 @@ import {
 } from '@heroicons/react/24/outline'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import benDjibrilPhoto from '../assets/people/ben-djibril-official-with-glass-nbg.png'
+import benDjibrilPhotoWebp from '../assets/people/ben-djibril-official-with-glass-nbg.webp'
+import benDjibrilPhotoAvif from '../assets/people/ben-djibril-official-with-glass-nbg.avif'
 import { OptimizedImage } from '../components/OptimizedImage'
 import { PageHero } from '../components/sections/PageHero'
 
@@ -420,6 +422,8 @@ function About() {
               <div className="relative overflow-hidden rounded-full border-4 border-white shadow-2xl transition-all duration-500 group-hover:scale-105 group-hover:rotate-3">
                 <OptimizedImage
                   src={benDjibrilPhoto}
+                  webpSrc={benDjibrilPhotoWebp}
+                  avifSrc={benDjibrilPhotoAvif}
                   alt={`${companyInfo.founder} - ${language === 'fr' ? 'PDG et Fondateur de' : 'CEO and Founder of'} ${companyInfo.name}`}
                   width={192}
                   height={192}

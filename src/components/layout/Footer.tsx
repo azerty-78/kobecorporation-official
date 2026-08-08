@@ -29,7 +29,7 @@ const Footer = memo(function Footer() {
                   alt={`${companyInfo.name} - ${companyInfo.slogan}`}
                   width={48}
                   height={48}
-                  priority="high"
+                  priority="low"
                   className="h-full w-full rounded-lg object-contain"
                 />
               </div>

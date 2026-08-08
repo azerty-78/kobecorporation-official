@@ -42,10 +42,11 @@ ENV NODE_ENV=production
 # Nettoyer les caches pour garantir un build propre et identique
 RUN rm -rf node_modules/.cache .vite dist || true
 
-# tsc + sitemap + vite (mode production) + prerender Playwright
+# tsc + sitemap + images WebP/AVIF + vite (mode production) + prerender Playwright
 # (ne pas utiliser `npm run build -- --mode production` : les args iraient au mauvais binaire)
 RUN npx tsc -b \
   && node scripts/generate-sitemap.mjs \
+  && node scripts/optimize-images.mjs \
   && npx vite build --mode production \
   && node scripts/prerender.mjs
 
